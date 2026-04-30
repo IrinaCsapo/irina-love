@@ -1,0 +1,74 @@
+{
+  "tools": [
+    {
+      "num": "01",
+      "title": "Cosmic Pet Portraits",
+      "subtitle": "Pet Portraits",
+      "description": "Your pet, reimagined as a cosmic entity. AI-generated portraits so eerily right that people cry a little. A universe that noticed your animal.",
+      "status": "live",
+      "url": "https://cosmicpets.love",
+      "urlLabel": "Visit cosmicpets.love",
+      "image": "uploads/Screenshot 2026-04-25 at 13.16.31.png"
+    },
+    {
+      "num": "02",
+      "title": "Letters from your Future Self",
+      "subtitle": "Future Self",
+      "description": "Write today. Receive a tender, knowing reply from yourself ten years from now — reflecting on your current worries with love and impossible perspective.",
+      "status": "coming-soon",
+      "url": "",
+      "urlLabel": "Join the waitlist",
+      "image": "uploads/Screenshot 2026-04-25 at 13.16.40.png"
+    },
+    {
+      "num": "03",
+      "title": "Your Ocean",
+      "subtitle": "",
+      "description": "Your emotional state rendered as weather, tide, time of day, and sea creatures. Meditative and poetic.",
+      "status": "coming-soon",
+      "url": "",
+      "urlLabel": "",
+      "image": "uploads/flower-hydrangea.avif"
+    },
+    {
+      "num": "04",
+      "title": "Soundtrack of Your Life",
+      "subtitle": "",
+      "description": "Answer five questions about a memory or feeling. Receive a generative lo-fi track that sounds like that exact moment.",
+      "status": "coming-soon",
+      "url": "",
+      "urlLabel": "",
+      "image": "uploads/flower-rainbow.avif"
+    },
+    {
+      "num": "05",
+      "title": "Your Inner World Map",
+      "subtitle": "World Map",
+      "description": "A hand-drawn-style fantasy map of your personality, fears, dreams, and passions — with regions named after the things that define you.",
+      "status": "dreaming",
+      "url": "",
+      "urlLabel": "",
+      "image": "uploads/Screenshot 2026-04-25 at 13.16.19.png"
+    },
+    {
+      "num": "06",
+      "title": "Bloom After Rain",
+      "subtitle": "After Rain",
+      "description": "For people going through something hard. Answer a few prompts and receive a personalised illustrated flower that represents your resilience.",
+      "status": "dreaming",
+      "url": "",
+      "urlLabel": "",
+      "image": "uploads/Screenshot 2026-04-25 at 13.16.51.png"
+    },
+    {
+      "num": "07",
+      "title": "Childhood Toy Reunion",
+      "subtitle": "Toy Reunion",
+      "description": "Describe or photograph a childhood toy. Receive a little illustrated story of what that toy got up to when you weren't looking.",
+      "status": "dreaming",
+      "url": "",
+      "urlLabel": "",
+      "image": "uploads/flower-lotus.avif"
+    }
+  ]
+}
