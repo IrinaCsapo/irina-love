@@ -1,0 +1,51 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "uploads"
+public_folder: "/uploads"
+
+collections:
+  - name: "tools"
+    label: "Tools of Delight"
+    files:
+      - label: "All Tools"
+        name: "tools"
+        file: "data/tools.json"
+        fields:
+          - label: "Tools"
+            name: "tools"
+            widget: "list"
+            summary: "{{fields.num}} — {{fields.title}}"
+            fields:
+              - { label: "Number", name: "num", widget: "string", hint: "e.g. 01" }
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Subtitle (italic)", name: "subtitle", widget: "string", required: false }
+              - { label: "Description", name: "description", widget: "text" }
+              - label: "Status"
+                name: "status"
+                widget: "select"
+                options:
+                  - { label: "Live now", value: "live" }
+                  - { label: "Coming soon", value: "coming-soon" }
+                  - { label: "Dreaming", value: "dreaming" }
+              - { label: "URL", name: "url", widget: "string", required: false, hint: "Full URL e.g. https://cosmicpets.love" }
+              - { label: "URL Label", name: "urlLabel", widget: "string", required: false, hint: "e.g. Visit cosmicpets.love" }
+              - { label: "Card Image", name: "image", widget: "image", required: false }
+
+  - name: "settings"
+    label: "Site Settings"
+    files:
+      - label: "Homepage"
+        name: "homepage"
+        file: "data/settings.json"
+        fields:
+          - { label: "Hero eyebrow", name: "eyebrow", widget: "string" }
+          - { label: "Hero title line 1", name: "heroLine1", widget: "string" }
+          - { label: "Hero title (italic/coral)", name: "heroItalic", widget: "string" }
+          - { label: "Hero title line 3 (muted)", name: "heroLine3", widget: "string" }
+          - { label: "Hero subtitle", name: "heroSub", widget: "text" }
+          - { label: "Manifesto quote", name: "manifestoQuote", widget: "text" }
+          - { label: "Manifesto body", name: "manifestoBody", widget: "markdown" }
+          - { label: "About heading", name: "aboutHeading", widget: "string" }
+          - { label: "About body", name: "aboutBody", widget: "text" }
