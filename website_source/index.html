@@ -251,11 +251,11 @@
     z-index: 1;
   }
 
-  /* lady — right side, upper body + face visible */
+  /* lady — starts at ~50% left, overlaps text, face shows top-right */
   .hero-img-lady {
-    width: clamp(320px, 38vw, 540px);
-    top: 2%;
-    right: -30px;
+    width: clamp(400px, 50vw, 700px);
+    top: 0%;
+    left: 50%;
     animation: fadeIn 1.6s 0.3s forwards, fi-lady 10s 1.8s ease-in-out infinite;
     z-index: 1;
   }
@@ -264,9 +264,9 @@
     50%       { transform: translateY(-10px); }
   }
 
-  /* moon — upper left */
+  /* moon — upper left, generous size */
   .hero-img-moon {
-    width: clamp(130px, 14vw, 200px);
+    width: clamp(140px, 16vw, 220px);
     top: 3%;
     left: 5%;
     animation: fadeIn 1.4s 0.6s forwards, fi-moon 12s 1s ease-in-out infinite;
@@ -276,11 +276,11 @@
     50%       { transform: translate(6px, -8px) rotate(2deg); }
   }
 
-  /* small crystal flower — overlapping moon, upper right of it */
+  /* small crystal flower — sits on upper-right of moon, overlapping */
   .hero-img-flower-sm {
-    width: clamp(90px, 10vw, 150px);
-    top: 2%;
-    left: 13%;
+    width: clamp(100px, 11vw, 160px);
+    top: 1%;
+    left: 14%;
     animation: fadeIn 1.4s 0.9s forwards, fi-flower-sm 9s 1.3s ease-in-out infinite;
     z-index: 2;
   }
@@ -289,12 +289,12 @@
     50%       { transform: rotate(4deg) scale(1.05) translateY(-7px); }
   }
 
-  /* butterfly — top center, just above eyebrow */
+  /* butterfly — top center */
   .hero-img-butterfly {
-    width: clamp(60px, 7vw, 100px);
-    top: 7%;
+    width: clamp(55px, 7vw, 95px);
+    top: 5%;
     left: 50%;
-    margin-left: -50px;
+    margin-left: -48px;
     animation: fadeIn 1.2s 1.0s forwards, fi-butterfly 7s 1.5s ease-in-out infinite;
   }
   @keyframes fi-butterfly {
@@ -314,12 +314,12 @@
     50%       { transform: translate(10px, -10px) rotate(-3deg); }
   }
 
-  /* large crystal magnolia — bottom center, below CTA */
+  /* large crystal magnolia — lower center-right, near/below CTA */
   .hero-img-flower-lg {
-    width: clamp(150px, 17vw, 240px);
-    bottom: 2%;
+    width: clamp(160px, 18vw, 260px);
+    bottom: 0%;
     left: 50%;
-    margin-left: -120px;
+    margin-left: -100px;
     animation: fadeIn 1.4s 1.4s forwards, fi-flower-lg 13s 2s ease-in-out infinite;
   }
   @keyframes fi-flower-lg {
@@ -749,12 +749,12 @@
 
     .cloud-1 { width: 80px; height: 26px; right: 4%; }
     .cloud-2 { display: none; }
-    .hero-img-lady      { width: clamp(180px, 55vw, 280px); top: 5%; right: -10px; }
-    .hero-img-moon      { width: 75px; top: 4%; left: 3%; }
-    .hero-img-flower-sm { width: 55px; top: 3%; left: 16%; }
-    .hero-img-butterfly { width: 48px; top: 6%; margin-left: -24px; }
-    .hero-img-bird      { width: 75px; bottom: 16%; left: 2%; }
-    .hero-img-flower-lg { width: 100px; margin-left: -50px; }
+    .hero-img-lady      { width: 75vw; left: 25%; top: auto; bottom: 0; opacity: 0.55; }
+    .hero-img-moon      { width: 80px; top: 4%; left: 3%; }
+    .hero-img-flower-sm { width: 60px; top: 3%; left: 18%; }
+    .hero-img-butterfly { width: 48px; top: 5%; margin-left: -24px; }
+    .hero-img-bird      { width: 70px; bottom: 18%; left: 2%; }
+    .hero-img-flower-lg { width: 110px; margin-left: -55px; }
 
     .divider { margin: 0 24px; }
     .wrap { padding: 0 24px; }
