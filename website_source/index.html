@@ -243,33 +243,37 @@
     66%  { margin-left: -18px; }
   }
 
-  /* butterfly video */
+  /* butterfly image — drifts across the hero */
   .butterfly-wrap {
     position: absolute;
-    top: 12%;
-    left: 6%;
+    top: 16%;
+    left: 8%;
     z-index: 3;
     pointer-events: none;
-    width: 160px;
+    width: 120px;
     opacity: 0;
-    animation: butterfly-drift 18s ease-in-out infinite;
-    animation-delay: 1.5s;
+    animation: butterfly-drift 22s ease-in-out infinite;
+    animation-delay: 2s;
     animation-fill-mode: forwards;
   }
-  .butterfly-wrap video {
+  .butterfly-wrap img {
     width: 100%;
-    mix-blend-mode: screen;
     display: block;
+    animation: butterfly-flap 0.38s ease-in-out infinite alternate;
+  }
+  @keyframes butterfly-flap {
+    0%   { transform: scaleX(1) rotate(-4deg); }
+    100% { transform: scaleX(0.7) rotate(4deg); }
   }
   @keyframes butterfly-drift {
-    0%   { transform: translate(0, 0) rotate(-4deg) scaleX(1);       opacity: 0; }
-    5%   { opacity: 0.92; }
-    20%  { transform: translate(90px, -55px) rotate(3deg) scaleX(1); }
-    40%  { transform: translate(200px, -20px) rotate(-3deg) scaleX(-1); }
-    55%  { transform: translate(280px, -80px) rotate(5deg) scaleX(-1); }
-    70%  { transform: translate(160px, -30px) rotate(-2deg) scaleX(1); }
-    88%  { opacity: 0.92; }
-    100% { transform: translate(0, 0) rotate(-4deg) scaleX(1);       opacity: 0; }
+    0%   { transform: translate(0, 0);                         opacity: 0; }
+    5%   { opacity: 0.88; }
+    20%  { transform: translate(110px, -65px); }
+    38%  { transform: translate(240px, -25px); }
+    55%  { transform: translate(320px, -90px); }
+    72%  { transform: translate(180px, -40px); }
+    90%  { opacity: 0.88; }
+    100% { transform: translate(0, 0);                         opacity: 0; }
   }
 
   /* clouds */
@@ -304,12 +308,11 @@
     50%       { transform: translateX(12px) translateY(-6px); }
   }
 
-  /* ── hero photo elements (screen blend — black bg becomes transparent) ── */
+  /* ── hero photo elements (WebP with alpha — bg already removed) ── */
   .hero-photo {
     position: absolute;
     pointer-events: none;
     z-index: 1;
-    mix-blend-mode: screen;
     opacity: 0;
   }
   /* element 1 — bottom-left flower */
@@ -840,17 +843,15 @@
     </div>
   </div>
 
-  <!-- photo elements — screen blend makes black bg transparent -->
-  <img class="hero-photo hero-photo-1" src="uploads/hero-element-1.webp" alt="" />
-  <img class="hero-photo hero-photo-2" src="uploads/hero-element-2.webp" alt="" />
-  <img class="hero-photo hero-photo-3" src="uploads/hero-element-3.webp" alt="" />
-  <img class="hero-photo hero-photo-4" src="uploads/hero-element-4.webp" alt="" />
+  <!-- photo elements — alpha transparency baked into WebP -->
+  <img class="hero-photo hero-photo-1" src="uploads/element-flower-lotus.webp" alt="" />
+  <img class="hero-photo hero-photo-2" src="uploads/element-flower-hydrangea.webp" alt="" />
+  <img class="hero-photo hero-photo-3" src="uploads/element-flower-pink.webp" alt="" />
+  <img class="hero-photo hero-photo-4" src="uploads/element-flower-rainbow.webp" alt="" />
 
-  <!-- butterfly (video, black bg removed via mix-blend-mode: screen) -->
+  <!-- butterfly — drifts across hero with CSS flap animation -->
   <div class="butterfly-wrap">
-    <video autoplay loop muted playsinline>
-      <source src="uploads/butterfly.mp4" type="video/mp4">
-    </video>
+    <img src="uploads/element-butterfly-2.webp" alt="" />
   </div>
 
   <!-- cherry blossoms -->
