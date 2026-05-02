@@ -243,21 +243,86 @@
     66%  { margin-left: -18px; }
   }
 
-  /* lady glitter fingers — behind the headline */
-  .hero-lady {
+  /* ── hero collage images ── */
+  .hero-img {
     position: absolute;
-    bottom: -40px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: clamp(320px, 52vw, 680px);
     pointer-events: none;
-    z-index: 1;
     opacity: 0;
-    animation: fadeIn 1.8s 0.4s forwards, lady-float 8s 2.2s ease-in-out infinite;
+    z-index: 1;
   }
-  @keyframes lady-float {
-    0%, 100% { transform: translateX(-50%) translateY(0); }
-    50%       { transform: translateX(-50%) translateY(-14px); }
+
+  /* lady — large, right side, behind the text */
+  .hero-img-lady {
+    width: clamp(340px, 44vw, 600px);
+    bottom: -30px;
+    right: -20px;
+    animation: fadeIn 1.6s 0.3s forwards, fi-lady 10s 1.8s ease-in-out infinite;
+    z-index: 1;
+  }
+  @keyframes fi-lady {
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(-12px); }
+  }
+
+  /* moon — upper left */
+  .hero-img-moon {
+    width: clamp(110px, 13vw, 190px);
+    top: 6%;
+    left: 7%;
+    animation: fadeIn 1.4s 0.6s forwards, fi-moon 12s 1s ease-in-out infinite;
+  }
+  @keyframes fi-moon {
+    0%, 100% { transform: translate(0, 0) rotate(-2deg); }
+    50%       { transform: translate(8px, -10px) rotate(2deg); }
+  }
+
+  /* small crystal flower — near moon */
+  .hero-img-flower-sm {
+    width: clamp(80px, 9vw, 140px);
+    top: 4%;
+    left: 20%;
+    animation: fadeIn 1.4s 0.9s forwards, fi-flower-sm 9s 1.3s ease-in-out infinite;
+  }
+  @keyframes fi-flower-sm {
+    0%, 100% { transform: rotate(-4deg) scale(1); }
+    50%       { transform: rotate(4deg) scale(1.04) translateY(-8px); }
+  }
+
+  /* butterfly — top center */
+  .hero-img-butterfly {
+    width: clamp(70px, 8vw, 120px);
+    top: 9%;
+    left: 50%;
+    transform: translateX(-20%);
+    animation: fadeIn 1.2s 1.0s forwards, fi-butterfly 7s 1.5s ease-in-out infinite;
+  }
+  @keyframes fi-butterfly {
+    0%, 100% { transform: translateX(-20%) translateY(0) rotate(-3deg); }
+    50%       { transform: translateX(-20%) translateY(-14px) rotate(3deg); }
+  }
+
+  /* bird — bottom left */
+  .hero-img-bird {
+    width: clamp(110px, 12vw, 180px);
+    bottom: 10%;
+    left: 5%;
+    animation: fadeIn 1.4s 1.2s forwards, fi-bird 11s 1.6s ease-in-out infinite;
+  }
+  @keyframes fi-bird {
+    0%, 100% { transform: translate(0, 0) rotate(2deg); }
+    50%       { transform: translate(12px, -10px) rotate(-3deg); }
+  }
+
+  /* large crystal magnolia — bottom right of text area */
+  .hero-img-flower-lg {
+    width: clamp(140px, 16vw, 230px);
+    bottom: 5%;
+    left: 44%;
+    animation: fadeIn 1.4s 1.4s forwards, fi-flower-lg 13s 2s ease-in-out infinite;
+  }
+  @keyframes fi-flower-lg {
+    0%, 100% { transform: rotate(3deg) scale(1); }
+    50%       { transform: rotate(-3deg) scale(1.05) translateY(-10px); }
   }
 
   /* clouds */
@@ -682,7 +747,12 @@
 
     .cloud-1 { width: 80px; height: 26px; right: 4%; }
     .cloud-2 { display: none; }
-    .hero-lady { width: clamp(260px, 80vw, 420px); bottom: -20px; }
+    .hero-img-lady    { width: clamp(200px, 70vw, 320px); right: -10px; bottom: -10px; }
+    .hero-img-moon    { width: 80px; top: 5%; left: 3%; }
+    .hero-img-flower-sm { width: 60px; top: 4%; left: 22%; }
+    .hero-img-butterfly { width: 55px; top: 7%; }
+    .hero-img-bird    { width: 80px; bottom: 12%; left: 2%; }
+    .hero-img-flower-lg { width: 100px; bottom: 4%; left: 42%; }
 
     .divider { margin: 0 24px; }
     .wrap { padding: 0 24px; }
@@ -768,6 +838,14 @@
     </div>
   </div>
 
+
+  <!-- hero collage images -->
+  <img class="hero-img hero-img-lady"       src="uploads/hero_images/lady-glitter-fingers.webp" alt="" />
+  <img class="hero-img hero-img-moon"       src="uploads/hero_images/moon-3-web.webp" alt="" />
+  <img class="hero-img hero-img-flower-sm"  src="uploads/hero_images/crystal-pink-magnolia-web.webp" alt="" />
+  <img class="hero-img hero-img-butterfly"  src="uploads/hero_images/cobalt-blue-butterfly4.webp" alt="" />
+  <img class="hero-img hero-img-bird"       src="uploads/hero_images/flying-bird.webp" alt="" />
+  <img class="hero-img hero-img-flower-lg"  src="uploads/hero_images/crystal-pink-magnolias-web.webp" alt="" />
 
   <!-- cherry blossoms -->
   <div class="float-el blossom" style="left:12%;top:-20px;animation:blossom-fall 9s 0.5s ease-in infinite,blossom-sway 3s 0.5s ease-in-out infinite;">
