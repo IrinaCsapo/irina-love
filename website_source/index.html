@@ -147,22 +147,28 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
     padding-top: 120px;
     padding-bottom: 80px;
     position: relative;
     z-index: 1;
     overflow: hidden;
   }
-  /* text sits in the left ~55% of the viewport, centred as a pair with the lady */
+
+  /* composition wrapper — the single centred unit */
+  .hero-composition {
+    position: relative;
+    width: min(1080px, 90vw);
+    margin: 0 auto;
+  }
+
+  /* text — sits on top of the lady, left-aligned within the composition */
   .hero-inner {
-    width: 55%;
-    max-width: 720px;
-    margin-left: max(48px, calc(50% - 580px));
-    padding: 0 48px 0 0;
-    text-align: left;
     position: relative;
     z-index: 2;
+    width: 62%;
+    padding: 0;
+    text-align: left;
   }
 
   .hero-eyebrow {
@@ -253,13 +259,16 @@
     z-index: 1;
   }
 
-  /* lady — right half, aligned so combined pair reads as centred */
+  /* lady — absolutely placed in the composition, bleeds right, behind text */
   .hero-img-lady {
-    width: clamp(380px, 44vw, 620px);
-    top: 5%;
-    left: clamp(300px, 46%, 640px);
-    animation: fadeIn 1.6s 0.3s forwards, fi-lady 10s 1.8s ease-in-out infinite;
+    position: absolute;
+    width: 62%;
+    top: -8%;
+    right: -4%;
     z-index: 1;
+    pointer-events: none;
+    opacity: 0;
+    animation: fadeIn 1.6s 0.3s forwards, fi-lady 10s 1.8s ease-in-out infinite;
   }
   @keyframes fi-lady {
     0%, 100% { transform: translateY(0); }
@@ -743,15 +752,16 @@
     .nav-links { gap: 20px; }
     .nav-links a { font-size: 11px; }
 
-    #hero { padding-top: 100px; padding-bottom: 60px; align-items: center; }
-    .hero-inner { width: 90%; margin-left: auto; margin-right: auto; padding: 0 24px; text-align: center; }
+    #hero { padding-top: 100px; padding-bottom: 60px; }
+    .hero-composition { width: 95vw; }
+    .hero-inner { width: 85%; text-align: left; }
+    .hero-img-lady { width: 70%; top: -4%; right: -8%; opacity: 0; }
     .hero-title { font-size: clamp(52px, 14vw, 96px); }
     .hero-sub { font-size: 15px; max-width: 100%; }
     .hero-scroll { margin-top: 48px; }
 
     .cloud-1 { width: 80px; height: 26px; right: 4%; }
     .cloud-2 { display: none; }
-    .hero-img-lady { width: 60vw; left: auto; right: -10px; top: auto; bottom: 0; opacity: 0.45; }
 
     .divider { margin: 0 24px; }
     .wrap { padding: 0 24px; }
@@ -823,23 +833,23 @@
 
 <!-- hero -->
 <section id="hero">
-  <div class="hero-inner">
-    <p class="hero-eyebrow">a cabinet of delights</p>
-    <h1 class="hero-title">
-      tools of<br>
-      <em>delight</em>
-      <span class="line2">by irina</span>
-    </h1>
-    <p class="hero-sub">Small, lovely apps that are highly emotional and deeply personal. Each one takes something ordinary — a pet, a feeling, a memory — and returns it transformed. Bigger, more beautiful than before.</p>
-    <div class="hero-scroll">
-      <div class="hero-scroll-line"></div>
-      Explore the cabinet
+  <!-- centred composition: lady behind, text on top -->
+  <div class="hero-composition">
+    <img class="hero-img-lady" src="uploads/hero_images/lady-vr-1.webp" alt="" />
+    <div class="hero-inner">
+      <p class="hero-eyebrow">a cabinet of delights</p>
+      <h1 class="hero-title">
+        tools of<br>
+        <em>delight</em>
+        <span class="line2">by irina</span>
+      </h1>
+      <p class="hero-sub">Small, lovely apps that are highly emotional and deeply personal. Each one takes something ordinary — a pet, a feeling, a memory — and returns it transformed. Bigger, more beautiful than before.</p>
+      <div class="hero-scroll">
+        <div class="hero-scroll-line"></div>
+        Explore the cabinet
+      </div>
     </div>
   </div>
-
-
-  <!-- hero lady — paired with headline as centred composition -->
-  <img class="hero-img hero-img-lady" src="uploads/hero_images/lady-vr-1.webp" alt="" />
 
   <!-- cherry blossoms -->
   <div class="float-el blossom" style="left:12%;top:-20px;animation:blossom-fall 9s 0.5s ease-in infinite,blossom-sway 3s 0.5s ease-in-out infinite;">
