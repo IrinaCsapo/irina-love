@@ -147,18 +147,20 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     padding-top: 120px;
     padding-bottom: 80px;
     position: relative;
     z-index: 1;
     overflow: hidden;
   }
+  /* text sits in the left ~55% of the viewport, centred as a pair with the lady */
   .hero-inner {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 0 48px;
-    text-align: center;
+    width: 55%;
+    max-width: 720px;
+    margin-left: max(48px, calc(50% - 580px));
+    padding: 0 48px 0 0;
+    text-align: left;
     position: relative;
     z-index: 2;
   }
@@ -251,11 +253,11 @@
     z-index: 1;
   }
 
-  /* lady — starts at ~50% left, overlaps text, face shows top-right */
+  /* lady — right half, aligned so combined pair reads as centred */
   .hero-img-lady {
-    width: clamp(400px, 50vw, 700px);
-    top: 0%;
-    left: 50%;
+    width: clamp(380px, 44vw, 620px);
+    top: 5%;
+    left: clamp(300px, 46%, 640px);
     animation: fadeIn 1.6s 0.3s forwards, fi-lady 10s 1.8s ease-in-out infinite;
     z-index: 1;
   }
@@ -741,20 +743,15 @@
     .nav-links { gap: 20px; }
     .nav-links a { font-size: 11px; }
 
-    #hero { padding-top: 100px; padding-bottom: 60px; }
-    .hero-inner { padding: 0 24px; }
+    #hero { padding-top: 100px; padding-bottom: 60px; align-items: center; }
+    .hero-inner { width: 90%; margin-left: auto; margin-right: auto; padding: 0 24px; text-align: center; }
     .hero-title { font-size: clamp(52px, 14vw, 96px); }
     .hero-sub { font-size: 15px; max-width: 100%; }
     .hero-scroll { margin-top: 48px; }
 
     .cloud-1 { width: 80px; height: 26px; right: 4%; }
     .cloud-2 { display: none; }
-    .hero-img-lady      { width: 75vw; left: 25%; top: auto; bottom: 0; opacity: 0.55; }
-    .hero-img-moon      { width: 80px; top: 4%; left: 3%; }
-    .hero-img-flower-sm { width: 60px; top: 3%; left: 18%; }
-    .hero-img-butterfly { width: 48px; top: 5%; margin-left: -24px; }
-    .hero-img-bird      { width: 70px; bottom: 18%; left: 2%; }
-    .hero-img-flower-lg { width: 110px; margin-left: -55px; }
+    .hero-img-lady { width: 60vw; left: auto; right: -10px; top: auto; bottom: 0; opacity: 0.45; }
 
     .divider { margin: 0 24px; }
     .wrap { padding: 0 24px; }
@@ -841,13 +838,8 @@
   </div>
 
 
-  <!-- hero collage images -->
-  <img class="hero-img hero-img-lady"       src="uploads/hero_images/lady-vr-1.webp" alt="" />
-  <img class="hero-img hero-img-moon"       src="uploads/hero_images/moon-3-web.webp" alt="" />
-  <img class="hero-img hero-img-flower-sm"  src="uploads/hero_images/crystal-pink-magnolia-web.webp" alt="" />
-  <img class="hero-img hero-img-butterfly"  src="uploads/hero_images/cobalt-blue-butterfly4.webp" alt="" />
-  <img class="hero-img hero-img-bird"       src="uploads/hero_images/flying-bird.webp" alt="" />
-  <img class="hero-img hero-img-flower-lg"  src="uploads/hero_images/crystal-pink-magnolias-web.webp" alt="" />
+  <!-- hero lady — paired with headline as centred composition -->
+  <img class="hero-img hero-img-lady" src="uploads/hero_images/lady-vr-1.webp" alt="" />
 
   <!-- cherry blossoms -->
   <div class="float-el blossom" style="left:12%;top:-20px;animation:blossom-fall 9s 0.5s ease-in infinite,blossom-sway 3s 0.5s ease-in-out infinite;">
