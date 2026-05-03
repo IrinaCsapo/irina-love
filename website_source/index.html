@@ -260,14 +260,36 @@
     z-index: 1;
   }
 
-  /* lady — absolutely placed in the composition, bleeds right, behind text */
-  .hero-img-lady {
+  /* sparkle shimmer wrapper over the hero lady */
+  .hero-img-lady-wrap {
     position: absolute;
     width: 62%;
     top: -8%;
     right: -4%;
     z-index: 1;
     pointer-events: none;
+  }
+  .hero-img-lady-wrap::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 40% 20%, oklch(95% 0.22 80 / 0.55) 0%, transparent 45%),
+      radial-gradient(ellipse at 70% 55%, oklch(92% 0.20 290 / 0.45) 0%, transparent 45%),
+      radial-gradient(ellipse at 30% 75%, oklch(90% 0.18 350 / 0.4) 0%, transparent 40%);
+    mix-blend-mode: soft-light;
+    animation: hero-shimmer 5s ease-in-out infinite alternate;
+    pointer-events: none;
+  }
+  @keyframes hero-shimmer {
+    0%   { opacity: 0.55; transform: scale(1); }
+    100% { opacity: 0.95; transform: scale(1.02) translateY(-5px); }
+  }
+
+  /* lady — fills its shimmer wrapper */
+  .hero-img-lady {
+    width: 100%;
+    display: block;
     opacity: 0;
     animation: fadeIn 1.6s 0.3s forwards, fi-lady 10s 1.8s ease-in-out infinite;
   }
@@ -651,6 +673,21 @@
   .manifesto-body p + p { margin-top: 20px; }
   .manifesto-body strong { color: var(--cream); font-weight: 400; }
 
+  /* vibrant abstract sphere in manifesto */
+  .manifesto-sphere {
+    position: absolute;
+    right: -60px;
+    bottom: -80px;
+    width: clamp(220px, 28vw, 380px);
+    opacity: 0.88;
+    pointer-events: none;
+    animation: sphere-bob 7s ease-in-out infinite;
+  }
+  @keyframes sphere-bob {
+    0%, 100% { transform: translateY(0) rotate(-1deg); }
+    50%       { transform: translateY(-18px) rotate(1deg); }
+  }
+
   .manifesto-flower {
     position: absolute;
     right: -80px;
@@ -673,13 +710,29 @@
   }
   .about-image-wrap {
     flex-shrink: 0;
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-    overflow: hidden;
-    border: 3px solid oklch(85% 0.06 60);
+    width: 400px;
+    height: 400px;
+    border-radius: 0;
+    overflow: visible;
+    position: relative;
   }
-  .about-image-wrap img { width: 100%; height: 100%; object-fit: cover; }
+  .about-image-wrap img { width: 100%; height: 100%; object-fit: contain; display: block; }
+  /* sparkle overlay */
+  .about-image-wrap::after {
+    content: '';
+    position: absolute;
+    inset: -10px;
+    background: radial-gradient(ellipse at 30% 40%, oklch(92% 0.18 80 / 0.55) 0%, transparent 55%),
+                radial-gradient(ellipse at 70% 20%, oklch(90% 0.16 350 / 0.45) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 70%, oklch(88% 0.20 290 / 0.35) 0%, transparent 55%);
+    pointer-events: none;
+    mix-blend-mode: soft-light;
+    animation: sparkle-shift 4s ease-in-out infinite alternate;
+  }
+  @keyframes sparkle-shift {
+    0%   { opacity: 0.7; transform: scale(1) rotate(0deg); }
+    100% { opacity: 1;   transform: scale(1.04) rotate(2deg); }
+  }
   .about-text .section-label { margin-bottom: 16px; }
   .about-heading {
     font-family: var(--serif);
@@ -836,7 +889,9 @@
 <section id="hero">
   <!-- centred composition: lady behind, text on top -->
   <div class="hero-composition">
-    <img class="hero-img-lady" src="uploads/hero_images/lady-vr-1.webp" alt="" />
+    <div class="hero-img-lady-wrap">
+      <img class="hero-img-lady" src="uploads/hero_images/lady-vr-1.webp" alt="" />
+    </div>
     <div class="hero-inner">
       <p class="hero-eyebrow">a cabinet of delights</p>
       <h1 class="hero-title">
@@ -890,7 +945,7 @@
       <!-- 01 · Cosmic Pet Portraits — LIVE -->
       <div class="project-card reveal reveal-delay-1">
         <div class="card-image">
-          <img src="uploads/Screenshot 2026-04-25 at 13.16.31.png" alt="Cosmic Pet Portraits" />
+          <img src="uploads/hero_images/celestial-floral-scene.webp" alt="Cosmic Pet Portraits" />
         </div>
         <div class="card-body">
           <div class="card-tag">Tool № 01 · live</div>
@@ -900,13 +955,16 @@
         </div>
       </div>
 
-      <!-- 02 · Letters from your Future Self — COMING SOON -->
+      <!-- 02 · Letters from your Future Self — LIVE -->
       <div class="project-card reveal reveal-delay-2">
-        <div class="card-coming">
-          <div class="card-ghost"><img src="uploads/Screenshot 2026-04-25 at 13.16.40.png" alt="" /></div>
-          <div class="card-tag">Tool № 02 · in the making</div>
-          <div class="card-coming-label">Letters from your Future Self</div>
-          <p class="card-coming-sub">Write today. Receive a tender, knowing reply from yourself ten years from now — reflecting on your current worries with love and impossible perspective.</p>
+        <div class="card-image">
+          <img src="uploads/hero_images/surreal-glitter-portrait.webp" alt="Letters from your Future Self" />
+        </div>
+        <div class="card-body">
+          <div class="card-tag">Tool № 02 · live</div>
+          <h3 class="card-title">Letters from your <em>Future Self</em></h3>
+          <p class="card-desc">Write today. Receive a tender, knowing reply from yourself ten years from now — reflecting on your current worries with love and impossible perspective.</p>
+          <a class="card-link" href="https://letters.irina.love" target="_blank">Visit letters.irina.love <span class="card-link-arrow">→</span></a>
         </div>
       </div>
 
@@ -978,20 +1036,18 @@
     <div class="manifesto-grid">
       <div class="manifesto-left reveal">
         <p class="section-label">The idea</p>
-        <p class="manifesto-quote">I take something ordinary<br>and return it <em>mythic.</em></p>
+        <p class="manifesto-quote">I take something ordinary and return it <em>mythic.</em></p>
       </div>
       <div class="manifesto-right reveal reveal-delay-2">
         <div class="manifesto-body">
-          <p>Pets become cosmic beings. Moods become oceans. Memories become tracks you can play back. These tools aren't just fun — they make people feel <strong>seen</strong>. That's rarer and harder to copy than any feature.</p>
-          <p>Each tool is a small act of attention. A moment where technology stops being cold and becomes something close to <strong>tender</strong>.</p>
-          <p>Think of this as a cabinet of delights. Each new specimen teaches something new — about image generation, about emotion, about what it means to make something <strong>personal at scale</strong>.</p>
-          <p>Always asking the same question: does this make someone feel like the universe noticed them?</p>
+          <p>Pets become cosmic beings. Moods become oceans. Your future self offers perspective. Memories become something you can hold.</p>
+          <p>Each tool is a small act of attention, the moment technology stops being cold and becomes something close to <strong>tender</strong>.</p>
+          <p>Always asking the same question: does this make someone feel joy?</p>
         </div>
       </div>
     </div>
-    <div class="manifesto-flower">
-      <img src="uploads/flower-hydrangea.avif" alt="flower" />
-    </div>
+    <!-- abstract sphere — bobs gently bottom-right -->
+    <img class="manifesto-sphere reveal" src="uploads/hero_images/vibrant-abstract-sphere.webp" alt="" />
   </div>
 </section>
 
@@ -1000,12 +1056,12 @@
   <div class="wrap">
     <div class="about-inner reveal">
       <div class="about-image-wrap">
-        <img src="uploads/Screenshot 2026-04-25 at 13.15.19.png" alt="Irina" />
+        <img src="uploads/hero_images/lady-glitter-fingers.webp" alt="Irina" />
       </div>
       <div class="about-text">
         <p class="section-label">About Irina</p>
         <h2 class="about-heading">Making things that<br>feel like <em>love</em></h2>
-        <p class="about-body">I'm a product designer and artist who builds tools of delight — small apps that sit at the intersection of AI and emotion. My tools are personal, playful, and designed to make you feel something real. irina.love is the home for everything I'm building, one curiosity at a time.</p>
+        <p class="about-body">I'm a <a href="https://irinacsapo.co.uk/" target="_blank" rel="noopener" style="color:var(--coral);text-decoration:none;border-bottom:1px solid currentColor;">product designer</a> and <a href="https://www.instagram.com/irina_csapo_art" target="_blank" rel="noopener" style="color:var(--coral);text-decoration:none;border-bottom:1px solid currentColor;">artist</a> who loves to build tools of delight, small apps that sit at the intersection of AI and emotion. My tools are personal, playful, and designed to make you feel something real. irina.love is the home for everything I'm building, one delightful tool at a time.</p>
       </div>
     </div>
     <!-- ghost flower right side -->
