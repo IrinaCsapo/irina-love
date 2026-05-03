@@ -521,6 +521,60 @@
   .card-link:hover { opacity: 0.7; gap: 16px; }
   .card-link-arrow { font-size: 14px; }
 
+  /* coming-soon cards */
+  .card-coming {
+    background: oklch(94% 0.016 75);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    padding: 80px 48px;
+    text-align: center;
+    min-height: 420px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 4px;
+  }
+  .card-coming-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.22;
+    filter: saturate(0.5) brightness(1.05);
+    mix-blend-mode: multiply;
+  }
+  .card-coming-tag {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--coral);
+    position: relative;
+    z-index: 1;
+    margin-bottom: 6px;
+  }
+  .card-coming-label {
+    font-family: var(--serif);
+    font-size: clamp(32px, 3.5vw, 48px);
+    font-style: italic;
+    font-weight: 300;
+    color: var(--ink);
+    line-height: 1.15;
+    position: relative;
+    z-index: 1;
+  }
+  .card-coming-sub {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: oklch(55% 0.04 60);
+    position: relative;
+    z-index: 1;
+    margin-top: 4px;
+  }
+
   /* manifesto */
   #manifesto {
     padding: 120px 0 140px;
@@ -750,11 +804,12 @@
 
     .projects-grid {
       grid-template-columns: 1fr;
-      gap: 20px;
+      gap: 16px;
     }
 
     .card-body { padding: 28px 28px 36px; }
     .card-title { font-size: 36px; }
+    .card-coming { min-height: 280px; padding: 60px 32px; }
 
     #manifesto { padding: 72px 0 80px; }
     .manifesto-grid {
@@ -853,7 +908,7 @@
   <div class="wrap">
     <div class="tools-header reveal">
       <h2 class="tools-title">The tools</h2>
-      <span class="tools-count" id="tools-count">07 specimens — more always blooming</span>
+      <span class="tools-count" id="tools-count">02 live · more always blooming</span>
     </div>
 
     <div id="featured-grid" class="projects-grid">
@@ -861,7 +916,7 @@
       <!-- 01 · Cosmic Pet Portraits — LIVE -->
       <div class="project-card reveal reveal-delay-1">
         <div class="card-image">
-          <img src="uploads/hero_images/celestial-floral-scene.webp" alt="Cosmic Pet Portraits" />
+          <img src="uploads/hero_images/cosmic-pets-card.webp" alt="Cosmic Pet Portraits" />
         </div>
         <div class="card-body">
           <div class="card-tag">Tool № 01 · cosmicpets.love</div>
@@ -874,7 +929,7 @@
       <!-- 02 · Letters from your Future Self — LIVE -->
       <div class="project-card reveal reveal-delay-2">
         <div class="card-image">
-          <img src="uploads/hero_images/surreal-glitter-portrait.webp" alt="Letters from your Future Self" />
+          <img src="uploads/hero_images/letters-card.webp" alt="Letters from your Future Self" />
         </div>
         <div class="card-body">
           <div class="card-tag">Tool № 02 · letters.irina.love</div>
@@ -882,6 +937,22 @@
           <p class="card-desc">Write today. Receive a tender, knowing reply from yourself ten years from now — reflecting on your current worries with love and impossible perspective.</p>
           <a class="card-link" href="https://letters.irina.love" target="_blank">Visit letters.irina.love →</a>
         </div>
+      </div>
+
+      <!-- 03 · Your Ocean — COMING SOON -->
+      <div class="card-coming reveal reveal-delay-3">
+        <img class="card-coming-img" src="uploads/hero_images/ocean-card.webp" alt="" />
+        <div class="card-coming-tag">Tool № 03</div>
+        <div class="card-coming-label">Your Ocean</div>
+        <div class="card-coming-sub">In the making · 2026</div>
+      </div>
+
+      <!-- 04 · Soundtrack of Your Life — COMING SOON -->
+      <div class="card-coming reveal reveal-delay-4">
+        <img class="card-coming-img" src="uploads/hero_images/soundtrack-card.webp" alt="" />
+        <div class="card-coming-tag">Tool № 04</div>
+        <div class="card-coming-label">Soundtrack of<br>Your Life</div>
+        <div class="card-coming-sub">In the making · 2026</div>
       </div>
 
     </div>
