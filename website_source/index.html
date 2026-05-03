@@ -260,7 +260,6 @@
     z-index: 1;
   }
 
-  /* sparkle shimmer wrapper over the hero lady */
   .hero-img-lady-wrap {
     position: absolute;
     width: 62%;
@@ -268,22 +267,6 @@
     right: -4%;
     z-index: 1;
     pointer-events: none;
-  }
-  .hero-img-lady-wrap::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background:
-      radial-gradient(ellipse at 40% 20%, oklch(95% 0.22 80 / 0.55) 0%, transparent 45%),
-      radial-gradient(ellipse at 70% 55%, oklch(92% 0.20 290 / 0.45) 0%, transparent 45%),
-      radial-gradient(ellipse at 30% 75%, oklch(90% 0.18 350 / 0.4) 0%, transparent 40%);
-    mix-blend-mode: soft-light;
-    animation: hero-shimmer 5s ease-in-out infinite alternate;
-    pointer-events: none;
-  }
-  @keyframes hero-shimmer {
-    0%   { opacity: 0.55; transform: scale(1); }
-    100% { opacity: 0.95; transform: scale(1.02) translateY(-5px); }
   }
 
   /* lady — fills its shimmer wrapper */
