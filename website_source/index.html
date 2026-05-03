@@ -729,12 +729,27 @@
     .nav-links a { font-size: 11px; }
 
     #hero { padding-top: 100px; padding-bottom: 60px; }
-    .hero-composition { width: 95vw; }
-    .hero-inner { width: 80%; margin-left: 18%; text-align: left; }
-    .hero-img-lady { width: 70%; top: -4%; right: -8%; opacity: 0; }
+    .hero-composition {
+      width: 92vw;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .hero-img-lady-wrap {
+      position: relative;
+      width: 82%;
+      top: auto;
+      right: auto;
+      margin: 0 auto 16px;
+    }
+    .hero-inner {
+      width: 100%;
+      margin-left: 0;
+      text-align: center;
+    }
     .hero-title { font-size: clamp(52px, 14vw, 96px); }
-    .hero-sub { font-size: 15px; max-width: 100%; }
-    .hero-scroll { margin-top: 48px; }
+    .hero-sub { font-size: 15px; max-width: 100%; margin: 32px auto 0; }
+    .hero-scroll { margin-top: 48px; justify-content: center; }
 
     .cloud-1 { width: 80px; height: 26px; right: 4%; }
     .cloud-2 { display: none; }
