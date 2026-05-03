@@ -446,19 +446,11 @@
     font-style: italic;
   }
 
-  /* featured 2-col grid */
+  /* editorial 2-col cards grid */
   .projects-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 24px;
-    margin-bottom: 24px;
-  }
-
-  /* dreaming 4-col grid */
-  .dreaming-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 24px;
+    gap: 32px;
   }
 
   .project-card {
@@ -469,11 +461,11 @@
     transition: transform .5s cubic-bezier(.23,1,.32,1);
     position: relative;
   }
-  .project-card:hover { transform: translateY(-6px); }
+  .project-card:hover { transform: translateY(-8px); }
 
   .card-image {
     width: 100%;
-    aspect-ratio: 4/3;
+    aspect-ratio: 5/4;
     overflow: hidden;
     position: relative;
   }
@@ -490,164 +482,53 @@
   }
 
   .card-body {
-    padding: 36px 40px 40px;
+    padding: 40px 44px 48px;
   }
   .card-tag {
     font-size: 10px;
     letter-spacing: 0.2em;
     text-transform: uppercase;
     color: var(--coral);
-    margin-bottom: 12px;
+    margin-bottom: 16px;
   }
   .card-title {
     font-family: var(--serif);
-    font-size: 38px;
+    font-size: clamp(40px, 4vw, 58px);
     font-weight: 400;
-    line-height: 1.1;
-    margin-bottom: 16px;
+    line-height: 1.05;
+    margin-bottom: 20px;
   }
   .card-title em { font-style: italic; color: var(--ink-soft); }
   .card-desc {
-    font-size: 15px;
+    font-size: 16px;
     line-height: 1.7;
     color: var(--ink-soft);
-    max-width: 340px;
-    margin-bottom: 32px;
+    margin-bottom: 36px;
   }
   .card-link {
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    font-size: 13px;
-    letter-spacing: 0.1em;
+    font-size: 11px;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: var(--ink);
+    color: var(--coral);
     text-decoration: none;
     border-bottom: 1px solid var(--coral);
-    padding-bottom: 2px;
-    transition: color .2s, gap .2s;
+    padding-bottom: 3px;
+    transition: opacity .2s, gap .2s;
   }
-  .card-link:hover { color: var(--coral); gap: 16px; }
-  .card-link-arrow { font-size: 16px; }
-
-  /* coming soon — full size */
-  .card-coming {
-    background: oklch(94% 0.022 85);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    gap: 16px;
-    padding: 60px 40px;
-    text-align: center;
-    min-height: 340px;
-    position: relative;
-    overflow: hidden;
-  }
-  .card-coming-label {
-    font-family: var(--serif);
-    font-size: 28px;
-    font-style: italic;
-    color: var(--ink-soft);
-    position: relative;
-    z-index: 1;
-  }
-  .card-coming-sub {
-    font-size: 12px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: oklch(50% 0.04 272);
-    position: relative;
-    z-index: 1;
-  }
-  /* ghost flower watermark in coming cards */
-  .card-coming .card-ghost {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0.12;
-  }
-  .card-coming .card-ghost img {
-    width: 85%;
-    height: 85%;
-    object-fit: cover;
-    border-radius: 50%;
-    filter: saturate(0.3) brightness(1.05);
-    mix-blend-mode: multiply;
-  }
-
-  /* dreaming small cards */
-  .dream-card {
-    background: var(--cream);
-    border-radius: 4px;
-    padding: 40px 32px;
-    cursor: none;
-    transition: transform .5s cubic-bezier(.23,1,.32,1);
-    position: relative;
-    overflow: hidden;
-    min-height: 240px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-  }
-  .dream-card:hover { transform: translateY(-6px); }
-  .dream-card-bg {
-    position: absolute;
-    inset: 0;
-    overflow: hidden;
-  }
-  .dream-card-bg img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 0.18;
-    filter: saturate(0.6) brightness(1.1);
-    transition: opacity .5s, transform .8s cubic-bezier(.23,1,.32,1);
-    mix-blend-mode: multiply;
-  }
-  .dream-card:hover .dream-card-bg img {
-    opacity: 0.28;
-    transform: scale(1.05);
-  }
-  .dream-card-num {
-    font-family: var(--serif);
-    font-size: 11px;
-    font-style: italic;
-    color: var(--coral);
-    letter-spacing: 0.1em;
-    margin-bottom: 10px;
-    position: relative;
-    z-index: 1;
-  }
-  .dream-card-title {
-    font-family: var(--serif);
-    font-size: 28px;
-    font-weight: 400;
-    line-height: 1.15;
-    color: var(--ink);
-    position: relative;
-    z-index: 1;
-    margin-bottom: 12px;
-  }
-  .dream-card-title em { font-style: italic; color: var(--ink-soft); }
-  .dream-card-status {
-    font-size: 10px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--ink-soft);
-    position: relative;
-    z-index: 1;
-  }
+  .card-link:hover { opacity: 0.7; gap: 16px; }
+  .card-link-arrow { font-size: 14px; }
 
   /* manifesto */
   #manifesto {
     padding: 120px 0 140px;
     background: oklch(22% 0.02 270);
     color: var(--cream);
+    position: relative;
+    overflow: hidden;
   }
-  #manifesto .wrap { position: relative; }
   .manifesto-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -673,12 +554,27 @@
   .manifesto-body p + p { margin-top: 20px; }
   .manifesto-body strong { color: var(--cream); font-weight: 400; }
 
-  /* vibrant abstract sphere in manifesto */
+  /* coloured blob overlays — sit behind text, purely decorative */
+  #manifesto::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse 55% 45% at 8% 35%,  oklch(68% 0.22 290 / 0.18) 0%, transparent 70%),
+      radial-gradient(ellipse 50% 40% at 92% 20%,  oklch(70% 0.20 350 / 0.14) 0%, transparent 65%),
+      radial-gradient(ellipse 60% 50% at 50% 85%,  oklch(72% 0.18 80  / 0.12) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 35% at 75% 65%,  oklch(65% 0.22 220 / 0.13) 0%, transparent 65%);
+    z-index: 0;
+  }
+  #manifesto .wrap { position: relative; z-index: 1; }
+
+  /* vibrant abstract sphere in manifesto — left side, under headline */
   .manifesto-sphere {
     position: absolute;
-    right: -60px;
-    bottom: -80px;
-    width: clamp(220px, 28vw, 380px);
+    left: -60px;
+    top: 60px;
+    width: clamp(220px, 28vw, 360px);
     opacity: 0.88;
     pointer-events: none;
     animation: sphere-bob 7s ease-in-out infinite;
@@ -700,6 +596,33 @@
     pointer-events: none;
   }
   .manifesto-flower img { width: 100%; height: 100%; object-fit: cover; }
+
+  /* finger-lady in manifesto — lower-left, sparkle shimmer */
+  .manifesto-lady-wrap {
+    position: absolute;
+    left: -80px;
+    bottom: -100px;
+    width: clamp(220px, 26vw, 360px);
+    pointer-events: none;
+    animation: manifesto-lady-float 9s ease-in-out infinite;
+  }
+  .manifesto-lady-wrap img { width: 100%; display: block; }
+  .manifesto-lady-wrap::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 40% 30%, oklch(95% 0.22 80 / 0.5) 0%, transparent 45%),
+      radial-gradient(ellipse at 65% 60%, oklch(90% 0.20 290 / 0.4) 0%, transparent 45%),
+      radial-gradient(ellipse at 25% 70%, oklch(92% 0.18 350 / 0.35) 0%, transparent 40%);
+    mix-blend-mode: soft-light;
+    animation: sparkle-shift 4s ease-in-out infinite alternate;
+    pointer-events: none;
+  }
+  @keyframes manifesto-lady-float {
+    0%, 100% { transform: translateY(0) rotate(-1deg); }
+    50%       { transform: translateY(-14px) rotate(1deg); }
+  }
 
   /* about */
   #about { padding: 100px 0; }
@@ -736,15 +659,15 @@
   .about-text .section-label { margin-bottom: 16px; }
   .about-heading {
     font-family: var(--serif);
-    font-size: 42px;
+    font-size: 60px;
     font-weight: 300;
-    line-height: 1.1;
-    margin-bottom: 20px;
+    line-height: 1.05;
+    margin-bottom: 24px;
   }
   .about-heading em { font-style: italic; color: var(--coral); }
   .about-body {
-    font-size: 16px;
-    line-height: 1.75;
+    font-size: 20px;
+    line-height: 1.7;
     color: var(--ink-soft);
     max-width: 520px;
   }
@@ -825,20 +748,11 @@
 
     .projects-grid {
       grid-template-columns: 1fr;
-      gap: 16px;
-    }
-    .dreaming-grid {
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
+      gap: 20px;
     }
 
-    .card-body { padding: 24px 24px 28px; }
-    .card-title { font-size: 28px; }
-    .card-coming { min-height: 220px; padding: 40px 24px; }
-    .card-coming-label { font-size: 22px; }
-
-    .dream-card { min-height: 180px; padding: 28px 20px; }
-    .dream-card-title { font-size: 22px; }
+    .card-body { padding: 28px 28px 36px; }
+    .card-title { font-size: 36px; }
 
     #manifesto { padding: 72px 0 80px; }
     .manifesto-grid {
@@ -847,6 +761,7 @@
     }
     .manifesto-right { padding-top: 0; }
     .manifesto-flower { display: none; }
+    .manifesto-lady-wrap { display: none; }
 
     #about { padding: 60px 0; }
     .about-inner {
@@ -854,7 +769,8 @@
       gap: 32px;
       text-align: center;
     }
-    .about-heading { font-size: 32px; }
+    .about-heading { font-size: 38px; }
+    .about-body { font-size: 16px; }
 
     footer { padding: 32px 24px; flex-direction: column; gap: 12px; text-align: center; }
   }
@@ -862,8 +778,7 @@
   @media (max-width: 480px) {
     .nav-links { display: none; }
     .hero-title { font-size: clamp(44px, 16vw, 72px); }
-    .dreaming-grid { grid-template-columns: 1fr; }
-    .dream-card { min-height: 140px; }
+    .card-title { font-size: 28px; }
   }
 </style>
 </head>
@@ -939,7 +854,6 @@
       <span class="tools-count" id="tools-count">07 specimens — more always blooming</span>
     </div>
 
-    <!-- tools rendered from data/tools.json (static fallback below, overridden by JS on Netlify) -->
     <div id="featured-grid" class="projects-grid">
 
       <!-- 01 · Cosmic Pet Portraits — LIVE -->
@@ -948,10 +862,10 @@
           <img src="uploads/hero_images/celestial-floral-scene.webp" alt="Cosmic Pet Portraits" />
         </div>
         <div class="card-body">
-          <div class="card-tag">Tool № 01 · live</div>
-          <h3 class="card-title">Cosmic Pet <em>Portraits</em></h3>
+          <div class="card-tag">Tool № 01 · cosmicpets.love</div>
+          <h3 class="card-title">Cosmic Pet<br><em>Portraits</em></h3>
           <p class="card-desc">Your pet, reimagined as a cosmic entity. AI-generated portraits so eerily right that people cry a little. A universe that noticed your animal.</p>
-          <a class="card-link" href="https://cosmicpets.love" target="_blank">Visit cosmicpets.love <span class="card-link-arrow">→</span></a>
+          <a class="card-link" href="https://cosmicpets.love" target="_blank">Visit cosmicpets.love →</a>
         </div>
       </div>
 
@@ -961,66 +875,11 @@
           <img src="uploads/hero_images/surreal-glitter-portrait.webp" alt="Letters from your Future Self" />
         </div>
         <div class="card-body">
-          <div class="card-tag">Tool № 02 · live</div>
-          <h3 class="card-title">Letters from your <em>Future Self</em></h3>
+          <div class="card-tag">Tool № 02 · letters.irina.love</div>
+          <h3 class="card-title">Letters from your<br><em>Future Self</em></h3>
           <p class="card-desc">Write today. Receive a tender, knowing reply from yourself ten years from now — reflecting on your current worries with love and impossible perspective.</p>
-          <a class="card-link" href="https://letters.irina.love" target="_blank">Visit letters.irina.love <span class="card-link-arrow">→</span></a>
+          <a class="card-link" href="https://letters.irina.love" target="_blank">Visit letters.irina.love →</a>
         </div>
-      </div>
-
-      <!-- 03 · Your Ocean — COMING SOON -->
-      <div class="project-card reveal reveal-delay-3">
-        <div class="card-coming">
-          <div class="card-ghost"><img src="uploads/flower-hydrangea.avif" alt="" /></div>
-          <div class="card-tag">Tool № 03 · in the making</div>
-          <div class="card-coming-label">Your Ocean</div>
-          <p class="card-coming-sub">Your emotional state rendered as weather, tide, time of day, and sea creatures. Meditative and poetic.</p>
-        </div>
-      </div>
-
-      <!-- 04 · Soundtrack of Your Life — COMING SOON -->
-      <div class="project-card reveal reveal-delay-4">
-        <div class="card-coming">
-          <div class="card-ghost"><img src="uploads/flower-rainbow.avif" alt="" /></div>
-          <div class="card-tag">Tool № 04 · in the making</div>
-          <div class="card-coming-label">Soundtrack of Your Life</div>
-          <p class="card-coming-sub">Answer five questions about a memory or feeling. Receive a generative lo-fi track that sounds like that exact moment.</p>
-        </div>
-      </div>
-
-    </div>
-
-    <div id="dreaming-grid" class="dreaming-grid">
-
-      <!-- 05 · Your Inner World Map — DREAMING -->
-      <div class="dream-card reveal reveal-delay-1">
-        <div class="dream-card-bg"><img src="uploads/Screenshot 2026-04-25 at 13.16.19.png" alt="" /></div>
-        <div class="dream-card-num">No. 05</div>
-        <div class="dream-card-title">Your Inner <em>World Map</em></div>
-        <div class="dream-card-status">Dreaming · 2026</div>
-      </div>
-
-      <!-- 06 · Bloom After Rain — DREAMING -->
-      <div class="dream-card reveal reveal-delay-2">
-        <div class="dream-card-bg"><img src="uploads/Screenshot 2026-04-25 at 13.16.51.png" alt="" /></div>
-        <div class="dream-card-num">No. 06</div>
-        <div class="dream-card-title">Bloom After <em>Rain</em></div>
-        <div class="dream-card-status">Dreaming · 2026</div>
-      </div>
-
-      <!-- 07 · Childhood Toy Reunion — DREAMING -->
-      <div class="dream-card reveal reveal-delay-3">
-        <div class="dream-card-bg"><img src="uploads/flower-lotus.avif" alt="" /></div>
-        <div class="dream-card-num">No. 07</div>
-        <div class="dream-card-title">Childhood Toy <em>Reunion</em></div>
-        <div class="dream-card-status">Dreaming · 2026</div>
-      </div>
-
-      <!-- placeholder -->
-      <div class="dream-card reveal reveal-delay-4" style="background:oklch(94% 0.015 85);border:1px dashed oklch(75% 0.04 60 / 0.35);">
-        <div class="dream-card-num" style="color:var(--ink-soft);">···</div>
-        <div class="dream-card-title" style="font-style:italic;color:var(--ink-soft);font-size:24px;">More always<br>blooming</div>
-        <div class="dream-card-status">The cabinet grows</div>
       </div>
 
     </div>
@@ -1048,6 +907,10 @@
     </div>
     <!-- abstract sphere — bobs gently bottom-right -->
     <img class="manifesto-sphere reveal" src="uploads/hero_images/vibrant-abstract-sphere.webp" alt="" />
+    <!-- finger-lady — floats lower-left with sparkle shimmer -->
+    <div class="manifesto-lady-wrap reveal">
+      <img src="uploads/hero_images/lady-glitter-fingers.webp" alt="" />
+    </div>
   </div>
 </section>
 
