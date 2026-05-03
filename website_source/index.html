@@ -1160,11 +1160,13 @@ async function loadTools() {
     if (featuredGrid) {
       featuredGrid.innerHTML = featured.map((t, i) => {
         const delay = `reveal-delay-${i + 1}`;
-        const tagLabel = t.status === 'live'
-          ? `Tool № ${t.num} · live`
-          : `Tool № ${t.num} · in the making`;
 
         if (t.status === 'live' && t.image) {
+          const tagLabel = `Tool № ${t.num} · ${t.urlLabel ? t.urlLabel.replace('Visit ', '') : t.url.replace('https://', '')}`;
+          // Split title: everything before subtitle on line 1, subtitle italic on line 2
+          const titleHtml = t.subtitle
+            ? t.title.replace(t.subtitle, `<br><em>${t.subtitle}</em>`)
+            : t.title;
           return `
             <div class="project-card reveal ${delay}">
               <div class="card-image">
@@ -1172,7 +1174,7 @@ async function loadTools() {
               </div>
               <div class="card-body">
                 <div class="card-tag">${tagLabel}</div>
-                <h3 class="card-title">${t.title.replace(t.subtitle, `<em>${t.subtitle}</em>`)}</h3>
+                <h3 class="card-title">${titleHtml}</h3>
                 <p class="card-desc">${t.description}</p>
                 ${t.url ? `<a class="card-link" href="${t.url}" target="_blank">${t.urlLabel || 'Visit'} <span class="card-link-arrow">→</span></a>` : ''}
               </div>
@@ -1181,39 +1183,15 @@ async function loadTools() {
           return `
             <div class="project-card reveal ${delay}">
               <div class="card-coming">
-                ${t.image ? `<div class="card-ghost"><img src="${t.image}" alt="" /></div>` : ''}
-                <div class="card-tag" style="font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--coral);">${tagLabel}</div>
                 <div class="card-coming-label">${t.title}</div>
-                <p class="card-coming-sub">${t.description}</p>
-                ${t.url ? `<a class="card-link" href="${t.url}" target="_blank" style="margin-top:16px;">${t.urlLabel || 'Join waitlist'} <span class="card-link-arrow">→</span></a>` : ''}
+                <div class="card-coming-sub">In the making · 2026</div>
               </div>
             </div>`;
         }
       }).join('');
     }
 
-    // render dreaming cards
-    const dreamGrid = document.getElementById('dreaming-grid');
-    if (dreamGrid) {
-      const dreamCards = dreaming.map((t, i) => {
-        const delay = `reveal-delay-${i + 1}`;
-        return `
-          <div class="dream-card reveal ${delay}">
-            ${t.image ? `<div class="dream-card-bg"><img src="${t.image}" alt="" /></div>` : ''}
-            <div class="dream-card-num">No. ${t.num}</div>
-            <div class="dream-card-title">${t.subtitle ? t.title.replace(t.subtitle, `<em>${t.subtitle}</em>`) : t.title}</div>
-            <div class="dream-card-status">Dreaming · 2026</div>
-          </div>`;
-      });
-      // add the "more blooming" placeholder
-      dreamCards.push(`
-        <div class="dream-card reveal reveal-delay-4" style="background:oklch(94% 0.015 85);border:1px dashed oklch(75% 0.04 60 / 0.35);">
-          <div class="dream-card-num" style="color:var(--ink-soft);">···</div>
-          <div class="dream-card-title" style="font-style:italic;color:var(--ink-soft);font-size:24px;">More always<br>blooming</div>
-          <div class="dream-card-status">The cabinet grows</div>
-        </div>`);
-      dreamGrid.innerHTML = dreamCards.join('');
-    }
+    // no dreaming grid rendered (hidden for now)
 
     // re-observe newly created elements
     document.querySelectorAll('.reveal:not(.in)').forEach(r => obs.observe(r));
