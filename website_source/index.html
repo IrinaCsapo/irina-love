@@ -529,7 +529,12 @@
   /* clickable image + title */
   .card-image-link { display: block; text-decoration: none; }
   .card-title-link { text-decoration: none; color: inherit; }
-  .card-title-link:hover .card-title { color: var(--coral); transition: color 0.2s; }
+  .card-title-link:hover .card-title,
+  .card-title-link:hover .card-title em { color: var(--coral); transition: color 0.2s; }
+  /* ensure title aligns consistently across cards regardless of image loading */
+  .project-card { display: flex; flex-direction: column; }
+  .project-card .card-body { flex: 1; display: flex; flex-direction: column; }
+  .project-card .card-title { margin-top: 0; }
 
   /* coming-soon cards */
   .card-coming {
@@ -924,29 +929,29 @@
         </div>
       </div>
 
-      <!-- 03 · Bloom after Rain — COMING SOON -->
+      <!-- 03 · Soundtrack of Your Life — LIVE -->
       <div class="project-card reveal reveal-delay-3">
-        <div class="card-image"><img src="uploads/hero_images/bloom-card.webp" alt="Bloom after Rain" /></div>
-        <div class="card-body">
-          <div class="card-tag">Tool № 03 · Coming Soon</div>
-          <h3 class="card-title">Bloom after<br><em>Rain</em></h3>
-          <p class="card-desc">Something tender is growing. A tool about renewal, grief, and what quietly returns after loss — built for the moments you need to feel less alone.</p>
-          <span class="card-coming-sub">In the making · 2026</span>
-        </div>
-      </div>
-
-      <!-- 04 · Soundtrack of Your Life — LIVE -->
-      <div class="project-card reveal reveal-delay-4">
         <a class="card-image-link" href="https://soundtrack.irina.love/" target="_blank" tabindex="-1">
           <div class="card-image"><img src="uploads/hero_images/soundtrack-card.webp" alt="Soundtrack of Your Life" /></div>
         </a>
         <div class="card-body">
-          <div class="card-tag">Tool № 04 · soundtrack.irina.love</div>
+          <div class="card-tag">Tool № 03 · soundtrack.irina.love</div>
           <a href="https://soundtrack.irina.love/" target="_blank" class="card-title-link">
             <h3 class="card-title">Soundtrack of<br><em>Your Life</em></h3>
           </a>
           <p class="card-desc">Every life deserves a score. Tell it your story — the eras, the heartbreaks, the quiet Tuesday mornings — and receive a deeply personal playlist that sounds like you.</p>
           <a class="card-link" href="https://soundtrack.irina.love/" target="_blank">Visit soundtrack.irina.love <span class="card-link-arrow">→</span></a>
+        </div>
+      </div>
+
+      <!-- 04 · Bloom after Rain — COMING SOON -->
+      <div class="project-card reveal reveal-delay-4">
+        <div class="card-image"><img src="uploads/hero_images/bloom-card.webp" alt="Bloom after Rain" /></div>
+        <div class="card-body">
+          <div class="card-tag">Tool № 04 · Coming Soon</div>
+          <h3 class="card-title">Bloom after<br><em>Rain</em></h3>
+          <p class="card-desc">Something tender is growing. A tool about renewal, grief, and what quietly returns after loss — built for the moments you need to feel less alone.</p>
+          <span class="card-coming-sub">In the making · 2026</span>
         </div>
       </div>
 
