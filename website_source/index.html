@@ -528,7 +528,7 @@
 
   /* clickable image + title */
   .card-image-link { display: block; text-decoration: none; }
-  .card-title-link { text-decoration: none; color: inherit; }
+  .card-title-link { display: block; text-decoration: none; color: inherit; }
   .card-title-link:hover .card-title,
   .card-title-link:hover .card-title em { color: var(--coral); transition: color 0.2s; }
   /* ensure title aligns consistently across cards regardless of image loading */
@@ -1202,7 +1202,7 @@ async function loadTools() {
               </a>
               <div class="card-body">
                 <div class="card-tag">${tagLabel}</div>
-                <a href="${t.url}" target="_blank" class="card-title-link">
+                <a href="${t.url}" target="_blank" class="card-title-link" style="display:block">
                   <h3 class="card-title">${titleHtml}</h3>
                 </a>
                 <p class="card-desc">${t.description}</p>
