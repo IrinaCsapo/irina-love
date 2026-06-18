@@ -1181,11 +1181,12 @@ async function loadTools() {
       featuredGrid.innerHTML = featured.map((t, i) => {
         const delay = `reveal-delay-${i + 1}`;
 
+        const titleHtml = t.subtitle
+          ? t.title.replace(t.subtitle, `<br><em>${t.subtitle}</em>`)
+          : t.title;
+
         if (t.status === 'live' && t.image) {
           const tagLabel = `Tool № ${t.num} · ${t.urlLabel ? t.urlLabel.replace('Visit ', '') : t.url.replace('https://', '')}`;
-          const titleHtml = t.subtitle
-            ? t.title.replace(t.subtitle, `<br><em>${t.subtitle}</em>`)
-            : t.title;
           return `
             <div class="project-card reveal ${delay}">
               <a class="card-image-link" href="${t.url}" target="_blank" tabindex="-1">
@@ -1206,7 +1207,7 @@ async function loadTools() {
               ${t.image ? `<div class="card-image"><img src="${t.image}" alt="${t.title}" /></div>` : ''}
               <div class="card-body">
                 <div class="card-tag">Tool № ${t.num} · Coming Soon</div>
-                <h3 class="card-title">${t.title}</h3>
+                <h3 class="card-title">${titleHtml}</h3>
                 <p class="card-desc">${t.description}</p>
                 <span class="card-coming-sub">In the making · 2026</span>
               </div>
