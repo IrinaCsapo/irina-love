@@ -528,13 +528,12 @@
 
   /* clickable image + title */
   .card-image-link { display: block; text-decoration: none; }
-  .card-title-link { display: block; text-decoration: none; color: inherit; }
-  .card-title-link:hover .card-title,
-  .card-title-link:hover .card-title em { color: var(--coral); transition: color 0.2s; }
-  /* ensure title aligns consistently across cards regardless of image loading */
+  .card-title-link { text-decoration: none; color: inherit; }
+  .card-title .card-title-link:hover,
+  .card-title .card-title-link:hover em { color: var(--coral); transition: color 0.2s; }
+  /* card layout */
   .project-card { display: flex; flex-direction: column; }
-  .project-card .card-body { flex: 1; display: flex; flex-direction: column; }
-  .project-card .card-title { margin-top: 0; }
+  .project-card .card-body { flex: 1; }
 
   /* coming-soon cards */
   .card-coming {
@@ -906,9 +905,7 @@
         </a>
         <div class="card-body">
           <div class="card-tag">Tool № 01 · cosmicpets.love</div>
-          <a href="https://cosmicpets.love" target="_blank" class="card-title-link">
-            <h3 class="card-title">Cosmic Pet<br><em>Portraits</em></h3>
-          </a>
+          <h3 class="card-title"><a href="https://cosmicpets.love" target="_blank" class="card-title-link">Cosmic Pet<br><em>Portraits</em></a></h3>
           <p class="card-desc">Your pet, reimagined as a cosmic entity. AI-generated portraits so eerily right that people cry a little. A universe that noticed your animal.</p>
           <a class="card-link" href="https://cosmicpets.love" target="_blank">Visit cosmicpets.love <span class="card-link-arrow">→</span></a>
         </div>
@@ -921,9 +918,7 @@
         </a>
         <div class="card-body">
           <div class="card-tag">Tool № 02 · letters.irina.love</div>
-          <a href="https://letters.irina.love" target="_blank" class="card-title-link">
-            <h3 class="card-title">Letters from your<br><em>Future Self</em></h3>
-          </a>
+          <h3 class="card-title"><a href="https://letters.irina.love" target="_blank" class="card-title-link">Letters from your<br><em>Future Self</em></a></h3>
           <p class="card-desc">Write today. Receive a tender, knowing reply from yourself ten years from now — reflecting on your current worries with love and impossible perspective.</p>
           <a class="card-link" href="https://letters.irina.love" target="_blank">Visit letters.irina.love <span class="card-link-arrow">→</span></a>
         </div>
@@ -936,9 +931,7 @@
         </a>
         <div class="card-body">
           <div class="card-tag">Tool № 03 · soundtrack.irina.love</div>
-          <a href="https://soundtrack.irina.love/" target="_blank" class="card-title-link">
-            <h3 class="card-title">Soundtrack of<br><em>Your Life</em></h3>
-          </a>
+          <h3 class="card-title"><a href="https://soundtrack.irina.love/" target="_blank" class="card-title-link">Soundtrack of<br><em>Your Life</em></a></h3>
           <p class="card-desc">Every life deserves a score. Tell it your story — the eras, the heartbreaks, the quiet Tuesday mornings — and receive a deeply personal playlist that sounds like you.</p>
           <a class="card-link" href="https://soundtrack.irina.love/" target="_blank">Visit soundtrack.irina.love <span class="card-link-arrow">→</span></a>
         </div>
@@ -1202,9 +1195,7 @@ async function loadTools() {
               </a>
               <div class="card-body">
                 <div class="card-tag">${tagLabel}</div>
-                <a href="${t.url}" target="_blank" class="card-title-link" style="display:block">
-                  <h3 class="card-title">${titleHtml}</h3>
-                </a>
+                <h3 class="card-title"><a href="${t.url}" target="_blank" class="card-title-link">${titleHtml}</a></h3>
                 <p class="card-desc">${t.description}</p>
                 ${t.url ? `<a class="card-link" href="${t.url}" target="_blank">${t.urlLabel || 'Visit'} <span class="card-link-arrow">→</span></a>` : ''}
               </div>
