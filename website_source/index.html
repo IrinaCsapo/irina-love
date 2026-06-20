@@ -176,9 +176,28 @@
     overflow: hidden;
   }
 
+  /* hero video background */
+  .hero-video-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+    pointer-events: none;
+  }
+  .hero-video-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: rgba(255, 255, 255, 0.22);
+    pointer-events: none;
+  }
+
   /* composition wrapper — the single centred unit */
   .hero-composition {
     position: relative;
+    z-index: 3;
     width: min(1080px, 90vw);
     margin: 0 auto;
   }
@@ -257,7 +276,7 @@
   .ghost-flower svg { width: 100%; height: 100%; }
 
   /* ── floating hero elements ── */
-  .float-el { position: absolute; pointer-events: none; z-index: 1; }
+  .float-el { position: absolute; pointer-events: none; z-index: 2; }
 
   /* cherry blossoms */
   .blossom { opacity: 0; }
@@ -844,6 +863,12 @@
 
 <!-- hero -->
 <section id="hero">
+  <!-- video background -->
+  <video class="hero-video-bg" autoplay muted loop playsinline>
+    <source src="uploads/delights-hero-bg-v1-web.mp4" type="video/mp4">
+  </video>
+  <div class="hero-video-overlay"></div>
+
   <!-- centred composition: lady behind, text on top -->
   <div class="hero-composition">
     <div class="hero-img-lady-wrap">
