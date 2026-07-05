@@ -763,6 +763,67 @@
   .reveal-delay-3 { transition-delay: .35s; }
   .reveal-delay-4 { transition-delay: .5s; }
 
+  /* ── photography section ── */
+  #photography { padding: 120px 0 140px; }
+  .photography-header {
+    display: flex;
+    align-items: baseline;
+    gap: 32px;
+    margin-bottom: 72px;
+  }
+  .photography-title {
+    font-family: var(--serif);
+    font-size: clamp(42px, 5vw, 72px);
+    font-weight: 300;
+    line-height: 1;
+  }
+  .photography-count {
+    font-family: var(--serif);
+    font-size: 18px;
+    color: var(--coral);
+    font-style: italic;
+  }
+
+  /* 3-col photo card grid */
+  .photo-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    align-items: start;
+  }
+
+  /* photo card — inherits .project-card, .card-image, .card-body */
+  .photo-card .card-image { aspect-ratio: 5/4; }
+  .photo-card .card-image img { object-position: center 30%; }
+
+  /* photo placeholder card */
+  .photo-placeholder {
+    background: oklch(94% 0.022 85);
+    border-radius: 4px;
+    aspect-ratio: 5/4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 12px;
+    padding: 40px;
+    text-align: center;
+  }
+  .photo-placeholder-label {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-style: italic;
+    color: var(--ink-soft);
+    opacity: 0.55;
+  }
+  .photo-placeholder-sub {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: oklch(60% 0.04 272);
+    opacity: 0.6;
+  }
+
   /* scrollbar */
   ::-webkit-scrollbar { width: 6px; }
   ::-webkit-scrollbar-track { background: var(--bg); }
@@ -815,6 +876,10 @@
     .card-coming { min-height: 220px; padding: 40px 24px; }
     .card-coming-label { font-size: 22px; }
 
+    #photography { padding: 72px 0 80px; }
+    .photography-header { flex-direction: column; gap: 8px; margin-bottom: 40px; }
+    .photo-grid { grid-template-columns: 1fr; gap: 16px; }
+
     #manifesto { padding: 72px 0 80px; }
     .manifesto-grid {
       grid-template-columns: 1fr;
@@ -856,6 +921,7 @@
   <a class="nav-logo" href="#">irina<em>.love</em></a>
   <ul class="nav-links">
     <li><a href="#tools">The tools</a></li>
+    <li><a href="#photography">The eye</a></li>
     <li><a href="#manifesto">The idea</a></li>
     <li><a href="mailto:hello@irina.love">Say hello</a></li>
   </ul>
@@ -975,6 +1041,49 @@
 
     </div>
 
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- photography -->
+<section id="photography">
+  <div class="wrap">
+    <div class="photography-header reveal">
+      <h2 class="photography-title">Through a Lens</h2>
+      <span class="photography-count">01 series · more always developing</span>
+    </div>
+
+    <div class="photo-grid">
+
+      <!-- Cats of China -->
+      <div class="project-card photo-card reveal reveal-delay-1">
+        <a class="card-image-link" href="cats.html">
+          <div class="card-image">
+            <img src="uploads/photography/cats-cover.webp" alt="Cats of China" />
+          </div>
+        </a>
+        <div class="card-body">
+          <div class="card-tag">Photo Series · 20 photographs</div>
+          <h3 class="card-title"><a href="cats.html" class="card-title-link">Cats of<br><em>China</em></a></h3>
+          <p class="card-desc">Twenty cats met along the way — stationed in doorways, on market carts, under neon signs. Unhurried, perfectly at home in the beautiful chaos of it all.</p>
+          <a class="card-link" href="cats.html">View the series <span class="card-link-arrow">→</span></a>
+        </div>
+      </div>
+
+      <!-- Streets placeholder -->
+      <div class="photo-placeholder reveal reveal-delay-2">
+        <p class="photo-placeholder-label">Streets &amp; Light</p>
+        <p class="photo-placeholder-sub">In the darkroom · 2026</p>
+      </div>
+
+      <!-- Colour & texture placeholder -->
+      <div class="photo-placeholder reveal reveal-delay-3">
+        <p class="photo-placeholder-label">Colour &amp; Texture</p>
+        <p class="photo-placeholder-sub">In the darkroom · 2026</p>
+      </div>
+
+    </div>
   </div>
 </section>
 

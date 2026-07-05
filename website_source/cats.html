@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cats of China · irina.love</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="shortcut icon" href="favicon.ico">
+
+<meta name="description" content="Twenty cats met along the way — stationed in doorways, on market carts, under neon signs. A photography series by Irina.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://irina.love/cats.html">
+<meta property="og:title" content="Cats of China · irina.love">
+<meta property="og:description" content="Twenty cats met along the way — stationed in doorways, on market carts, under neon signs.">
+<meta property="og:image" content="https://irina.love/uploads/photography/cats/11-white-cat-billboard.webp">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: oklch(97% 0.018 85);
+    --bg-dark: oklch(92% 0.022 85);
+    --cream: oklch(99% 0.008 85);
+    --coral: oklch(67% 0.18 24);
+    --coral-soft: oklch(80% 0.12 24);
+    --lavender: oklch(75% 0.1 290);
+    --ink: oklch(18% 0.015 60);
+    --ink-soft: oklch(42% 0.025 60);
+    --serif: 'Cormorant Garamond', Georgia, serif;
+    --sans: 'Jost', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-weight: 300;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* paper grain */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    opacity: 0.055;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23grain)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 220px 220px;
+  }
+
+  /* cursor */
+  #cursor {
+    position: fixed;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--coral);
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: width .2s, height .2s, opacity .2s;
+    mix-blend-mode: multiply;
+  }
+  #cursor-trail {
+    position: fixed;
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    border: 1px solid oklch(67% 0.18 24 / 0.35);
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: left .12s ease-out, top .12s ease-out, width .2s, height .2s;
+  }
+
+  /* layout */
+  .wrap {
+    position: relative;
+    z-index: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 48px;
+  }
+
+  /* nav */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 28px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .nav-logo {
+    font-family: var(--serif);
+    font-size: 20px;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .nav-logo em { color: var(--coral); font-style: italic; }
+  .nav-back {
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    text-decoration: none;
+    transition: color .2s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .nav-back:hover { color: var(--coral); }
+
+  /* hero */
+  .gallery-hero {
+    padding: 180px 0 80px;
+    position: relative;
+    z-index: 1;
+  }
+  .gallery-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 24px;
+    opacity: 0;
+    animation: fadeUp .8s .2s forwards;
+  }
+  .gallery-title {
+    font-family: var(--serif);
+    font-size: clamp(60px, 9vw, 130px);
+    font-weight: 300;
+    line-height: 0.9;
+    letter-spacing: -0.01em;
+    opacity: 0;
+    animation: fadeUp .9s .4s forwards;
+  }
+  .gallery-title em { font-style: italic; color: var(--coral); }
+
+  .gallery-meta {
+    margin-top: 40px;
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    opacity: 0;
+    animation: fadeUp .8s .7s forwards;
+  }
+  .gallery-desc {
+    font-size: 17px;
+    line-height: 1.7;
+    color: var(--ink-soft);
+    max-width: 560px;
+  }
+  .gallery-count {
+    flex-shrink: 0;
+    font-family: var(--serif);
+    font-size: 48px;
+    font-weight: 300;
+    color: var(--coral);
+    line-height: 1;
+    opacity: 0.4;
+  }
+  .gallery-count small {
+    display: block;
+    font-size: 11px;
+    font-family: var(--sans);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    font-weight: 300;
+  }
+
+  /* divider */
+  .divider {
+    height: 1px;
+    background: oklch(75% 0.04 60 / 0.25);
+    margin: 0 48px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* gallery grid */
+  .gallery-section {
+    padding: 80px 0 140px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .photo-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4px;
+  }
+
+  .photo-item {
+    position: relative;
+    overflow: hidden;
+    cursor: none;
+    aspect-ratio: 4/3;
+    background: var(--bg-dark);
+  }
+
+  .photo-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    transition: transform .8s cubic-bezier(.23,1,.32,1), filter .5s;
+    filter: saturate(1.0);
+  }
+
+  .photo-item:hover img {
+    transform: scale(1.04);
+    filter: saturate(1.15);
+  }
+
+  /* caption overlay */
+  .photo-caption {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, oklch(18% 0.015 60 / 0.72) 0%, transparent 55%);
+    display: flex;
+    align-items: flex-end;
+    padding: 20px 22px;
+    opacity: 0;
+    transition: opacity .4s;
+  }
+  .photo-item:hover .photo-caption { opacity: 1; }
+
+  .photo-caption-text {
+    font-family: var(--serif);
+    font-size: 15px;
+    font-weight: 300;
+    color: oklch(97% 0.008 85);
+    line-height: 1.3;
+  }
+  .photo-caption-num {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--coral-soft);
+    display: block;
+    margin-bottom: 4px;
+    font-family: var(--sans);
+  }
+
+  /* featured photo (first one — spans 2 cols) */
+  .photo-item.featured {
+    grid-column: span 2;
+    aspect-ratio: 8/5;
+  }
+
+  /* closing photo (last one — full width) */
+  .photo-item.closer {
+    grid-column: span 3;
+    aspect-ratio: 16/6;
+  }
+  .photo-item.closer img { object-position: center 40%; }
+
+  /* scroll reveal */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity .9s cubic-bezier(.23,1,.32,1), transform .9s cubic-bezier(.23,1,.32,1);
+  }
+  .reveal.in { opacity: 1; transform: none; }
+
+  /* footer */
+  footer {
+    padding: 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid oklch(70% 0.04 60 / 0.25);
+    position: relative;
+    z-index: 1;
+  }
+  .footer-logo {
+    font-family: var(--serif);
+    font-size: 18px;
+    color: var(--ink);
+  }
+  .footer-logo em { font-style: italic; color: var(--coral); }
+  .footer-copy {
+    font-size: 12px;
+    letter-spacing: 0.05em;
+    color: var(--ink-soft);
+  }
+
+  /* animations */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; } to { opacity: 1; }
+  }
+
+  /* scrollbar */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: oklch(75% 0.06 60); border-radius: 3px; }
+
+  /* mobile */
+  @media (max-width: 768px) {
+    body { cursor: auto; }
+    #cursor, #cursor-trail { display: none; }
+    nav { padding: 20px 24px; }
+    .wrap { padding: 0 24px; }
+    .gallery-hero { padding: 120px 0 60px; }
+    .gallery-meta { flex-direction: column; align-items: flex-start; gap: 16px; }
+    .divider { margin: 0 24px; }
+    .photo-grid { grid-template-columns: 1fr; gap: 3px; }
+    .photo-item.featured, .photo-item.closer { grid-column: span 1; aspect-ratio: 4/3; }
+    .photo-caption { opacity: 1; }
+    footer { padding: 32px 24px; flex-direction: column; gap: 12px; text-align: center; }
+  }
+
+  @media (min-width: 769px) and (max-width: 1024px) {
+    .photo-grid { grid-template-columns: repeat(2, 1fr); }
+    .photo-item.featured { grid-column: span 2; }
+    .photo-item.closer { grid-column: span 2; aspect-ratio: 16/6; }
+  }
+</style>
+</head>
+<body>
+
+<div id="cursor"></div>
+<div id="cursor-trail"></div>
+
+<!-- nav -->
+<nav>
+  <a class="nav-logo" href="index.html">irina<em>.love</em></a>
+  <a class="nav-back" href="index.html">← All projects</a>
+</nav>
+
+<!-- hero -->
+<div class="gallery-hero">
+  <div class="wrap">
+    <p class="gallery-eyebrow">Through a Lens · Photo Series 01</p>
+    <h1 class="gallery-title">Cats of<br><em>China</em></h1>
+    <div class="gallery-meta">
+      <p class="gallery-desc">Twenty cats met along the way — stationed in doorways, on market carts, under neon signs. Each one unhurried, perfectly at home in the beautiful chaos of it all. China, 2026.</p>
+      <div class="gallery-count">
+        20
+        <small>photographs</small>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- gallery -->
+<section class="gallery-section">
+  <div class="photo-grid">
+
+    <!-- 04 — hero shot, featured -->
+    <div class="photo-item featured reveal">
+      <img src="uploads/photography/cats/04-tabby-amber-door.webp" alt="Tabby by an amber door" loading="lazy" />
+      <div class="photo-caption">
+        <div>
+          <span class="photo-caption-num">04 / 20</span>
+          <span class="photo-caption-text">Tabby by an amber door</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 01 -->
+    <div class="photo-item reveal">
+      <img src="uploads/photography/cats/01-ginger-vendor.webp" alt="Ginger at the vendor stall" loading="lazy" />
+      <div class="photo-caption">
+        <div>
+          <span class="photo-caption-num">01 / 20</span>
+          <span class="photo-caption-text">Ginger at the vendor stall</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 02 -->
+    <div class="photo-item reveal">
+      <img src="uploads/photography/cats/02-tortoiseshell-shop.webp" alt="Tortoiseshell, keeper of the shop" loading="lazy" />
+      <div class="photo-caption">
+        <div>
+          <span class="photo-caption-num">02 / 20</span>
+          <span class="photo-caption-text">Keeper of the shop</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 03 -->
+    <div class="photo-item reveal">
+      <img src="uploads/photography/cats/03-bw-ledge-vines.webp" alt="Ledge and vines" loading="lazy" />
+      <div class="photo-caption">
+        <div>
+          <span class="photo-caption-num">03 / 20</span>
+          <span class="photo-caption-text">Ledge and vines</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 05 -->
+    <div class="photo-item reveal">
+      <img src="uploads/photography/cats/05-black-temple.webp" alt="Black cat at the temple" loading="lazy" />
+      <div class="photo-caption">
+        <div>
+          <span class="photo-caption-num">05 / 20</span>
+          <span class="photo-caption-text">At the temple</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 06 -->
+    <div class="photo-item reveal">
+      <img src="uploads/photography/cats/06-tabby-teahouse.webp" alt="Teahouse regular" loading="lazy" />
+      <div class="photo-caption">
+        <div>
+          <span class="photo-caption-num">06 / 20</span>
+          <span class="photo-caption-text">Teahouse regular</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 07 -->
+    <div class="photo-item reveal">
+      <img src="uploads/photography/cats/07-two-cats-utility-box.webp" alt="Two cats, one utility box" loading="lazy" />
+      <div class="photo-caption">
+        <div>
+          <span class="photo-caption-num">07 / 20</span>
+          <span class="photo-caption-text">Two cats, one utility box</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 08 -->
+    <div class="photo-item reveal">
+      <img src="uploads/photography/cats/08-grey-walking.webp" alt="On the move" loading="lazy" />
+      <div class="photo-caption">
+        <div>
+          <span class="photo-caption-num">08 / 20</span>
+          <span class="photo-caption-text">On the move</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 09 -->
+    <div class="photo-item reveal">
+      <img src="uploads/photography/cats/09-ginger-pink-collar.webp" alt="Ginger with a pink collar" loading="lazy" />
+      <div class="photo-caption">
+        <div>
+          <span class="photo-caption-num">09 / 20</span>
+          <span class="photo-caption-text">Ginger with a pink collar</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 10 -->
+    <div class="photo-item reveal">
+      <img src="uploads/photography/cats/10-bw-orange-trolley.webp" alt="Orange trolley" loading="lazy" />
+      <div class="photo-caption">
+        <div>
+          <span class="photo-caption-num">10 / 20</span>
+          <span class="photo-caption-text">Orange trolley</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 11 — best of trip, featured -->
+    <div class="photo-item featured reveal">
+      <img src="uploads/photography/cats/11-white-cat-billboard.webp" alt="Under the billboard" loading="lazy" />
+      <div class="photo-caption">
+        <div>
+          <span class="photo-caption-num">11 / 20</span>
+          <span class="photo-caption-text">Under the billboard</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 12 -->
+    <div class="photo-item reveal">
+      <img src="uploads/photography/cats/12-persian-pomeranian-cart.webp" alt="Persian on a cart" loading="lazy" />
+      <div class="photo-caption">
+        <div>
+          <span class="photo-caption-num">12 / 20</span>
+          <span class="photo-caption-text">Persian on a cart</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 13 -->
+    <div class="photo-item reveal">
+      <img src="uploads/photography/cats/13-teal-door-rooftop-wide.webp" alt="Rooftop, teal door" loading="lazy" />
+      <div class="photo-caption">
+        <div>
+          <span class="photo-caption-num">13 / 20</span>
+          <span class="photo-caption-text">Rooftop, teal door</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 14 -->
+    <div class="photo-item reveal">
+      <img src="uploads/photography/cats/14-two-cats-yellow-brick.webp" alt="Yellow brick, two cats" loading="lazy" />
+      <div class="photo-caption">
+        <div>
+          <span class="photo-caption-num">14 / 20</span>
+          <span class="photo-caption-text">Yellow brick, two cats</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 15 -->
+    <div class="photo-item reveal">
+      <img src="uploads/photography/cats/15-grey-red-door.webp" alt="Grey cat, red door" loading="lazy" />
+      <div class="photo-caption">
+        <div>
+          <span class="photo-caption-num">15 / 20</span>
+          <span class="photo-caption-text">Grey cat, red door</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 16 -->
+    <div class="photo-item reveal">
+      <img src="uploads/photography/cats/16-calico-garden-path.webp" alt="Calico on the garden path" loading="lazy" />
+      <div class="photo-caption">
+        <div>
+          <span class="photo-caption-num">16 / 20</span>
+          <span class="photo-caption-text">Calico on the garden path</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 18 -->
+    <div class="photo-item reveal">
+      <img src="uploads/photography/cats/18-calico-strutting.webp" alt="Strutting calico" loading="lazy" />
+      <div class="photo-caption">
+        <div>
+          <span class="photo-caption-num">18 / 20</span>
+          <span class="photo-caption-text">Strutting calico</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 19 -->
+    <div class="photo-item reveal">
+      <img src="uploads/photography/cats/19-ragdoll-cobblestones.webp" alt="Ragdoll on cobblestones" loading="lazy" />
+      <div class="photo-caption">
+        <div>
+          <span class="photo-caption-num">19 / 20</span>
+          <span class="photo-caption-text">Ragdoll on cobblestones</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 20 -->
+    <div class="photo-item reveal">
+      <img src="uploads/photography/cats/20-grey-tabby-shop.webp" alt="Grey tabby at the shop" loading="lazy" />
+      <div class="photo-caption">
+        <div>
+          <span class="photo-caption-num">20 / 20</span>
+          <span class="photo-caption-text">Grey tabby at the shop</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 17 — perfect closer, full width -->
+    <div class="photo-item closer reveal">
+      <img src="uploads/photography/cats/17-thankyou-bag-night.webp" alt="Thank you for everything" loading="lazy" />
+      <div class="photo-caption">
+        <div>
+          <span class="photo-caption-num">17 / 20</span>
+          <span class="photo-caption-text">Thank you for everything</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- footer -->
+<footer>
+  <div class="footer-logo">irina<em>.love</em></div>
+  <div class="footer-copy">© 2026 · through a lens</div>
+</footer>
+
+<script>
+// Custom cursor
+const cursor = document.getElementById('cursor');
+const trail  = document.getElementById('cursor-trail');
+
+document.addEventListener('mousemove', e => {
+  cursor.style.left = e.clientX + 'px';
+  cursor.style.top  = e.clientY + 'px';
+  setTimeout(() => {
+    trail.style.left = e.clientX + 'px';
+    trail.style.top  = e.clientY + 'px';
+  }, 60);
+});
+
+document.addEventListener('mousedown', () => {
+  cursor.style.width = '16px'; cursor.style.height = '16px';
+});
+document.addEventListener('mouseup', () => {
+  cursor.style.width = '10px'; cursor.style.height = '10px';
+});
+
+document.querySelectorAll('a, .photo-item').forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    trail.style.width = '64px'; trail.style.height = '64px';
+  });
+  el.addEventListener('mouseleave', () => {
+    trail.style.width = '40px'; trail.style.height = '40px';
+  });
+});
+
+// Scroll reveal
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+}, { threshold: 0.08 });
+document.querySelectorAll('.reveal').forEach(r => obs.observe(r));
+</script>
+</body>
+</html>
