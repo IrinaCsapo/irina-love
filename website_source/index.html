@@ -25,1095 +25,1060 @@
 <meta name="twitter:image" content="https://irina.love/uploads/hero_images/og-preview.jpg">
 
 <script defer src="https://cloud.umami.is/script.js" data-website-id="739c79f3-a156-49e1-b0c6-204d45ed1246"></script>
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
-<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=Newsreader:ital,opsz,wght@0,6..72,300..500;1,6..72,300..500&family=Fragment+Mono:ital@0;1&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    --bg: oklch(97% 0.018 85);
-    --bg-dark: oklch(92% 0.022 85);
-    --cream: oklch(99% 0.008 85);
-    --coral: oklch(67% 0.18 24);
-    --coral-soft: oklch(80% 0.12 24);
-    --lavender: oklch(75% 0.1 290);
-    --ink: oklch(18% 0.015 60);
-    --ink-soft: oklch(42% 0.025 60);
-    --serif: 'Cormorant Garamond', Georgia, serif;
-    --sans: 'Jost', sans-serif;
+    --paper: oklch(96.8% 0.013 85);
+    --paper-deep: oklch(94.8% 0.016 85);
+    --ink: oklch(24% 0.018 55);
+    --ink-soft: oklch(43% 0.02 55);
+    --line: oklch(82% 0.022 75);
+    --line-soft: oklch(88% 0.018 80);
+    --accent: oklch(56% 0.185 29);          /* seal red */
+    --accent-soft: oklch(74% 0.11 29);
+
+    --display: 'Fraunces', Georgia, serif;
+    --text: 'Newsreader', Georgia, serif;
+    --mono: 'Fragment Mono', 'Courier New', monospace;
+
+    --tint: var(--accent);
   }
+
+  /* per-world tints for the contents index */
+  .tint-01 { --tint: oklch(45% 0.13 295); }  /* deep space violet */
+  .tint-02 { --tint: oklch(56% 0.185 29); }  /* seal red — ink on paper */
+  .tint-03 { --tint: oklch(66% 0.13 85); }   /* side-A gold */
+  .tint-04 { --tint: oklch(50% 0.1 155); }   /* after-rain green */
 
   html { scroll-behavior: smooth; }
 
   body {
-    background: var(--bg);
+    background: var(--paper);
     color: var(--ink);
-    font-family: var(--sans);
-    font-weight: 300;
-    overflow-x: hidden;
-    cursor: none;
+    font-family: var(--text);
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
   }
 
-  /* paper grain */
+  /* one whisper of paper grain — the only overlay that survived */
   body::before {
     content: '';
     position: fixed;
     inset: 0;
-    z-index: 2;
+    z-index: 40;
     pointer-events: none;
-    opacity: 0.055;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23grain)'/%3E%3C/svg%3E");
-    background-repeat: repeat;
-    background-size: 220px 220px;
-  }
-  body::after {
-    content: '';
-    position: fixed;
-    inset: 0;
-    z-index: 2;
-    pointer-events: none;
-    opacity: 0.028;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='fiber'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.015 0.65' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23fiber)'/%3E%3C/svg%3E");
-    background-repeat: repeat;
-    background-size: 400px 400px;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23grain)'/%3E%3C/svg%3E");
+    background-size: 240px 240px;
   }
 
-  /* cursor */
-  #cursor {
-    position: fixed;
-    width: 10px; height: 10px;
-    border-radius: 50%;
-    background: var(--coral);
-    pointer-events: none;
-    z-index: 9999;
-    transform: translate(-50%, -50%);
-    transition: width .2s, height .2s, opacity .2s;
-    mix-blend-mode: multiply;
-  }
-  #cursor-trail {
-    position: fixed;
-    width: 40px; height: 40px;
-    border-radius: 50%;
-    border: 1px solid oklch(67% 0.18 24 / 0.35);
-    pointer-events: none;
-    z-index: 9998;
-    transform: translate(-50%, -50%);
-    transition: left .12s ease-out, top .12s ease-out, width .2s, height .2s;
-  }
+  ::selection { background: oklch(56% 0.185 29 / 0.18); }
 
-  /* canvas */
-  #blob-canvas {
-    position: fixed;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-  }
-  #sparkle-canvas {
-    position: fixed;
-    inset: 0;
-    z-index: 1;
-    pointer-events: none;
-  }
-
-  /* layout */
   .wrap {
-    position: relative;
-    z-index: 1;
-    max-width: 1200px;
+    max-width: 1160px;
     margin: 0 auto;
     padding: 0 48px;
   }
 
-  /* nav */
+  .mono {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 400;
+  }
+
+  a { color: inherit; }
+
+  .skip-link {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    background: var(--ink);
+    color: var(--paper);
+    padding: 10px 18px;
+    z-index: 200;
+    font-family: var(--mono);
+    font-size: 12px;
+  }
+  .skip-link:focus { left: 0; }
+
+  /* ── nav ── */
   nav {
-    position: fixed;
-    top: 0; left: 0; right: 0;
+    position: sticky;
+    top: 0;
     z-index: 100;
-    padding: 28px 48px;
+    background: oklch(96.8% 0.013 85 / 0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .nav-inner {
+    max-width: 1160px;
+    margin: 0 auto;
+    padding: 18px 48px;
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: baseline;
   }
   .nav-logo {
-    font-family: var(--serif);
-    font-size: 20px;
-    font-weight: 400;
-    letter-spacing: 0.02em;
-    color: var(--ink);
+    font-family: var(--display);
+    font-size: 21px;
+    font-weight: 450;
     text-decoration: none;
+    letter-spacing: 0.01em;
   }
-  .nav-logo em { color: var(--coral); font-style: italic; }
+  .nav-logo em { font-style: italic; color: var(--accent); }
   .nav-links {
     display: flex;
-    gap: 36px;
+    gap: 32px;
     list-style: none;
   }
   .nav-links a {
-    font-family: var(--sans);
-    font-size: 13px;
-    font-weight: 400;
-    letter-spacing: 0.1em;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--ink-soft);
     text-decoration: none;
     transition: color .2s;
   }
-  .nav-links a:hover { color: var(--coral); }
+  .nav-links a:hover { color: var(--accent); }
 
-  /* hero */
+  /* ── hero: the catalogue title page ── */
   #hero {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding-top: 120px;
-    padding-bottom: 80px;
-    position: relative;
-    z-index: 1;
-    overflow: hidden;
+    padding: 96px 0 88px;
   }
-
-  /* hero video background */
-  .hero-video-bg {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: 0;
-    pointer-events: none;
-  }
-  .hero-video-overlay {
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    background: rgba(255, 255, 255, 0.22);
-    pointer-events: none;
-  }
-
-  /* composition wrapper — the single centred unit */
-  .hero-composition {
-    position: relative;
-    z-index: 3;
-    width: min(1080px, 90vw);
-    margin: 0 auto;
-  }
-
-  /* text — shifted right, sitting close to / over the lady */
-  .hero-inner {
-    position: relative;
-    z-index: 2;
-    width: 62%;
-    margin-left: 22%;
-    padding: 0;
-    text-align: left;
-  }
-
-  .hero-eyebrow {
-    font-size: 12px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--ink-soft);
-    margin-bottom: 32px;
-    opacity: 0;
-    animation: fadeUp .8s .3s forwards;
-  }
-
-  .hero-title {
-    font-family: var(--serif);
-    font-size: clamp(64px, 10vw, 148px);
-    font-weight: 300;
-    line-height: 0.92;
-    letter-spacing: -0.01em;
-    opacity: 0;
-    animation: fadeUp .9s .5s forwards;
-  }
-  .hero-title em { font-style: italic; color: var(--coral); }
-  .hero-title .line2 {
-    display: block;
-    color: var(--ink-soft);
-  }
-
-  .hero-sub {
-    margin: 48px 0 0;
-    max-width: 460px;
-    font-size: 17px;
-    line-height: 1.65;
-    color: var(--ink-soft);
-    opacity: 0;
-    animation: fadeUp .9s .8s forwards;
-  }
-
-  .hero-scroll {
-    margin-top: 64px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 16px;
-    font-size: 12px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--ink-soft);
-    opacity: 0;
-    animation: fadeUp .9s 1.1s forwards;
-  }
-  .hero-scroll-line {
-    width: 48px; height: 1px;
-    background: var(--coral-soft);
-    animation: expand 1.2s 1.4s both;
-  }
-  @keyframes expand { from { width: 0; } to { width: 48px; } }
-
-  /* ghost flower SVG decorations */
-  .ghost-flower {
-    position: absolute;
-    pointer-events: none;
-    opacity: 0.07;
-  }
-  .ghost-flower svg { width: 100%; height: 100%; }
-
-  /* ── floating hero elements ── */
-  .float-el { position: absolute; pointer-events: none; z-index: 2; }
-
-  /* cherry blossoms */
-  .blossom { opacity: 0; }
-  @keyframes blossom-fall {
-    0%   { transform: translateY(-40px) translateX(0px) rotate(0deg); opacity: 0; }
-    8%   { opacity: 0.75; }
-    88%  { opacity: 0.5; }
-    100% { transform: translateY(95vh) translateX(50px) rotate(300deg); opacity: 0; }
-  }
-  @keyframes blossom-sway {
-    0%, 100% { margin-left: 0; }
-    33%  { margin-left: 22px; }
-    66%  { margin-left: -18px; }
-  }
-
-  /* ── hero collage images ── */
-  .hero-img {
-    position: absolute;
-    pointer-events: none;
-    opacity: 0;
-    z-index: 1;
-  }
-
-  .hero-img-lady-wrap {
-    position: absolute;
-    width: 62%;
-    top: -8%;
-    right: -4%;
-    z-index: 1;
-    pointer-events: none;
-  }
-
-  /* lady — fills its shimmer wrapper */
-  .hero-img-lady {
-    width: 100%;
-    display: block;
-    opacity: 0;
-    animation: fadeIn 1.6s 0.3s forwards, fi-lady 10s 1.8s ease-in-out infinite;
-  }
-  @keyframes fi-lady {
-    0%, 100% { transform: translateY(0); }
-    50%       { transform: translateY(-10px); }
-  }
-
-  /* moon — upper left, generous size */
-  .hero-img-moon {
-    width: clamp(140px, 16vw, 220px);
-    top: 3%;
-    left: 5%;
-    animation: fadeIn 1.4s 0.6s forwards, fi-moon 12s 1s ease-in-out infinite;
-  }
-  @keyframes fi-moon {
-    0%, 100% { transform: translate(0, 0) rotate(-2deg); }
-    50%       { transform: translate(6px, -8px) rotate(2deg); }
-  }
-
-  /* small crystal flower — sits on upper-right of moon, overlapping */
-  .hero-img-flower-sm {
-    width: clamp(100px, 11vw, 160px);
-    top: 1%;
-    left: 14%;
-    animation: fadeIn 1.4s 0.9s forwards, fi-flower-sm 9s 1.3s ease-in-out infinite;
-    z-index: 2;
-  }
-  @keyframes fi-flower-sm {
-    0%, 100% { transform: rotate(-4deg) scale(1); }
-    50%       { transform: rotate(4deg) scale(1.05) translateY(-7px); }
-  }
-
-  /* butterfly — top center */
-  .hero-img-butterfly {
-    width: clamp(55px, 7vw, 95px);
-    top: 5%;
-    left: 50%;
-    margin-left: -48px;
-    animation: fadeIn 1.2s 1.0s forwards, fi-butterfly 7s 1.5s ease-in-out infinite;
-  }
-  @keyframes fi-butterfly {
-    0%, 100% { transform: translateY(0) rotate(-3deg); }
-    50%       { transform: translateY(-12px) rotate(3deg); }
-  }
-
-  /* bird — lower left */
-  .hero-img-bird {
-    width: clamp(110px, 12vw, 170px);
-    bottom: 14%;
-    left: 4%;
-    animation: fadeIn 1.4s 1.2s forwards, fi-bird 11s 1.6s ease-in-out infinite;
-  }
-  @keyframes fi-bird {
-    0%, 100% { transform: translate(0, 0) rotate(2deg); }
-    50%       { transform: translate(10px, -10px) rotate(-3deg); }
-  }
-
-  /* large crystal magnolia — lower center-right, near/below CTA */
-  .hero-img-flower-lg {
-    width: clamp(160px, 18vw, 260px);
-    bottom: 0%;
-    left: 50%;
-    margin-left: -100px;
-    animation: fadeIn 1.4s 1.4s forwards, fi-flower-lg 13s 2s ease-in-out infinite;
-  }
-  @keyframes fi-flower-lg {
-    0%, 100% { transform: rotate(3deg) scale(1); }
-    50%       { transform: rotate(-3deg) scale(1.05) translateY(-10px); }
-  }
-
-  /* clouds */
-  .cloud-el {
-    background: oklch(98% 0.004 85 / 0.65);
-    border-radius: 60px;
-    filter: blur(3px);
-  }
-  .cloud-el::before, .cloud-el::after {
-    content: '';
-    position: absolute;
-    background: inherit;
-    border-radius: 50%;
-  }
-  .cloud-1 {
-    width: 120px; height: 38px;
-    top: 18%; right: 8%;
-    animation: cloud-bob 9s ease-in-out infinite;
-  }
-  .cloud-1::before { width: 55px; height: 55px; top: -24px; left: 20px; }
-  .cloud-1::after  { width: 40px; height: 40px; top: -16px; right: 18px; }
-  .cloud-2 {
-    width: 80px; height: 26px;
-    bottom: 28%; left: 5%;
-    animation: cloud-bob 12s ease-in-out infinite reverse;
-    opacity: 0.5;
-  }
-  .cloud-2::before { width: 36px; height: 36px; top: -16px; left: 14px; }
-  .cloud-2::after  { width: 28px; height: 28px; top: -12px; right: 12px; }
-  @keyframes cloud-bob {
-    0%, 100% { transform: translateX(0) translateY(0); }
-    50%       { transform: translateX(12px) translateY(-6px); }
-  }
-
-
-  /* ghost floating flower */
-  .ghost-flower-float {
-    position: absolute;
-    pointer-events: none;
-    opacity: 0;
-    animation: ghost-bob 6s ease-in-out infinite, fadeIn 2s 1.5s forwards;
-  }
-  @keyframes ghost-bob {
-    0%, 100% { transform: translateY(0) rotate(-4deg); }
-    50%       { transform: translateY(-14px) rotate(4deg); }
-  }
-
-  /* section shared */
-  section { position: relative; z-index: 1; }
-  .section-label {
-    font-size: 11px;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--ink-soft);
-    margin-bottom: 20px;
-  }
-
-  /* divider */
-  .divider {
-    height: 1px;
-    background: oklch(75% 0.04 60 / 0.25);
-    margin: 0 48px;
-    position: relative;
-    z-index: 1;
-  }
-
-  /* tools section */
-  #tools { padding: 120px 0 140px; }
-  .tools-header {
-    display: flex;
-    align-items: baseline;
-    gap: 32px;
-    margin-bottom: 72px;
-  }
-  .tools-title {
-    font-family: var(--serif);
-    font-size: clamp(42px, 5vw, 72px);
-    font-weight: 300;
-    line-height: 1;
-  }
-  .tools-count {
-    font-family: var(--serif);
-    font-size: 18px;
-    color: var(--coral);
-    font-style: italic;
-  }
-
-  /* 2-col cards grid */
-  .projects-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 24px;
-  }
-
-  .project-card {
-    background: var(--cream);
-    border-radius: 4px;
-    overflow: hidden;
-    cursor: none;
-    transition: transform .5s cubic-bezier(.23,1,.32,1);
-    position: relative;
-  }
-  .project-card:hover { transform: translateY(-6px); }
-
-  .card-image {
-    width: 100%;
-    aspect-ratio: 4/3;
-    overflow: hidden;
-    position: relative;
-  }
-  .card-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform .8s cubic-bezier(.23,1,.32,1), filter .5s;
-    filter: saturate(1.05);
-  }
-  .project-card:hover .card-image img {
-    transform: scale(1.04);
-    filter: saturate(1.2);
-  }
-
-  .card-body {
-    padding: 36px 40px 40px;
-  }
-  .card-tag {
-    font-size: 10px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--coral);
-    margin-bottom: 12px;
-  }
-  .card-title {
-    font-family: var(--serif);
-    font-size: 38px;
-    font-weight: 400;
-    line-height: 1.1;
-    margin-bottom: 16px;
-  }
-  .card-title em { font-style: italic; color: var(--ink-soft); }
-  .card-desc {
-    font-size: 15px;
-    line-height: 1.7;
-    color: var(--ink-soft);
-    max-width: 340px;
-    margin-bottom: 32px;
-  }
-  .card-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 13px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--ink);
-    text-decoration: none;
-    border-bottom: 1px solid var(--coral);
-    padding-bottom: 2px;
-    transition: color .2s, gap .2s;
-  }
-  .card-link:hover { color: var(--coral); gap: 16px; }
-  .card-link-arrow { font-size: 16px; }
-
-  /* clickable image + title */
-  .card-image-link { display: block; text-decoration: none; }
-  .card-title-link { text-decoration: none; color: inherit; }
-  .card-title .card-title-link:hover,
-  .card-title .card-title-link:hover em { color: var(--coral); transition: color 0.2s; }
-  /* card layout */
-  .project-card { display: flex; flex-direction: column; }
-  .project-card .card-body { flex: 1; }
-
-  /* coming-soon cards */
-  .card-coming {
-    background: oklch(94% 0.022 85);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    gap: 16px;
-    padding: 60px 40px;
-    text-align: center;
-    min-height: 340px;
-  }
-  .card-coming-label {
-    font-family: var(--serif);
-    font-size: 28px;
-    font-style: italic;
-    color: var(--ink-soft);
-  }
-  .card-coming-sub {
-    font-size: 12px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: oklch(50% 0.04 272);
-  }
-
-  /* manifesto */
-  #manifesto {
-    padding: 120px 0 140px;
-    background: oklch(22% 0.02 270);
-    color: var(--cream);
-    position: relative;
-    overflow: hidden;
-  }
-  .manifesto-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 80px;
-    align-items: start;
-    position: relative;
-    z-index: 1;
-  }
-  .manifesto-left .section-label { color: oklch(70% 0.06 272); }
-  .manifesto-quote {
-    font-family: var(--serif);
-    font-size: clamp(32px, 4vw, 54px);
-    font-weight: 300;
-    line-height: 1.25;
-    letter-spacing: -0.01em;
-  }
-  .manifesto-quote em { font-style: italic; color: var(--coral-soft); }
-
-  .manifesto-right { padding-top: 52px; }
-  .manifesto-body {
-    font-size: 16px;
-    line-height: 1.85;
-    color: oklch(72% 0.03 272);
-  }
-  .manifesto-body p + p { margin-top: 20px; }
-  .manifesto-body strong { color: var(--cream); font-weight: 400; }
-
-  /* coloured blob overlays — sit behind text, purely decorative */
-  #manifesto::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background:
-      radial-gradient(ellipse 55% 45% at 8% 35%,  oklch(68% 0.22 290 / 0.18) 0%, transparent 70%),
-      radial-gradient(ellipse 50% 40% at 92% 20%,  oklch(70% 0.20 350 / 0.14) 0%, transparent 65%),
-      radial-gradient(ellipse 60% 50% at 50% 85%,  oklch(72% 0.18 80  / 0.12) 0%, transparent 70%),
-      radial-gradient(ellipse 40% 35% at 75% 65%,  oklch(65% 0.22 220 / 0.13) 0%, transparent 65%);
-    z-index: 0;
-  }
-  #manifesto .wrap { position: relative; z-index: 1; }
-
-  /* vibrant abstract sphere in manifesto — left side, under headline */
-  .manifesto-sphere {
-    position: absolute;
-    left: -60px;
-    top: 60px;
-    width: clamp(220px, 28vw, 360px);
-    opacity: 0.88;
-    pointer-events: none;
-    animation: sphere-bob 7s ease-in-out infinite;
-  }
-  @keyframes sphere-bob {
-    0%, 100% { transform: translateY(0) rotate(-1deg); }
-    50%       { transform: translateY(-18px) rotate(1deg); }
-  }
-
-  .manifesto-flower {
-    position: absolute;
-    right: -80px;
-    bottom: -80px;
-    width: 320px;
-    height: 320px;
-    border-radius: 50%;
-    overflow: hidden;
-    opacity: 0.18;
-    pointer-events: none;
-  }
-  .manifesto-flower img { width: 100%; height: 100%; object-fit: cover; }
-
-  /* finger-lady in manifesto — lower-left, sparkle shimmer */
-  .manifesto-lady-wrap {
-    position: absolute;
-    left: -80px;
-    bottom: -100px;
-    width: clamp(220px, 26vw, 360px);
-    pointer-events: none;
-    animation: manifesto-lady-float 9s ease-in-out infinite;
-  }
-  .manifesto-lady-wrap img { width: 100%; display: block; }
-  .manifesto-lady-wrap::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background:
-      radial-gradient(ellipse at 40% 30%, oklch(95% 0.22 80 / 0.5) 0%, transparent 45%),
-      radial-gradient(ellipse at 65% 60%, oklch(90% 0.20 290 / 0.4) 0%, transparent 45%),
-      radial-gradient(ellipse at 25% 70%, oklch(92% 0.18 350 / 0.35) 0%, transparent 40%);
-    mix-blend-mode: soft-light;
-    animation: sparkle-shift 4s ease-in-out infinite alternate;
-    pointer-events: none;
-  }
-  @keyframes manifesto-lady-float {
-    0%, 100% { transform: translateY(0) rotate(-1deg); }
-    50%       { transform: translateY(-14px) rotate(1deg); }
-  }
-
-  /* about */
-  #about { padding: 100px 0; }
-  .about-inner {
-    display: flex;
-    align-items: center;
-    gap: 80px;
-  }
-  .about-image-wrap {
-    flex-shrink: 0;
-    width: 400px;
-    height: 400px;
-    border-radius: 50%;
-    overflow: hidden;
-    position: relative;
-  }
-  .about-image-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  @keyframes sparkle-shift {
-    0%   { opacity: 0.7; transform: scale(1) rotate(0deg); }
-    100% { opacity: 1;   transform: scale(1.04) rotate(2deg); }
-  }
-  .about-text .section-label { margin-bottom: 16px; }
-  .about-heading {
-    font-family: var(--serif);
-    font-size: 60px;
-    font-weight: 300;
-    line-height: 1.05;
-    margin-bottom: 24px;
-  }
-  .about-heading em { font-style: italic; color: var(--coral); }
-  .about-body {
-    font-size: 20px;
-    line-height: 1.7;
-    color: var(--ink-soft);
-    max-width: 520px;
-  }
-
-  /* footer */
-  footer {
-    padding: 48px;
+  .hero-meta {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    border-top: 1px solid oklch(70% 0.04 60 / 0.25);
-    position: relative;
-    z-index: 1;
+    align-items: baseline;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--ink);
+    color: var(--ink-soft);
   }
-  .footer-logo {
-    font-family: var(--serif);
-    font-size: 18px;
+  .hero-meta .fleuron { color: var(--accent); letter-spacing: 0; }
+
+  .hero-title {
+    font-family: var(--display);
+    font-optical-sizing: auto;
+    font-size: clamp(68px, 11.5vw, 158px);
+    font-weight: 380;
+    line-height: 0.98;
+    letter-spacing: -0.015em;
+    padding: 56px 0 8px;
+  }
+  .hero-title em {
+    font-style: italic;
+    font-weight: 420;
+    color: var(--accent);
+  }
+
+  .hero-cols {
+    display: grid;
+    grid-template-columns: 5fr 6fr;
+    gap: 72px;
+    align-items: start;
+    padding-top: 40px;
+  }
+  .hero-lead {
+    font-size: 21px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+    max-width: 42ch;
+  }
+  .hero-lead .lead-in {
+    font-style: italic;
     color: var(--ink);
   }
-  .footer-logo em { font-style: italic; color: var(--coral); }
-  .footer-copy {
-    font-size: 12px;
-    letter-spacing: 0.05em;
+  .hero-byline {
+    margin-top: 28px;
     color: var(--ink-soft);
   }
 
-  /* animations */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(24px); }
-    to   { opacity: 1; transform: translateY(0); }
+  /* contents index — the table of contents */
+  .index-heading {
+    color: var(--ink-soft);
+    padding-bottom: 14px;
   }
-  @keyframes fadeIn {
-    from { opacity: 0; } to { opacity: 1; }
-  }
-
-  /* scroll reveal */
-  .reveal {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity .9s cubic-bezier(.23,1,.32,1), transform .9s cubic-bezier(.23,1,.32,1);
-  }
-  .reveal.in { opacity: 1; transform: none; }
-  .reveal-delay-1 { transition-delay: .1s; }
-  .reveal-delay-2 { transition-delay: .2s; }
-  .reveal-delay-3 { transition-delay: .35s; }
-  .reveal-delay-4 { transition-delay: .5s; }
-
-  /* ── photography section ── */
-  #photography { padding: 120px 0 140px; }
-  .photography-header {
+  .index-list { list-style: none; }
+  .index-list li { border-top: 1px solid var(--line); }
+  .index-list li:last-child { border-bottom: 1px solid var(--line); }
+  .index-row {
     display: flex;
     align-items: baseline;
-    gap: 32px;
-    margin-bottom: 72px;
+    gap: 14px;
+    padding: 13px 2px;
+    text-decoration: none;
+    transition: padding-left .25s cubic-bezier(.23,1,.32,1);
   }
-  .photography-title {
-    font-family: var(--serif);
-    font-size: clamp(42px, 5vw, 72px);
-    font-weight: 300;
-    line-height: 1;
+  .index-row:hover { padding-left: 10px; }
+  .index-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--ink-soft);
+    flex-shrink: 0;
+    width: 44px;
   }
-  .photography-count {
-    font-family: var(--serif);
-    font-size: 18px;
-    color: var(--coral);
-    font-style: italic;
+  .index-name {
+    font-family: var(--display);
+    font-size: 20px;
+    font-weight: 420;
+    white-space: nowrap;
+  }
+  .index-row:hover .index-name { font-style: italic; color: var(--tint); }
+  .index-leader {
+    flex: 1;
+    border-bottom: 1px dotted var(--line);
+    transform: translateY(-4px);
+    min-width: 24px;
+  }
+  .index-note {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+  .index-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--tint);
+    display: inline-block;
   }
 
-  /* 3-col photo card grid */
-  .photo-grid {
+  /* ── section headers ── */
+  .section-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    border-bottom: 1px solid var(--ink);
+    padding-bottom: 16px;
+    color: var(--ink-soft);
+  }
+  .section-head .roman { color: var(--accent); }
+
+  #tools-head { padding-bottom: 72px; }
+
+  /* ── the worlds: shared bones ── */
+  .world {
+    position: relative;
+    min-height: 92vh;
+    display: flex;
+    align-items: center;
+    padding: 120px 0;
+    overflow: hidden;
+  }
+  .world-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-    align-items: start;
+    grid-template-columns: 6fr 5.5fr;
+    gap: 80px;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+  }
+  .world.img-left .world-grid > .world-media { order: 1; }
+  .world.img-left .world-grid > .world-body  { order: 2; }
+
+  .world-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 20px;
+    margin-bottom: 34px;
+  }
+  .world-title {
+    font-family: var(--display);
+    font-weight: 390;
+    line-height: 1.03;
+    letter-spacing: -0.01em;
+    font-size: clamp(44px, 5.4vw, 76px);
+    margin-bottom: 26px;
+  }
+  .world-desc {
+    font-size: 19px;
+    line-height: 1.72;
+    max-width: 44ch;
+    margin-bottom: 38px;
+  }
+  .world-link {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding-bottom: 3px;
+    transition: opacity .2s;
+  }
+  .world-link:hover { opacity: 0.75; }
+  .world-link .arrow { display: inline-block; transition: transform .25s; }
+  .world-link:hover .arrow { transform: translateX(5px); }
+
+  .world-media { position: relative; }
+  .world-media img { width: 100%; display: block; }
+  .media-caption { margin-top: 22px; }
+
+  .status { display: inline-flex; align-items: center; gap: 8px; }
+  .status-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    animation: breathe 3.2s ease-in-out infinite;
+  }
+  @keyframes breathe {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
   }
 
-  /* photo card — inherits .project-card, .card-image, .card-body */
-  .photo-card .card-image { aspect-ratio: 5/4; }
-  .photo-card .card-image img { object-position: center 30%; }
+  /* ════ WORLD 01 · COSMIC — deep space ════ */
+  #specimen-01 {
+    background: oklch(17% 0.045 290);
+    color: oklch(93% 0.01 290);
+  }
+  #specimen-01::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image:
+      radial-gradient(1.2px 1.2px at 12% 22%, oklch(95% 0.02 290 / 0.9) 50%, transparent 100%),
+      radial-gradient(1px 1px at 78% 12%, oklch(90% 0.04 85 / 0.8) 50%, transparent 100%),
+      radial-gradient(1.4px 1.4px at 55% 68%, oklch(92% 0.03 310 / 0.7) 50%, transparent 100%),
+      radial-gradient(1px 1px at 33% 84%, oklch(94% 0.02 290 / 0.75) 50%, transparent 100%),
+      radial-gradient(1.1px 1.1px at 90% 55%, oklch(90% 0.03 85 / 0.7) 50%, transparent 100%),
+      radial-gradient(0.9px 0.9px at 65% 35%, oklch(95% 0.02 290 / 0.8) 50%, transparent 100%),
+      radial-gradient(1.3px 1.3px at 22% 55%, oklch(92% 0.04 310 / 0.6) 50%, transparent 100%),
+      radial-gradient(1px 1px at 44% 8%, oklch(93% 0.02 290 / 0.7) 50%, transparent 100%);
+    animation: twinkle 6s ease-in-out infinite alternate;
+  }
+  #specimen-01::after {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 82% 30%, oklch(35% 0.1 310 / 0.4) 0%, transparent 70%),
+      radial-gradient(ellipse 50% 45% at 15% 78%, oklch(30% 0.09 260 / 0.35) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  @keyframes twinkle { from { opacity: 0.55; } to { opacity: 1; } }
 
-  /* photo placeholder card */
-  .photo-placeholder {
-    background: oklch(94% 0.022 85);
-    border-radius: 4px;
-    aspect-ratio: 5/4;
+  #specimen-01 .world-meta { color: oklch(72% 0.05 300); }
+  #specimen-01 .world-title em { font-style: italic; color: oklch(80% 0.11 310); font-weight: 420; }
+  #specimen-01 .world-desc { color: oklch(78% 0.03 290); }
+  #specimen-01 .world-link { color: oklch(93% 0.01 290); border-bottom: 1px solid oklch(80% 0.11 310); }
+  #specimen-01 .status-dot { background: oklch(80% 0.11 310); }
+  #specimen-01 .media-caption { color: oklch(65% 0.05 300); text-align: center; }
+
+  #specimen-01 .world-media { display: flex; justify-content: center; }
+  .portal {
+    width: min(440px, 100%);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 1px solid oklch(80% 0.11 310 / 0.5);
+    box-shadow:
+      0 0 60px oklch(60% 0.14 310 / 0.35),
+      0 0 140px oklch(50% 0.12 280 / 0.25),
+      inset 0 0 40px oklch(20% 0.06 290 / 0.6);
+  }
+  .portal img { width: 100%; height: 100%; object-fit: cover; }
+  .orbit {
+    position: absolute;
+    width: 560px; height: 560px;
+    border: 1px dashed oklch(70% 0.08 310 / 0.25);
+    border-radius: 50%;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    animation: orbit-spin 90s linear infinite;
+  }
+  @keyframes orbit-spin { to { transform: translate(-50%, -50%) rotate(360deg); } }
+
+  /* ════ WORLD 02 · LETTERS — ink on paper ════ */
+  #specimen-02 {
+    background: oklch(95.5% 0.02 85);
+    color: oklch(25% 0.02 55);
+  }
+  #specimen-02::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(
+      to bottom,
+      transparent 0px,
+      transparent 35px,
+      oklch(80% 0.03 75 / 0.35) 35px,
+      oklch(80% 0.03 75 / 0.35) 36px
+    );
+    pointer-events: none;
+  }
+  #specimen-02::after {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0;
+    left: clamp(24px, 6vw, 96px);
+    width: 1px;
+    background: oklch(56% 0.185 29 / 0.35);
+    pointer-events: none;
+  }
+  #specimen-02 .world-meta { color: oklch(48% 0.03 55); }
+  #specimen-02 .salutation {
+    font-family: var(--display);
+    font-style: italic;
+    font-size: 22px;
+    color: oklch(48% 0.03 55);
+    margin-bottom: 10px;
+  }
+  #specimen-02 .world-title { font-style: italic; font-weight: 400; }
+  #specimen-02 .world-title em { color: oklch(52% 0.19 29); }
+  #specimen-02 .world-desc { color: oklch(42% 0.025 55); font-style: italic; }
+  #specimen-02 .signoff {
+    font-family: var(--display);
+    font-style: italic;
+    font-size: 20px;
+    color: oklch(42% 0.025 55);
+    margin: -16px 0 38px;
+  }
+  #specimen-02 .world-link { color: oklch(25% 0.02 55); border-bottom: 1px solid oklch(52% 0.19 29); }
+  #specimen-02 .status-dot { background: oklch(52% 0.19 29); }
+  #specimen-02 .media-caption { color: oklch(50% 0.03 55); margin-top: 44px; }
+
+  .envelope-frame {
+    position: relative;
+    background: oklch(98.5% 0.008 85);
+    padding: 18px 18px 58px;
+    box-shadow: 0 14px 44px oklch(30% 0.03 55 / 0.18);
+    transform: rotate(-1.6deg);
+  }
+  .envelope-frame img { border: 1px solid oklch(80% 0.02 70); }
+  .wax-seal {
+    position: absolute;
+    bottom: -26px; right: 36px;
+    width: 64px; height: 64px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, oklch(62% 0.19 29), oklch(48% 0.19 29) 70%);
+    box-shadow: 0 6px 18px oklch(48% 0.19 29 / 0.4);
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-direction: column;
-    gap: 12px;
-    padding: 40px;
-    text-align: center;
-  }
-  .photo-placeholder-label {
-    font-family: var(--serif);
+    color: oklch(96% 0.015 85);
     font-size: 22px;
-    font-style: italic;
-    color: var(--ink-soft);
-    opacity: 0.55;
   }
-  .photo-placeholder-sub {
+
+  /* ════ WORLD 03 · SOUNDTRACK — night amber, vinyl ════ */
+  #specimen-03 {
+    background: oklch(20% 0.025 70);
+    color: oklch(93% 0.012 85);
+  }
+  #specimen-03::before {
+    content: '';
+    position: absolute;
+    top: 50%; right: -30vmin;
+    width: 120vmin; height: 120vmin;
+    transform: translateY(-50%);
+    border-radius: 50%;
+    background: repeating-radial-gradient(
+      circle at center,
+      transparent 0px,
+      transparent 9px,
+      oklch(80% 0.13 85 / 0.07) 9px,
+      oklch(80% 0.13 85 / 0.07) 10px
+    );
+    pointer-events: none;
+  }
+  #specimen-03 .world-meta { color: oklch(72% 0.06 82); }
+  #specimen-03 .side-label {
+    display: inline-block;
+    font-family: var(--mono);
     font-size: 11px;
-    letter-spacing: 0.18em;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: oklch(60% 0.04 272);
-    opacity: 0.6;
+    color: oklch(80% 0.13 85);
+    border: 1px solid oklch(80% 0.13 85 / 0.5);
+    border-radius: 999px;
+    padding: 6px 14px;
+    margin-bottom: 22px;
+  }
+  #specimen-03 .world-title em { font-style: italic; color: oklch(80% 0.13 85); font-weight: 420; }
+  #specimen-03 .world-desc { color: oklch(76% 0.02 80); }
+  .tracklist {
+    list-style: none;
+    margin: 0 0 38px;
+    max-width: 400px;
+  }
+  .tracklist li {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    padding: 9px 0;
+    border-bottom: 1px solid oklch(80% 0.13 85 / 0.18);
+    font-family: var(--display);
+    font-size: 18px;
+    color: oklch(85% 0.02 82);
+  }
+  .tracklist .tno { font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; color: oklch(72% 0.1 85); }
+  .tracklist .tleader { flex: 1; border-bottom: 1px dotted oklch(80% 0.13 85 / 0.3); transform: translateY(-4px); }
+  .tracklist .tlen { font-family: var(--mono); font-size: 10px; color: oklch(65% 0.06 82); }
+  #specimen-03 .world-link { color: oklch(93% 0.012 85); border-bottom: 1px solid oklch(80% 0.13 85); }
+  #specimen-03 .status-dot { background: oklch(80% 0.13 85); }
+  #specimen-03 .media-caption { color: oklch(65% 0.05 82); }
+
+  .sleeve { position: relative; }
+  .sleeve img {
+    aspect-ratio: 1;
+    object-fit: cover;
+    box-shadow: 0 18px 60px oklch(10% 0.02 70 / 0.65);
+  }
+  .sleeve::after {
+    content: '';
+    position: absolute;
+    top: 6%; right: -13%;
+    width: 88%; aspect-ratio: 1;
+    border-radius: 50%;
+    z-index: -1;
+    background:
+      radial-gradient(circle at center, oklch(80% 0.13 85) 0 11%, oklch(15% 0.01 70) 11.5% 13%, transparent 13.5%),
+      repeating-radial-gradient(circle at center, oklch(14% 0.012 70) 0 2px, oklch(19% 0.015 70) 2px 4px);
+    box-shadow: 0 10px 40px oklch(8% 0.01 70 / 0.7);
   }
 
-  /* scrollbar */
-  ::-webkit-scrollbar { width: 6px; }
-  ::-webkit-scrollbar-track { background: var(--bg); }
-  ::-webkit-scrollbar-thumb { background: oklch(75% 0.06 60); border-radius: 3px; }
+  /* ════ WORLD 04 · BLOOM — after-rain green ════ */
+  #specimen-04 {
+    background: linear-gradient(oklch(27% 0.05 155), oklch(24% 0.045 160));
+    color: oklch(96% 0.012 140);
+  }
+  #specimen-04::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(
+      100deg,
+      transparent 0px,
+      transparent 90px,
+      oklch(90% 0.03 150 / 0.045) 90px,
+      oklch(90% 0.03 150 / 0.045) 91px
+    );
+    pointer-events: none;
+  }
+  #specimen-04::after {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 70% 40% at 25% 100%, oklch(50% 0.09 155 / 0.4) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 30% at 85% 15%, oklch(70% 0.06 350 / 0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  #specimen-04 .world-meta { color: oklch(78% 0.04 150); }
+  #specimen-04 .world-title { font-weight: 350; }
+  #specimen-04 .world-title em { font-style: italic; color: oklch(85% 0.07 350); font-weight: 400; }
+  #specimen-04 .world-desc { color: oklch(84% 0.025 145); }
+  #specimen-04 .world-link { color: oklch(96% 0.012 140); border-bottom: 1px solid oklch(85% 0.07 350); }
+  #specimen-04 .status-dot { background: oklch(85% 0.07 350); }
+  #specimen-04 .media-caption { color: oklch(75% 0.04 150); text-align: center; }
 
-  /* ── mobile responsive ── */
+  .arch {
+    width: min(430px, 100%);
+    margin: 0 auto;
+    aspect-ratio: 4/5;
+    overflow: hidden;
+    border-radius: 300px 300px 8px 8px;
+    border: 1px solid oklch(85% 0.07 350 / 0.4);
+    box-shadow: 0 20px 70px oklch(12% 0.03 160 / 0.6);
+  }
+  .arch img { width: 100%; height: 100%; object-fit: cover; }
+  .petal {
+    position: absolute;
+    width: 10px; height: 10px;
+    border-radius: 60% 40% 60% 40%;
+    background: oklch(85% 0.07 350 / 0.7);
+    animation: petal-fall 11s linear infinite;
+    opacity: 0;
+  }
+  @keyframes petal-fall {
+    0%   { transform: translateY(-5vh) rotate(0deg); opacity: 0; }
+    10%  { opacity: 0.8; }
+    90%  { opacity: 0.5; }
+    100% { transform: translateY(105vh) rotate(320deg); opacity: 0; }
+  }
+
+  /* ── photography: the eye ── */
+  #photography { padding: 96px 0 104px; }
+  .photo-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 48px;
+    padding-top: 56px;
+  }
+  .photo-entry { margin: 0; }
+  .plate-mat {
+    background: var(--paper-deep);
+    border: 1px solid var(--line);
+    padding: clamp(18px, 2.4vw, 30px);
+  }
+  .plate-mat a { display: block; line-height: 0; }
+  .plate-mat img {
+    width: 100%;
+    display: block;
+    border: 1px solid oklch(30% 0.02 55 / 0.28);
+    aspect-ratio: 5/4;
+    object-fit: cover;
+    transition: transform .6s cubic-bezier(.23,1,.32,1);
+  }
+  .photo-entry:hover .plate-mat img { transform: scale(1.012); }
+  .photo-entry-body { padding-top: 26px; }
+  .photo-title {
+    font-family: var(--display);
+    font-size: 32px;
+    font-weight: 420;
+    line-height: 1.1;
+    margin: 6px 0 12px;
+  }
+  .photo-title a { text-decoration: none; transition: color .2s; }
+  .photo-title a:hover { color: var(--accent); font-style: italic; }
+  .photo-desc {
+    color: var(--ink-soft);
+    font-size: 17px;
+    max-width: 46ch;
+    margin-bottom: 20px;
+  }
+  .photo-meta { color: var(--ink-soft); }
+  .specimen-link {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--ink);
+    border-bottom: 1px solid var(--accent);
+    padding-bottom: 3px;
+    transition: color .2s;
+  }
+  .specimen-link:hover { color: var(--accent); }
+  .specimen-link .arrow { display: inline-block; transition: transform .25s; }
+  .specimen-link:hover .arrow { transform: translateX(5px); }
+  .photo-darkroom {
+    grid-column: 1 / -1;
+    border-top: 1px solid var(--line);
+    margin-top: 8px;
+    padding-top: 22px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    color: var(--ink-soft);
+  }
+  .photo-darkroom .darkroom-name {
+    font-family: var(--display);
+    font-style: italic;
+    font-size: 22px;
+    color: var(--ink-soft);
+  }
+
+  /* ── the idea: colophon-dark manifesto ── */
+  #manifesto {
+    background: oklch(23% 0.016 55);
+    color: oklch(94% 0.014 85);
+    padding: 120px 0 128px;
+  }
+  #manifesto .section-head {
+    border-bottom-color: oklch(94% 0.014 85 / 0.5);
+    color: oklch(72% 0.015 85);
+  }
+  #manifesto .section-head .roman { color: var(--accent-soft); }
+  .manifesto-grid {
+    display: grid;
+    grid-template-columns: 7fr 5fr;
+    gap: 80px;
+    padding-top: 64px;
+    align-items: start;
+  }
+  .manifesto-quote {
+    font-family: var(--display);
+    font-size: clamp(38px, 4.6vw, 60px);
+    font-weight: 350;
+    line-height: 1.18;
+    letter-spacing: -0.01em;
+  }
+  .manifesto-quote em {
+    font-style: italic;
+    color: var(--accent-soft);
+    font-weight: 400;
+  }
+  .manifesto-body {
+    font-size: 17px;
+    line-height: 1.85;
+    color: oklch(76% 0.015 85);
+    padding-top: 10px;
+  }
+  .manifesto-body p + p { margin-top: 22px; }
+  .manifesto-body strong { color: oklch(94% 0.014 85); font-weight: 450; font-style: italic; }
+
+  /* ── about ── */
+  #about { padding: 104px 0 96px; }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 5fr 7fr;
+    gap: 72px;
+    padding-top: 56px;
+    align-items: start;
+  }
+  .about-heading {
+    font-family: var(--display);
+    font-size: clamp(36px, 4vw, 52px);
+    font-weight: 400;
+    line-height: 1.1;
+  }
+  .about-heading em { font-style: italic; color: var(--accent); }
+  .about-body {
+    font-size: 19px;
+    line-height: 1.75;
+    color: var(--ink-soft);
+    max-width: 52ch;
+  }
+  .about-body a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid currentColor;
+  }
+  .about-signature {
+    font-family: var(--display);
+    font-style: italic;
+    font-size: 30px;
+    color: var(--accent);
+    margin-top: 36px;
+  }
+
+  /* ── footer: the colophon ── */
+  footer {
+    border-top: 1px solid var(--ink);
+    padding: 40px 0 48px;
+  }
+  .footer-grid {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px 32px;
+    color: var(--ink-soft);
+  }
+  .footer-grid a { color: inherit; text-decoration: none; }
+  .footer-grid a:hover { color: var(--accent); }
+  .footer-grid .fleuron { color: var(--accent); }
+
+  /* ── reveal on scroll ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(22px);
+    transition: opacity .8s cubic-bezier(.23,1,.32,1), transform .8s cubic-bezier(.23,1,.32,1);
+  }
+  .reveal.in { opacity: 1; transform: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .reveal { opacity: 1; transform: none; transition: none; }
+    .status-dot, .petal, .orbit, #specimen-01::before { animation: none; }
+    *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+  }
+
+  /* ── responsive ── */
+  @media (max-width: 900px) {
+    .hero-cols { grid-template-columns: 1fr; gap: 48px; }
+    .world { padding: 88px 0; min-height: auto; }
+    .world-grid, .world.img-left .world-grid { grid-template-columns: 1fr; gap: 48px; }
+    .world.img-left .world-grid > .world-media { order: 2; }
+    .world.img-left .world-grid > .world-body  { order: 1; }
+    .orbit { display: none; }
+    .sleeve::after { right: -6%; }
+    #specimen-02::after { display: none; }
+    .manifesto-grid { grid-template-columns: 1fr; gap: 44px; }
+    .about-grid { grid-template-columns: 1fr; gap: 32px; }
+  }
+
   @media (max-width: 768px) {
-    body { cursor: auto; }
-    #cursor, #cursor-trail { display: none; }
-
-    nav { padding: 20px 24px; }
-    .nav-links { gap: 20px; }
-    .nav-links a { font-size: 11px; }
-
-    #hero { padding-top: 100px; padding-bottom: 60px; }
-    .hero-composition { width: 92vw; }
-    .hero-img-lady-wrap {
-      position: absolute;
-      width: 54%;
-      top: -6%;
-      right: -3%;
-      z-index: 1;
-    }
-    .hero-inner {
-      width: 90%;
-      margin: 0 auto;
-      text-align: center;
-      z-index: 2;
-    }
-    .hero-title { font-size: clamp(52px, 14vw, 96px); }
-    .hero-sub { font-size: 15px; max-width: 100%; margin: 32px auto 0; }
-    .hero-scroll { margin-top: 48px; justify-content: center; }
-
-    .cloud-1 { width: 80px; height: 26px; right: 4%; }
-    .cloud-2 { display: none; }
-
-    .divider { margin: 0 24px; }
+    body { font-size: 17px; }
     .wrap { padding: 0 24px; }
-
-    #tools { padding: 72px 0 80px; }
-    .tools-header { flex-direction: column; gap: 8px; margin-bottom: 40px; }
-
-    .projects-grid {
-      grid-template-columns: 1fr;
-      gap: 16px;
-    }
-
-    .card-body { padding: 24px 24px 28px; }
-    .card-title { font-size: 28px; }
-    .card-coming { min-height: 220px; padding: 40px 24px; }
-    .card-coming-label { font-size: 22px; }
-
-    #photography { padding: 72px 0 80px; }
-    .photography-header { flex-direction: column; gap: 8px; margin-bottom: 40px; }
-    .photo-grid { grid-template-columns: 1fr; gap: 16px; }
-
+    .nav-inner { padding: 16px 24px; }
+    .nav-links { gap: 18px; }
+    #hero { padding: 56px 0 64px; }
+    .hero-title { padding: 36px 0 4px; }
+    .hero-lead { font-size: 19px; }
+    .index-name { font-size: 18px; white-space: normal; }
+    .index-note .note-label { display: none; }
+    #tools-head { padding-bottom: 48px; }
+    .photo-grid { grid-template-columns: 1fr; gap: 44px; padding-top: 40px; }
+    #photography { padding: 64px 0 72px; }
     #manifesto { padding: 72px 0 80px; }
-    .manifesto-grid {
-      grid-template-columns: 1fr;
-      gap: 40px;
-    }
-    .manifesto-right { padding-top: 0; }
-    .manifesto-flower { display: none; }
-    .manifesto-lady-wrap { display: none; }
-
-    #about { padding: 60px 0; }
-    .about-inner {
-      flex-direction: column;
-      gap: 32px;
-      text-align: center;
-    }
-    .about-heading { font-size: 38px; }
-    .about-body { font-size: 16px; }
-
-    footer { padding: 32px 24px; flex-direction: column; gap: 12px; text-align: center; }
+    #about { padding: 72px 0 64px; }
+    .footer-grid { flex-direction: column; }
   }
 
   @media (max-width: 480px) {
-    .nav-links { display: none; }
-    .hero-title { font-size: clamp(44px, 16vw, 72px); }
-    .card-title { font-size: 28px; }
+    .nav-links li:nth-child(2), .nav-links li:nth-child(3) { display: none; }
+    .hero-meta { flex-direction: column; gap: 6px; }
   }
 </style>
 </head>
 <body>
 
-<canvas id="blob-canvas"></canvas>
-<canvas id="sparkle-canvas"></canvas>
-
-<div id="cursor"></div>
-<div id="cursor-trail"></div>
+<a class="skip-link" href="#specimen-01">Skip to the tools</a>
 
 <!-- nav -->
 <nav>
-  <a class="nav-logo" href="#">irina<em>.love</em></a>
-  <ul class="nav-links">
-    <li><a href="#tools">The tools</a></li>
-    <li><a href="#photography">The eye</a></li>
-    <li><a href="#manifesto">The idea</a></li>
-    <li><a href="mailto:hello@irina.love">Say hello</a></li>
-  </ul>
+  <div class="nav-inner">
+    <a class="nav-logo" href="#">irina<em>.love</em></a>
+    <ul class="nav-links">
+      <li><a href="#specimen-01">The tools</a></li>
+      <li><a href="#photography">The eye</a></li>
+      <li><a href="#manifesto">The idea</a></li>
+      <li><a href="mailto:hello@irina.love">Say hello</a></li>
+    </ul>
+  </div>
 </nav>
 
-<!-- hero -->
-<section id="hero">
-  <!-- video background -->
-  <video class="hero-video-bg" autoplay muted loop playsinline>
-    <source src="uploads/delights-hero-bg-v1-web.mp4" type="video/mp4">
-  </video>
-  <div class="hero-video-overlay"></div>
-
-  <!-- centred composition: lady behind, text on top -->
-  <div class="hero-composition">
-    <div class="hero-img-lady-wrap">
-      <img class="hero-img-lady" src="uploads/hero_images/lady-hands-hero.webp" alt="" />
-    </div>
-    <div class="hero-inner">
-      <p class="hero-eyebrow">a cabinet of delights</p>
-      <h1 class="hero-title">
-        tools of<br>
-        <em>delight</em>
-        <span class="line2">by irina</span>
-      </h1>
-      <p class="hero-sub">Small, lovely apps that are highly emotional and deeply personal. Each one takes something ordinary — a pet, a feeling, a memory — and returns it transformed. Bigger, more beautiful than before.</p>
-      <div class="hero-scroll">
-        <div class="hero-scroll-line"></div>
-        Explore the cabinet
-      </div>
-    </div>
-  </div>
-
-  <!-- cherry blossoms -->
-  <div class="float-el blossom" style="left:12%;top:-20px;animation:blossom-fall 9s 0.5s ease-in infinite,blossom-sway 3s 0.5s ease-in-out infinite;">
-    <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><g opacity="0.7"><circle cx="9" cy="4" r="3.2" fill="oklch(88% 0.12 350)"/><circle cx="14" cy="8" r="3.2" fill="oklch(88% 0.12 350)"/><circle cx="12" cy="14" r="3.2" fill="oklch(88% 0.12 350)"/><circle cx="6" cy="14" r="3.2" fill="oklch(88% 0.12 350)"/><circle cx="4" cy="8" r="3.2" fill="oklch(88% 0.12 350)"/><circle cx="9" cy="9" r="2.5" fill="oklch(98% 0.04 80)"/></g></svg>
-  </div>
-  <div class="float-el blossom" style="left:28%;top:-20px;animation:blossom-fall 11s 2.5s ease-in infinite,blossom-sway 4s 2.5s ease-in-out infinite;">
-    <svg width="14" height="14" viewBox="0 0 18 18" fill="none"><g opacity="0.6"><circle cx="9" cy="4" r="3.2" fill="oklch(85% 0.14 20)"/><circle cx="14" cy="8" r="3.2" fill="oklch(85% 0.14 20)"/><circle cx="12" cy="14" r="3.2" fill="oklch(85% 0.14 20)"/><circle cx="6" cy="14" r="3.2" fill="oklch(85% 0.14 20)"/><circle cx="4" cy="8" r="3.2" fill="oklch(85% 0.14 20)"/><circle cx="9" cy="9" r="2.5" fill="oklch(98% 0.04 80)"/></g></svg>
-  </div>
-  <div class="float-el blossom" style="left:55%;top:-20px;animation:blossom-fall 10s 1.2s ease-in infinite,blossom-sway 3.5s 1.2s ease-in-out infinite;">
-    <svg width="16" height="16" viewBox="0 0 18 18" fill="none"><g opacity="0.65"><circle cx="9" cy="4" r="3.2" fill="oklch(88% 0.12 350)"/><circle cx="14" cy="8" r="3.2" fill="oklch(88% 0.12 350)"/><circle cx="12" cy="14" r="3.2" fill="oklch(88% 0.12 350)"/><circle cx="6" cy="14" r="3.2" fill="oklch(88% 0.12 350)"/><circle cx="4" cy="8" r="3.2" fill="oklch(88% 0.12 350)"/><circle cx="9" cy="9" r="2.5" fill="oklch(98% 0.04 80)"/></g></svg>
-  </div>
-  <div class="float-el blossom" style="left:72%;top:-20px;animation:blossom-fall 8s 3.8s ease-in infinite,blossom-sway 2.8s 3.8s ease-in-out infinite;">
-    <svg width="12" height="12" viewBox="0 0 18 18" fill="none"><g opacity="0.55"><circle cx="9" cy="4" r="3.2" fill="oklch(86% 0.13 10)"/><circle cx="14" cy="8" r="3.2" fill="oklch(86% 0.13 10)"/><circle cx="12" cy="14" r="3.2" fill="oklch(86% 0.13 10)"/><circle cx="6" cy="14" r="3.2" fill="oklch(86% 0.13 10)"/><circle cx="4" cy="8" r="3.2" fill="oklch(86% 0.13 10)"/><circle cx="9" cy="9" r="2.5" fill="oklch(98% 0.04 80)"/></g></svg>
-  </div>
-  <div class="float-el blossom" style="left:88%;top:-20px;animation:blossom-fall 12s 5.5s ease-in infinite,blossom-sway 4.2s 5.5s ease-in-out infinite;">
-    <svg width="15" height="15" viewBox="0 0 18 18" fill="none"><g opacity="0.6"><circle cx="9" cy="4" r="3.2" fill="oklch(88% 0.12 350)"/><circle cx="14" cy="8" r="3.2" fill="oklch(88% 0.12 350)"/><circle cx="12" cy="14" r="3.2" fill="oklch(88% 0.12 350)"/><circle cx="6" cy="14" r="3.2" fill="oklch(88% 0.12 350)"/><circle cx="4" cy="8" r="3.2" fill="oklch(88% 0.12 350)"/><circle cx="9" cy="9" r="2.5" fill="oklch(98% 0.04 80)"/></g></svg>
-  </div>
-  <div class="float-el blossom" style="left:42%;top:-20px;animation:blossom-fall 13s 7s ease-in infinite,blossom-sway 3.2s 7s ease-in-out infinite;">
-    <svg width="13" height="13" viewBox="0 0 18 18" fill="none"><g opacity="0.5"><circle cx="9" cy="4" r="3.2" fill="oklch(85% 0.14 20)"/><circle cx="14" cy="8" r="3.2" fill="oklch(85% 0.14 20)"/><circle cx="12" cy="14" r="3.2" fill="oklch(85% 0.14 20)"/><circle cx="6" cy="14" r="3.2" fill="oklch(85% 0.14 20)"/><circle cx="4" cy="8" r="3.2" fill="oklch(85% 0.14 20)"/><circle cx="9" cy="9" r="2.5" fill="oklch(98% 0.04 80)"/></g></svg>
-  </div>
-
-</section>
-
-<div class="divider"></div>
-
-<!-- tools -->
-<section id="tools">
+<!-- hero — the catalogue title page -->
+<header id="hero">
   <div class="wrap">
-    <div class="tools-header reveal">
-      <h2 class="tools-title">The tools</h2>
-      <span class="tools-count" id="tools-count">02 live · more always blooming</span>
+    <div class="hero-meta mono">
+      <span>A cabinet of delights <span class="fleuron">✳</span></span>
+      <span>Catalogue Vol. 01 · MMXXVI</span>
     </div>
 
-    <div id="featured-grid" class="projects-grid">
+    <h1 class="hero-title">tools of <em>delight</em></h1>
 
-      <!-- 01 · Cosmic Pet Portraits — LIVE -->
-      <div class="project-card reveal reveal-delay-1">
-        <a class="card-image-link" href="https://www.cosmicpets.love" target="_blank" tabindex="-1">
-          <div class="card-image"><img src="uploads/hero_images/cosmic-pets-card.webp" alt="Cosmic Pet Portraits" /></div>
-        </a>
-        <div class="card-body">
-          <div class="card-tag">Tool № 01 · cosmicpets.love</div>
-          <h3 class="card-title"><a href="https://www.cosmicpets.love" target="_blank" class="card-title-link">Cosmic Pet<br><em>Portraits</em></a></h3>
-          <p class="card-desc">Your pet, reimagined as a cosmic entity. AI-generated portraits so eerily right that people cry a little. A universe that noticed your animal.</p>
-          <a class="card-link" href="https://www.cosmicpets.love" target="_blank">Visit cosmicpets.love <span class="card-link-arrow">→</span></a>
-        </div>
+    <div class="hero-cols">
+      <div>
+        <p class="hero-lead"><span class="lead-in">Small, lovely apps that are highly emotional and deeply personal.</span> Each one takes something ordinary — a pet, a feeling, a memory — and returns it transformed. Bigger, more beautiful than before.</p>
+        <p class="hero-byline mono">Assembled by Irina · product designer &amp; artist</p>
       </div>
 
-      <!-- 02 · Letters from your Future Self — LIVE -->
-      <div class="project-card reveal reveal-delay-2">
-        <a class="card-image-link" href="https://letters.irina.love" target="_blank" tabindex="-1">
-          <div class="card-image"><img src="uploads/hero_images/letters-card.webp" alt="Letters from your Future Self" /></div>
-        </a>
-        <div class="card-body">
-          <div class="card-tag">Tool № 02 · letters.irina.love</div>
-          <h3 class="card-title"><a href="https://letters.irina.love" target="_blank" class="card-title-link">Letters from your<br><em>Future Self</em></a></h3>
-          <p class="card-desc">Write today. Receive a tender, knowing reply from yourself ten years from now — reflecting on your current worries with love and impossible perspective.</p>
-          <a class="card-link" href="https://letters.irina.love" target="_blank">Visit letters.irina.love <span class="card-link-arrow">→</span></a>
-        </div>
+      <div>
+        <p class="index-heading mono">Contents</p>
+        <ul class="index-list">
+          <li class="tint-01"><a class="index-row" href="#specimen-01">
+            <span class="index-num">№ 01</span>
+            <span class="index-name">Cosmic Pet Portraits</span>
+            <span class="index-leader"></span>
+            <span class="index-note"><span class="index-dot"></span><span class="note-label">live</span></span>
+          </a></li>
+          <li class="tint-02"><a class="index-row" href="#specimen-02">
+            <span class="index-num">№ 02</span>
+            <span class="index-name">Letters from your Future Self</span>
+            <span class="index-leader"></span>
+            <span class="index-note"><span class="index-dot"></span><span class="note-label">live</span></span>
+          </a></li>
+          <li class="tint-03"><a class="index-row" href="#specimen-03">
+            <span class="index-num">№ 03</span>
+            <span class="index-name">Soundtrack of Your Life</span>
+            <span class="index-leader"></span>
+            <span class="index-note"><span class="index-dot"></span><span class="note-label">live</span></span>
+          </a></li>
+          <li class="tint-04"><a class="index-row" href="#specimen-04">
+            <span class="index-num">№ 04</span>
+            <span class="index-name">Bloom after Rain</span>
+            <span class="index-leader"></span>
+            <span class="index-note"><span class="index-dot"></span><span class="note-label">live</span></span>
+          </a></li>
+          <li><a class="index-row" href="#photography">
+            <span class="index-num">app.</span>
+            <span class="index-name">Through a Lens</span>
+            <span class="index-leader"></span>
+            <span class="index-note"><span class="note-label">two photo series</span></span>
+          </a></li>
+          <li><a class="index-row" href="#manifesto">
+            <span class="index-num">n.b.</span>
+            <span class="index-name">The Idea</span>
+            <span class="index-leader"></span>
+            <span class="index-note"><span class="note-label">a small manifesto</span></span>
+          </a></li>
+        </ul>
       </div>
-
-      <!-- 03 · Soundtrack of Your Life — LIVE -->
-      <div class="project-card reveal reveal-delay-3">
-        <a class="card-image-link" href="https://soundtrack.irina.love/" target="_blank" tabindex="-1">
-          <div class="card-image"><img src="uploads/hero_images/soundtrack-card.webp" alt="Soundtrack of Your Life" /></div>
-        </a>
-        <div class="card-body">
-          <div class="card-tag">Tool № 03 · soundtrack.irina.love</div>
-          <h3 class="card-title"><a href="https://soundtrack.irina.love/" target="_blank" class="card-title-link">Soundtrack of<br><em>Your Life</em></a></h3>
-          <p class="card-desc">Every life deserves a score. Tell it your story — the eras, the heartbreaks, the quiet Tuesday mornings — and receive a deeply personal playlist that sounds like you.</p>
-          <a class="card-link" href="https://soundtrack.irina.love/" target="_blank">Visit soundtrack.irina.love <span class="card-link-arrow">→</span></a>
-        </div>
-      </div>
-
-      <!-- 04 · Bloom after Rain — LIVE -->
-      <div class="project-card reveal reveal-delay-4">
-        <a class="card-image-link" href="https://bloom.irina.love/" target="_blank" tabindex="-1">
-          <div class="card-image"><img src="uploads/hero_images/bloom-card.webp" alt="Bloom after Rain" /></div>
-        </a>
-        <div class="card-body">
-          <div class="card-tag">Tool № 04 · bloom.irina.love</div>
-          <h3 class="card-title"><a href="https://bloom.irina.love/" target="_blank" class="card-title-link">Bloom after<br><em>Rain</em></a></h3>
-          <p class="card-desc">Something tender is growing. A tool about renewal, grief, and what quietly returns after loss — built for the moments you need to feel less alone.</p>
-          <a class="card-link" href="https://bloom.irina.love/" target="_blank">Visit bloom.irina.love <span class="card-link-arrow">→</span></a>
-        </div>
-      </div>
-
     </div>
+  </div>
+</header>
 
+<!-- section head — then each tool owns its world -->
+<div class="wrap" id="tools-head">
+  <div class="section-head mono reveal">
+    <span><span class="roman">I.</span>&ensp;The tools</span>
+    <span id="tools-count">04 worlds — more always blooming</span>
+  </div>
+</div>
+
+<!-- ════ № 01 · COSMIC PETS — deep space ════ -->
+<section class="world" id="specimen-01">
+  <div class="wrap" style="width:100%">
+    <div class="world-grid">
+      <div class="world-body reveal">
+        <div class="world-meta mono">
+          <span>Specimen № 01</span><span>·</span>
+          <span class="status"><span class="status-dot"></span>Live</span><span>·</span>
+          <span>cosmicpets.love</span>
+        </div>
+        <h2 class="world-title">Cosmic Pet <em>Portraits</em></h2>
+        <p class="world-desc">Your pet, reimagined as a cosmic entity. AI-generated portraits so eerily right that people cry a little. A universe that noticed your animal.</p>
+        <a class="world-link" href="https://www.cosmicpets.love" target="_blank" rel="noopener">Visit cosmicpets.love <span class="arrow">→</span></a>
+      </div>
+      <div class="world-media reveal">
+        <div class="orbit"></div>
+        <div>
+          <div class="portal">
+            <img src="uploads/hero_images/cosmic-pets-card.webp" alt="A cat portrayed as a cosmic being, seen through a round portal">
+          </div>
+          <p class="media-caption mono">Specimen seen through the portal</p>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
-<div class="divider"></div>
+<!-- ════ № 02 · LETTERS — warm ink on paper ════ -->
+<section class="world img-left" id="specimen-02">
+  <div class="wrap" style="width:100%">
+    <div class="world-grid">
+      <div class="world-media reveal">
+        <figure class="envelope-frame">
+          <img src="uploads/hero_images/letters-card.webp" alt="Letters from your Future Self">
+          <span class="wax-seal">✳</span>
+        </figure>
+        <p class="media-caption mono">Delivered from ten years ahead</p>
+      </div>
+      <div class="world-body reveal">
+        <div class="world-meta mono">
+          <span>Specimen № 02</span><span>·</span>
+          <span class="status"><span class="status-dot"></span>Live</span><span>·</span>
+          <span>letters.irina.love</span>
+        </div>
+        <p class="salutation">Dear you, ten years from now —</p>
+        <h2 class="world-title">Letters from your <em>Future Self</em></h2>
+        <p class="world-desc">Write today. Receive a tender, knowing reply from yourself ten years from now — reflecting on your current worries with love and impossible perspective.</p>
+        <p class="signoff">— with love, from further along</p>
+        <a class="world-link" href="https://letters.irina.love" target="_blank" rel="noopener">Visit letters.irina.love <span class="arrow">→</span></a>
+      </div>
+    </div>
+  </div>
+</section>
 
-<!-- photography -->
+<!-- ════ № 03 · SOUNDTRACK — night amber, vinyl ════ -->
+<section class="world" id="specimen-03">
+  <div class="wrap" style="width:100%">
+    <div class="world-grid">
+      <div class="world-body reveal">
+        <div class="world-meta mono">
+          <span>Specimen № 03</span><span>·</span>
+          <span class="status"><span class="status-dot"></span>Live</span><span>·</span>
+          <span>soundtrack.irina.love</span>
+        </div>
+        <span class="side-label">Side A · 33⅓ rpm</span>
+        <h2 class="world-title">Soundtrack of <em>Your Life</em></h2>
+        <p class="world-desc">Every life deserves a score. Tell it your story and receive a deeply personal playlist that sounds like you.</p>
+        <ul class="tracklist">
+          <li><span class="tno">A1</span>The eras<span class="tleader"></span><span class="tlen">4:12</span></li>
+          <li><span class="tno">A2</span>The heartbreaks<span class="tleader"></span><span class="tlen">3:47</span></li>
+          <li><span class="tno">A3</span>The quiet Tuesday mornings<span class="tleader"></span><span class="tlen">5:03</span></li>
+        </ul>
+        <a class="world-link" href="https://soundtrack.irina.love/" target="_blank" rel="noopener">Visit soundtrack.irina.love <span class="arrow">→</span></a>
+      </div>
+      <div class="world-media reveal">
+        <figure class="sleeve">
+          <img src="uploads/hero_images/soundtrack-card.webp" alt="Soundtrack of Your Life — the record sleeve">
+        </figure>
+        <p class="media-caption mono">Pressed for an audience of one</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ № 04 · BLOOM — after-rain green ════ -->
+<section class="world img-left" id="specimen-04">
+  <span class="petal" style="left:12%; animation-delay:0s;"></span>
+  <span class="petal" style="left:38%; animation-delay:3.5s; width:8px; height:8px;"></span>
+  <span class="petal" style="left:70%; animation-delay:6s;"></span>
+  <span class="petal" style="left:88%; animation-delay:1.8s; width:7px; height:7px;"></span>
+  <div class="wrap" style="width:100%">
+    <div class="world-grid">
+      <div class="world-media reveal">
+        <div class="arch">
+          <img src="uploads/hero_images/bloom-card.webp" alt="Bloom after Rain">
+        </div>
+        <p class="media-caption mono">The garden of resilience</p>
+      </div>
+      <div class="world-body reveal">
+        <div class="world-meta mono">
+          <span>Specimen № 04</span><span>·</span>
+          <span class="status"><span class="status-dot"></span>Live</span><span>·</span>
+          <span>bloom.irina.love</span>
+        </div>
+        <h2 class="world-title">Bloom after <em>Rain</em></h2>
+        <p class="world-desc">Something tender is growing. A tool about renewal, grief, and what quietly returns after loss — built for the moments you need to feel less alone.</p>
+        <a class="world-link" href="https://bloom.irina.love/" target="_blank" rel="noopener">Visit bloom.irina.love <span class="arrow">→</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- photography — the eye -->
 <section id="photography">
   <div class="wrap">
-    <div class="photography-header reveal">
-      <h2 class="photography-title">Through a Lens</h2>
-      <span class="photography-count">02 series · more always developing</span>
+    <div class="section-head mono reveal">
+      <span><span class="roman">II.</span>&ensp;Through a lens</span>
+      <span>02 series · more always developing</span>
     </div>
 
     <div class="photo-grid">
 
-      <!-- Cats of China -->
-      <div class="project-card photo-card reveal reveal-delay-1">
-        <a class="card-image-link" href="cats.html">
-          <div class="card-image">
-            <img src="uploads/photography/cats-cover.webp" alt="Cats of China" />
-          </div>
-        </a>
-        <div class="card-body">
-          <div class="card-tag">Photo Series · 19 photographs</div>
-          <h3 class="card-title"><a href="cats.html" class="card-title-link">Cats of<br><em>China</em></a></h3>
-          <p class="card-desc">Nineteen cats met along the way — stationed in doorways, on market carts, under neon signs. Unhurried, perfectly at home in the beautiful chaos of it all.</p>
-          <a class="card-link" href="cats.html">View the series <span class="card-link-arrow">→</span></a>
+      <figure class="photo-entry reveal">
+        <div class="plate-mat">
+          <a href="cats.html" tabindex="-1">
+            <img src="uploads/photography/cats-cover.webp" alt="Cats of China — photo series">
+          </a>
         </div>
-      </div>
-
-      <!-- Streets & Light card -->
-      <div class="project-card photo-card reveal reveal-delay-2">
-        <a class="card-image-link" href="streets.html">
-          <div class="card-image">
-            <img src="uploads/photography/streets-cover.webp" alt="Streets &amp; Light" />
-          </div>
-        </a>
-        <div class="card-body">
-          <div class="card-tag">Photo Series · 45 photographs</div>
-          <h3 class="card-title"><a href="streets.html" class="card-title-link">Streets<br>&amp; <em>Light</em></a></h3>
-          <p class="card-desc">Forty-five photographs made in the current of the city — market stalls and mountain roads, neon and midday glare, the quiet between crowds.</p>
-          <a class="card-link" href="streets.html">View the series <span class="card-link-arrow">→</span></a>
+        <div class="photo-entry-body">
+          <p class="mono photo-meta">Photo series · 19 photographs</p>
+          <h3 class="photo-title"><a href="cats.html">Cats of China</a></h3>
+          <p class="photo-desc">Nineteen cats met along the way — stationed in doorways, on market carts, under neon signs. Unhurried, perfectly at home in the beautiful chaos of it all.</p>
+          <a class="specimen-link" href="cats.html">View the series <span class="arrow">→</span></a>
         </div>
-      </div>
+      </figure>
 
-      <!-- Colour & texture placeholder -->
-      <div class="photo-placeholder reveal reveal-delay-3">
-        <p class="photo-placeholder-label">Colour &amp; Texture</p>
-        <p class="photo-placeholder-sub">In the darkroom · 2026</p>
+      <figure class="photo-entry reveal">
+        <div class="plate-mat">
+          <a href="streets.html" tabindex="-1">
+            <img src="uploads/photography/streets-cover.webp" alt="Streets and Light — photo series">
+          </a>
+        </div>
+        <div class="photo-entry-body">
+          <p class="mono photo-meta">Photo series · 45 photographs</p>
+          <h3 class="photo-title"><a href="streets.html">Streets &amp; Light</a></h3>
+          <p class="photo-desc">Forty-five photographs made in the current of the city — market stalls and mountain roads, neon and midday glare, the quiet between crowds.</p>
+          <a class="specimen-link" href="streets.html">View the series <span class="arrow">→</span></a>
+        </div>
+      </figure>
+
+      <div class="photo-darkroom reveal">
+        <span class="darkroom-name">Colour &amp; Texture</span>
+        <span class="mono">In the darkroom · 2026</span>
       </div>
 
     </div>
   </div>
 </section>
 
-<div class="divider"></div>
-
-<!-- manifesto -->
+<!-- the idea -->
 <section id="manifesto">
   <div class="wrap">
+    <div class="section-head mono reveal">
+      <span><span class="roman">III.</span>&ensp;The idea</span>
+      <span>a small manifesto</span>
+    </div>
     <div class="manifesto-grid">
-      <div class="manifesto-left reveal">
-        <p class="section-label">The idea</p>
-        <p class="manifesto-quote">I take something ordinary and return it <em>mythic.</em></p>
-      </div>
-      <div class="manifesto-right reveal reveal-delay-2">
-        <div class="manifesto-body">
-          <p>Pets become cosmic beings. Moods become oceans. Your future self offers perspective. Memories become something you can hold.</p>
-          <p>Each tool is a small act of attention, the moment technology stops being cold and becomes something close to <strong>tender</strong>.</p>
-          <p>Always asking the same question: does this make someone feel joy?</p>
-        </div>
+      <p class="manifesto-quote reveal">I take something ordinary and return it <em>mythic.</em></p>
+      <div class="manifesto-body reveal">
+        <p>Pets become cosmic beings. Moods become oceans. Your future self offers perspective. Memories become something you can hold.</p>
+        <p>Each tool is a small act of attention, the moment technology stops being cold and becomes something close to <strong>tender</strong>.</p>
+        <p>Always asking the same question: does this make someone feel joy?</p>
       </div>
     </div>
   </div>
@@ -1122,176 +1087,33 @@
 <!-- about -->
 <section id="about">
   <div class="wrap">
-    <div class="about-inner reveal">
-      <div class="about-image-wrap">
-        <img src="uploads/hero_images/woman-hand.webp" alt="Irina" />
-      </div>
-      <div class="about-text">
-        <p class="section-label">About Irina</p>
-        <h2 class="about-heading">Making things that<br>feel like <em>love</em></h2>
-        <p class="about-body">I'm a <a href="https://irinacsapo.co.uk/" target="_blank" rel="noopener" style="color:var(--coral);text-decoration:none;border-bottom:1px solid currentColor;">product designer</a> and <a href="https://www.instagram.com/irina_csapo_art" target="_blank" rel="noopener" style="color:var(--coral);text-decoration:none;border-bottom:1px solid currentColor;">artist</a> who loves to build tools of delight, small apps that sit at the intersection of AI and emotion. My tools are personal, playful, and designed to make you feel something real. irina.love is the home for everything I'm building, one delightful tool at a time.</p>
-      </div>
+    <div class="section-head mono reveal">
+      <span><span class="roman">IV.</span>&ensp;About Irina</span>
+      <span>the keeper of the cabinet</span>
     </div>
-    <!-- ghost flower right side -->
-    <div class="ghost-flower" style="right: 0; top: 20px; width: 200px; height: 200px; opacity: 0.08;">
-      <svg viewBox="0 0 200 280" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <line x1="100" y1="280" x2="100" y2="80" stroke="#8B6A60" stroke-width="1.2"/>
-        <path d="M100 80 C 80 60 60 40 80 20 C 90 10 100 30 100 80" stroke="#8B6A60" stroke-width="1.2" fill="none"/>
-        <path d="M100 80 C 120 60 140 40 120 20 C 110 10 100 30 100 80" stroke="#8B6A60" stroke-width="1.2" fill="none"/>
-        <path d="M100 80 C 60 70 40 80 50 100 C 60 115 90 100 100 80" stroke="#8B6A60" stroke-width="1.2" fill="none"/>
-        <path d="M100 80 C 140 70 160 80 150 100 C 140 115 110 100 100 80" stroke="#8B6A60" stroke-width="1.2" fill="none"/>
-        <path d="M100 140 C 75 135 65 145 72 155 C 80 165 98 155 100 140" stroke="#8B6A60" stroke-width="1" fill="none"/>
-        <path d="M100 140 C 125 135 135 145 128 155 C 120 165 102 155 100 140" stroke="#8B6A60" stroke-width="1" fill="none"/>
-        <circle cx="100" cy="80" r="8" stroke="#8B6A60" stroke-width="1.2"/>
-      </svg>
+    <div class="about-grid">
+      <h2 class="about-heading reveal">Making things that feel like <em>love</em></h2>
+      <div class="reveal">
+        <p class="about-body">I'm a <a href="https://irinacsapo.co.uk/" target="_blank" rel="noopener">product designer</a> and <a href="https://www.instagram.com/irina_csapo_art" target="_blank" rel="noopener">artist</a> who loves to build tools of delight, small apps that sit at the intersection of AI and emotion. My tools are personal, playful, and designed to make you feel something real. irina.love is the home for everything I'm building, one delightful tool at a time.</p>
+        <p class="about-signature">— irina</p>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- footer -->
+<!-- footer — the colophon -->
 <footer>
-  <div class="footer-logo">irina<em>.love</em></div>
-  <div class="footer-copy">© 2026 · tools of delight</div>
+  <div class="wrap">
+    <div class="footer-grid mono">
+      <span>irina.love <span class="fleuron">✳</span> tools of delight</span>
+      <span>Set in Fraunces, Newsreader &amp; Fragment Mono</span>
+      <a href="mailto:hello@irina.love">hello@irina.love</a>
+      <span>© 2026 · made with attention</span>
+    </div>
+  </div>
 </footer>
 
 <script>
-// ── Blob canvas ──
-const canvas = document.getElementById('blob-canvas');
-const ctx = canvas.getContext('2d');
-
-function resize() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-  sparkCanvas.width = window.innerWidth;
-  sparkCanvas.height = window.innerHeight;
-}
-
-const blobs = [
-  { x: 0.10, y: 0.20, r: 0.50, col: `oklch(85% 0.20 155 / 0.28)`, speed: 0.00016, phase: 0 },
-  { x: 0.78, y: 0.12, r: 0.46, col: `oklch(80% 0.22 350 / 0.28)`, speed: 0.00021, phase: 1.5 },
-  { x: 0.55, y: 0.60, r: 0.44, col: `oklch(82% 0.20 220 / 0.25)`, speed: 0.00014, phase: 3 },
-  { x: 0.22, y: 0.72, r: 0.48, col: `oklch(82% 0.22 30 / 0.28)`,  speed: 0.00019, phase: 4.5 },
-  { x: 0.88, y: 0.55, r: 0.42, col: `oklch(80% 0.22 290 / 0.26)`, speed: 0.00024, phase: 2 },
-  { x: 0.45, y: 0.30, r: 0.40, col: `oklch(86% 0.18 80 / 0.25)`,  speed: 0.00017, phase: 5.5 },
-  { x: 0.65, y: 0.85, r: 0.44, col: `oklch(82% 0.20 180 / 0.24)`, speed: 0.00013, phase: 0.8 },
-];
-
-function drawBlobs(ts) {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  blobs.forEach(b => {
-    const ox = Math.sin(ts * b.speed + b.phase) * 0.08;
-    const oy = Math.cos(ts * b.speed * 1.3 + b.phase) * 0.07;
-    const cx = (b.x + ox) * canvas.width;
-    const cy = (b.y + oy) * canvas.height;
-    const rad = b.r * Math.min(canvas.width, canvas.height);
-    const pulse = 1 + 0.06 * Math.sin(ts * b.speed * 2 + b.phase);
-    const grd = ctx.createRadialGradient(cx, cy, 0, cx, cy, rad * pulse);
-    grd.addColorStop(0, b.col);
-    grd.addColorStop(1, b.col.replace(/[\d.]+\)$/, '0)'));
-    ctx.fillStyle = grd;
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-  });
-  requestAnimationFrame(drawBlobs);
-}
-
-// ── Sparkle canvas ──
-const sparkCanvas = document.getElementById('sparkle-canvas');
-const sCtx = sparkCanvas.getContext('2d');
-
-resize();
-window.addEventListener('resize', resize);
-
-const sparkles = [];
-const SPARKLE_COLORS = [
-  'oklch(78% 0.18 350)',
-  'oklch(82% 0.16 80)',
-  'oklch(80% 0.14 290)',
-  'oklch(76% 0.18 24)',
-  'oklch(85% 0.12 155)',
-];
-
-let mouseX = -200, mouseY = -200;
-
-document.addEventListener('mousemove', e => {
-  mouseX = e.clientX;
-  mouseY = e.clientY;
-  // emit sparkles on move
-  if (Math.random() < 0.4) {
-    sparkles.push({
-      x: mouseX + (Math.random() - 0.5) * 20,
-      y: mouseY + (Math.random() - 0.5) * 20,
-      vx: (Math.random() - 0.5) * 1.2,
-      vy: -Math.random() * 1.8 - 0.4,
-      life: 1,
-      size: Math.random() * 2.5 + 0.8,
-      col: SPARKLE_COLORS[Math.floor(Math.random() * SPARKLE_COLORS.length)],
-      decay: Math.random() * 0.025 + 0.015,
-    });
-  }
-});
-
-function drawSparkles() {
-  sCtx.clearRect(0, 0, sparkCanvas.width, sparkCanvas.height);
-  for (let i = sparkles.length - 1; i >= 0; i--) {
-    const s = sparkles[i];
-    s.x += s.vx;
-    s.y += s.vy;
-    s.vy += 0.04; // gentle gravity
-    s.life -= s.decay;
-    if (s.life <= 0) { sparkles.splice(i, 1); continue; }
-    sCtx.save();
-    sCtx.globalAlpha = s.life * 0.7;
-    sCtx.fillStyle = s.col;
-    // draw tiny star / cross shape
-    sCtx.beginPath();
-    const r = s.size;
-    sCtx.moveTo(s.x, s.y - r * 2.5);
-    sCtx.lineTo(s.x + r * 0.4, s.y - r * 0.4);
-    sCtx.lineTo(s.x + r * 2.5, s.y);
-    sCtx.lineTo(s.x + r * 0.4, s.y + r * 0.4);
-    sCtx.lineTo(s.x, s.y + r * 2.5);
-    sCtx.lineTo(s.x - r * 0.4, s.y + r * 0.4);
-    sCtx.lineTo(s.x - r * 2.5, s.y);
-    sCtx.lineTo(s.x - r * 0.4, s.y - r * 0.4);
-    sCtx.closePath();
-    sCtx.fill();
-    sCtx.restore();
-  }
-  requestAnimationFrame(drawSparkles);
-}
-
-requestAnimationFrame(drawBlobs);
-requestAnimationFrame(drawSparkles);
-
-// ── Custom cursor ──
-const cursor = document.getElementById('cursor');
-const trail  = document.getElementById('cursor-trail');
-
-document.addEventListener('mousemove', e => {
-  cursor.style.left = e.clientX + 'px';
-  cursor.style.top  = e.clientY + 'px';
-  setTimeout(() => {
-    trail.style.left = e.clientX + 'px';
-    trail.style.top  = e.clientY + 'px';
-  }, 60);
-});
-
-document.addEventListener('mousedown', () => {
-  cursor.style.width = '16px'; cursor.style.height = '16px';
-});
-document.addEventListener('mouseup', () => {
-  cursor.style.width = '10px'; cursor.style.height = '10px';
-});
-
-document.querySelectorAll('a, .project-card, .dream-card').forEach(el => {
-  el.addEventListener('mouseenter', () => {
-    trail.style.width = '64px'; trail.style.height = '64px';
-  });
-  el.addEventListener('mouseleave', () => {
-    trail.style.width = '40px'; trail.style.height = '40px';
-  });
-});
-
 // ── Netlify Identity redirect ──
 if (window.netlifyIdentity) {
   window.netlifyIdentity.on('init', user => {
@@ -1303,84 +1125,27 @@ if (window.netlifyIdentity) {
   });
 }
 
-// ── Load tools from data/tools.json ──
-async function loadTools() {
-  try {
-    const res = await fetch('data/tools.json');
-    const data = await res.json();
-    const tools = data.tools || [];
+// ── Scroll reveal (respects reduced motion) ──
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); } });
+}, { threshold: 0.12 });
 
-    const featured = tools.filter(t => t.status === 'live' || t.status === 'coming-soon');
-    const dreaming = tools.filter(t => t.status === 'dreaming');
-
-    // update count
-    const countEl = document.getElementById('tools-count');
-    if (countEl) {
-      const n = String(tools.length).padStart(2, '0');
-      countEl.textContent = `${n} specimens — more always blooming`;
-    }
-
-    // render featured cards
-    const featuredGrid = document.getElementById('featured-grid');
-    if (featuredGrid) {
-      featuredGrid.innerHTML = featured.map((t, i) => {
-        const delay = `reveal-delay-${i + 1}`;
-
-        const titleHtml = t.subtitle
-          ? t.title.replace(t.subtitle, `<br><em>${t.subtitle}</em>`)
-          : t.title;
-
-        if (t.status === 'live' && t.image) {
-          const tagLabel = `Tool № ${t.num} · ${t.urlLabel ? t.urlLabel.replace('Visit ', '') : t.url.replace('https://', '')}`;
-          return `
-            <div class="project-card reveal ${delay}">
-              <a class="card-image-link" href="${t.url}" target="_blank" tabindex="-1">
-                <div class="card-image">
-                  <img src="${t.image}" alt="${t.title}" />
-                </div>
-              </a>
-              <div class="card-body">
-                <div class="card-tag">${tagLabel}</div>
-                <h3 class="card-title"><a href="${t.url}" target="_blank" class="card-title-link">${titleHtml}</a></h3>
-                <p class="card-desc">${t.description}</p>
-                ${t.url ? `<a class="card-link" href="${t.url}" target="_blank">${t.urlLabel || 'Visit'} <span class="card-link-arrow">→</span></a>` : ''}
-              </div>
-            </div>`;
-        } else {
-          return `
-            <div class="project-card reveal ${delay}">
-              ${t.image ? `<div class="card-image"><img src="${t.image}" alt="${t.title}" /></div>` : ''}
-              <div class="card-body">
-                <div class="card-tag">Tool № ${t.num} · Coming Soon</div>
-                <h3 class="card-title">${titleHtml}</h3>
-                <p class="card-desc">${t.description}</p>
-                <span class="card-coming-sub">In the making · 2026</span>
-              </div>
-            </div>`;
-        }
-      }).join('');
-    }
-
-    // no dreaming grid rendered (hidden for now)
-
-    // re-observe newly created elements
-    document.querySelectorAll('.reveal:not(.in)').forEach(r => obs.observe(r));
-    document.querySelectorAll('a, .project-card, .dream-card').forEach(el => {
-      el.addEventListener('mouseenter', () => { trail.style.width = '64px'; trail.style.height = '64px'; });
-      el.addEventListener('mouseleave', () => { trail.style.width = '40px'; trail.style.height = '40px'; });
-    });
-  } catch (e) {
-    console.warn('Could not load tools.json', e);
-  }
+if (reduceMotion) {
+  document.querySelectorAll('.reveal').forEach(r => r.classList.add('in'));
+} else {
+  document.querySelectorAll('.reveal').forEach(r => obs.observe(r));
 }
 
-// ── Scroll reveal ──
-const reveals = document.querySelectorAll('.reveal');
-const obs = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
-}, { threshold: 0.1 });
-reveals.forEach(r => obs.observe(r));
-loadTools();
+// ── Tools count from data/tools.json ──
+fetch('data/tools.json')
+  .then(r => r.json())
+  .then(data => {
+    const live = (data.tools || []).filter(t => t.status === 'live').length;
+    const el = document.getElementById('tools-count');
+    if (el && live) el.textContent = `${String(live).padStart(2, '0')} worlds — more always blooming`;
+  })
+  .catch(() => {});
 </script>
 </body>
 </html>
