@@ -978,6 +978,105 @@
   #specimen-03 .media-caption { color: oklch(32% 0.04 60); }
   .sleeve { border-color: oklch(20% 0.02 270 / .3); box-shadow: 16px 16px 0 oklch(30% 0.06 60), 0 0 60px oklch(60% 0.1 82 / 0.2); }
 
+  /* ── Cosmic Pets · layered star field ── */
+  .cosmic-dust {
+    position: absolute; inset: 0;
+    z-index: 1; pointer-events: none; overflow: hidden;
+    background-image:
+      /* large hero stars */
+      radial-gradient(2.8px 2.8px at  8% 14%, #fff 40%, transparent 100%),
+      radial-gradient(2.2px 2.2px at 88%  7%, oklch(92% 0.06 200) 40%, transparent 100%),
+      radial-gradient(3px   3px   at 41% 21%, #fff 40%, transparent 100%),
+      radial-gradient(2.4px 2.4px at 72% 46%, oklch(90% 0.08 310) 40%, transparent 100%),
+      radial-gradient(2px   2px   at 18% 67%, #fff 40%, transparent 100%),
+      radial-gradient(2.6px 2.6px at 94% 83%, oklch(94% 0.04  85) 40%, transparent 100%),
+      radial-gradient(2px   2px   at 55% 90%, #fff 40%, transparent 100%),
+      /* mid stars */
+      radial-gradient(1.4px 1.4px at 25%  9%, oklch(93% 0.03 290 / .85) 50%, transparent 100%),
+      radial-gradient(1.2px 1.2px at 67% 17%, #fff 50%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 14% 36%, oklch(91% 0.05 310 / .80) 50%, transparent 100%),
+      radial-gradient(1.1px 1.1px at 83% 29%, #fff 50%, transparent 100%),
+      radial-gradient(1.3px 1.3px at 38% 51%, oklch(92% 0.04 200 / .75) 50%, transparent 100%),
+      radial-gradient(1.4px 1.4px at 93% 61%, #fff 50%, transparent 100%),
+      radial-gradient(1.2px 1.2px at 50% 76%, oklch(93% 0.02 290 / .80) 50%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 30% 89%, #fff 50%, transparent 100%),
+      radial-gradient(1.1px 1.1px at 75% 81%, oklch(90% 0.05  85 / .70) 50%, transparent 100%),
+      radial-gradient(1.3px 1.3px at 60%  7%, #fff 50%, transparent 100%),
+      radial-gradient(1px   1px   at  6% 53%, oklch(92% 0.03 310 / .65) 50%, transparent 100%),
+      /* fine stars */
+      radial-gradient(0.9px 0.9px at 48% 38%, #fff 50%, transparent 100%),
+      radial-gradient(0.8px 0.8px at 22% 23%, oklch(93% 0.02 290 / .70) 50%, transparent 100%),
+      radial-gradient(1px   1px   at 79% 55%, #fff 50%, transparent 100%),
+      radial-gradient(0.9px 0.9px at 35% 64%, oklch(90% 0.04 200 / .60) 50%, transparent 100%),
+      radial-gradient(0.8px 0.8px at 62% 41%, #fff 50%, transparent 100%),
+      radial-gradient(0.9px 0.9px at 12% 79%, oklch(92% 0.02 310 / .65) 50%, transparent 100%),
+      radial-gradient(1px   1px   at 87% 43%, #fff 50%, transparent 100%),
+      radial-gradient(0.8px 0.8px at 45% 57%, oklch(93% 0.03  85 / .60) 50%, transparent 100%),
+      radial-gradient(0.9px 0.9px at 19% 47%, #fff 50%, transparent 100%),
+      radial-gradient(0.8px 0.8px at 72% 31%, oklch(90% 0.02 290 / .65) 50%, transparent 100%),
+      radial-gradient(1px   1px   at 56% 16%, #fff 50%, transparent 100%),
+      radial-gradient(0.9px 0.9px at 37% 77%, oklch(92% 0.04 200 / .60) 50%, transparent 100%),
+      radial-gradient(0.8px 0.8px at 81% 91%, #fff 50%, transparent 100%),
+      radial-gradient(1px   1px   at 33% 43%, oklch(93% 0.02 310 / .55) 50%, transparent 100%),
+      /* dithered star dust — SVG fractal noise thresholded to white pixels */
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='420' height='420'%3E%3Cfilter id='s'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.78' numOctaves='1' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 -10 7'/%3E%3C/filter%3E%3Crect width='420' height='420' filter='url(%23s)' opacity='0.14'/%3E%3C/svg%3E");
+    animation: star-twinkle-a 4.5s ease-in-out infinite alternate;
+  }
+
+  .cosmic-dust::before {
+    content: ''; position: absolute; inset: 0;
+    background-image:
+      radial-gradient(0.9px 0.9px at 15% 19%, oklch(93% 0.02 290 / .70) 50%, transparent 100%),
+      radial-gradient(1px   1px   at 52% 31%, #fff 50%, transparent 100%),
+      radial-gradient(0.8px 0.8px at 70% 63%, oklch(92% 0.03  85 / .65) 50%, transparent 100%),
+      radial-gradient(0.9px 0.9px at 28% 54%, #fff 50%, transparent 100%),
+      radial-gradient(1px   1px   at 82% 14%, oklch(93% 0.02 200 / .70) 50%, transparent 100%),
+      radial-gradient(0.8px 0.8px at 40% 86%, #fff 50%, transparent 100%),
+      radial-gradient(0.9px 0.9px at 91% 49%, oklch(92% 0.04 310 / .60) 50%, transparent 100%),
+      radial-gradient(1px   1px   at  5% 73%, #fff 50%, transparent 100%),
+      radial-gradient(0.8px 0.8px at 65% 93%, oklch(93% 0.02 290 / .55) 50%, transparent 100%),
+      radial-gradient(0.9px 0.9px at 47%  4%, #fff 50%, transparent 100%),
+      radial-gradient(0.8px 0.8px at 76% 71%, oklch(90% 0.03  85 / .60) 50%, transparent 100%),
+      radial-gradient(1px   1px   at 22% 93%, #fff 50%, transparent 100%),
+      radial-gradient(0.8px 0.8px at 58% 53%, oklch(92% 0.02 310 / .50) 50%, transparent 100%),
+      radial-gradient(0.9px 0.9px at  3% 33%, #fff 50%, transparent 100%),
+      radial-gradient(0.8px 0.8px at 44% 70%, oklch(93% 0.03 200 / .55) 50%, transparent 100%);
+    animation: star-twinkle-b 6.5s ease-in-out infinite alternate-reverse;
+  }
+
+  /* shooting star */
+  .cosmic-dust::after {
+    content: '';
+    position: absolute;
+    height: 1.5px; width: 130px;
+    top: 22%; left: -130px;
+    background: linear-gradient(90deg, transparent, #fff 45%, oklch(90% 0.08 310 / .85) 65%, transparent);
+    filter: blur(0.4px);
+    animation: shoot-star 24s linear 5s infinite;
+  }
+
+  @keyframes star-twinkle-a {
+    0%   { opacity: 0.55; }
+    30%  { opacity: 0.92; }
+    70%  { opacity: 0.68; }
+    100% { opacity: 1;    }
+  }
+  @keyframes star-twinkle-b {
+    0%   { opacity: 0.75; }
+    50%  { opacity: 1;    }
+    100% { opacity: 0.48; }
+  }
+  @keyframes shoot-star {
+    0%    { left: -8%;  opacity: 0; transform: rotate(-18deg); }
+    0.6%  { opacity: 0.88; }
+    5%    { left: 108%; opacity: 0; transform: rotate(-18deg); }
+    100%  { left: 108%; opacity: 0; transform: rotate(-18deg); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cosmic-dust, .cosmic-dust::before, .cosmic-dust::after { animation: none; }
+  }
+
   /* № 04 — after-rain green: untouched */
 
   @media (prefers-reduced-motion: reduce) {
@@ -1076,6 +1175,7 @@
 
 <!-- ════ № 01 · COSMIC PETS ════ -->
 <section class="world" id="specimen-01">
+  <div class="cosmic-dust" aria-hidden="true"></div>
   <div class="wrap" style="width:100%">
     <div class="world-grid">
       <div class="world-body reveal">
