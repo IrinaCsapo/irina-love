@@ -518,18 +518,33 @@
     width: min(440px, 100%);
     margin: 0 auto;
     aspect-ratio: 1;
-    border-radius: 50%;
-    overflow: hidden;
-    border: 1px solid oklch(80% 0.13 85 / 0.4);
-    box-shadow:
-      0 0 60px oklch(60% 0.1 82 / 0.3),
-      0 18px 60px oklch(10% 0.02 70 / 0.65);
   }
   .sleeve img {
     width: 100%;
     height: 100%;
     aspect-ratio: 1;
     object-fit: cover;
+    display: block;
+    box-shadow: 0 20px 64px oklch(10% 0.02 70 / 0.55);
+  }
+  /* vinyl record peeking from behind */
+  .sleeve::after {
+    content: '';
+    position: absolute;
+    top: 6%; right: -13%;
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: oklch(11% 0.01 70);
+    background-image: repeating-radial-gradient(
+      circle at center,
+      transparent 0px,
+      transparent 9px,
+      oklch(22% 0.015 70 / 0.85) 9px,
+      oklch(22% 0.015 70 / 0.85) 10px
+    );
+    box-shadow: 0 20px 64px oklch(10% 0.02 70 / 0.55);
+    z-index: -1;
   }
 
   /* ════ WORLD 04 · BLOOM ════ */
@@ -771,6 +786,7 @@
     .world.img-left .world-grid > .world-media { order: 2; }
     .world.img-left .world-grid > .world-body  { order: 1; }
     .orbit { display: none; }
+    .sleeve::after { right: -6%; }
     #specimen-02::after { display: none; }
     .manifesto-grid { grid-template-columns: 1fr; gap: 44px; }
     .about-grid { grid-template-columns: 1fr; gap: 32px; }
@@ -960,23 +976,31 @@
     box-shadow: 0 6px 18px oklch(30% 0.12 263 / .55);
   }
 
-  /* № 03 — signal orange */
-  #specimen-03 { background: #FFAC00; color: var(--ink); }
-  #specimen-03::before {
-    background: repeating-radial-gradient(circle at center, transparent 0 9px, oklch(20% 0.02 270 / .14) 9px 10px);
-    top: 50%; right: -30vmin; width: 120vmin; height: 120vmin; border-radius: 50%; transform: translateY(-50%);
+  /* № 03 — warm cream, vinyl sleeve */
+  #specimen-03 {
+    background-color: oklch(93% 0.038 85);
+    background-image:
+      url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23grain)'/%3E%3C/svg%3E"),
+      radial-gradient(ellipse 85% 65% at 78% 50%, oklch(88% 0.055 75 / .65), transparent 70%);
+    background-blend-mode: overlay, normal;
+    background-size: 200px 200px, auto;
+    color: var(--ink);
   }
-  #specimen-03 .world-meta { color: oklch(32% 0.04 60); }
-  #specimen-03 .side-label { color: var(--ink); border-color: oklch(20% 0.02 270 / .55); }
-  #specimen-03 .world-title em { color: #F34C45; }
-  #specimen-03 .world-desc { color: oklch(30% 0.03 60); }
-  #specimen-03 .tracklist li { color: var(--ink); border-bottom-color: oklch(20% 0.02 270 / .3); }
-  #specimen-03 .tracklist .tno, #specimen-03 .tracklist .tlen { color: oklch(35% 0.05 50); }
-  #specimen-03 .tracklist .tleader { border-bottom-color: oklch(20% 0.02 270 / .3); }
+  #specimen-03::before {
+    background: repeating-radial-gradient(circle at center, transparent 0 10px, oklch(72% 0.04 80 / .3) 10px 11px);
+    top: 50%; right: -20vmin; width: 110vmin; height: 110vmin; border-radius: 50%; transform: translateY(-50%);
+  }
+  #specimen-03 .world-meta { color: oklch(48% 0.04 65); }
+  #specimen-03 .side-label { color: var(--ink); border-color: oklch(55% 0.04 65 / .45); }
+  #specimen-03 .world-title em { color: oklch(52% 0.19 29); }
+  #specimen-03 .world-desc { color: var(--ink-soft); }
+  #specimen-03 .tracklist li { color: var(--ink); border-bottom-color: oklch(78% 0.02 70 / .5); }
+  #specimen-03 .tracklist .tno, #specimen-03 .tracklist .tlen { color: oklch(48% 0.04 65); }
+  #specimen-03 .tracklist .tleader { border-bottom-color: oklch(78% 0.02 70 / .4); }
   #specimen-03 .world-link { color: var(--ink); border-bottom-color: var(--ink); }
-  #specimen-03 .status-dot { background: var(--ink); }
-  #specimen-03 .media-caption { color: oklch(32% 0.04 60); }
-  .sleeve { border-color: oklch(20% 0.02 270 / .3); box-shadow: 16px 16px 0 oklch(30% 0.06 60), 0 0 60px oklch(60% 0.1 82 / 0.2); }
+  #specimen-03 .status-dot { background: oklch(52% 0.19 29); }
+  #specimen-03 .media-caption { color: oklch(48% 0.04 65); }
+  .sleeve { box-shadow: none; border: none; }
 
   /* ── Cosmic Pets · layered star field ── */
   .cosmic-dust {
