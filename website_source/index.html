@@ -580,8 +580,17 @@
   #specimen-04 .status-dot { background: oklch(85% 0.07 350); }
   #specimen-04 .media-caption { color: oklch(75% 0.04 150); text-align: center; }
 
+  .bloom-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 20px;
+  }
+  .bloom-center .world-meta { justify-content: center; }
   .arch {
-    width: min(430px, 100%);
+    position: relative;
+    width: min(430px, 90%);
     margin: 0 auto;
     aspect-ratio: 4/5;
     overflow: hidden;
@@ -589,7 +598,61 @@
     border: 1px solid oklch(85% 0.07 350 / 0.4);
     box-shadow: 0 20px 70px oklch(12% 0.03 160 / 0.6);
   }
-  .arch img { width: 100%; height: 100%; object-fit: cover; }
+  .arch img, .arch video { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .arch-overlay {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 36px 28px;
+    background: linear-gradient(
+      to bottom,
+      oklch(6% 0.02 160 / 0.55) 0%,
+      oklch(6% 0.02 160 / 0.06) 28%,
+      oklch(6% 0.02 160 / 0.06) 55%,
+      oklch(6% 0.02 160 / 0.7) 100%
+    );
+  }
+  .arch-eyebrow {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: oklch(90% 0.015 140 / 0.7);
+    margin-bottom: 18px;
+  }
+  .arch-title {
+    font-family: var(--display);
+    font-size: clamp(44px, 9vw, 76px);
+    font-weight: 350;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    color: oklch(97% 0.01 140);
+    margin-bottom: 14px;
+  }
+  .arch-title em { font-style: italic; color: oklch(85% 0.07 350); font-weight: 400; }
+  .arch-sub {
+    font-family: var(--display);
+    font-size: 16px;
+    font-style: italic;
+    color: oklch(90% 0.015 140 / 0.85);
+    margin-bottom: 28px;
+  }
+  .arch-cta {
+    display: inline-flex; align-items: center;
+    padding: 10px 36px;
+    border: 1px solid oklch(90% 0.015 140 / 0.55);
+    border-radius: 999px;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: oklch(97% 0.01 140);
+    text-decoration: none;
+    backdrop-filter: blur(8px);
+    background: oklch(97% 0.01 140 / 0.08);
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .arch-cta:hover { background: oklch(97% 0.01 140 / 0.2); }
   .petal {
     position: absolute;
     width: 10px; height: 10px;
@@ -1268,28 +1331,29 @@
 <div class="spray" style="--sc:oklch(78% 0.1 85)" aria-hidden="true"></div>
 
 <!-- ════ № 04 · BLOOM ════ -->
-<section class="world img-left" id="specimen-04">
+<section class="world" id="specimen-04">
   <span class="petal" style="left:12%; animation-delay:0s;"></span>
   <span class="petal" style="left:38%; animation-delay:3.5s; width:8px; height:8px;"></span>
   <span class="petal" style="left:70%; animation-delay:6s;"></span>
   <span class="petal" style="left:88%; animation-delay:1.8s; width:7px; height:7px;"></span>
   <div class="wrap" style="width:100%">
-    <div class="world-grid">
-      <div class="world-media reveal">
-        <div class="arch">
-          <img src="uploads/hero_images/bloom-card.webp" alt="Bloom after Rain">
+    <div class="bloom-center reveal">
+      <div class="arch">
+        <video autoplay loop muted playsinline>
+          <source src="uploads/videos/bloom-rain-hero-v1-web.mp4" type="video/mp4">
+        </video>
+        <div class="arch-overlay">
+          <p class="arch-eyebrow">From Irina's cabinet of delights</p>
+          <h2 class="arch-title">Bloom after <em>Rain</em></h2>
+          <p class="arch-sub">Something tender is growing.</p>
+          <a class="arch-cta" href="https://bloom.irina.love/" target="_blank" rel="noopener">Begin</a>
         </div>
-        <p class="media-caption mono">The garden of resilience</p>
       </div>
-      <div class="world-body reveal">
-        <div class="world-meta mono">
-          <span>Specimen № 04</span><span>·</span>
-          <span class="status"><span class="status-dot"></span>Bloomed</span><span>·</span>
-          <span>bloom.irina.love</span>
-        </div>
-        <h2 class="world-title">Bloom after <em>Rain</em></h2>
-        <p class="world-desc">Something tender is growing. A tool about renewal, grief, and what quietly returns after loss — built for the moments you need to feel less alone.</p>
-        <a class="world-link" href="https://bloom.irina.love/" target="_blank" rel="noopener">Visit bloom.irina.love <span class="arrow">→</span></a>
+      <p class="media-caption mono">The garden of resilience</p>
+      <div class="world-meta mono">
+        <span>Specimen № 04</span><span>·</span>
+        <span class="status"><span class="status-dot"></span>Bloomed</span><span>·</span>
+        <a class="world-link" href="https://bloom.irina.love/" target="_blank" rel="noopener">bloom.irina.love <span class="arrow">→</span></a>
       </div>
     </div>
   </div>
