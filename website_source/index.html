@@ -853,31 +853,6 @@
   }
   #photography .wrap, #about .wrap { position: relative; z-index: 1; }
 
-  /* landscape before footer */
-  .landscape {
-    position: relative;
-    height: clamp(280px, 42vh, 460px);
-    overflow: hidden;
-    background: linear-gradient(oklch(92% 0.04 230), oklch(92% 0.05 330) 45%, oklch(93% 0.06 45));
-    -webkit-mask-image: linear-gradient(to bottom, transparent 0, black 16%);
-    mask-image: linear-gradient(to bottom, transparent 0, black 16%);
-  }
-  .landscape::before {
-    content: ''; position: absolute; inset: 0;
-    background:
-      radial-gradient(160% 85% at 30% 148%, oklch(42% 0.12 265 / .9) 0%, transparent 70%),
-      radial-gradient(150% 90% at 62% 132%, oklch(48% 0.14 290 / .95) 0%, oklch(48% 0.14 290 / .7) 40%, transparent 66%),
-      radial-gradient(140% 80% at 45% 122%, oklch(56% 0.12 150 / .95) 0%, transparent 56%),
-      radial-gradient(110% 90% at 12% 118%, oklch(60% 0.22 350) 0%, oklch(60% 0.22 350 / .8) 36%, transparent 58%),
-      radial-gradient(120% 100% at 80% 112%, oklch(52% 0.2 25) 0%, oklch(52% 0.2 25 / .85) 40%, transparent 60%);
-  }
-  .landscape::after {
-    content: ''; position: absolute; inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
-    background-size: 150px 150px;
-    mix-blend-mode: overlay;
-    opacity: 1;
-  }
   footer { border-top: 1px solid oklch(70% 0.03 60 / .5); }
 
   @media (prefers-reduced-motion: reduce) {
@@ -958,49 +933,54 @@
   .portal { border: 2px solid #fff; box-shadow: 16px 16px 0 oklch(27% 0.11 263); }
   .orbit { border-color: oklch(100% 0 0 / .4); }
 
-  /* № 02 — poster red */
-  #specimen-02 { background: #F34C45; color: #fff; }
-  #specimen-02::before {
-    background: repeating-linear-gradient(to bottom, transparent 0 35px, oklch(100% 0 0 / .28) 35px 36px);
-  }
-  #specimen-02::after { background: oklch(100% 0 0 / .5); }
-  #specimen-02 .world-meta, #specimen-02 .salutation, #specimen-02 .signoff { color: oklch(96% 0.02 25); }
-  #specimen-02 .world-title em { color: #FFD34D; }
-  #specimen-02 .world-desc { color: oklch(97% 0.015 25); }
-  #specimen-02 .world-link { color: #fff; border-bottom-color: #FFD34D; }
-  #specimen-02 .status-dot { background: #FFD34D; }
-  #specimen-02 .media-caption { color: oklch(94% 0.02 25); }
-  .envelope-frame { box-shadow: 16px 16px 0 oklch(42% 0.17 27); }
-  .wax-seal {
-    background: radial-gradient(circle at 35% 30%, oklch(52% 0.17 263), oklch(38% 0.15 263) 70%);
-    box-shadow: 0 6px 18px oklch(30% 0.12 263 / .55);
-  }
-
-  /* № 03 — warm cream, vinyl sleeve */
-  #specimen-03 {
-    background-color: oklch(93% 0.038 85);
+  /* № 02 — blush rose */
+  #specimen-02 {
+    background-color: oklch(91% 0.045 25);
     background-image:
-      url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23grain)'/%3E%3C/svg%3E"),
-      radial-gradient(ellipse 85% 65% at 78% 50%, oklch(88% 0.055 75 / .65), transparent 70%);
+      url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='0.5'/%3E%3C/svg%3E"),
+      radial-gradient(ellipse 75% 60% at 88% 80%, oklch(90% 0.06 350 / .8), transparent 66%);
+    background-blend-mode: overlay, normal;
+    background-size: 200px 200px, auto;
+    color: var(--ink);
+  }
+  #specimen-02::before {
+    background: repeating-linear-gradient(to bottom, transparent 0 35px, oklch(60% 0.1 25 / .22) 35px 36px);
+  }
+  #specimen-02::after { background: oklch(56% 0.185 29 / .35); }
+  #specimen-02 .world-meta, #specimen-02 .salutation, #specimen-02 .signoff { color: oklch(46% 0.05 30); }
+  #specimen-02 .world-title em { color: var(--accent); }
+  #specimen-02 .world-desc { color: oklch(40% 0.04 30); font-style: italic; }
+  #specimen-02 .world-link { color: var(--ink); border-bottom-color: var(--accent); }
+  #specimen-02 .status-dot { background: var(--accent); }
+  #specimen-02 .media-caption { color: oklch(46% 0.05 30); }
+  .envelope-frame { box-shadow: 0 14px 44px oklch(30% 0.05 30 / .25); }
+
+  /* № 03 — butter */
+  #specimen-03 {
+    background-color: oklch(92% 0.055 90);
+    background-image:
+      url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='0.5'/%3E%3C/svg%3E"),
+      radial-gradient(ellipse 80% 60% at 15% 20%, oklch(93% 0.06 60 / .85), transparent 68%);
     background-blend-mode: overlay, normal;
     background-size: 200px 200px, auto;
     color: var(--ink);
   }
   #specimen-03::before {
-    background: repeating-radial-gradient(circle at center, transparent 0 10px, oklch(72% 0.04 80 / .3) 10px 11px);
+    background: repeating-radial-gradient(circle at center, transparent 0 9px, oklch(40% 0.05 80 / .14) 9px 10px);
     top: 50%; right: -20vmin; width: 110vmin; height: 110vmin; border-radius: 50%; transform: translateY(-50%);
   }
-  #specimen-03 .world-meta { color: oklch(48% 0.04 65); }
-  #specimen-03 .side-label { color: var(--ink); border-color: oklch(55% 0.04 65 / .45); }
-  #specimen-03 .world-title em { color: oklch(52% 0.19 29); }
-  #specimen-03 .world-desc { color: var(--ink-soft); }
-  #specimen-03 .tracklist li { color: var(--ink); border-bottom-color: oklch(78% 0.02 70 / .5); }
-  #specimen-03 .tracklist .tno, #specimen-03 .tracklist .tlen { color: oklch(48% 0.04 65); }
-  #specimen-03 .tracklist .tleader { border-bottom-color: oklch(78% 0.02 70 / .4); }
-  #specimen-03 .world-link { color: var(--ink); border-bottom-color: var(--ink); }
-  #specimen-03 .status-dot { background: oklch(52% 0.19 29); }
-  #specimen-03 .media-caption { color: oklch(48% 0.04 65); }
+  #specimen-03 .world-meta { color: oklch(46% 0.06 75); }
+  #specimen-03 .side-label { color: var(--ink); border-color: oklch(40% 0.05 80 / .5); }
+  #specimen-03 .world-title em { color: oklch(58% 0.14 55); }
+  #specimen-03 .world-desc { color: oklch(40% 0.05 70); }
+  #specimen-03 .tracklist li { color: var(--ink); border-bottom-color: oklch(40% 0.05 80 / .3); }
+  #specimen-03 .tracklist .tno, #specimen-03 .tracklist .tlen { color: oklch(48% 0.07 65); }
+  #specimen-03 .tracklist .tleader { border-bottom-color: oklch(40% 0.05 80 / .3); }
+  #specimen-03 .world-link { color: var(--ink); border-bottom-color: oklch(58% 0.14 55); }
+  #specimen-03 .status-dot { background: oklch(58% 0.14 55); }
+  #specimen-03 .media-caption { color: oklch(46% 0.06 75); }
   .sleeve { box-shadow: none; border: none; }
+  .sleeve img { box-shadow: 0 18px 50px oklch(38% 0.06 80 / .4); }
 
   /* ── Cosmic Pets · layered star field ── */
   .cosmic-dust {
@@ -1253,7 +1233,7 @@
   </div>
 </section>
 
-<div class="spray" style="--sc:#F34C45" aria-hidden="true"></div>
+<div class="spray" style="--sc:oklch(74% 0.08 25)" aria-hidden="true"></div>
 
 <!-- ════ № 03 · SOUNDTRACK ════ -->
 <section class="world" id="specimen-03">
@@ -1285,7 +1265,7 @@
   </div>
 </section>
 
-<div class="spray" style="--sc:#FFAC00" aria-hidden="true"></div>
+<div class="spray" style="--sc:oklch(78% 0.1 85)" aria-hidden="true"></div>
 
 <!-- ════ № 04 · BLOOM ════ -->
 <section class="world img-left" id="specimen-04">
@@ -1394,8 +1374,6 @@
     </div>
   </div>
 </section>
-
-<div class="landscape" aria-hidden="true"></div>
 
 <footer>
   <div class="wrap">
