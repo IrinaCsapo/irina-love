@@ -599,22 +599,49 @@
   .arch-overlay {
     position: absolute; inset: 0;
     display: flex; flex-direction: column;
-    align-items: center; justify-content: flex-start;
-    padding: 28px 24px;
+    align-items: center; justify-content: center;
+    padding: 36px 28px;
+    text-align: center;
     background: linear-gradient(
       to bottom,
       oklch(6% 0.02 160 / 0.5) 0%,
-      transparent 30%
+      oklch(6% 0.02 160 / 0.05) 30%,
+      oklch(6% 0.02 160 / 0.05) 55%,
+      oklch(6% 0.02 160 / 0.65) 100%
     );
-    pointer-events: none;
   }
-  .arch-eyebrow {
+  .arch-title {
+    font-family: var(--display);
+    font-size: clamp(32px, 5.5vw, 56px);
+    font-weight: 350;
+    line-height: 1.08;
+    letter-spacing: -0.01em;
+    color: oklch(97% 0.01 140);
+    margin-bottom: 14px;
+  }
+  .arch-title em { font-style: italic; color: oklch(85% 0.07 350); font-weight: 400; }
+  .arch-sub {
+    font-family: var(--display);
+    font-size: 15px;
+    font-style: italic;
+    color: oklch(90% 0.015 140 / 0.82);
+    margin-bottom: 28px;
+  }
+  .arch-cta {
+    display: inline-flex; align-items: center;
+    padding: 9px 32px;
+    border: 1px solid oklch(90% 0.015 140 / 0.5);
+    border-radius: 999px;
     font-family: var(--mono);
-    font-size: 9px;
-    letter-spacing: 0.2em;
+    font-size: 10px;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: oklch(90% 0.015 140 / 0.65);
+    color: oklch(97% 0.01 140);
+    text-decoration: none;
+    background: oklch(97% 0.01 140 / 0.1);
+    transition: background 0.2s;
   }
+  .arch-cta:hover { background: oklch(97% 0.01 140 / 0.22); }
   .petal {
     position: absolute;
     width: 10px; height: 10px;
@@ -1305,7 +1332,11 @@
           <video autoplay loop muted playsinline>
             <source src="uploads/videos/bloom-rain-hero-v2-web.mp4" type="video/mp4">
           </video>
-          <div class="arch-overlay"></div>
+          <div class="arch-overlay">
+            <h2 class="arch-title">Your garden of<br><em>resilience</em></h2>
+            <p class="arch-sub">Something tender is growing.</p>
+            <a class="arch-cta" href="https://bloom.irina.love/" target="_blank" rel="noopener">Begin</a>
+          </div>
         </div>
         <p class="media-caption mono">The garden of resilience</p>
       </div>
