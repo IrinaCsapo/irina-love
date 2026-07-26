@@ -662,8 +662,8 @@
   #photography { padding: 96px 0 104px; }
   .photo-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 48px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 36px;
     padding-top: 56px;
   }
   .photo-entry { margin: 0; }
@@ -685,7 +685,7 @@
   .photo-entry-body { padding-top: 26px; }
   .photo-title {
     font-family: var(--display);
-    font-size: 32px;
+    font-size: 26px;
     font-weight: 420;
     line-height: 1.1;
     margin: 6px 0 12px;
@@ -856,7 +856,7 @@
     .index-name { font-size: 18px; white-space: normal; }
     .index-note { font-size: 11px; }
     #tools-head { padding-bottom: 48px; }
-    .photo-grid { grid-template-columns: 1fr; gap: 44px; padding-top: 40px; }
+    .photo-grid { grid-template-columns: repeat(2, 1fr); gap: 28px; padding-top: 40px; }
     #photography { padding: 64px 0 72px; }
     #manifesto { padding: 72px 0 80px; }
     #about { padding: 72px 0 64px; }
@@ -866,6 +866,7 @@
   @media (max-width: 480px) {
     .nav-links li:nth-child(2), .nav-links li:nth-child(3) { display: none; }
     .hero-meta { flex-direction: column; gap: 6px; }
+    .photo-grid { grid-template-columns: 1fr; gap: 44px; }
   }
 </style>
 
@@ -1203,7 +1204,7 @@
             <span class="index-num">app.</span>
             <span class="index-name">Through a Lens</span>
             <span class="index-leader"></span>
-            <span class="index-note"><span class="note-label">two photo series</span></span>
+            <span class="index-note"><span class="note-label">three photo series</span></span>
           </a></li>
           <li><a class="index-row" href="#manifesto">
             <span class="index-num">n.b.</span>
@@ -1358,7 +1359,7 @@
   <div class="wrap">
     <div class="section-head mono reveal">
       <span><span class="roman">II.</span>&ensp;Through a lens</span>
-      <span>02 series · more always developing</span>
+      <span>03 series · more always developing</span>
     </div>
 
     <div class="photo-grid">
