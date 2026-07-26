@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Light &amp; Texture · irina.love</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="shortcut icon" href="favicon.ico">
+<meta name="description" content="Twenty-five studies in light, texture and material detail across Chongqing, Chengdu and Kunming — a photobook by Irina.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://irina.love/lights.html">
+<meta property="og:title" content="Light &amp; Texture · irina.love">
+<meta property="og:description" content="Twenty-five studies in light, texture and material detail across Chongqing, Chengdu and Kunming.">
+<meta property="og:image" content="https://irina.love/uploads/photography/lights/01.webp">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=Newsreader:ital,opsz,wght@0,6..72,300..500;1,6..72,300..500&family=Fragment+Mono:ital@0;1&display=swap" rel="stylesheet">
+
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: oklch(7% 0.012 50);
+    --ink: oklch(92% 0.01 80);
+    --ink-soft: oklch(58% 0.01 80);
+    --accent: oklch(72% 0.09 75);
+    --serif: 'Fraunces', Georgia, serif;
+    --text: 'Newsreader', Georgia, serif;
+    --mono: 'Fragment Mono', 'Courier New', monospace;
+    --nav-h: 60px;
+    --bar-h: 64px;
+  }
+
+  html, body {
+    height: 100%; overflow: hidden;
+    background: var(--bg);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+    user-select: none;
+  }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 100; pointer-events: none; opacity: 0.028;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+    background-size: 220px;
+  }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+    height: var(--nav-h);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 32px;
+    background: linear-gradient(to bottom, oklch(7% 0.012 50 / 0.95) 0%, transparent 100%);
+  }
+  .nav-logo {
+    font-family: var(--serif); font-size: 18px; font-weight: 350;
+    color: var(--ink); text-decoration: none; letter-spacing: -0.01em;
+  }
+  .nav-logo em { color: var(--accent); font-style: italic; }
+  .nav-center {
+    position: absolute; left: 50%; transform: translateX(-50%);
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--ink-soft);
+  }
+  .nav-back {
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--ink-soft); text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-back:hover { color: var(--accent); }
+
+  .stage {
+    position: fixed;
+    top: var(--nav-h); left: 0; right: 0;
+    bottom: var(--bar-h);
+    display: flex; align-items: center; justify-content: center;
+    cursor: none;
+  }
+
+  .photo {
+    position: absolute;
+    max-width: 92vw;
+    max-height: calc(100vh - var(--nav-h) - var(--bar-h) - 16px);
+    width: auto; height: auto;
+    object-fit: contain;
+    opacity: 0;
+    transition: opacity 0.38s ease;
+    pointer-events: none;
+    display: block;
+  }
+  .photo.visible { opacity: 1; }
+
+  .zone {
+    position: absolute; top: 0; bottom: 0; width: 38%;
+    z-index: 10; display: flex; align-items: center;
+  }
+  .zone-prev { left: 0; justify-content: flex-start; cursor: w-resize; }
+  .zone-next { right: 0; justify-content: flex-end; cursor: e-resize; }
+
+  .zone-arrow {
+    font-family: var(--serif); font-size: 28px; font-weight: 300;
+    color: oklch(92% 0.01 80 / 0.0);
+    padding: 24px 28px;
+    transition: color 0.2s, transform 0.2s;
+    line-height: 1; font-style: italic;
+  }
+  .zone-prev:hover .zone-arrow { color: oklch(92% 0.01 80 / 0.55); transform: translateX(-4px); }
+  .zone-next:hover .zone-arrow { color: oklch(92% 0.01 80 / 0.55); transform: translateX(4px); }
+
+  .cursor {
+    position: fixed; z-index: 200; pointer-events: none;
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--accent);
+    transform: translate(-50%, -50%);
+    transition: width 0.15s, height 0.15s, opacity 0.15s;
+    opacity: 0;
+  }
+  .cursor.visible { opacity: 1; }
+  .cursor.large { width: 36px; height: 36px; background: transparent; border: 1px solid oklch(92% 0.01 80 / 0.4); }
+
+  .bar {
+    position: fixed; bottom: 2px; left: 0; right: 0;
+    height: var(--bar-h);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 32px;
+    background: linear-gradient(to top, oklch(7% 0.012 50 / 0.95) 0%, transparent 100%);
+    gap: 24px;
+  }
+
+  .caption {
+    font-family: var(--text);
+    font-size: 13px; font-style: italic;
+    color: var(--ink-soft);
+    line-height: 1.4; flex: 1;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    opacity: 0; transition: opacity 0.3s 0.1s;
+  }
+  .caption.visible { opacity: 1; }
+
+  .counter {
+    font-family: var(--mono); font-size: 10px;
+    letter-spacing: 0.16em; color: oklch(45% 0.01 80);
+    flex-shrink: 0;
+  }
+
+  .progress {
+    position: fixed; bottom: 0; left: 0; right: 0; height: 2px;
+    background: oklch(20% 0.01 50);
+  }
+  .progress-fill {
+    height: 100%; background: var(--accent);
+    transition: width 0.4s ease;
+  }
+
+  .hint {
+    position: fixed; bottom: calc(var(--bar-h) + 8px); left: 50%;
+    transform: translateX(-50%);
+    font-family: var(--mono); font-size: 9px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: oklch(30% 0.01 80);
+    opacity: 1; animation: hintFade 3s 2s forwards;
+    white-space: nowrap; pointer-events: none;
+  }
+  @keyframes hintFade { to { opacity: 0; } }
+
+  @media (max-width: 600px) {
+    nav { padding: 0 20px; }
+    .nav-center { display: none; }
+    .bar { padding: 0 20px; }
+    .zone-arrow { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">irina.<em>love</em></a>
+  <span class="nav-center">Light &amp; Texture</span>
+  <a class="nav-back" href="index.html">← portfolio</a>
+</nav>
+
+<div class="stage" id="stage">
+  <img class="photo" id="photoA" src="" alt="">
+  <img class="photo" id="photoB" src="" alt="">
+
+  <div class="zone zone-prev" id="zonePrev">
+    <span class="zone-arrow">←</span>
+  </div>
+  <div class="zone zone-next" id="zoneNext">
+    <span class="zone-arrow">→</span>
+  </div>
+</div>
+
+<div class="bar">
+  <span class="caption" id="caption"></span>
+  <span class="counter" id="counter">01 / 25</span>
+</div>
+
+<div class="progress">
+  <div class="progress-fill" id="progressFill" style="width: 4%"></div>
+</div>
+
+<div class="hint">use arrow keys or click the edges to turn pages</div>
+<div class="cursor" id="cursor"></div>
+
+<script>
+const photos = [
+  { src: 'uploads/photography/lights/01.webp', caption: 'Kunming · The city arrives through rain and grime on glass.' },
+  { src: 'uploads/photography/lights/02.webp', caption: 'Kunming · A gap in the dirt. The street appears, golden.' },
+  { src: 'uploads/photography/lights/03.webp', caption: 'Chongqing · The cable car cables draw lines across the sky.' },
+  { src: 'uploads/photography/lights/04.webp', caption: 'Chongqing · Every balcony: laundry, an air unit, a life.' },
+  { src: 'uploads/photography/lights/05.webp', caption: 'Chongqing · A line of yellow taxis, seen from the air.' },
+  { src: 'uploads/photography/lights/06.webp', caption: 'Chongqing · The mountain holds the city.' },
+  { src: 'uploads/photography/lights/07.webp', caption: 'Chongqing · The river at night. The bridge in gold.' },
+  { src: 'uploads/photography/lights/08.webp', caption: 'Chongqing · The towers wear their lights into the purple hour.' },
+  { src: 'uploads/photography/lights/09.webp', caption: 'Chongqing · Red lanterns, old rooftops, and behind them — glass.' },
+  { src: 'uploads/photography/lights/10.webp', caption: 'Chongqing · One lantern. One city. One night.' },
+  { src: 'uploads/photography/lights/11.webp', caption: 'Chongqing · The neon signs are saying everything at once.' },
+  { src: 'uploads/photography/lights/12.webp', caption: 'Kunming · From an apartment window: orchid, rain streaks, a clock tower.' },
+  { src: 'uploads/photography/lights/13.webp', caption: 'Chongqing · Below the forest café, pendant lights warm the afternoon.' },
+  { src: 'uploads/photography/lights/14.webp', caption: 'Kunming · Look up. Only blossom.' },
+  { src: 'uploads/photography/lights/15.webp', caption: 'Kunming · Shiitake, wood ear, wild mushrooms from the mountain.' },
+  { src: 'uploads/photography/lights/16.webp', caption: 'Chongqing · Forty opera faces, waiting in amber light.' },
+  { src: 'uploads/photography/lights/17.webp', caption: 'Chongqing · The Dragon Collection. 龙的故事.' },
+  { src: 'uploads/photography/lights/18.webp', caption: 'Chongqing · The empress in phoenix crown and firelit red.' },
+  { src: 'uploads/photography/lights/19.webp', caption: 'Chongqing · Dark origami armour. Pale chiffon beneath.' },
+  { src: 'uploads/photography/lights/20.webp', caption: 'Chongqing · The deity raises a hand. The halo catches the light.' },
+  { src: 'uploads/photography/lights/21.webp', caption: 'Chongqing · The embroidered face of Guanyin, thread by thread.' },
+  { src: 'uploads/photography/lights/22.webp', caption: 'Chongqing · Gold skin, amber flowers, jade at the collar.' },
+  { src: 'uploads/photography/lights/23.webp', caption: 'Chongqing · Tiny gold roses, stitched one by one.' },
+  { src: 'uploads/photography/lights/24.webp', caption: 'Chongqing · Crystal chains fall from a sleeve of gold.' },
+  { src: 'uploads/photography/lights/25.webp', caption: 'Chongqing · Silver thread, worked fine as breath.' },
+];
+
+const total = photos.length;
+let current = 0;
+let activeSlot = 'A';
+let transitioning = false;
+
+const A = document.getElementById('photoA');
+const B = document.getElementById('photoB');
+const captionEl = document.getElementById('caption');
+const counterEl = document.getElementById('counter');
+const fillEl = document.getElementById('progressFill');
+const cursor = document.getElementById('cursor');
+
+function getSlots() {
+  return activeSlot === 'A' ? { curr: A, next: B } : { curr: B, next: A };
+}
+
+function updateUI(idx) {
+  captionEl.classList.remove('visible');
+  setTimeout(() => {
+    captionEl.textContent = photos[idx].caption;
+    captionEl.classList.add('visible');
+  }, 120);
+  counterEl.textContent = `${String(idx + 1).padStart(2, '0')} / ${total}`;
+  fillEl.style.width = `${((idx + 1) / total) * 100}%`;
+}
+
+function show(idx) {
+  if (transitioning) return;
+  const target = ((idx % total) + total) % total;
+  if (target === current) return;
+  transitioning = true;
+
+  const { curr, next } = getSlots();
+  next.src = photos[target].src;
+
+  function doTransition() {
+    next.classList.add('visible');
+    curr.classList.remove('visible');
+    activeSlot = activeSlot === 'A' ? 'B' : 'A';
+    current = target;
+    updateUI(current);
+    setTimeout(() => { transitioning = false; }, 400);
+    preload((target + 1) % total);
+    preload(((target - 1) + total) % total);
+  }
+
+  if (next.complete && next.naturalWidth) {
+    doTransition();
+  } else {
+    next.onload = doTransition;
+    next.onerror = () => { transitioning = false; };
+  }
+}
+
+function preload(idx) {
+  const i = new Image();
+  i.src = photos[idx].src;
+}
+
+A.src = photos[0].src;
+A.onload = () => {
+  A.classList.add('visible');
+  captionEl.classList.add('visible');
+};
+updateUI(0);
+preload(1);
+preload(2);
+
+document.getElementById('zonePrev').addEventListener('click', () => show(current - 1));
+document.getElementById('zoneNext').addEventListener('click', () => show(current + 1));
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowLeft') show(current - 1);
+  if (e.key === 'ArrowRight') show(current + 1);
+});
+
+let touchStartX = 0;
+document.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+document.addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - touchStartX;
+  if (Math.abs(dx) > 48) dx > 0 ? show(current - 1) : show(current + 1);
+});
+
+const stage = document.getElementById('stage');
+stage.addEventListener('mousemove', e => {
+  cursor.style.left = e.clientX + 'px';
+  cursor.style.top = e.clientY + 'px';
+  cursor.classList.add('visible');
+  const x = e.clientX / window.innerWidth;
+  if (x < 0.38 || x > 0.62) {
+    cursor.classList.add('large');
+  } else {
+    cursor.classList.remove('large');
+  }
+});
+stage.addEventListener('mouseleave', () => {
+  cursor.classList.remove('visible');
+  cursor.classList.remove('large');
+});
+</script>
+</body>
+</html>

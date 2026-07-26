@@ -7,866 +7,359 @@
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
 <link rel="shortcut icon" href="favicon.ico">
-<meta name="description" content="Forty-five photographs of street life across Chongqing, Chengdu and Kunming — candid moments in the current of the city. A photojournalism series by Irina.">
+<meta name="description" content="Twenty-five photographs of street life across Chongqing, Chengdu and Kunming — a photobook by Irina.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://irina.love/streets.html">
 <meta property="og:title" content="Streets &amp; Light · irina.love">
-<meta property="og:description" content="Forty-five photographs of street life across Chongqing, Chengdu and Kunming.">
-<meta property="og:image" content="https://irina.love/uploads/photography/streets-cover.webp">
+<meta property="og:description" content="Twenty-five photographs of street life across Chongqing, Chengdu and Kunming.">
+<meta property="og:image" content="https://irina.love/uploads/photography/streets/01.webp">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=Newsreader:ital,opsz,wght@0,6..72,300..500;1,6..72,300..500&family=Fragment+Mono:ital@0;1&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    --bg: oklch(96.8% 0.013 85);
-    --cream: oklch(99% 0.008 85);
-    --coral: oklch(56% 0.185 29);
-    --coral-soft: oklch(74% 0.11 29);
-    --ink: oklch(24% 0.018 55);
-    --ink-soft: oklch(43% 0.02 55);
-    --line: oklch(82% 0.022 75);
+    --bg: oklch(7% 0.012 50);
+    --ink: oklch(92% 0.01 80);
+    --ink-soft: oklch(58% 0.01 80);
+    --accent: oklch(56% 0.185 29);
     --serif: 'Fraunces', Georgia, serif;
     --text: 'Newsreader', Georgia, serif;
-    --sans: 'Fragment Mono', 'Courier New', monospace;
+    --mono: 'Fragment Mono', 'Courier New', monospace;
+    --nav-h: 60px;
+    --bar-h: 64px;
   }
 
-  html { scroll-behavior: smooth; }
-  body {
+  html, body {
+    height: 100%; overflow: hidden;
     background: var(--bg);
     color: var(--ink);
-    font-family: var(--text);
-    font-size: 17px;
-    line-height: 1.65;
-    overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
+    user-select: none;
   }
 
+  /* ── grain overlay ── */
   body::before {
     content: '';
-    position: fixed; inset: 0;
-    z-index: 2; pointer-events: none; opacity: 0.045;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23grain)'/%3E%3C/svg%3E");
-    background-repeat: repeat; background-size: 220px 220px;
+    position: fixed; inset: 0; z-index: 100; pointer-events: none; opacity: 0.028;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+    background-size: 220px;
   }
 
-  .wrap { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 0 48px; }
-
+  /* ── nav ── */
   nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    padding: 28px 48px; display: flex; justify-content: space-between; align-items: center;
-    background: oklch(97% 0.018 85 / 0.88); backdrop-filter: blur(12px);
+    position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+    height: var(--nav-h);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 32px;
+    background: linear-gradient(to bottom, oklch(7% 0.012 50 / 0.95) 0%, transparent 100%);
   }
-  .nav-logo { font-family: var(--serif); font-size: 20px; font-weight: 400; color: var(--ink); text-decoration: none; }
-  .nav-logo em { color: var(--coral); font-style: italic; }
+  .nav-logo {
+    font-family: var(--serif); font-size: 18px; font-weight: 350;
+    color: var(--ink); text-decoration: none; letter-spacing: -0.01em;
+  }
+  .nav-logo em { color: var(--accent); font-style: italic; }
+  .nav-center {
+    position: absolute; left: 50%; transform: translateX(-50%);
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--ink-soft);
+  }
   .nav-back {
-    font-family: var(--sans);
-    font-size: 11px; font-weight: 400; letter-spacing: 0.14em; text-transform: uppercase;
-    color: var(--ink-soft); text-decoration: none; transition: color .2s;
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--ink-soft); text-decoration: none;
+    transition: color 0.2s;
   }
-  .nav-back:hover { color: var(--coral); }
+  .nav-back:hover { color: var(--accent); }
 
-  .divider { height: 1px; background: oklch(75% 0.04 60 / 0.25); margin: 0 48px; position: relative; z-index: 1; }
+  /* ── stage ── */
+  .stage {
+    position: fixed;
+    top: var(--nav-h); left: 0; right: 0;
+    bottom: var(--bar-h);
+    display: flex; align-items: center; justify-content: center;
+    cursor: none;
+  }
 
-  .gallery-hero { padding: 160px 0 72px; position: relative; z-index: 1; }
-  .gallery-eyebrow {
-    font-family: var(--sans);
-    font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase;
-    color: var(--ink-soft); margin-bottom: 20px;
-    opacity: 0; animation: fadeUp .8s .2s forwards;
+  .photo {
+    position: absolute;
+    max-width: 92vw;
+    max-height: calc(100vh - var(--nav-h) - var(--bar-h) - 16px);
+    width: auto; height: auto;
+    object-fit: contain;
+    opacity: 0;
+    transition: opacity 0.38s ease;
+    pointer-events: none;
+    display: block;
   }
-  .gallery-title {
-    font-family: var(--serif); font-size: clamp(56px, 8.5vw, 120px);
-    font-weight: 380; line-height: 0.94; letter-spacing: -0.015em;
-    opacity: 0; animation: fadeUp .9s .4s forwards;
-  }
-  .gallery-title em { font-style: italic; color: var(--coral); }
-  .gallery-meta {
-    margin-top: 36px; display: flex; align-items: flex-start; gap: 48px;
-    opacity: 0; animation: fadeUp .8s .65s forwards;
-  }
-  .gallery-desc { font-size: 16px; line-height: 1.75; color: var(--ink-soft); max-width: 520px; }
-  .gallery-cities { display: flex; flex-direction: column; gap: 6px; flex-shrink: 0; padding-top: 2px; }
-  .city-pill { display: flex; align-items: center; gap: 8px; font-size: 12px; letter-spacing: 0.07em; color: var(--ink-soft); }
-  .city-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
-  .dot-cq { background: oklch(67% 0.18 24); }
-  .dot-cd { background: oklch(60% 0.18 155); }
-  .dot-km { background: oklch(62% 0.18 290); }
-  .city-zh { opacity: 0.45; margin-left: 2px; }
+  .photo.visible { opacity: 1; }
 
-  .masonry-section { padding: 64px 0 0; position: relative; z-index: 1; }
-  .masonry-grid { column-count: 3; column-gap: 5px; padding: 0 48px; }
-
-  .photo-item {
-    break-inside: avoid; margin-bottom: 5px;
-    position: relative; overflow: hidden; cursor: pointer; display: block;
+  /* ── click zones ── */
+  .zone {
+    position: absolute; top: 0; bottom: 0; width: 38%;
+    z-index: 10; display: flex; align-items: center;
   }
-  .photo-item img {
-    width: 100%; height: auto; display: block;
-    transition: transform .7s cubic-bezier(.23,1,.32,1), filter .5s;
-  }
-  .photo-item:hover img { transform: scale(1.03); filter: saturate(1.12); }
+  .zone-prev { left: 0; justify-content: flex-start; cursor: w-resize; }
+  .zone-next { right: 0; justify-content: flex-end; cursor: e-resize; }
 
-  .photo-caption {
-    position: absolute; inset: 0;
-    background: linear-gradient(to top, oklch(12% 0.01 60 / 0.78) 0%, transparent 55%);
-    display: flex; flex-direction: column; justify-content: flex-end;
-    padding: 16px 18px; opacity: 0; transition: opacity .3s;
+  .zone-arrow {
+    font-family: var(--serif); font-size: 28px; font-weight: 300;
+    color: oklch(92% 0.01 80 / 0.0);
+    padding: 24px 28px;
+    transition: color 0.2s, transform 0.2s;
+    line-height: 1;
+    font-style: italic;
   }
-  .photo-item:hover .photo-caption { opacity: 1; }
-  .pc-num { font-family: var(--sans); font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--coral-soft); margin-bottom: 2px; }
-  .pc-title { font-family: var(--serif); font-size: 14px; font-weight: 300; color: oklch(97% 0.008 85); line-height: 1.2; margin-bottom: 4px; }
-  .pc-loc { font-size: 10px; letter-spacing: 0.06em; color: oklch(82% 0.04 85); display: flex; align-items: center; gap: 5px; }
-  .pc-loc-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
-  .pc-zh { opacity: 0.5; }
+  .zone-prev:hover .zone-arrow { color: oklch(92% 0.01 80 / 0.55); transform: translateX(-4px); }
+  .zone-next:hover .zone-arrow { color: oklch(92% 0.01 80 / 0.55); transform: translateX(4px); }
 
-  #lightbox {
-    position: fixed; inset: 0; z-index: 1000;
-    background: rgba(8, 7, 6, 0.97);
-    display: flex; flex-direction: column;
+  /* ── custom cursor dot ── */
+  .cursor {
+    position: fixed; z-index: 200; pointer-events: none;
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--accent);
+    transform: translate(-50%, -50%);
+    transition: width 0.15s, height 0.15s, opacity 0.15s;
+    opacity: 0;
+  }
+  .cursor.visible { opacity: 1; }
+  .cursor.large { width: 36px; height: 36px; background: transparent; border: 1px solid oklch(92% 0.01 80 / 0.4); }
+
+  /* ── bottom bar ── */
+  .bar {
+    position: fixed; bottom: var(--progress-h, 3px); left: 0; right: 0;
+    height: var(--bar-h);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 32px;
+    background: linear-gradient(to top, oklch(7% 0.012 50 / 0.95) 0%, transparent 100%);
+    gap: 24px;
+  }
+
+  .caption {
+    font-family: var(--text);
+    font-size: 13px;
+    font-style: italic;
+    color: var(--ink-soft);
+    line-height: 1.4;
+    flex: 1;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    opacity: 0; transition: opacity 0.3s 0.1s;
+  }
+  .caption.visible { opacity: 1; }
+
+  .counter {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    color: oklch(45% 0.01 80);
+    flex-shrink: 0;
+  }
+
+  /* ── progress ── */
+  .progress {
+    position: fixed; bottom: 0; left: 0; right: 0; height: 2px;
+    background: oklch(20% 0.01 50);
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--accent);
+    transition: width 0.4s ease;
+  }
+
+  /* ── loading state ── */
+  .loading-dot {
+    position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    width: 6px; height: 6px; border-radius: 50%;
+    background: oklch(30% 0.01 80);
     opacity: 0; pointer-events: none;
-    transition: opacity .35s cubic-bezier(.23,1,.32,1);
-  }
-  #lightbox.open { opacity: 1; pointer-events: auto; }
-
-  #lb-top { flex-shrink: 0; height: 64px; display: flex; align-items: center; justify-content: center; position: relative; z-index: 10; }
-  #lb-close {
-    position: absolute; right: 24px; top: 50%; transform: translateY(-50%);
-    width: 44px; height: 44px; background: none; border: none; cursor: pointer;
-    color: rgba(255,255,255,0.5); font-size: 28px; line-height: 1;
-    transition: color .2s, transform .2s; display: flex; align-items: center; justify-content: center;
-  }
-  #lb-close:hover { color: #fff; transform: translateY(-50%) rotate(90deg); }
-  #lb-counter { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.38); font-family: var(--sans); }
-
-  #lb-content { flex: 1; min-height: 0; display: flex; align-items: center; padding: 0 24px; gap: 20px; }
-
-  .lb-arrow {
-    flex-shrink: 0; width: 60px; height: 60px;
-    background: rgba(255,255,255,0.09); border: 1px solid rgba(255,255,255,0.16);
-    border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center;
-    color: rgba(255,255,255,0.75); font-size: 26px; font-family: serif;
-    transition: background .2s, color .2s, transform .2s;
-    -webkit-user-select: none; user-select: none;
-  }
-  .lb-arrow:hover { background: rgba(255,255,255,0.2); color: #fff; }
-  #lb-prev:hover { transform: translateX(-2px); }
-  #lb-next:hover { transform: translateX(2px); }
-
-  #lb-img-wrap { flex: 1; min-width: 0; min-height: 0; height: 100%; display: flex; align-items: center; justify-content: center; }
-  #lb-img { max-width: 100%; max-height: 100%; object-fit: contain; display: block; transition: opacity .22s ease; user-select: none; -webkit-user-drag: none; }
-  #lb-img.fading { opacity: 0; }
-
-  #lb-info {
-    flex-shrink: 0; height: 72px; padding: 0 24px;
-    display: flex; align-items: center; gap: 16px;
-    background: linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 100%);
-    z-index: 10; margin-top: -72px; pointer-events: none;
-  }
-  #lb-title { font-family: var(--serif); font-size: 19px; font-weight: 300; color: rgba(255,255,255,0.88); }
-  #lb-loc { font-size: 12px; letter-spacing: 0.07em; color: rgba(255,255,255,0.42); }
-  #lb-loc .zh { opacity: 0.65; }
-
-  #map-section { padding: 96px 0 100px; position: relative; z-index: 1; }
-  .map-header { display: flex; align-items: baseline; gap: 20px; margin-bottom: 28px; }
-  .map-title { font-family: var(--serif); font-size: clamp(28px, 3.5vw, 42px); font-weight: 300; }
-  .map-subtitle { font-family: var(--sans); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-soft); }
-  #map { width: 100%; height: 600px; border-radius: 3px; overflow: hidden; background: oklch(92% 0.022 85); }
-  .map-legend { margin-top: 14px; display: flex; gap: 24px; }
-  .map-legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; letter-spacing: 0.05em; color: var(--ink-soft); }
-  .map-legend-dot { width: 9px; height: 9px; border-radius: 50%; }
-  .map-note { margin-top: 10px; font-size: 10px; color: var(--ink-soft); opacity: 0.45; }
-
-  .leaflet-popup-content-wrapper { border-radius: 3px !important; box-shadow: 0 8px 28px rgba(0,0,0,0.14) !important; padding: 0 !important; overflow: hidden; font-family: var(--sans) !important; }
-  .leaflet-popup-content { margin: 0 !important; width: 190px !important; }
-  .leaflet-popup-tip-container { display: none; }
-  .map-popup img { width: 190px; height: 122px; object-fit: cover; display: block; }
-  .map-popup-body { padding: 9px 11px 11px; }
-  .map-popup-num { font-family: var(--sans); font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--coral); margin-bottom: 3px; }
-  .map-popup-title { font-family: var(--serif); font-size: 15px; font-weight: 300; color: var(--ink); line-height: 1.2; margin-bottom: 4px; }
-  .map-popup-loc { font-size: 10px; letter-spacing: 0.05em; color: var(--ink-soft); }
-  .map-popup-loc .zh { opacity: 0.5; margin-left: 2px; }
-
-  footer {
-    padding: 44px 48px; display: flex; justify-content: space-between; align-items: center;
-    border-top: 1px solid oklch(70% 0.04 60 / 0.22); position: relative; z-index: 1;
-  }
-  .footer-logo { font-family: var(--serif); font-size: 18px; color: var(--ink); }
-  .footer-logo em { font-style: italic; color: var(--coral); }
-  .footer-copy { font-family: var(--sans); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-soft); }
-
-  @keyframes fadeUp { from { opacity:0; transform:translateY(22px); } to { opacity:1; transform:none; } }
-  .reveal { opacity: 0; transform: translateY(28px); transition: opacity .85s cubic-bezier(.23,1,.32,1), transform .85s cubic-bezier(.23,1,.32,1); }
-  .reveal.in { opacity: 1; transform: none; }
-
-  @media (prefers-reduced-motion: reduce) {
-    html { scroll-behavior: auto; }
-    .reveal, .gallery-eyebrow, .gallery-title, .gallery-meta { opacity: 1; transform: none; transition: none; animation: none; }
-    *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
   }
 
-  ::-webkit-scrollbar { width: 6px; }
-  ::-webkit-scrollbar-track { background: var(--bg); }
-  ::-webkit-scrollbar-thumb { background: oklch(75% 0.06 60); border-radius: 3px; }
-
-  @media (max-width: 768px) {
-    nav { padding: 18px 20px; }
-    .wrap { padding: 0 20px; }
-    .divider { margin: 0 20px; }
-    .gallery-hero { padding: 110px 0 52px; }
-    .gallery-meta { flex-direction: column; gap: 20px; }
-    .masonry-grid { column-count: 2; column-gap: 3px; padding: 0 20px; }
-    .photo-item { margin-bottom: 3px; }
-    .photo-caption { opacity: 1; padding: 10px 12px; }
-    .pc-title { font-size: 12px; }
-    .pc-zh { display: none; }
-    #lb-content { padding: 0 8px; gap: 20px; }
-    .lb-arrow { width: 44px; height: 44px; font-size: 20px; }
-    #lb-top { height: 52px; }
-    #lb-close { right: 16px; }
-    #lb-info { height: 60px; margin-top: -60px; padding: 0 16px; gap: 10px; }
-    #lb-title { font-size: 15px; }
-    #lb-loc { font-size: 11px; }
-    #map { height: 360px; }
-    footer { padding: 28px 20px; flex-direction: column; gap: 10px; text-align: center; }
+  /* ── keyboard hint ── */
+  .hint {
+    position: fixed; bottom: calc(var(--bar-h) + 8px); left: 50%;
+    transform: translateX(-50%);
+    font-family: var(--mono); font-size: 9px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: oklch(30% 0.01 80);
+    opacity: 1; animation: hintFade 3s 2s forwards;
+    white-space: nowrap; pointer-events: none;
   }
-  @media (max-width: 480px) {
-    .masonry-grid { column-count: 1; }
-    #lb-img-wrap { padding: 60px 64px 96px; }
+  @keyframes hintFade { to { opacity: 0; } }
+
+  @media (max-width: 600px) {
+    nav { padding: 0 20px; }
+    .nav-center { display: none; }
+    .bar { padding: 0 20px; }
+    .zone-arrow { display: none; }
   }
 </style>
 </head>
 <body>
 
-<div id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer">
-  <div id="lb-top">
-    <div id="lb-counter">1 / 45</div>
-    <button id="lb-close" aria-label="Close">&#x2715;</button>
-  </div>
-  <div id="lb-content">
-    <button class="lb-arrow" id="lb-prev" aria-label="Previous photo">&#8249;</button>
-    <div id="lb-img-wrap">
-      <img id="lb-img" src="" alt="" draggable="false" />
-    </div>
-    <button class="lb-arrow" id="lb-next" aria-label="Next photo">&#8250;</button>
-  </div>
-  <div id="lb-info">
-    <span id="lb-title"></span>
-    <span id="lb-loc"></span>
-  </div>
-</div>
-
 <nav>
-  <a class="nav-logo" href="index.html">irina<em>.love</em></a>
-  <a class="nav-back" href="index.html">&#8592; All projects</a>
+  <a class="nav-logo" href="index.html">irina.<em>love</em></a>
+  <span class="nav-center">Streets &amp; Light</span>
+  <a class="nav-back" href="index.html">← portfolio</a>
 </nav>
 
-<div class="gallery-hero">
-  <div class="wrap">
-    <p class="gallery-eyebrow">Through a Lens · Photo Series 02</p>
-    <h1 class="gallery-title">Streets<br>&amp; <em>Light</em></h1>
-    <div class="gallery-meta">
-      <p class="gallery-desc">Forty-five photographs made in the current of the city — market stalls and mountain roads, neon and midday glare, the quiet between crowds. Chongqing, Chengdu &amp; Kunming, March 2026.</p>
-      <div class="gallery-cities">
-        <div class="city-pill"><span class="city-dot dot-cq"></span>Chongqing <span class="city-zh">重庆</span></div>
-        <div class="city-pill"><span class="city-dot dot-cd"></span>Chengdu <span class="city-zh">成都</span></div>
-        <div class="city-pill"><span class="city-dot dot-km"></span>Kunming <span class="city-zh">昆明</span></div>
-      </div>
-    </div>
+<div class="stage" id="stage">
+  <img class="photo" id="photoA" src="" alt="">
+  <img class="photo" id="photoB" src="" alt="">
+
+  <div class="zone zone-prev" id="zonePrev">
+    <span class="zone-arrow">←</span>
+  </div>
+  <div class="zone zone-next" id="zoneNext">
+    <span class="zone-arrow">→</span>
   </div>
 </div>
 
-<div class="divider"></div>
+<div class="bar">
+  <span class="caption" id="caption"></span>
+  <span class="counter" id="counter">01 / 25</span>
+</div>
 
-<section class="masonry-section">
-  <div class="masonry-grid" id="gallery">
+<div class="progress">
+  <div class="progress-fill" id="progressFill" style="width: 4%"></div>
+</div>
 
-    <div class="photo-item" data-index="0">
-      <img src="uploads/photography/streets/01.webp" alt="Western approach" loading="lazy" />
-      <div class="photo-caption">
-        <div class="pc-num">01 / 45</div>
-        <div class="pc-title">Western approach</div>
-        <div class="pc-loc"><span class="pc-loc-dot dot-cq"></span>Jiulongpo District, Chongqing <span class="pc-zh">· 九龙坡区</span></div>
-      </div>
-    </div>
+<div class="hint">use arrow keys or click the edges to turn pages</div>
+<div class="cursor" id="cursor"></div>
 
-    <div class="photo-item" data-index="1">
-      <img src="uploads/photography/streets/02.webp" alt="Terrace living" loading="lazy" />
-      <div class="photo-caption">
-        <div class="pc-num">02 / 45</div>
-        <div class="pc-title">Terrace living</div>
-        <div class="pc-loc"><span class="pc-loc-dot dot-cq"></span>Shapingba District, Chongqing <span class="pc-zh">· 沙坪坝区</span></div>
-      </div>
-    </div>
-
-    <div class="photo-item" data-index="2">
-      <img src="uploads/photography/streets/03.webp" alt="The city at night" loading="lazy" />
-      <div class="photo-caption">
-        <div class="pc-num">03 / 45</div>
-        <div class="pc-title">The city at night</div>
-        <div class="pc-loc"><span class="pc-loc-dot dot-cq"></span>Yuzhong District, Chongqing <span class="pc-zh">· 渝中区</span></div>
-      </div>
-    </div>
-
-    <div class="photo-item" data-index="3">
-      <img src="uploads/photography/streets/04.webp" alt="Above the ridge" loading="lazy" />
-      <div class="photo-caption">
-        <div class="pc-num">04 / 45</div>
-        <div class="pc-title">Above the ridge</div>
-        <div class="pc-loc"><span class="pc-loc-dot dot-cq"></span>Yuzhong District, Chongqing <span class="pc-zh">· 渝中区</span></div>
-      </div>
-    </div>
-
-    <div class="photo-item" data-index="4">
-      <img src="uploads/photography/streets/05.webp" alt="Red lanterns" loading="lazy" />
-      <div class="photo-caption">
-        <div class="pc-num">05 / 45</div>
-        <div class="pc-title">Red lanterns</div>
-        <div class="pc-loc"><span class="pc-loc-dot dot-cq"></span>Yuzhong District, Chongqing <span class="pc-zh">· 渝中区</span></div>
-      </div>
-    </div>
-
-    <div class="photo-item" data-index="5">
-      <img src="uploads/photography/streets/06.webp" alt="River light" loading="lazy" />
-      <div class="photo-caption">
-        <div class="pc-num">06 / 45</div>
-        <div class="pc-title">River light</div>
-        <div class="pc-loc"><span class="pc-loc-dot dot-cq"></span>Yuzhong District, Chongqing <span class="pc-zh">· 渝中区</span></div>
-      </div>
-    </div>
-
-    <div class="photo-item" data-index="6">
-      <img src="uploads/photography/streets/07.webp" alt="Mountain city" loading="lazy" />
-      <div class="photo-caption">
-        <div class="pc-num">07 / 45</div>
-        <div class="pc-title">Mountain city</div>
-        <div class="pc-loc"><span class="pc-loc-dot dot-cq"></span>Yuzhong District, Chongqing <span class="pc-zh">· 渝中区</span></div>
-      </div>
-    </div>
-
-    <div class="photo-item" data-index="7">
-      <img src="uploads/photography/streets/08.webp" alt="Under the overpass" loading="lazy" />
-      <div class="photo-caption">
-        <div class="pc-num">08 / 45</div>
-        <div class="pc-title">Under the overpass</div>
-        <div class="pc-loc"><span class="pc-loc-dot dot-cq"></span>Yuzhong District, Chongqing <span class="pc-zh">· 渝中区</span></div>
-      </div>
-    </div>
-
-    <div class="photo-item" data-index="8">
-      <img src="uploads/photography/streets/09.webp" alt="Across the river" loading="lazy" />
-      <div class="photo-caption">
-        <div class="pc-num">09 / 45</div>
-        <div class="pc-title">Across the river</div>
-        <div class="pc-loc"><span class="pc-loc-dot dot-cq"></span>Jiangbei District, Chongqing <span class="pc-zh">· 江北区</span></div>
-      </div>
-    </div>
-
-    <div class="photo-item" data-index="9">
-      <img src="uploads/photography/streets/10.webp" alt="Rush hour, north shore" loading="lazy" />
-      <div class="photo-caption">
-        <div class="pc-num">10 / 45</div>
-        <div class="pc-title">Rush hour, north shore</div>
-        <div class="pc-loc"><span class="pc-loc-dot dot-cq"></span>Jiangbei District, Chongqing <span class="pc-zh">· 江北区</span></div>
-      </div>
-    </div>
-
-    <div class="photo-item" data-index="10">
-      <img src="uploads/photography/streets/11.webp" alt="End of the line" loading="lazy" />
-      <div class="photo-caption">
-        <div class="pc-num">11 / 45</div>
-        <div class="pc-title">End of the line</div>
-        <div class="pc-loc"><span class="pc-loc-dot dot-cq"></span>Yubei District, Chongqing <span class="pc-zh">· 渝北区</span></div>
-      </div>
-    </div>
-
-    <div class="photo-item" data-index="11">
-      <img src="uploads/photography/streets/12.webp" alt="Northern outskirts" loading="lazy" />
-      <div class="photo-caption">
-        <div class="pc-num">12 / 45</div>
-        <div class="pc-title">Northern outskirts</div>
-        <div class="pc-loc"><span class="pc-loc-dot dot-cq"></span>Yubei District, Chongqing <span class="pc-zh">· 渝北区</span></div>
-      </div>
-    </div>
-
-    <div class="photo-item" data-index="12">
-      <img src="uploads/photography/streets/13.webp" alt="The old quarter" loading="lazy" />
-      <div class="photo-caption">
-        <div class="pc-num">13 / 45</div>
-        <div class="pc-title">The old quarter</div>
-        <div class="pc-loc"><span class="pc-loc-dot dot-cq"></span>Yuzhong District, Chongqing <span class="pc-zh">· 渝中区</span></div>
-      </div>
-    </div>
-
-    <div class="photo-item" data-index="13">
-      <img src="uploads/photography/streets/14.webp" alt="Stone steps" loading="lazy" />
-      <div class="photo-caption">
-        <div class="pc-num">14 / 45</div>
-        <div class="pc-title">Stone steps</div>
-        <div class="pc-loc"><span class="pc-loc-dot dot-cq"></span>Yuzhong District, Chongqing <span class="pc-zh">· 渝中区</span></div>
-      </div>
-    </div>
-
-    <div class="photo-item" data-index="14">
-      <img src="uploads/photography/streets/15.webp" alt="Downhill" loading="lazy" />
-      <div class="photo-caption">
-        <div class="pc-num">15 / 45</div>
-        <div class="pc-title">Downhill</div>
-        <div class="pc-loc"><span class="pc-loc-dot dot-cq"></span>Yuzhong District, Chongqing <span class="pc-zh">· 渝中区</span></div>
-      </div>
-    </div>
-
-    <div class="photo-item" data-index="15">
-      <img src="uploads/photography/streets/16.webp" alt="Corner trade" loading="lazy" />
-      <div class="photo-caption">
-        <div class="pc-num">16 / 45</div>
-        <div class="pc-title">Corner trade</div>
-        <div class="pc-loc"><span class="pc-loc-dot dot-cq"></span>Yuzhong District, Chongqing <span class="pc-zh">· 渝中区</span></div>
-      </div>
-    </div>
-
-    <div class="photo-item" data-index="16">
-      <img src="uploads/photography/streets/17.webp" alt="The rebuild" loading="lazy" />
-      <div class="photo-caption">
-        <div class="pc-num">17 / 45</div>
-        <div class="pc-title">The rebuild</div>
-        <div class="pc-loc"><span class="pc-loc-dot dot-cq"></span>Yuzhong District, Chongqing <span class="pc-zh">· 渝中区</span></div>
-      </div>
-    </div>
-
-    <div class="photo-item" data-index="17">
-      <img src="uploads/photography/streets/18.webp" alt="Painted wall" loading="lazy" />
-      <div class="photo-caption">
-        <div class="pc-num">18 / 45</div>
-        <div class="pc-title">Painted wall</div>
-        <div class="pc-loc"><span class="pc-loc-dot dot-cq"></span>Yuzhong District, Chongqing <span class="pc-zh">· 渝中区</span></div>
-      </div>
-    </div>
-
-    <div class="photo-item" data-index="18">
-      <img src="uploads/photography/streets/19.webp" alt="Back alley" loading="lazy" />
-      <div class="photo-caption">
-        <div class="pc-num">19 / 45</div>
-        <div class="pc-title">Back alley</div>
-        <div class="pc-loc"><span class="pc-loc-dot dot-cq"></span>Yuzhong District, Chongqing <span class="pc-zh">· 渝中区</span></div>
-      </div>
-    </div>
-
-    <div class="photo-item" data-index="19">
-      <img src="uploads/photography/streets/20.webp" alt="Market morning" loading="lazy" />
-      <div class="photo-caption">
-        <div class="pc-num">20 / 45</div>
-        <div class="pc-title">Market morning</div>
-        <div class="pc-loc"><span class="pc-loc-dot dot-cq"></span>Shapingba District, Chongqing <span class="pc-zh">· 沙坪坝区</span></div>
-      </div>
-    </div>
-
-    <div class="photo-item" data-index="20">
-      <img src="uploads/photography/streets/21.webp" alt="The regulars" loading="lazy" />
-      <div class="photo-caption">
-        <div class="pc-num">21 / 45</div>
-        <div class="pc-title">The regulars</div>
-        <div class="pc-loc"><span class="pc-loc-dot dot-cq"></span>Shapingba District, Chongqing <span class="pc-zh">· 沙坪坝区</span></div>
-      </div>
-    </div>
-
-    <div class="photo-item" data-index="21">
-      <img src="uploads/photography/streets/22.webp" alt="Afternoon shade" loading="lazy" />
-      <div class="photo-caption">
-        <div class="pc-num">22 / 45</div>
-        <div class="pc-title">Afternoon shade</div>
-        <div class="pc-loc"><span class="pc-loc-dot dot-cq"></span>Shapingba District, Chongqing <span class="pc-zh">· 沙坪坝区</span></div>
-      </div>
-    </div>
-
-    <div class="photo-item" data-index="22">
-      <img src="uploads/photography/streets/23.webp" alt="The crossing" loading="lazy" />
-      <div class="photo-caption">
-        <div class="pc-num">23 / 45</div>
-        <div class="pc-title">The crossing</div>
-        <div class="pc-loc"><span class="pc-loc-dot dot-cq"></span>Lianglukou, Chongqing <span class="pc-zh">· 两路口</span></div>
-      </div>
-    </div>
-
-    <div class="photo-item" data-index="23">
-      <img src="uploads/photography/streets/24.webp" alt="Through the lane" loading="lazy" />
-      <div class="photo-caption">
-        <div class="pc-num">24 / 45</div>
-        <div class="pc-title">Through the lane</div>
-        <div class="pc-loc"><span class="pc-loc-dot dot-cq"></span>Lianglukou, Chongqing <span class="pc-zh">· 两路口</span></div>
-      </div>
-    </div>
-
-    <div class="photo-item" data-index="24">
-      <img src="uploads/photography/streets/25.webp" alt="Side street" loading="lazy" />
-      <div class="photo-caption">
-        <div class="pc-num">25 / 45</div>
-        <div class="pc-title">Side street</div>
-        <div class="pc-loc"><span class="pc-loc-dot dot-cq"></span>Lianglukou, Chongqing <span class="pc-zh">· 两路口</span></div>
-      </div>
-    </div>
-
-    <div class="photo-item" data-index="25">
-      <img src="uploads/photography/streets/26.webp" alt="Long corridor" loading="lazy" />
-      <div class="photo-caption">
-        <div class="pc-num">26 / 45</div>
-        <div class="pc-title">Long corridor</div>
-        <div class="pc-loc"><span class="pc-loc-dot dot-cq"></span>Yuzhong District, Chongqing <span class="pc-zh">· 渝中区</span></div>
-      </div>
-    </div>
-
-    <div class="photo-item" data-index="26">
-      <img src="uploads/photography/streets/27.webp" alt="The wait" loading="lazy" />
-      <div class="photo-caption">
-        <div class="pc-num">27 / 45</div>
-        <div class="pc-title">The wait</div>
-        <div class="pc-loc"><span class="pc-loc-dot dot-cq"></span>Lianglukou, Chongqing <span class="pc-zh">· 两路口</span></div>
-      </div>
-    </div>
-
-    <div class="photo-item" data-index="27">
-      <img src="uploads/photography/streets/28.webp" alt="Junction" loading="lazy" />
-      <div class="photo-caption">
-        <div class="pc-num">28 / 45</div>
-        <div class="pc-title">Junction</div>
-        <div class="pc-loc"><span class="pc-loc-dot dot-cq"></span>Lianglukou, Chongqing <span class="pc-zh">· 两路口</span></div>
-      </div>
-    </div>
-
-    <div class="photo-item" data-index="28">
-      <img src="uploads/photography/streets/29.webp" alt="Last stop" loading="lazy" />
-      <div class="photo-caption">
-        <div class="pc-num">29 / 45</div>
-        <div class="pc-title">Last stop</div>
-        <div class="pc-loc"><span class="pc-loc-dot dot-cq"></span>Yuzhong District, Chongqing <span class="pc-zh">· 渝中区</span></div>
-      </div>
-    </div>
-
-    <div class="photo-item" data-index="29">
-      <img src="uploads/photography/streets/30.webp" alt="Tea house" loading="lazy" />
-      <div class="photo-caption">
-        <div class="pc-num">30 / 45</div>
-        <div class="pc-title">Tea house</div>
-        <div class="pc-loc"><span class="pc-loc-dot dot-cd"></span>Qingyang District, Chengdu <span class="pc-zh">· 青羊区</span></div>
-      </div>
-    </div>
-
-    <div class="photo-item" data-index="30">
-      <img src="uploads/photography/streets/31.webp" alt="Morning market" loading="lazy" />
-      <div class="photo-caption">
-        <div class="pc-num">31 / 45</div>
-        <div class="pc-title">Morning market</div>
-        <div class="pc-loc"><span class="pc-loc-dot dot-cd"></span>Jinniu District, Chengdu <span class="pc-zh">· 金牛区</span></div>
-      </div>
-    </div>
-
-    <div class="photo-item" data-index="31">
-      <img src="uploads/photography/streets/32.webp" alt="The alley" loading="lazy" />
-      <div class="photo-caption">
-        <div class="pc-num">32 / 45</div>
-        <div class="pc-title">The alley</div>
-        <div class="pc-loc"><span class="pc-loc-dot dot-cd"></span>Jinniu District, Chengdu <span class="pc-zh">· 金牛区</span></div>
-      </div>
-    </div>
-
-    <div class="photo-item" data-index="32">
-      <img src="uploads/photography/streets/33.webp" alt="Temple district" loading="lazy" />
-      <div class="photo-caption">
-        <div class="pc-num">33 / 45</div>
-        <div class="pc-title">Temple district</div>
-        <div class="pc-loc"><span class="pc-loc-dot dot-cd"></span>Qingyang District, Chengdu <span class="pc-zh">· 青羊区</span></div>
-      </div>
-    </div>
-
-    <div class="photo-item" data-index="33">
-      <img src="uploads/photography/streets/34.webp" alt="Between streets" loading="lazy" />
-      <div class="photo-caption">
-        <div class="pc-num">34 / 45</div>
-        <div class="pc-title">Between streets</div>
-        <div class="pc-loc"><span class="pc-loc-dot dot-cd"></span>Qingyang District, Chengdu <span class="pc-zh">· 青羊区</span></div>
-      </div>
-    </div>
-
-    <div class="photo-item" data-index="34">
-      <img src="uploads/photography/streets/35.webp" alt="The courtyard" loading="lazy" />
-      <div class="photo-caption">
-        <div class="pc-num">35 / 45</div>
-        <div class="pc-title">The courtyard</div>
-        <div class="pc-loc"><span class="pc-loc-dot dot-cd"></span>Qingyang District, Chengdu <span class="pc-zh">· 青羊区</span></div>
-      </div>
-    </div>
-
-    <div class="photo-item" data-index="35">
-      <img src="uploads/photography/streets/36.webp" alt="Wide avenue" loading="lazy" />
-      <div class="photo-caption">
-        <div class="pc-num">36 / 45</div>
-        <div class="pc-title">Wide avenue</div>
-        <div class="pc-loc"><span class="pc-loc-dot dot-cd"></span>Qingyang District, Chengdu <span class="pc-zh">· 青羊区</span></div>
-      </div>
-    </div>
-
-    <div class="photo-item" data-index="36">
-      <img src="uploads/photography/streets/37.webp" alt="Dusk in Chengdu" loading="lazy" />
-      <div class="photo-caption">
-        <div class="pc-num">37 / 45</div>
-        <div class="pc-title">Dusk in Chengdu</div>
-        <div class="pc-loc"><span class="pc-loc-dot dot-cd"></span>Qingyang District, Chengdu <span class="pc-zh">· 青羊区</span></div>
-      </div>
-    </div>
-
-    <div class="photo-item" data-index="37">
-      <img src="uploads/photography/streets/38.webp" alt="By the lake" loading="lazy" />
-      <div class="photo-caption">
-        <div class="pc-num">38 / 45</div>
-        <div class="pc-title">By the lake</div>
-        <div class="pc-loc"><span class="pc-loc-dot dot-km"></span>Near Green Lake, Kunming <span class="pc-zh">· 翠湖</span></div>
-      </div>
-    </div>
-
-    <div class="photo-item" data-index="38">
-      <img src="uploads/photography/streets/39.webp" alt="New city" loading="lazy" />
-      <div class="photo-caption">
-        <div class="pc-num">39 / 45</div>
-        <div class="pc-title">New city</div>
-        <div class="pc-loc"><span class="pc-loc-dot dot-km"></span>Chenggong District, Kunming <span class="pc-zh">· 呈贡区</span></div>
-      </div>
-    </div>
-
-    <div class="photo-item" data-index="39">
-      <img src="uploads/photography/streets/40.webp" alt="The old road" loading="lazy" />
-      <div class="photo-caption">
-        <div class="pc-num">40 / 45</div>
-        <div class="pc-title">The old road</div>
-        <div class="pc-loc"><span class="pc-loc-dot dot-km"></span>Panlong District, Kunming <span class="pc-zh">· 盘龙区</span></div>
-      </div>
-    </div>
-
-    <div class="photo-item" data-index="40">
-      <img src="uploads/photography/streets/41.webp" alt="Lake vendors" loading="lazy" />
-      <div class="photo-caption">
-        <div class="pc-num">41 / 45</div>
-        <div class="pc-title">Lake vendors</div>
-        <div class="pc-loc"><span class="pc-loc-dot dot-km"></span>Near Green Lake, Kunming <span class="pc-zh">· 翠湖</span></div>
-      </div>
-    </div>
-
-    <div class="photo-item" data-index="41">
-      <img src="uploads/photography/streets/42.webp" alt="Willows and water" loading="lazy" />
-      <div class="photo-caption">
-        <div class="pc-num">42 / 45</div>
-        <div class="pc-title">Willows and water</div>
-        <div class="pc-loc"><span class="pc-loc-dot dot-km"></span>Near Green Lake, Kunming <span class="pc-zh">· 翠湖</span></div>
-      </div>
-    </div>
-
-    <div class="photo-item" data-index="42">
-      <img src="uploads/photography/streets/43.webp" alt="High street" loading="lazy" />
-      <div class="photo-caption">
-        <div class="pc-num">43 / 45</div>
-        <div class="pc-title">High street</div>
-        <div class="pc-loc"><span class="pc-loc-dot dot-km"></span>Panlong District, Kunming <span class="pc-zh">· 盘龙区</span></div>
-      </div>
-    </div>
-
-    <div class="photo-item" data-index="43">
-      <img src="uploads/photography/streets/44.webp" alt="Golden hour" loading="lazy" />
-      <div class="photo-caption">
-        <div class="pc-num">44 / 45</div>
-        <div class="pc-title">Golden hour</div>
-        <div class="pc-loc"><span class="pc-loc-dot dot-km"></span>Panlong District, Kunming <span class="pc-zh">· 盘龙区</span></div>
-      </div>
-    </div>
-
-    <div class="photo-item" data-index="44">
-      <img src="uploads/photography/streets/45.webp" alt="The long walk" loading="lazy" />
-      <div class="photo-caption">
-        <div class="pc-num">45 / 45</div>
-        <div class="pc-title">The long walk</div>
-        <div class="pc-loc"><span class="pc-loc-dot dot-km"></span>Wuhua District, Kunming <span class="pc-zh">· 五华区</span></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="divider" style="margin-top: 64px;"></div>
-
-<section id="map-section">
-  <div class="wrap">
-    <div class="map-header reveal">
-      <h2 class="map-title">Where the light fell</h2>
-      <span class="map-subtitle">GPS from original files</span>
-    </div>
-    <div id="map" class="reveal"></div>
-    <div class="map-legend reveal">
-      <div class="map-legend-item"><span class="map-legend-dot dot-cq"></span>Chongqing 重庆</div>
-      <div class="map-legend-item"><span class="map-legend-dot dot-cd"></span>Chengdu 成都</div>
-      <div class="map-legend-item"><span class="map-legend-dot dot-km"></span>Kunming 昆明</div>
-    </div>
-    <p class="map-note reveal">Locations from GPS metadata in original photos · Map © OpenStreetMap contributors</p>
-  </div>
-</section>
-
-<footer>
-  <div class="footer-logo">irina<em>.love</em></div>
-  <div class="footer-copy">© 2026 · through a lens</div>
-</footer>
-
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-// ── Photo data ──
 const photos = [
-  { file:"01.webp", title:"Western approach", loc:"Jiulongpo District, Chongqing", zh:"九龙坡区", lat:29.50244, lon:106.43496, city:"cq" },
-  { file:"02.webp", title:"Terrace living", loc:"Shapingba District, Chongqing", zh:"沙坪坝区", lat:29.52946, lon:106.5088, city:"cq" },
-  { file:"03.webp", title:"The city at night", loc:"Yuzhong District, Chongqing", zh:"渝中区", lat:29.56006, lon:106.57869, city:"cq" },
-  { file:"04.webp", title:"Above the ridge", loc:"Yuzhong District, Chongqing", zh:"渝中区", lat:29.56528, lon:106.57448, city:"cq" },
-  { file:"05.webp", title:"Red lanterns", loc:"Yuzhong District, Chongqing", zh:"渝中区", lat:29.56453, lon:106.57362, city:"cq" },
-  { file:"06.webp", title:"River light", loc:"Yuzhong District, Chongqing", zh:"渝中区", lat:29.56026, lon:106.578, city:"cq" },
-  { file:"07.webp", title:"Mountain city", loc:"Yuzhong District, Chongqing", zh:"渝中区", lat:29.56041, lon:106.57854, city:"cq" },
-  { file:"08.webp", title:"Under the overpass", loc:"Yuzhong District, Chongqing", zh:"渝中区", lat:29.56169, lon:106.58291, city:"cq" },
-  { file:"09.webp", title:"Across the river", loc:"Jiangbei District, Chongqing", zh:"江北区", lat:29.57693, lon:106.60119, city:"cq" },
-  { file:"10.webp", title:"Rush hour, north shore", loc:"Jiangbei District, Chongqing", zh:"江北区", lat:29.5898, lon:106.60268, city:"cq" },
-  { file:"11.webp", title:"End of the line", loc:"Yubei District, Chongqing", zh:"渝北区", lat:29.7118, lon:106.65253, city:"cq" },
-  { file:"12.webp", title:"Northern outskirts", loc:"Yubei District, Chongqing", zh:"渝北区", lat:29.71141, lon:106.65125, city:"cq" },
-  { file:"13.webp", title:"The old quarter", loc:"Yuzhong District, Chongqing", zh:"渝中区", lat:29.55934, lon:106.57507, city:"cq" },
-  { file:"14.webp", title:"Stone steps", loc:"Yuzhong District, Chongqing", zh:"渝中区", lat:29.55904, lon:106.57353, city:"cq" },
-  { file:"15.webp", title:"Downhill", loc:"Yuzhong District, Chongqing", zh:"渝中区", lat:29.55898, lon:106.57384, city:"cq" },
-  { file:"16.webp", title:"Corner trade", loc:"Yuzhong District, Chongqing", zh:"渝中区", lat:29.56101, lon:106.57636, city:"cq" },
-  { file:"17.webp", title:"The rebuild", loc:"Yuzhong District, Chongqing", zh:"渝中区", lat:29.56129, lon:106.57482, city:"cq" },
-  { file:"18.webp", title:"Painted wall", loc:"Yuzhong District, Chongqing", zh:"渝中区", lat:29.56101, lon:106.57438, city:"cq" },
-  { file:"19.webp", title:"Back alley", loc:"Yuzhong District, Chongqing", zh:"渝中区", lat:29.56148, lon:106.5736, city:"cq" },
-  { file:"20.webp", title:"Market morning", loc:"Shapingba District, Chongqing", zh:"沙坪坝区", lat:29.55395, lon:106.53612, city:"cq" },
-  { file:"21.webp", title:"The regulars", loc:"Shapingba District, Chongqing", zh:"沙坪坝区", lat:29.55503, lon:106.53573, city:"cq" },
-  { file:"22.webp", title:"Afternoon shade", loc:"Shapingba District, Chongqing", zh:"沙坪坝区", lat:29.55384, lon:106.53552, city:"cq" },
-  { file:"23.webp", title:"The crossing", loc:"Lianglukou, Chongqing", zh:"两路口", lat:29.55408, lon:106.56682, city:"cq" },
-  { file:"24.webp", title:"Through the lane", loc:"Lianglukou, Chongqing", zh:"两路口", lat:29.55366, lon:106.56631, city:"cq" },
-  { file:"25.webp", title:"Side street", loc:"Lianglukou, Chongqing", zh:"两路口", lat:29.55293, lon:106.56545, city:"cq" },
-  { file:"26.webp", title:"Long corridor", loc:"Yuzhong District, Chongqing", zh:"渝中区", lat:29.55353, lon:106.56229, city:"cq" },
-  { file:"27.webp", title:"The wait", loc:"Lianglukou, Chongqing", zh:"两路口", lat:29.55271, lon:106.56502, city:"cq" },
-  { file:"28.webp", title:"Junction", loc:"Lianglukou, Chongqing", zh:"两路口", lat:29.55465, lon:106.56663, city:"cq" },
-  { file:"29.webp", title:"Last stop", loc:"Yuzhong District, Chongqing", zh:"渝中区", lat:29.55617, lon:106.5698, city:"cq" },
-  { file:"30.webp", title:"Tea house", loc:"Qingyang District, Chengdu", zh:"青羊区", lat:30.65974, lon:104.06118, city:"cd" },
-  { file:"31.webp", title:"Morning market", loc:"Jinniu District, Chengdu", zh:"金牛区", lat:30.66011, lon:104.0764, city:"cd" },
-  { file:"32.webp", title:"The alley", loc:"Jinniu District, Chengdu", zh:"金牛区", lat:30.66068, lon:104.07613, city:"cd" },
-  { file:"33.webp", title:"Temple district", loc:"Qingyang District, Chengdu", zh:"青羊区", lat:30.66062, lon:104.06484, city:"cd" },
-  { file:"34.webp", title:"Between streets", loc:"Qingyang District, Chengdu", zh:"青羊区", lat:30.66102, lon:104.06508, city:"cd" },
-  { file:"35.webp", title:"The courtyard", loc:"Qingyang District, Chengdu", zh:"青羊区", lat:30.66101, lon:104.06383, city:"cd" },
-  { file:"36.webp", title:"Wide avenue", loc:"Qingyang District, Chengdu", zh:"青羊区", lat:30.66252, lon:104.0633, city:"cd" },
-  { file:"37.webp", title:"Dusk in Chengdu", loc:"Qingyang District, Chengdu", zh:"青羊区", lat:30.66219, lon:104.06324, city:"cd" },
-  { file:"38.webp", title:"By the lake", loc:"Near Green Lake, Kunming", zh:"翠湖", lat:25.04205, lon:102.70732, city:"km" },
-  { file:"39.webp", title:"New city", loc:"Chenggong District, Kunming", zh:"呈贡区", lat:24.94342, lon:102.82464, city:"km" },
-  { file:"40.webp", title:"The old road", loc:"Panlong District, Kunming", zh:"盘龙区", lat:25.10602, lon:102.74306, city:"km" },
-  { file:"41.webp", title:"Lake vendors", loc:"Near Green Lake, Kunming", zh:"翠湖", lat:25.04121, lon:102.70826, city:"km" },
-  { file:"42.webp", title:"Willows and water", loc:"Near Green Lake, Kunming", zh:"翠湖", lat:25.0432, lon:102.70688, city:"km" },
-  { file:"43.webp", title:"High street", loc:"Panlong District, Kunming", zh:"盘龙区", lat:25.10372, lon:102.74062, city:"km" },
-  { file:"44.webp", title:"Golden hour", loc:"Panlong District, Kunming", zh:"盘龙区", lat:25.10686, lon:102.74343, city:"km" },
-  { file:"45.webp", title:"The long walk", loc:"Wuhua District, Kunming", zh:"五华区", lat:25.05726, lon:102.70772, city:"km" }
+  { src: 'uploads/photography/streets/01.webp', caption: 'Night market, Chongqing · The man with the 烧烤 cart has been at this corner since before anyone can remember.' },
+  { src: 'uploads/photography/streets/02.webp', caption: 'Kunming · Through the glass, a woman drives a blue truck and holds the whole street in her eyes.' },
+  { src: 'uploads/photography/streets/03.webp', caption: 'Chongqing · Two silhouettes walk into the red.' },
+  { src: 'uploads/photography/streets/04.webp', caption: 'Chongqing · She photographs the advertisement. The advertisement photographs her.' },
+  { src: 'uploads/photography/streets/05.webp', caption: 'Chongqing · Two friends walk toward you. The towers do not move.' },
+  { src: 'uploads/photography/streets/06.webp', caption: 'Chongqing · A man rests among the boxes. At the end of the street, a bridge appears.' },
+  { src: 'uploads/photography/streets/07.webp', caption: 'Chongqing · The canyon of buildings opens to a white sky.' },
+  { src: 'uploads/photography/streets/08.webp', caption: 'Chongqing · Looking down into the city\'s throat.' },
+  { src: 'uploads/photography/streets/09.webp', caption: 'Chongqing · She moves the boxes. Above her, the future lands like a UFO.' },
+  { src: 'uploads/photography/streets/10.webp', caption: 'Chongqing · The cable car operator stands alone on the wet platform as the city waits across the river.' },
+  { src: 'uploads/photography/streets/11.webp', caption: 'Chongqing · The scooter helmet is shaped like a snail. The city rises behind her.' },
+  { src: 'uploads/photography/streets/12.webp', caption: 'Kunming · She carries flowers toward the light.' },
+  { src: 'uploads/photography/streets/13.webp', caption: 'Kunming · Watermelon, plastic, afternoon.' },
+  { src: 'uploads/photography/streets/14.webp', caption: 'Chongqing · Welcome to the mountain city.' },
+  { src: 'uploads/photography/streets/15.webp', caption: 'Chongqing · The red building stacks itself against the sky.' },
+  { src: 'uploads/photography/streets/16.webp', caption: 'Chengdu · At the red light, everyone waits in the rain.' },
+  { src: 'uploads/photography/streets/17.webp', caption: 'Chengdu · Tianfu Square in the rain. The figure of history, pointing forward.' },
+  { src: 'uploads/photography/streets/18.webp', caption: 'Chengdu · Mao points. The police van waits.' },
+  { src: 'uploads/photography/streets/19.webp', caption: 'Chongqing · Meet your better self. Old time entrance. Eight directions, all rich.' },
+  { src: 'uploads/photography/streets/20.webp', caption: 'Chongqing · GET RICH · LUCKY · HAPPY · WELCOME' },
+  { src: 'uploads/photography/streets/21.webp', caption: 'Chongqing · The elevator says: please remember us.' },
+  { src: 'uploads/photography/streets/22.webp', caption: 'Chengdu · Please enjoy your civilized travel.' },
+  { src: 'uploads/photography/streets/23.webp', caption: 'Chengdu · The countryside plays on the screen. No one watches.' },
+  { src: 'uploads/photography/streets/24.webp', caption: 'Chengdu · A child presses their hand against the earth from space.' },
+  { src: 'uploads/photography/streets/25.webp', caption: 'Kunming · The path curves past pink blossom into spring.' },
 ];
 
-const TOTAL = photos.length;
-let currentIdx = 0;
-let touchStartX = 0;
-let isOpen = false;
+const total = photos.length;
+let current = 0;
+let activeSlot = 'A';
+let transitioning = false;
 
-const lb        = document.getElementById('lightbox');
-const lbImg     = document.getElementById('lb-img');
-const lbCounter = document.getElementById('lb-counter');
-const lbTitle   = document.getElementById('lb-title');
-const lbLoc     = document.getElementById('lb-loc');
+const A = document.getElementById('photoA');
+const B = document.getElementById('photoB');
+const captionEl = document.getElementById('caption');
+const counterEl = document.getElementById('counter');
+const fillEl = document.getElementById('progressFill');
+const cursor = document.getElementById('cursor');
 
-function openLightbox(index) {
-  currentIdx = index;
-  setPhoto(currentIdx, false);
-  lb.classList.add('open');
-  document.body.style.overflow = 'hidden';
-  isOpen = true;
+function getSlots() {
+  return activeSlot === 'A' ? { curr: A, next: B } : { curr: B, next: A };
 }
 
-function closeLightbox() {
-  lb.classList.remove('open');
-  document.body.style.overflow = '';
-  isOpen = false;
+function updateUI(idx) {
+  captionEl.classList.remove('visible');
+  setTimeout(() => {
+    captionEl.textContent = photos[idx].caption;
+    captionEl.classList.add('visible');
+  }, 120);
+  counterEl.textContent = `${String(idx + 1).padStart(2, '0')} / ${total}`;
+  fillEl.style.width = `${((idx + 1) / total) * 100}%`;
 }
 
-function setPhoto(index, animate) {
-  const p = photos[index];
-  if (animate) {
-    lbImg.classList.add('fading');
-    setTimeout(() => {
-      lbImg.src = `uploads/photography/streets/${p.file}`;
-      lbImg.alt = p.title;
-      lbImg.classList.remove('fading');
-    }, 200);
-  } else {
-    lbImg.src = `uploads/photography/streets/${p.file}`;
-    lbImg.alt = p.title;
+function show(idx) {
+  if (transitioning) return;
+  const target = ((idx % total) + total) % total;
+  if (target === current) return;
+  transitioning = true;
+
+  const { curr, next } = getSlots();
+  next.src = photos[target].src;
+
+  function doTransition() {
+    next.classList.add('visible');
+    curr.classList.remove('visible');
+    activeSlot = activeSlot === 'A' ? 'B' : 'A';
+    current = target;
+    updateUI(current);
+    setTimeout(() => { transitioning = false; }, 400);
+    // preload neighbours
+    preload((target + 1) % total);
+    preload(((target - 1) + total) % total);
   }
-  lbCounter.textContent = `${index + 1} / ${TOTAL}`;
-  lbTitle.textContent = p.title;
-  lbLoc.innerHTML = `${p.loc} <span class="zh">· ${p.zh}</span>`;
+
+  if (next.complete && next.naturalWidth) {
+    doTransition();
+  } else {
+    next.onload = doTransition;
+    next.onerror = () => { transitioning = false; };
+  }
 }
 
-function goPrev() { currentIdx = (currentIdx - 1 + TOTAL) % TOTAL; setPhoto(currentIdx, true); }
-function goNext() { currentIdx = (currentIdx + 1) % TOTAL;         setPhoto(currentIdx, true); }
+function preload(idx) {
+  const i = new Image();
+  i.src = photos[idx].src;
+}
 
-document.querySelectorAll('.photo-item').forEach(el => {
-  el.addEventListener('click', () => openLightbox(parseInt(el.dataset.index)));
-});
+// Init
+A.src = photos[0].src;
+A.onload = () => {
+  A.classList.add('visible');
+  captionEl.classList.add('visible');
+};
+updateUI(0);
+preload(1);
+preload(2);
 
-document.getElementById('lb-close').addEventListener('click', closeLightbox);
-document.getElementById('lb-prev').addEventListener('click', goPrev);
-document.getElementById('lb-next').addEventListener('click', goNext);
-
-lb.addEventListener('click', e => { if (e.target === lb) closeLightbox(); });
+// Navigation
+document.getElementById('zonePrev').addEventListener('click', () => show(current - 1));
+document.getElementById('zoneNext').addEventListener('click', () => show(current + 1));
 
 document.addEventListener('keydown', e => {
-  if (!isOpen) return;
-  if (e.key === 'ArrowLeft')  { e.preventDefault(); goPrev(); }
-  if (e.key === 'ArrowRight') { e.preventDefault(); goNext(); }
-  if (e.key === 'Escape')     closeLightbox();
+  if (e.key === 'ArrowLeft') show(current - 1);
+  if (e.key === 'ArrowRight') show(current + 1);
 });
 
-const lbContent = document.getElementById('lb-content');
-lbContent.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
-lbContent.addEventListener('touchend', e => {
+// Touch swipe
+let touchStartX = 0;
+document.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+document.addEventListener('touchend', e => {
   const dx = e.changedTouches[0].clientX - touchStartX;
-  if (Math.abs(dx) > 44) { dx < 0 ? goNext() : goPrev(); }
+  if (Math.abs(dx) > 48) dx > 0 ? show(current - 1) : show(current + 1);
 });
 
-// ── Scroll reveal ──
-const obs = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
-}, { threshold: 0.06 });
-document.querySelectorAll('.reveal').forEach(r => obs.observe(r));
-
-// ── Leaflet map (guarded: skip gracefully if the CDN is unreachable) ──
-if (window.L) {
-const map = L.map('map', { zoomControl: true, attributionControl: false }).setView([28.5, 104.5], 5);
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 17, opacity: 0.68 }).addTo(map);
-
-const cityColors = { cq: ["#c85942","#e8816c"], cd: ["#2a7a58","#56c4a0"], km: ["#5b4bab","#9b8fd6"] };
-photos.forEach((p, i) => {
-  const [stroke, fill] = cityColors[p.city];
-  const num = String(i + 1).padStart(2, '0');
-  L.circleMarker([p.lat, p.lon], { radius: 7, fillColor: fill, color: stroke, weight: 2, opacity: 0.9, fillOpacity: 0.82 })
-    .addTo(map)
-    .bindPopup(L.popup({ maxWidth: 190, minWidth: 190, closeButton: false, offset: [0, -3] }).setContent(`
-      <div class="map-popup">
-        <img src="uploads/photography/streets/${p.file}" alt="${p.title}" loading="lazy"/>
-        <div class="map-popup-body">
-          <div class="map-popup-num">No. ${num}</div>
-          <div class="map-popup-title">${p.title}</div>
-          <div class="map-popup-loc">${p.loc}<span class="zh"> · ${p.zh}</span></div>
-        </div>
-      </div>`
-    ))
-    .on('mouseenter', function() { this.openPopup(); });
+// Custom cursor
+const stage = document.getElementById('stage');
+stage.addEventListener('mousemove', e => {
+  cursor.style.left = e.clientX + 'px';
+  cursor.style.top = e.clientY + 'px';
+  cursor.classList.add('visible');
+  const x = e.clientX / window.innerWidth;
+  if (x < 0.38 || x > 0.62) {
+    cursor.classList.add('large');
+  } else {
+    cursor.classList.remove('large');
+  }
 });
-document.getElementById('map').style.filter = 'saturate(0.65) contrast(0.92)';
-}
+stage.addEventListener('mouseleave', () => {
+  cursor.classList.remove('visible');
+  cursor.classList.remove('large');
+});
 </script>
 </body>
 </html>
