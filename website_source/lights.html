@@ -66,11 +66,13 @@
     text-transform: uppercase; color: var(--ink-soft);
   }
   .nav-back {
-    font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em;
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em;
     text-transform: uppercase; color: var(--ink-soft); text-decoration: none;
     transition: color 0.2s;
+    display: inline-flex; align-items: center; gap: 8px;
   }
   .nav-back:hover { color: var(--accent); }
+  .nav-back-x { font-family: var(--serif); font-size: 24px; font-weight: 300; letter-spacing: 0; line-height: 1; }
 
   .stage {
     position: fixed;
@@ -178,7 +180,7 @@
 <nav>
   <a class="nav-logo" href="index.html">irina.<em>love</em></a>
   <span class="nav-center">Light &amp; Texture</span>
-  <a class="nav-back" href="index.html#photography">×</a>
+  <a class="nav-back" href="index.html#photography">close <span class="nav-back-x">×</span></a>
 </nav>
 
 <div class="stage" id="stage">
