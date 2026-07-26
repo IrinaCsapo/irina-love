@@ -145,9 +145,9 @@
     line-height: 1.4;
     flex: 1;
     white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-    opacity: 0; transition: opacity 0.3s 0.1s;
   }
-  .caption.visible { opacity: 1; }
+  .caption.in { animation: captionIn 0.35s ease both; }
+  @keyframes captionIn { from { opacity: 0; transform: translateY(3px); } to { opacity: 1; transform: none; } }
 
   .counter {
     font-family: var(--mono);
@@ -259,83 +259,77 @@ const photos = [
 const total = photos.length;
 let current = 0;
 let activeSlot = 'A';
-let transitioning = false;
+let locked = false;
+let safetyTimer = null;
 
-const A = document.getElementById('photoA');
-const B = document.getElementById('photoB');
+const elA = document.getElementById('photoA');
+const elB = document.getElementById('photoB');
 const captionEl = document.getElementById('caption');
 const counterEl = document.getElementById('counter');
 const fillEl = document.getElementById('progressFill');
 const cursor = document.getElementById('cursor');
 
-function getSlots() {
-  return activeSlot === 'A' ? { curr: A, next: B } : { curr: B, next: A };
-}
+function unlock() { locked = false; }
 
 function updateUI(idx) {
-  captionEl.classList.remove('visible');
-  setTimeout(() => {
-    captionEl.textContent = photos[idx].caption;
-    captionEl.classList.add('visible');
-  }, 120);
+  captionEl.textContent = photos[idx].caption;
+  captionEl.classList.remove('in');
+  void captionEl.offsetWidth; // reflow — restarts animation
+  captionEl.classList.add('in');
   counterEl.textContent = `${String(idx + 1).padStart(2, '0')} / ${total}`;
   fillEl.style.width = `${((idx + 1) / total) * 100}%`;
 }
 
-function show(idx) {
-  if (transitioning) return;
-  const target = ((idx % total) + total) % total;
+function show(targetIdx) {
+  if (locked) return;
+  const target = ((targetIdx % total) + total) % total;
   if (target === current) return;
-  transitioning = true;
 
-  const { curr, next } = getSlots();
-  next.src = photos[target].src;
+  locked = true;
+  clearTimeout(safetyTimer);
+  safetyTimer = setTimeout(unlock, 6000); // absolute safety net
 
-  function doTransition() {
-    next.classList.add('visible');
-    curr.classList.remove('visible');
-    activeSlot = activeSlot === 'A' ? 'B' : 'A';
-    current = target;
-    updateUI(current);
-    setTimeout(() => { transitioning = false; }, 400);
-    // preload neighbours
-    preload((target + 1) % total);
-    preload(((target - 1) + total) % total);
-  }
+  const onEl  = activeSlot === 'A' ? elA : elB; // currently visible
+  const offEl = activeSlot === 'A' ? elB : elA; // hidden, will show next
 
-  if (next.complete && next.naturalWidth) {
-    doTransition();
-  } else {
-    next.onload = doTransition;
-    next.onerror = () => { transitioning = false; };
-  }
+  // Use a fresh Image() — onload is guaranteed to fire even for cached URLs
+  const loader = new Image();
+  loader.onload = () => {
+    offEl.src = loader.src;            // already in cache, instant paint
+    requestAnimationFrame(() => {      // let browser paint the new src first
+      offEl.classList.add('visible');
+      onEl.classList.remove('visible');
+      activeSlot = activeSlot === 'A' ? 'B' : 'A';
+      current = target;
+      updateUI(current);
+      clearTimeout(safetyTimer);
+      safetyTimer = setTimeout(unlock, 420); // unlock after fade completes
+      preload(((target + 1) % total));
+      preload(((target - 1 + total) % total));
+    });
+  };
+  loader.onerror = () => { clearTimeout(safetyTimer); unlock(); };
+  loader.src = photos[target].src;
 }
 
-function preload(idx) {
-  const i = new Image();
-  i.src = photos[idx].src;
-}
+function preload(idx) { new Image().src = photos[idx].src; }
 
-// Init
-A.src = photos[0].src;
-A.onload = () => {
-  A.classList.add('visible');
-  captionEl.classList.add('visible');
-};
+// ── Init ──
+elA.src = photos[0].src;
+elA.onload = () => elA.classList.add('visible');
+if (elA.complete && elA.naturalWidth) elA.classList.add('visible');
 updateUI(0);
-preload(1);
-preload(2);
+preload(1); preload(2);
 
-// Navigation
+// ── Controls ──
 document.getElementById('zonePrev').addEventListener('click', () => show(current - 1));
 document.getElementById('zoneNext').addEventListener('click', () => show(current + 1));
 
 document.addEventListener('keydown', e => {
-  if (e.key === 'ArrowLeft') show(current - 1);
+  if (e.key === 'ArrowLeft')  show(current - 1);
   if (e.key === 'ArrowRight') show(current + 1);
 });
 
-// Touch swipe
 let touchStartX = 0;
 document.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
 document.addEventListener('touchend', e => {
@@ -343,23 +337,15 @@ document.addEventListener('touchend', e => {
   if (Math.abs(dx) > 48) dx > 0 ? show(current - 1) : show(current + 1);
 });
 
-// Custom cursor
+// ── Custom cursor ──
 const stage = document.getElementById('stage');
 stage.addEventListener('mousemove', e => {
   cursor.style.left = e.clientX + 'px';
-  cursor.style.top = e.clientY + 'px';
+  cursor.style.top  = e.clientY + 'px';
   cursor.classList.add('visible');
-  const x = e.clientX / window.innerWidth;
-  if (x < 0.38 || x > 0.62) {
-    cursor.classList.add('large');
-  } else {
-    cursor.classList.remove('large');
-  }
+  cursor.classList.toggle('large', e.clientX / window.innerWidth < 0.38 || e.clientX / window.innerWidth > 0.62);
 });
-stage.addEventListener('mouseleave', () => {
-  cursor.classList.remove('visible');
-  cursor.classList.remove('large');
-});
+stage.addEventListener('mouseleave', () => { cursor.className = 'cursor'; });
 </script>
 </body>
 </html>
