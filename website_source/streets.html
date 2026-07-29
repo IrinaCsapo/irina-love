@@ -192,10 +192,13 @@
   @keyframes hintFade { to { opacity: 0; } }
 
   @media (max-width: 600px) {
+    :root { --bar-h: 88px; }
     nav { padding: 0 20px; }
     .nav-center { display: none; }
-    .bar { padding: 0 20px; }
+    .bar { padding: 0 20px; align-items: flex-start; padding-top: 10px; padding-bottom: 10px; }
     .zone-arrow { display: none; }
+    .caption { white-space: normal; overflow: visible; text-overflow: clip; font-size: 12px; }
+    .counter { padding-top: 2px; }
   }
 </style>
 </head>
