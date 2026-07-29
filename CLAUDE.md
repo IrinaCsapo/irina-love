@@ -1,0 +1,28 @@
+# irina.love — project memory
+
+## Writing rules
+
+- **No em dashes (—).** They read as AI-generated filler. Use a comma, a full stop, or rewrite the sentence instead.
+
+## Project overview
+
+Static HTML/CSS/JS site hosted at irina.love. Source files live in `website_source/`. Previously deployed via Netlify; migrating to GitHub Pages.
+
+## Tech notes
+
+- Colors use `oklch()` throughout — do not convert to hex/rgb
+- WebP format for all photography assets
+- Fonts: Fraunces (display/serif), Newsreader (text), Fragment Mono (mono)
+- No build step — plain HTML files, edit directly
+
+## Photography albums
+
+- `streets.html` — 25 photos, accent `oklch(56% 0.185 29)` (coral)
+- `lights.html` — 25 photos, accent `oklch(72% 0.09 75)` (amber)
+- `cats.html` — 19 photos, accent `oklch(56% 0.185 29)` (coral)
+- All three use the same book-browsing layout (full-screen, cross-dissolve, arrow/click/swipe navigation)
+
+## Analytics
+
+Umami self-hosted at irina-umami.vercel.app, website ID: 9c96c480-3224-4ef0-ba74-a5212d1f6d69
+Both script.js and recorder.js on all pages.
