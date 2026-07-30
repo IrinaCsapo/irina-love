@@ -7,7 +7,7 @@
 <meta name="description" content="A slow fall from the sky to the sea floor, past everything the cabinet keeps. A scroll-film for irina.love.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Jost:wght@300;400;500&family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=Newsreader:ital,opsz,wght@0,6..72,300..500;1,6..72,300..500&family=Fragment+Mono:ital@0;1&display=swap" rel="stylesheet">
 <script defer src="https://irina-umami.vercel.app/script.js" data-website-id="9c96c480-3224-4ef0-ba74-a5212d1f6d69"></script>
 <script defer src="https://irina-umami.vercel.app/recorder.js" data-website-id="9c96c480-3224-4ef0-ba74-a5212d1f6d69"></script>
 <style>
@@ -274,18 +274,42 @@
   .manifesto-body p + p { margin-top: 20px; }
   .manifesto-body strong { color: var(--cream); font-weight: 400; }
 
-  #about { padding: 100px 0; }
-  .about-inner { display: flex; align-items: center; gap: 80px; }
-  .about-image-wrap { flex-shrink: 0; width: 200px; height: 200px; border-radius: 50%; overflow: hidden; border: 3px solid oklch(85% 0.06 60); }
-  .about-image-wrap img { width: 100%; height: 100%; object-fit: cover; }
-  .about-heading { font-family: var(--serif); font-size: 42px; font-weight: 300; line-height: 1.1; margin-bottom: 20px; }
-  .about-heading em { font-style: italic; color: var(--coral); }
-  .about-body { font-size: 16px; line-height: 1.75; color: var(--ink-soft); max-width: 520px; }
-
-  footer { padding: 48px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid oklch(70% 0.04 60 / 0.25); }
-  .footer-logo { font-family: var(--serif); font-size: 18px; }
-  .footer-logo em { font-style: italic; color: var(--coral); }
-  .footer-copy { font-size: 12px; letter-spacing: 0.05em; color: var(--ink-soft); }
+  /* about + footer (matches homepage) */
+  .mono {
+    font-family: 'Fragment Mono', 'Courier New', monospace;
+    font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 400;
+  }
+  .section-head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    border-bottom: 1px solid var(--ink); padding-bottom: 16px; color: var(--ink-soft);
+  }
+  .section-head .roman { color: oklch(56% 0.185 29); }
+  #about { padding: 104px 0 96px; }
+  .about-grid {
+    display: grid; grid-template-columns: 5fr 7fr; gap: 72px;
+    padding-top: 56px; align-items: start;
+  }
+  .about-heading {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: clamp(36px, 4vw, 52px); font-weight: 400; line-height: 1.1;
+  }
+  .about-heading em { font-style: italic; color: oklch(56% 0.185 29); }
+  .about-body {
+    font-family: 'Newsreader', Georgia, serif;
+    font-size: 19px; line-height: 1.75; color: var(--ink-soft); max-width: 52ch;
+  }
+  .about-body + .about-body { margin-top: 20px; }
+  .about-body a { color: oklch(56% 0.185 29); text-decoration: none; border-bottom: 1px solid currentColor; }
+  .about-signature {
+    font-family: 'Fraunces', Georgia, serif; font-style: italic;
+    font-size: 30px; color: oklch(56% 0.185 29); margin-top: 36px;
+  }
+  footer { border-top: 1px solid var(--ink); padding: 40px 0 48px; }
+  .footer-grid {
+    display: flex; justify-content: space-between; flex-wrap: wrap;
+    gap: 16px 32px; color: var(--ink-soft);
+  }
+  .footer-grid .fleuron { color: oklch(56% 0.185 29); }
 
   .reveal { opacity: 0; transform: translateY(30px); transition: opacity .9s cubic-bezier(.23,1,.32,1), transform .9s cubic-bezier(.23,1,.32,1); }
   .reveal.in { opacity: 1; transform: none; }
@@ -305,9 +329,9 @@
     .dreaming-grid { grid-template-columns: 1fr 1fr; }
     .manifesto-grid { grid-template-columns: 1fr; gap: 40px; }
     .manifesto-right { padding-top: 0; }
-    .about-inner { flex-direction: column; gap: 40px; text-align: center; }
+    .about-grid { grid-template-columns: 1fr; gap: 32px; }
     #ocean-figure { right: 4%; }
-    footer { flex-direction: column; gap: 12px; }
+    .footer-grid { flex-direction: column; }
     .fall-caption { white-space: normal; width: 88vw; }
   }
 
@@ -435,22 +459,29 @@
 
 <section id="about">
   <div class="wrap">
-    <div class="about-inner reveal">
-      <div class="about-image-wrap">
-        <img src="uploads/Screenshot 2026-04-25 at 13.15.19.png" alt="Irina">
-      </div>
-      <div class="about-text">
-        <p class="section-label">About Irina</p>
-        <h2 class="about-heading">Making things that<br>feel like <em>love</em></h2>
-        <p class="about-body">I'm a product designer and artist who builds tools of delight, small apps that sit at the intersection of AI and emotion. My tools are personal, playful, and designed to make you feel something real. irina.love is the home for everything I'm building, one curiosity at a time.</p>
+    <div class="section-head mono reveal">
+      <span><span class="roman">IV.</span>&ensp;About Irina</span>
+      <span>the keeper of the cabinet</span>
+    </div>
+    <div class="about-grid">
+      <h2 class="about-heading reveal">Making things that feel like <em>love</em></h2>
+      <div class="reveal">
+        <p class="about-body">I'm a <a href="https://irinacsapo.co.uk/" target="_blank" rel="noopener">product designer</a> and <a href="https://www.instagram.com/irina_csapo_art" target="_blank" rel="noopener">artist</a>, and an agent of delight. I build small apps that sit at the intersection of AI and emotion. My tools are personal, playful, and designed to make you feel something real.</p>
+        <p class="about-body">Delight seemed too soft a word to build a life around. It wasn't.</p>
+        <p class="about-body">irina.love is the home for everything I'm making, one experience at a time.</p>
+        <p class="about-signature">— irina</p>
       </div>
     </div>
   </div>
 </section>
 
 <footer>
-  <div class="footer-logo">irina<em>.love</em></div>
-  <div class="footer-copy">© 2026 · tools of delight · a cabinet of curiosities</div>
+  <div class="wrap">
+    <div class="footer-grid mono">
+      <span>irina.love <span class="fleuron">✳</span> tools of delight</span>
+      <span>© 2026 · made with love</span>
+    </div>
+  </div>
 </footer>
 
 <script src="libs/gsap.min.js"></script>
