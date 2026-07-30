@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Bloom — irina.love</title>
+<meta name="description" content="One seed becomes a cosmos becomes the cabinet. A scroll-film for irina.love, tools of delight.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Jost:wght@300;400;500&family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=Newsreader:ital,opsz,wght@0,6..72,300..500;1,6..72,300..500&family=Fragment+Mono:ital@0;1&display=swap" rel="stylesheet">
+<script defer src="https://irina-umami.vercel.app/script.js" data-website-id="9c96c480-3224-4ef0-ba74-a5212d1f6d69"></script>
+<script defer src="https://irina-umami.vercel.app/recorder.js" data-website-id="9c96c480-3224-4ef0-ba74-a5212d1f6d69"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: oklch(97% 0.018 85);
+    --bg-dark: oklch(92% 0.022 85);
+    --cream: oklch(99% 0.008 85);
+    --coral: oklch(67% 0.18 24);
+    --coral-soft: oklch(80% 0.12 24);
+    --lavender: oklch(75% 0.1 290);
+    --ink: oklch(18% 0.015 60);
+    --ink-soft: oklch(42% 0.025 60);
+    --space: oklch(16% 0.03 290);
+    --space-deep: oklch(12% 0.028 290);
+    --serif: 'Cormorant Garamond', Georgia, serif;
+    --sans: 'Jost', sans-serif;
+  }
+
+  html { background: var(--bg); }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* paper grain */
+  .grain {
+    position: fixed; inset: 0; z-index: 40; pointer-events: none; opacity: 0.05;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+    background-size: 220px 220px;
+  }
+
+  /* ── nav ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 26px 44px;
+    display: flex; justify-content: space-between; align-items: center;
+    color: var(--ink);
+    transition: color .5s;
+  }
+  nav.on-dark { color: oklch(93% 0.015 290); }
+  .nav-logo {
+    font-family: var(--serif); font-size: 20px; letter-spacing: 0.02em;
+    color: currentColor; text-decoration: none;
+  }
+  .nav-logo em { color: var(--coral); font-style: italic; }
+  nav.on-dark .nav-logo em { color: var(--coral-soft); }
+  .nav-right { display: flex; gap: 28px; align-items: center; }
+  .nav-right a {
+    font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: currentColor; text-decoration: none; opacity: .62; transition: opacity .2s;
+  }
+  .nav-right a:hover, .nav-right a.here { opacity: 1; }
+  .nav-right a.here { border-bottom: 1px solid var(--coral); padding-bottom: 2px; }
+
+  /* chapter readout */
+  #chapter {
+    position: fixed; left: 44px; bottom: 34px; z-index: 100;
+    display: flex; flex-direction: column; gap: 10px;
+    color: var(--ink); transition: color .5s, opacity .5s;
+    pointer-events: none;
+  }
+  #chapter.on-dark { color: oklch(93% 0.015 290); }
+  #chapter.gone { opacity: 0; }
+  #chapter-label {
+    font-family: var(--serif); font-style: italic; font-size: 15px; letter-spacing: 0.04em;
+  }
+  #chapter-bar { width: 120px; height: 1px; background: oklch(60% 0.03 60 / 0.3); }
+  #chapter-fill { width: 0%; height: 100%; background: var(--coral); }
+
+  /* ══ THE FILM ══ */
+  #film { position: relative; }
+
+  /* — scene: hero / the seed — */
+  #s-hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; position: relative;
+    padding: 120px 24px 60px;
+  }
+  #motes { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+  .hero-eyebrow {
+    font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--ink-soft); margin-bottom: 30px;
+    opacity: 0; animation: fadeUp .8s .2s forwards;
+  }
+  .hero-title {
+    font-family: var(--serif); font-weight: 300;
+    font-size: clamp(64px, 11vw, 150px); line-height: 0.94; letter-spacing: -0.01em;
+    position: relative; z-index: 2;
+  }
+  .hero-title em { font-style: italic; color: var(--coral); }
+  .hero-title .ch { display: inline-block; will-change: transform, opacity; }
+  .hero-sub {
+    margin-top: 36px; max-width: 400px; font-size: 16px; line-height: 1.7;
+    color: var(--ink-soft);
+    opacity: 0; animation: fadeUp .9s 1s forwards;
+  }
+  .hero-seed {
+    margin-top: 52px; display: flex; flex-direction: column; align-items: center; gap: 18px;
+    opacity: 0; animation: fadeUp .9s 1.3s forwards;
+  }
+  .hero-seed svg { display: block; }
+  .hero-seed-label {
+    font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-soft);
+  }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
+
+  /* — scene: the bloom (pinned) — */
+  #s-bloom {
+    height: 100vh; position: relative; overflow: hidden;
+    background: var(--bg);
+    display: flex; align-items: center; justify-content: center;
+  }
+  #bloom-stage { position: relative; width: min(72vmin, 640px); aspect-ratio: 1; will-change: transform; }
+  #bloom-stage svg { width: 100%; height: 100%; overflow: visible; }
+  .petal { transform-box: fill-box; transform-origin: 50% 100%; will-change: transform, opacity; }
+  #bloom-word {
+    position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+    font-family: var(--serif); font-style: italic; font-size: clamp(22px, 3vw, 34px);
+    color: var(--ink-soft); white-space: nowrap; letter-spacing: 0.06em;
+    pointer-events: none;
+  }
+  /* dark core that swallows the viewport */
+  #core-cover {
+    position: absolute; left: 50%; top: 50%;
+    width: 24vmax; height: 24vmax; margin: -12vmax 0 0 -12vmax;
+    border-radius: 50%; background: var(--space-deep);
+    transform: scale(0); will-change: transform;
+    pointer-events: none;
+  }
+
+  /* — scene: the cosmos (pinned) — */
+  #s-cosmos {
+    height: 100vh; position: relative; overflow: hidden;
+    background: var(--space-deep);
+    display: flex; align-items: center; justify-content: center;
+  }
+  #cosmos-glow {
+    position: absolute; inset: 0; opacity: 0; will-change: opacity;
+    background: radial-gradient(circle at 50% 42%, oklch(22% 0.05 300), oklch(12% 0.028 290 / 0) 70%);
+  }
+  #stars { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .cosmos-quote {
+    position: relative; z-index: 2; text-align: center;
+    font-family: var(--serif); font-weight: 300;
+    font-size: clamp(34px, 5.4vw, 72px); line-height: 1.2; letter-spacing: -0.005em;
+    color: oklch(93% 0.015 290);
+  }
+  .cosmos-quote .q2 { display: block; }
+  .cosmos-quote em { font-style: italic; color: var(--coral-soft); }
+  .q1, .q2 { opacity: 0; will-change: transform, opacity; }
+  #cosmos-pet {
+    position: absolute; z-index: 1;
+    right: 4.5%; top: 9%;
+    width: clamp(150px, 20vw, 280px);
+    opacity: 0; will-change: transform, opacity;
+    text-align: center;
+  }
+  #cosmos-pet .orb {
+    width: 100%; aspect-ratio: 1;
+    border-radius: 50%; overflow: hidden;
+    box-shadow: 0 0 80px oklch(75% 0.1 290 / 0.35), 0 0 160px oklch(67% 0.18 24 / 0.18);
+  }
+  #cosmos-pet .orb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  #cosmos-pet figcaption {
+    margin-top: 16px;
+    font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: oklch(93% 0.015 290 / 0.85); white-space: nowrap;
+  }
+  #cosmos-hint {
+    position: absolute; bottom: 8%; left: 50%; transform: translateX(-50%);
+    font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase;
+    color: oklch(80% 0.03 290 / 0.7); opacity: 0;
+  }
+
+  /* — scene: the shelf (pinned horizontal) — */
+  #s-shelf {
+    height: 100vh; position: relative; overflow: hidden;
+    background: linear-gradient(180deg, var(--space-deep), oklch(18% 0.035 300));
+    display: flex; align-items: center;
+  }
+  #shelf-track {
+    display: flex; align-items: center; gap: clamp(28px, 4vw, 56px);
+    width: max-content; padding: 0 10vw;
+    will-change: transform;
+  }
+  .shelf-intro { width: 46vw; min-width: 320px; padding-right: 4vw; }
+  .shelf-intro-label {
+    font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase;
+    color: oklch(75% 0.06 290 / 0.8); margin-bottom: 18px;
+  }
+  .shelf-intro-title {
+    font-family: var(--serif); font-weight: 300;
+    font-size: clamp(40px, 5vw, 68px); line-height: 1.08; color: oklch(94% 0.012 290);
+  }
+  .shelf-intro-title em { font-style: italic; color: var(--coral-soft); }
+  .vitrine {
+    width: clamp(250px, 24vw, 330px); flex-shrink: 0;
+    background: oklch(21% 0.03 295 / 0.85);
+    border: 1px solid oklch(80% 0.05 290 / 0.18);
+    border-radius: 6px; padding: 22px 22px 26px;
+    box-shadow: 0 30px 60px oklch(10% 0.02 290 / 0.5), inset 0 1px 0 oklch(95% 0.01 290 / 0.08);
+  }
+  .vitrine-img {
+    width: 100%; aspect-ratio: 4/3.4; border-radius: 3px; overflow: hidden;
+    margin-bottom: 20px; background: oklch(26% 0.03 295);
+  }
+  .vitrine-img img {
+    width: 100%; height: 100%; object-fit: cover;
+    filter: saturate(1.05); will-change: transform;
+  }
+  .vitrine-num {
+    font-family: var(--serif); font-style: italic; font-size: 12px;
+    color: var(--coral-soft); letter-spacing: 0.1em; margin-bottom: 8px;
+  }
+  .vitrine-title {
+    font-family: var(--serif); font-size: 26px; font-weight: 400; line-height: 1.12;
+    color: oklch(94% 0.012 290); margin-bottom: 10px;
+  }
+  .vitrine-status {
+    font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: oklch(72% 0.05 290 / 0.85);
+  }
+  .vitrine-status.live { color: var(--coral-soft); }
+  .shelf-outro {
+    width: 38vw; min-width: 260px; padding-left: 4vw;
+    font-family: var(--serif); font-style: italic;
+    font-size: clamp(26px, 3.2vw, 40px); color: oklch(85% 0.03 290 / 0.9); line-height: 1.3;
+  }
+
+  /* — landing: dark melts to cream — */
+  #landing {
+    height: 150vh;
+    background: linear-gradient(180deg, oklch(18% 0.035 300) 0%, oklch(45% 0.04 320) 34%, oklch(88% 0.035 60) 66%, var(--bg) 100%);
+    display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+  }
+  #landing-line {
+    font-family: var(--serif); font-style: italic; font-weight: 300;
+    font-size: clamp(30px, 4.6vw, 58px); color: var(--cream);
+    mix-blend-mode: difference; text-align: center; padding: 0 24px;
+  }
+
+  /* ══ THE CABINET (after-film) ══ */
+  .wrap { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 0 48px; }
+  .section-label {
+    font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--ink-soft); margin-bottom: 20px;
+  }
+  .divider { height: 1px; background: oklch(75% 0.04 60 / 0.25); margin: 0 48px; }
+
+  /* marquee */
+  #marquee { overflow: hidden; padding: 34px 0 8px; }
+  #marquee-track {
+    display: flex; gap: 48px; width: max-content; will-change: transform;
+    font-family: var(--serif); font-style: italic; font-size: 26px; color: var(--coral-soft);
+    white-space: nowrap;
+  }
+
+  #tools { padding: 90px 0 140px; }
+  .tools-header { display: flex; align-items: baseline; gap: 32px; margin-bottom: 68px; }
+  .tools-title { font-family: var(--serif); font-size: clamp(42px, 5vw, 72px); font-weight: 300; line-height: 1; }
+  .tools-count { font-family: var(--serif); font-size: 18px; color: var(--coral); font-style: italic; }
+
+  .projects-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; }
+  .dreaming-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+
+  .project-card {
+    background: var(--cream); border-radius: 4px; overflow: hidden; position: relative;
+    transition: transform .5s cubic-bezier(.23,1,.32,1);
+  }
+  .project-card:hover { transform: translateY(-6px); }
+  .card-image { width: 100%; aspect-ratio: 4/3; overflow: hidden; }
+  .card-image img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform .8s cubic-bezier(.23,1,.32,1); filter: saturate(1.05);
+  }
+  .project-card:hover .card-image img { transform: scale(1.04); }
+  .card-body { padding: 36px 40px 40px; }
+  .card-tag {
+    font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--coral); margin-bottom: 12px;
+  }
+  .card-title { font-family: var(--serif); font-size: 38px; font-weight: 400; line-height: 1.1; margin-bottom: 16px; }
+  .card-title em { font-style: italic; color: var(--ink-soft); }
+  .card-desc { font-size: 15px; line-height: 1.7; color: var(--ink-soft); max-width: 340px; margin-bottom: 28px; }
+  .card-link {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--ink); text-decoration: none;
+    border-bottom: 1px solid var(--coral); padding-bottom: 2px;
+    transition: color .2s, gap .2s;
+  }
+  .card-link:hover { color: var(--coral); gap: 16px; }
+  .card-coming {
+    background: oklch(94% 0.022 85); min-height: 340px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 14px; padding: 60px 40px; text-align: center; position: relative; overflow: hidden;
+  }
+  .card-coming .card-ghost { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; opacity: 0.12; }
+  .card-coming .card-ghost img { width: 85%; height: 85%; object-fit: cover; border-radius: 50%; filter: saturate(0.3) brightness(1.05); mix-blend-mode: multiply; }
+  .card-coming-label { font-family: var(--serif); font-size: 28px; font-style: italic; color: var(--ink-soft); position: relative; }
+  .card-coming-sub { font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: oklch(50% 0.04 272); position: relative; max-width: 380px; }
+
+  .dream-card {
+    background: var(--cream); border-radius: 4px; padding: 40px 32px;
+    position: relative; overflow: hidden; min-height: 240px;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    transition: transform .5s cubic-bezier(.23,1,.32,1);
+  }
+  .dream-card:hover { transform: translateY(-6px); }
+  .dream-card-bg { position: absolute; inset: 0; }
+  .dream-card-bg img {
+    width: 100%; height: 100%; object-fit: cover; opacity: 0.18;
+    filter: saturate(0.6) brightness(1.1); mix-blend-mode: multiply;
+    transition: opacity .5s, transform .8s cubic-bezier(.23,1,.32,1);
+  }
+  .dream-card:hover .dream-card-bg img { opacity: 0.28; transform: scale(1.05); }
+  .dream-card-num { font-family: var(--serif); font-size: 11px; font-style: italic; color: var(--coral); letter-spacing: 0.1em; margin-bottom: 10px; position: relative; }
+  .dream-card-title { font-family: var(--serif); font-size: 26px; font-weight: 400; line-height: 1.15; position: relative; margin-bottom: 12px; }
+  .dream-card-title em { font-style: italic; color: var(--ink-soft); }
+  .dream-card-status { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-soft); position: relative; }
+
+  #manifesto { padding: 120px 0 140px; background: oklch(22% 0.02 270); color: var(--cream); }
+  .manifesto-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+  .manifesto-left .section-label { color: oklch(70% 0.06 272); }
+  .manifesto-quote {
+    font-family: var(--serif); font-size: clamp(32px, 4vw, 54px); font-weight: 300;
+    line-height: 1.25; letter-spacing: -0.01em;
+  }
+  .manifesto-quote em { font-style: italic; color: var(--coral-soft); }
+  .manifesto-right { padding-top: 52px; }
+  .manifesto-body { font-size: 16px; line-height: 1.85; color: oklch(72% 0.03 272); }
+  .manifesto-body p + p { margin-top: 20px; }
+  .manifesto-body strong { color: var(--cream); font-weight: 400; }
+
+  /* about + footer (matches homepage) */
+  .mono {
+    font-family: 'Fragment Mono', 'Courier New', monospace;
+    font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 400;
+  }
+  .section-head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    border-bottom: 1px solid var(--ink); padding-bottom: 16px; color: var(--ink-soft);
+  }
+  .section-head .roman { color: oklch(56% 0.185 29); }
+  #about { padding: 104px 0 96px; }
+  .about-grid {
+    display: grid; grid-template-columns: 5fr 7fr; gap: 72px;
+    padding-top: 56px; align-items: start;
+  }
+  .about-heading {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: clamp(36px, 4vw, 52px); font-weight: 400; line-height: 1.1;
+  }
+  .about-heading em { font-style: italic; color: oklch(56% 0.185 29); }
+  .about-body {
+    font-family: 'Newsreader', Georgia, serif;
+    font-size: 19px; line-height: 1.75; color: var(--ink-soft); max-width: 52ch;
+  }
+  .about-body + .about-body { margin-top: 20px; }
+  .about-body a { color: oklch(56% 0.185 29); text-decoration: none; border-bottom: 1px solid currentColor; }
+  .about-signature {
+    font-family: 'Fraunces', Georgia, serif; font-style: italic;
+    font-size: 30px; color: oklch(56% 0.185 29); margin-top: 36px;
+  }
+  footer { border-top: 1px solid var(--ink); padding: 40px 0 48px; }
+  .footer-grid {
+    display: flex; justify-content: space-between; flex-wrap: wrap;
+    gap: 16px 32px; color: var(--ink-soft);
+  }
+  .footer-grid .fleuron { color: oklch(56% 0.185 29); }
+
+  /* reveal */
+  .reveal { opacity: 0; transform: translateY(30px); transition: opacity .9s cubic-bezier(.23,1,.32,1), transform .9s cubic-bezier(.23,1,.32,1); }
+  .reveal.in { opacity: 1; transform: none; }
+
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: oklch(75% 0.06 60); border-radius: 3px; }
+
+  @media (max-width: 900px) {
+    nav { padding: 20px 24px; }
+    .nav-right { gap: 16px; }
+    .nav-right a.alt { display: none; }
+    #chapter { left: 24px; bottom: 24px; }
+    .wrap { padding: 0 24px; }
+    .divider { margin: 0 24px; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .dreaming-grid { grid-template-columns: 1fr 1fr; }
+    .manifesto-grid { grid-template-columns: 1fr; gap: 40px; }
+    .manifesto-right { padding-top: 0; }
+    .about-grid { grid-template-columns: 1fr; gap: 32px; }
+    #cosmos-pet { right: 6%; top: 9%; }
+    .footer-grid { flex-direction: column; }
+  }
+
+  /* reduced motion: film becomes calm stacked panels */
+  @media (prefers-reduced-motion: reduce) {
+    .hero-eyebrow, .hero-sub, .hero-seed { animation: none; opacity: 1; }
+    .q1, .q2, #cosmos-pet, #cosmos-hint { opacity: 1 !important; }
+    .reveal { opacity: 1; transform: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="grain"></div>
+
+<nav id="nav">
+  <a class="nav-logo" href="index.html">irina<em>.love</em></a>
+  <div class="nav-right">
+    <a class="here" href="bloom.html">The Bloom</a>
+    <a class="alt" href="mythic.html">Mythic</a>
+    <a class="alt" href="tide.html">The Tide</a>
+    <a href="#tools">Skip to cabinet</a>
+  </div>
+</nav>
+
+<div id="chapter">
+  <div id="chapter-label">01 · the seed</div>
+  <div id="chapter-bar"><div id="chapter-fill"></div></div>
+</div>
+
+<div id="film">
+
+  <!-- 01 · the seed -->
+  <section id="s-hero">
+    <canvas id="motes"></canvas>
+    <p class="hero-eyebrow">a cabinet of curiosities</p>
+    <h1 class="hero-title" id="hero-title">tools of <em>delight</em></h1>
+    <p class="hero-sub">Small, lovely apps that take something ordinary and return it transformed. Scroll, and watch one seed become a cosmos.</p>
+    <div class="hero-seed">
+      <svg width="26" height="38" viewBox="0 0 26 38" fill="none" aria-hidden="true">
+        <ellipse cx="13" cy="24" rx="8" ry="12" fill="oklch(24% 0.03 60)"/>
+        <path d="M13 12 C 13 6 16 2 20 1" stroke="oklch(42% 0.025 60)" stroke-width="1.4" fill="none"/>
+      </svg>
+      <div class="hero-seed-label">something ordinary</div>
+    </div>
+  </section>
+
+  <!-- 02 · the bloom -->
+  <section id="s-bloom">
+    <div id="bloom-stage">
+      <svg viewBox="0 0 300 300" aria-hidden="true">
+        <!-- outer ring: lavender -->
+        <g id="ring2">
+          <g class="petal p2"><ellipse cx="150" cy="88" rx="26" ry="58" fill="oklch(75% 0.1 290 / 0.55)"/></g>
+        </g>
+        <!-- inner ring: coral -->
+        <g id="ring1">
+          <g class="petal p1"><ellipse cx="150" cy="102" rx="21" ry="46" fill="oklch(67% 0.18 24 / 0.62)"/></g>
+        </g>
+        <circle cx="150" cy="150" r="15" fill="oklch(24% 0.03 60)"/>
+        <circle cx="150" cy="150" r="7" fill="oklch(16% 0.03 290)"/>
+      </svg>
+      <div id="bloom-word">and it begins to open</div>
+    </div>
+    <div id="core-cover"></div>
+  </section>
+
+  <!-- 03 · the cosmos -->
+  <section id="s-cosmos">
+    <div id="cosmos-glow"></div>
+    <canvas id="stars"></canvas>
+    <div class="cosmos-quote">
+      <span class="q1">I take something ordinary</span>
+      <span class="q2">and return it <em>mythic.</em></span>
+    </div>
+    <figure id="cosmos-pet">
+      <div class="orb"><img src="uploads/hero_images/cosmic-pets-card.webp" alt="A cat reimagined as a cosmic being"></div>
+      <figcaption>specimen № 01 · a cosmic pet</figcaption>
+    </figure>
+    <div id="cosmos-hint">keep going</div>
+  </section>
+
+  <!-- 04 · the shelf -->
+  <section id="s-shelf">
+    <div id="shelf-track">
+      <div class="shelf-intro">
+        <div class="shelf-intro-label">04 · the shelf</div>
+        <h2 class="shelf-intro-title">Every wonder kept<br>under <em>glass.</em></h2>
+      </div>
+      <!-- vitrines injected from data/tools.json -->
+    </div>
+  </section>
+
+  <!-- landing -->
+  <section id="landing">
+    <div id="landing-line">welcome to the cabinet</div>
+  </section>
+
+</div>
+
+<!-- ══ THE CABINET ══ -->
+<div id="marquee" aria-hidden="true">
+  <div id="marquee-track"></div>
+</div>
+
+<section id="tools">
+  <div class="wrap">
+    <div class="tools-header reveal">
+      <h2 class="tools-title">The tools</h2>
+      <span class="tools-count" id="tools-count">more always blooming</span>
+    </div>
+    <div id="featured-grid" class="projects-grid"></div>
+    <div id="dreaming-grid" class="dreaming-grid"></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section id="manifesto">
+  <div class="wrap">
+    <div class="manifesto-grid">
+      <div class="manifesto-left reveal">
+        <p class="section-label">The idea</p>
+        <p class="manifesto-quote">I take something ordinary<br>and return it <em>mythic.</em></p>
+      </div>
+      <div class="manifesto-right reveal">
+        <div class="manifesto-body">
+          <p>Pets become cosmic beings. Moods become oceans. Memories become tracks you can play back. These tools aren't just fun, they make people feel <strong>seen</strong>. That's rarer and harder to copy than any feature.</p>
+          <p>Each tool is a small act of attention. A moment where technology stops being cold and becomes something close to <strong>tender</strong>.</p>
+          <p>Think of this as a cabinet of curiosities. Each new specimen teaches something new, about image generation, about emotion, about what it means to make something <strong>personal at scale</strong>.</p>
+          <p>Always asking the same question: does this make someone feel like the universe noticed them?</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="wrap">
+    <div class="section-head mono reveal">
+      <span><span class="roman">IV.</span>&ensp;About Irina</span>
+      <span>the keeper of the cabinet</span>
+    </div>
+    <div class="about-grid">
+      <h2 class="about-heading reveal">Making things that feel like <em>love</em></h2>
+      <div class="reveal">
+        <p class="about-body">I'm a <a href="https://irinacsapo.co.uk/" target="_blank" rel="noopener">product designer</a> and <a href="https://www.instagram.com/irina_csapo_art" target="_blank" rel="noopener">artist</a>, and an agent of delight. I build small apps that sit at the intersection of AI and emotion. My tools are personal, playful, and designed to make you feel something real.</p>
+        <p class="about-body">Delight seemed too soft a word to build a life around. It wasn't.</p>
+        <p class="about-body">irina.love is the home for everything I'm making, one experience at a time.</p>
+        <p class="about-signature">— irina</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid mono">
+      <span>irina.love <span class="fleuron">✳</span> tools of delight</span>
+      <span>© 2026 · made with love</span>
+    </div>
+  </div>
+</footer>
+
+<script src="libs/gsap.min.js"></script>
+<script src="libs/ScrollTrigger.min.js"></script>
+<script src="libs/lenis.min.js"></script>
+<script>
+(function () {
+  'use strict';
+  var REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var JUMP = new URLSearchParams(location.search).get('jump');
+  if (JUMP !== null) history.scrollRestoration = 'manual';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  /* ── Lenis smooth scroll (skipped for jump-verification and reduced motion) ── */
+  var lenis = null;
+  if (!REDUCED && JUMP === null && typeof Lenis !== 'undefined') {
+    lenis = new Lenis({ lerp: 0.09, smoothWheel: true });
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add(function (t) { lenis.raf(t * 1000); });
+    gsap.ticker.lagSmoothing(0);
+  }
+
+  /* ── char-split hero reveal ── */
+  var titleEl = document.getElementById('hero-title');
+  (function split() {
+    var out = [];
+    titleEl.childNodes.forEach(function (n) {
+      if (n.nodeType === 3) {
+        n.textContent.split('').forEach(function (c) {
+          out.push(c === ' ' ? ' ' : '<span class="ch">' + c + '</span>');
+        });
+      } else if (n.nodeType === 1) {
+        var inner = n.textContent.split('').map(function (c) {
+          return c === ' ' ? ' ' : '<span class="ch">' + c + '</span>';
+        }).join('');
+        out.push('<' + n.tagName.toLowerCase() + '>' + inner + '</' + n.tagName.toLowerCase() + '>');
+      }
+    });
+    titleEl.innerHTML = out.join('');
+  })();
+  if (!REDUCED) {
+    gsap.fromTo('#hero-title .ch',
+      { yPercent: 120, opacity: 0 },
+      { yPercent: 0, opacity: 1, duration: 1.1, ease: 'power4.out', stagger: 0.035, delay: 0.35 });
+  }
+
+  /* ── build the bloom petals (cloned rings) ── */
+  var SVGNS = 'http://www.w3.org/2000/svg';
+  function buildRing(ringId, count) {
+    var ring = document.getElementById(ringId);
+    var proto = ring.querySelector('.petal');
+    for (var i = 1; i < count; i++) {
+      var c = proto.cloneNode(true);
+      ring.appendChild(c);
+    }
+    Array.prototype.forEach.call(ring.children, function (p, i) {
+      var wrap = document.createElementNS(SVGNS, 'g');
+      wrap.setAttribute('transform', 'rotate(' + (i * 360 / count) + ' 150 150)');
+      ring.insertBefore(wrap, p);
+      wrap.appendChild(p);
+    });
+  }
+  buildRing('ring2', 12);
+  buildRing('ring1', 8);
+
+  /* ── data ── */
+  var FALLBACK = { tools: [
+    { num: '01', title: 'Cosmic Pet Portraits', status: 'live' },
+    { num: '02', title: 'Letters from your Future Self', status: 'coming-soon' },
+    { num: '03', title: 'Your Ocean', status: 'coming-soon' },
+    { num: '04', title: 'Soundtrack of Your Life', status: 'coming-soon' },
+    { num: '05', title: 'Your Inner World Map', status: 'dreaming' },
+    { num: '06', title: 'Bloom After Rain', status: 'dreaming' },
+    { num: '07', title: 'Childhood Toy Reunion', status: 'dreaming' }
+  ]};
+
+  function statusLabel(s) {
+    return s === 'live' ? 'live now' : s === 'coming-soon' ? 'in the making' : 'dreaming';
+  }
+
+  function renderVitrines(tools) {
+    var track = document.getElementById('shelf-track');
+    tools.forEach(function (t) {
+      var el = document.createElement('div');
+      el.className = 'vitrine';
+      el.innerHTML =
+        (t.image ? '<div class="vitrine-img"><img loading="eager" src="' + t.image + '" alt=""></div>' : '') +
+        '<div class="vitrine-num">specimen № ' + t.num + '</div>' +
+        '<div class="vitrine-title">' + t.title + '</div>' +
+        '<div class="vitrine-status ' + (t.status === 'live' ? 'live' : '') + '">' + statusLabel(t.status) + '</div>';
+      track.appendChild(el);
+    });
+    var outro = document.createElement('div');
+    outro.className = 'shelf-outro';
+    outro.textContent = 'more always blooming ···';
+    track.appendChild(outro);
+  }
+
+  function renderCabinet(tools) {
+    var featured = tools.filter(function (t) { return t.status === 'live' || t.status === 'coming-soon'; });
+    var dreaming = tools.filter(function (t) { return t.status === 'dreaming'; });
+    var countEl = document.getElementById('tools-count');
+    countEl.textContent = String(tools.length).padStart(2, '0') + ' specimens · more always blooming';
+
+    document.getElementById('featured-grid').innerHTML = featured.map(function (t) {
+      var tag = t.status === 'live' ? 'Tool № ' + t.num + ' · live' : 'Tool № ' + t.num + ' · in the making';
+      if (t.status === 'live' && t.image) {
+        return '<div class="project-card reveal">' +
+          '<div class="card-image"><img src="' + t.image + '" alt="' + t.title + '"></div>' +
+          '<div class="card-body"><div class="card-tag">' + tag + '</div>' +
+          '<h3 class="card-title">' + (t.subtitle ? t.title.replace(t.subtitle, '<em>' + t.subtitle + '</em>') : t.title) + '</h3>' +
+          '<p class="card-desc">' + t.description + '</p>' +
+          (t.url ? '<a class="card-link" href="' + t.url + '" target="_blank" rel="noopener">' + (t.urlLabel || 'Visit') + ' →</a>' : '') +
+          '</div></div>';
+      }
+      return '<div class="project-card reveal"><div class="card-coming">' +
+        (t.image ? '<div class="card-ghost"><img src="' + t.image + '" alt=""></div>' : '') +
+        '<div class="card-tag">' + tag + '</div>' +
+        '<div class="card-coming-label">' + t.title + '</div>' +
+        '<p class="card-coming-sub">' + (t.description || '') + '</p>' +
+        '</div></div>';
+    }).join('');
+
+    var cards = dreaming.map(function (t) {
+      return '<div class="dream-card reveal">' +
+        (t.image ? '<div class="dream-card-bg"><img src="' + t.image + '" alt=""></div>' : '') +
+        '<div class="dream-card-num">No. ' + t.num + '</div>' +
+        '<div class="dream-card-title">' + (t.subtitle ? t.title.replace(t.subtitle, '<em>' + t.subtitle + '</em>') : t.title) + '</div>' +
+        '<div class="dream-card-status">Dreaming · 2026</div></div>';
+    });
+    cards.push('<div class="dream-card reveal" style="background:oklch(94% 0.015 85);border:1px dashed oklch(75% 0.04 60 / 0.35);">' +
+      '<div class="dream-card-num" style="color:var(--ink-soft);">···</div>' +
+      '<div class="dream-card-title" style="font-style:italic;color:var(--ink-soft);font-size:24px;">More always<br>blooming</div>' +
+      '<div class="dream-card-status">The cabinet grows</div></div>');
+    document.getElementById('dreaming-grid').innerHTML = cards.join('');
+  }
+
+  /* ── marquee content ── */
+  (function () {
+    var words = ['delight', 'tender', 'mythic', 'wonder', 'seen', 'blooming'];
+    var row = words.map(function (w) { return w + ' ·'; }).join(' ');
+    document.getElementById('marquee-track').textContent = row + ' ' + row + ' ' + row + ' ' + row;
+  })();
+
+  /* ── canvases ── */
+  var DPR = Math.min(devicePixelRatio || 1, 1.5);
+
+  // hero motes
+  var motesOn = true;
+  (function () {
+    var cv = document.getElementById('motes'), cx = cv.getContext('2d');
+    var COLS = ['oklch(78% 0.18 350 / 0.7)', 'oklch(82% 0.16 80 / 0.7)', 'oklch(80% 0.14 290 / 0.7)', 'oklch(76% 0.18 24 / 0.7)'];
+    var pts = [];
+    function size() {
+      cv.width = cv.offsetWidth * DPR; cv.height = cv.offsetHeight * DPR;
+    }
+    size(); addEventListener('resize', size);
+    for (var i = 0; i < 26; i++) {
+      pts.push({ x: Math.random(), y: Math.random(), r: Math.random() * 2 + 0.8,
+        s: Math.random() * 0.00008 + 0.00003, ph: Math.random() * 6.28,
+        col: COLS[i % COLS.length] });
+    }
+    function tick(ts) {
+      if (!motesOn || REDUCED) { requestAnimationFrame(tick); return; }
+      cx.clearRect(0, 0, cv.width, cv.height);
+      pts.forEach(function (p) {
+        var x = (p.x + Math.sin(ts * p.s + p.ph) * 0.02) * cv.width;
+        var y = (p.y + Math.cos(ts * p.s * 1.4 + p.ph) * 0.03) * cv.height;
+        var tw = 0.55 + 0.45 * Math.sin(ts * 0.002 + p.ph * 3);
+        cx.globalAlpha = tw;
+        cx.fillStyle = p.col;
+        cx.beginPath(); cx.arc(x, y, p.r * DPR, 0, 6.283); cx.fill();
+      });
+      cx.globalAlpha = 1;
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  })();
+
+  // cosmos stars
+  var starsOn = false;
+  (function () {
+    var cv = document.getElementById('stars'), cx = cv.getContext('2d');
+    var pts = [];
+    function size() { cv.width = cv.offsetWidth * DPR; cv.height = cv.offsetHeight * DPR; }
+    size(); addEventListener('resize', size);
+    for (var i = 0; i < 130; i++) {
+      pts.push({ x: Math.random(), y: Math.random(), r: Math.random() * 1.6 + 0.4,
+        ph: Math.random() * 6.28, sp: Math.random() * 0.0016 + 0.0006,
+        warm: Math.random() < 0.18 });
+    }
+    function tick(ts) {
+      if (!starsOn || REDUCED) { requestAnimationFrame(tick); return; }
+      cx.clearRect(0, 0, cv.width, cv.height);
+      pts.forEach(function (p) {
+        var tw = 0.35 + 0.65 * Math.abs(Math.sin(ts * p.sp + p.ph));
+        cx.globalAlpha = tw;
+        cx.fillStyle = p.warm ? 'oklch(80% 0.12 24 / 0.9)' : 'oklch(92% 0.02 290 / 0.9)';
+        cx.beginPath(); cx.arc(p.x * cv.width, p.y * cv.height, p.r * DPR, 0, 6.283); cx.fill();
+      });
+      cx.globalAlpha = 1;
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  })();
+
+  /* ── chapters readout ── */
+  var chapterEl = document.getElementById('chapter');
+  var chapterLabel = document.getElementById('chapter-label');
+  var chapterFill = document.getElementById('chapter-fill');
+  var CHAPTERS = [
+    ['01 · the seed', 0], ['02 · the bloom', 0.14], ['03 · the cosmos', 0.42],
+    ['04 · the shelf', 0.66], ['05 · the cabinet', 0.93]
+  ];
+
+  /* ── the film timelines (pinned scenes FIRST, ambient after) ── */
+  function buildScenes() {
+    if (REDUCED) return;
+
+    // 02 · the bloom
+    var bloomTl = gsap.timeline({
+      scrollTrigger: {
+        trigger: '#s-bloom', start: 'top top', end: '+=260%',
+        pin: true, scrub: true, invalidateOnRefresh: true
+      }
+    });
+    bloomTl
+      .fromTo('#ring2 .petal', { scale: 0.06, opacity: 0, transformOrigin: '50% 100%' },
+        { scale: 1, opacity: 1, stagger: { each: 0.045, from: 'start' }, ease: 'power2.out', duration: 0.9 }, 0)
+      .fromTo('#ring1 .petal', { scale: 0.06, opacity: 0, transformOrigin: '50% 100%' },
+        { scale: 1, opacity: 1, stagger: { each: 0.055, from: 'start' }, ease: 'power2.out', duration: 0.9 }, 0.25)
+      .fromTo('#bloom-word', { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.3 }, 0.15)
+      .to('#bloom-word', { opacity: 0, y: -14, duration: 0.25 }, 0.85)
+      .to('#bloom-stage', { rotation: 24, duration: 2.2, ease: 'none' }, 0)
+      .to('#bloom-stage', { scale: 8, duration: 1.1, ease: 'power2.in' }, 1.15)
+      .to('#core-cover', { scale: 14, duration: 0.85, ease: 'power2.in' }, 1.35);
+
+    // 03 · the cosmos
+    var cosmosTl = gsap.timeline({
+      scrollTrigger: {
+        trigger: '#s-cosmos', start: 'top top', end: '+=300%',
+        pin: true, scrub: true, invalidateOnRefresh: true,
+        onToggle: function (st) { starsOn = st.isActive; }
+      }
+    });
+    cosmosTl
+      .fromTo('#cosmos-glow', { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0.05)
+      .fromTo('.q1', { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.5 }, 0.05)
+      .fromTo('.q2', { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.5 }, 0.5)
+      .fromTo('#cosmos-pet', { opacity: 0, y: 70, rotation: -5 },
+        { opacity: 1, y: 0, rotation: 0, duration: 0.6 }, 0.95)
+      .to('#cosmos-pet', { y: -50, duration: 1.1, ease: 'none' }, 1.55)
+      .fromTo('#cosmos-hint', { opacity: 0 }, { opacity: 1, duration: 0.3 }, 1.7)
+      .to('.q1', { opacity: 0.25, duration: 0.6 }, 1.9)
+      .to('.q2', { opacity: 0.25, duration: 0.6 }, 1.9)
+      .to('#cosmos-hint', { opacity: 0, duration: 0.3 }, 2.4);
+
+    // 04 · the shelf (horizontal run)
+    var track = document.getElementById('shelf-track');
+    var shelfST = gsap.to(track, {
+      x: function () { return -(track.scrollWidth - innerWidth); },
+      ease: 'none',
+      scrollTrigger: {
+        trigger: '#s-shelf', start: 'top top', end: '+=320%',
+        pin: true, scrub: true, invalidateOnRefresh: true
+      }
+    });
+    // vitrine parallax within the run
+    gsap.utils.toArray('.vitrine-img img').forEach(function (img, i) {
+      gsap.fromTo(img, { xPercent: -7 }, {
+        xPercent: 7, ease: 'none',
+        scrollTrigger: {
+          trigger: img.closest('.vitrine'), containerAnimation: shelfST,
+          start: 'left right', end: 'right left', scrub: true
+        }
+      });
+    });
+
+    /* ── ambient triggers AFTER all pins (ordering law) ── */
+
+    // nav + chapter light/dark
+    ScrollTrigger.create({
+      trigger: '#s-bloom', start: 'top top', end: 'bottom top',
+      onEnter: function () {}, onLeaveBack: function () {}
+    });
+    ScrollTrigger.create({
+      trigger: '#s-cosmos', start: 'top 60%',
+      onEnter: function () { document.getElementById('nav').classList.add('on-dark'); chapterEl.classList.add('on-dark'); },
+      onLeaveBack: function () { document.getElementById('nav').classList.remove('on-dark'); chapterEl.classList.remove('on-dark'); }
+    });
+    ScrollTrigger.create({
+      trigger: '#landing', start: '62% center',
+      onEnter: function () { document.getElementById('nav').classList.remove('on-dark'); chapterEl.classList.remove('on-dark'); },
+      onLeaveBack: function () { document.getElementById('nav').classList.add('on-dark'); chapterEl.classList.add('on-dark'); }
+    });
+
+    // film progress → chapter readout
+    ScrollTrigger.create({
+      trigger: '#film', start: 'top top', end: 'bottom bottom',
+      onUpdate: function (st) {
+        chapterFill.style.width = (st.progress * 100).toFixed(1) + '%';
+        var label = CHAPTERS[0][0];
+        for (var i = 0; i < CHAPTERS.length; i++) if (st.progress >= CHAPTERS[i][1]) label = CHAPTERS[i][0];
+        if (chapterLabel.textContent !== label) chapterLabel.textContent = label;
+      },
+      onLeave: function () { chapterEl.classList.add('gone'); },
+      onEnterBack: function () { chapterEl.classList.remove('gone'); }
+    });
+
+    // hero motes off once past hero
+    ScrollTrigger.create({
+      trigger: '#s-hero', start: 'top top', end: 'bottom top',
+      onLeave: function () { motesOn = false; },
+      onEnterBack: function () { motesOn = true; }
+    });
+
+    // landing line drift
+    gsap.fromTo('#landing-line', { opacity: 0, y: 60 }, {
+      opacity: 1, y: -60, ease: 'none',
+      scrollTrigger: { trigger: '#landing', start: 'top 80%', end: 'bottom 30%', scrub: true }
+    });
+
+    // marquee drift + velocity skew
+    var mTrack = document.getElementById('marquee-track');
+    gsap.to(mTrack, { xPercent: -50, ease: 'none', duration: 40, repeat: -1 });
+    var skewSetter = gsap.quickSetter(mTrack, 'skewX', 'deg');
+    var skewClamp = gsap.utils.clamp(-8, 8);
+    ScrollTrigger.create({
+      onUpdate: function (st) { skewSetter(skewClamp(st.getVelocity() / -220)); }
+    });
+  }
+
+  /* ── scroll reveal for cabinet ── */
+  var obs = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) { if (e.isIntersecting) e.target.classList.add('in'); });
+  }, { threshold: 0.1 });
+  function observeReveals() {
+    document.querySelectorAll('.reveal:not(.in)').forEach(function (r) { obs.observe(r); });
+  }
+
+  /* ── boot ── */
+  var toolsReady = fetch('data/tools.json')
+    .then(function (r) { return r.json(); })
+    .catch(function () { return FALLBACK; })
+    .then(function (data) {
+      var tools = data.tools || FALLBACK.tools;
+      renderVitrines(tools);
+      renderCabinet(tools);
+    });
+
+  Promise.all([toolsReady, document.fonts ? document.fonts.ready : Promise.resolve()])
+    .then(function () {
+      // pre-decode film imagery so no JPEG decode spikes land mid-scroll
+      var decodes = Array.prototype.map.call(document.querySelectorAll('img'), function (im) {
+        return im.decode ? im.decode().catch(function () {}) : Promise.resolve();
+      });
+      return Promise.all(decodes);
+    })
+    .then(function () {
+      buildScenes();
+      observeReveals();
+      ScrollTrigger.refresh();
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () {
+          if (JUMP !== null) {
+            window.scrollTo(0, +JUMP || 0);
+            ScrollTrigger.update();
+            ScrollTrigger.getAll().forEach(function (st) {
+              if (st.animation) st.animation.progress(st.progress);
+            });
+            ScrollTrigger.update();
+          }
+          window.__ready = true;
+        });
+      });
+    });
+
+  /* ── jank meter (console) ── */
+  (function () {
+    var last = performance.now(), max = 0;
+    function loop(now) {
+      var d = now - last; last = now;
+      if (d > max) max = d;
+      requestAnimationFrame(loop);
+    }
+    requestAnimationFrame(loop);
+    setInterval(function () {
+      if (max > 0) console.debug('[jank] max rAF delta last 2s:', max.toFixed(1) + 'ms');
+      max = 0;
+    }, 2000);
+  })();
+})();
+</script>
+</body>
+</html>
