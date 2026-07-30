@@ -188,7 +188,8 @@
     color: var(--ink-soft);
   }
   .tf-reveal {
-    position: absolute; inset: 0; z-index: 3; opacity: 0; will-change: opacity;
+    position: absolute; inset: 0; z-index: 3;
+    clip-path: circle(0% at 50% 55%); will-change: clip-path;
     background: var(--space);
   }
   .tf-reveal img.bgimg, .tf-reveal video {
@@ -208,7 +209,7 @@
     opacity: 0; will-change: transform, opacity;
   }
   .tf-head h3 {
-    font-family: var(--display); font-weight: 500;
+    font-family: var(--display); font-weight: 350;
     font-size: clamp(30px, 4.4vw, 58px); line-height: 1.14; letter-spacing: -0.005em;
     color: oklch(96% 0.01 290);
     text-shadow: 0 2px 34px oklch(12% 0.03 300 / 0.6);
@@ -278,8 +279,6 @@
     mix-blend-mode: color-dodge; opacity: 0;
     z-index: 2;
   }
-  .holo-card:hover::before { opacity: .8; }
-  .holo-card:hover::after { opacity: .3; }
   /* aurora treatment for bloom cards */
   .aurora-card::before {
     background:
@@ -292,7 +291,6 @@
     opacity: .28; transition: opacity .45s ease;
   }
   @keyframes auroraflow { from { background-position: 0% 0%, 0 0; } to { background-position: 100% 100%, 0 0; } }
-  .aurora-card:hover::before { opacity: .55; }
 
   .tf-veil {
     position: absolute; inset: 0; z-index: 6; background: var(--bg);
@@ -313,7 +311,7 @@
   .recap-card:hover { transform: translateY(-5px); box-shadow: 0 24px 50px oklch(60% 0.05 60 / 0.18); }
   .recap-tool { color: var(--accent); margin-bottom: 16px; }
   .recap-title {
-    font-family: var(--display); font-weight: 450;
+    font-family: var(--display); font-weight: 380;
     font-size: clamp(24px, 2.6vw, 34px); line-height: 1.12; margin-bottom: 10px;
   }
   .recap-line {
@@ -406,7 +404,7 @@
     .holo-word { animation: none; }
     .tf { height: auto; }
     .tf-ordinary { position: relative; padding: 16vh 24px 6vh; }
-    .tf-reveal { position: relative; height: 70vh; opacity: 1; }
+    .tf-reveal { position: relative; height: 70vh; clip-path: none; }
     .tf-head { position: relative; left: auto; top: auto; transform: none; opacity: 1; margin: -54vh auto 0; padding-bottom: 24vh; }
     .tf-carousel { position: relative; top: auto; transform: none; overflow-x: auto; padding: 30px 0; }
     .car-track { padding: 20px 24px; }
@@ -757,17 +755,6 @@
     requestAnimationFrame(tick);
   })();
 
-  /* ── holographic card mouse tracking (delegated) ── */
-  document.querySelectorAll('.car-track').forEach(function (track) {
-    track.addEventListener('pointermove', function (e) {
-      var card = e.target.closest('.holo-card');
-      if (!card) return;
-      var r = card.getBoundingClientRect();
-      card.style.setProperty('--hx', ((e.clientX - r.left) / r.width * 100).toFixed(1) + '%');
-      card.style.setProperty('--hy', ((e.clientY - r.top) / r.height * 100).toFixed(1) + '%');
-    });
-  });
-
   /* ── video control ── */
   var pingpong = { raf: null, dir: 1 };
   function startPingpong(v) {
@@ -846,9 +833,10 @@
           { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.35 }, 0.05)
         .to(scene.querySelector('.tf-ordinary'),
           { opacity: 0, scale: 0.94, y: -70, duration: 0.5 }, 0.75)
-        /* the world rolls in */
+        /* the world opens as a growing circle */
         .fromTo(scene.querySelector('.tf-reveal'),
-          { opacity: 0 }, { opacity: 1, duration: 0.55 }, 0.7)
+          { clipPath: 'circle(0% at 50% 55%)' },
+          { clipPath: 'circle(75% at 50% 50%)', duration: 0.6, ease: 'power1.inOut' }, 0.7)
         /* headline rises */
         .fromTo(head, { opacity: 0, y: 46 }, { opacity: 1, y: 0, duration: 0.5 }, 1.3);
       if (headFades) {
