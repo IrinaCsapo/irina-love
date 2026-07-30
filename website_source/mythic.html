@@ -4,10 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Return it Mythic — irina.love</title>
-<meta name="description" content="A pet becomes a cosmic being. A mood becomes an ocean. A memory becomes a soundtrack. A scroll-film for irina.love.">
+<meta name="description" content="Take the ordinary. Return it mythic. Four tools of delight, revealed one scroll at a time.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Jost:wght@300;400;500&family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=Newsreader:ital,opsz,wght@0,6..72,300..500;1,6..72,300..500&family=Fragment+Mono:ital@0;1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=Newsreader:ital,opsz,wght@0,6..72,300..500;1,6..72,300..500&family=Fragment+Mono:ital@0;1&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
 <script defer src="https://irina-umami.vercel.app/script.js" data-website-id="9c96c480-3224-4ef0-ba74-a5212d1f6d69"></script>
 <script defer src="https://irina-umami.vercel.app/recorder.js" data-website-id="9c96c480-3224-4ef0-ba74-a5212d1f6d69"></script>
 <style>
@@ -15,15 +15,25 @@
 
   :root {
     --bg: oklch(97% 0.018 85);
-    --bg-dark: oklch(92% 0.022 85);
     --cream: oklch(99% 0.008 85);
     --coral: oklch(67% 0.18 24);
     --coral-soft: oklch(80% 0.12 24);
-    --lavender: oklch(75% 0.1 290);
+    --accent: oklch(56% 0.185 29);
+    --purple: oklch(74% 0.13 295);
+    --purple-deep: oklch(62% 0.17 300);
     --ink: oklch(18% 0.015 60);
     --ink-soft: oklch(42% 0.025 60);
+    --line: oklch(82% 0.022 75);
+    --paper-deep: oklch(94.8% 0.016 85);
+    --space: oklch(14% 0.035 300);
     --serif: 'Cormorant Garamond', Georgia, serif;
+    --display: 'Fraunces', Georgia, serif;
+    --text: 'Newsreader', Georgia, serif;
+    --monoF: 'Fragment Mono', 'Courier New', monospace;
     --sans: 'Jost', sans-serif;
+    /* holographic palette (from the reference effect) */
+    --holo: conic-gradient(from 0deg, #FFBD8C, #FD8585, #F882FF, #8785FE, #9AFCFF, #99FD9C, #FFFD84, #FFBD8C);
+    --holo-line: linear-gradient(100deg, #FFBD8C, #FD8585, #F882FF, #8785FE, #9AFCFF, #99FD9C, #FFFD84, #FFBD8C);
   }
 
   html { background: var(--bg); }
@@ -39,13 +49,16 @@
     background-size: 220px 220px;
   }
 
+  /* ── nav + chapter ── */
   nav {
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
     padding: 26px 44px; display: flex; justify-content: space-between; align-items: center;
-    color: var(--ink);
+    color: var(--ink); transition: color .5s;
   }
+  nav.on-dark { color: oklch(93% 0.015 290); }
   .nav-logo { font-family: var(--serif); font-size: 20px; letter-spacing: 0.02em; color: currentColor; text-decoration: none; }
   .nav-logo em { color: var(--coral); font-style: italic; }
+  nav.on-dark .nav-logo em { color: var(--coral-soft); }
   .nav-right { display: flex; gap: 28px; align-items: center; }
   .nav-right a {
     font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase;
@@ -57,29 +70,59 @@
   #chapter {
     position: fixed; left: 44px; bottom: 34px; z-index: 100;
     display: flex; flex-direction: column; gap: 10px;
-    color: var(--ink); transition: opacity .5s; pointer-events: none;
+    color: var(--ink); transition: color .5s, opacity .5s; pointer-events: none;
   }
+  #chapter.on-dark { color: oklch(93% 0.015 290); }
   #chapter.gone { opacity: 0; }
-  #chapter-label { font-family: var(--serif); font-style: italic; font-size: 15px; letter-spacing: 0.04em; }
+  #chapter-label {
+    font-family: var(--monoF); font-size: 11px;
+    letter-spacing: 0.16em; text-transform: uppercase;
+  }
   #chapter-bar { width: 120px; height: 1px; background: oklch(60% 0.03 60 / 0.3); }
   #chapter-fill { width: 0%; height: 100%; background: var(--coral); }
 
-  /* ══ THE FILM ══ */
-
-  /* — hero — */
-  #s-hero {
-    min-height: 100vh; position: relative;
-    display: flex; flex-direction: column; justify-content: center;
-    padding: 140px 7vw 80px;
+  .mono {
+    font-family: var(--monoF); font-size: 11px;
+    letter-spacing: 0.14em; text-transform: uppercase; font-weight: 400;
   }
+  .wrap { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 0 48px; }
+  .section-head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    border-bottom: 1px solid var(--ink); padding-bottom: 16px; color: var(--ink-soft);
+  }
+  .section-head .roman { color: var(--accent); }
+
+  /* ══ HERO — prismatic ══ */
+  #s-hero {
+    min-height: 100vh; position: relative; overflow: hidden;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 130px 24px 80px;
+  }
+  .prism-blob {
+    position: absolute; border-radius: 50%;
+    background: var(--holo);
+    filter: blur(52px) saturate(1.05);
+    transform: translateZ(0);
+    pointer-events: none; will-change: transform;
+  }
+  #prism-a { width: 58vmax; height: 58vmax; left: -20vmax; top: -24vmax; opacity: .3; animation: prismspin 44s linear infinite; }
+  #prism-b { width: 48vmax; height: 48vmax; right: -17vmax; bottom: -21vmax; opacity: .22; animation: prismspin 58s linear infinite reverse; }
+  @keyframes prismspin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  #prism-sheen {
+    position: absolute; inset: 0; pointer-events: none;
+    background:
+      radial-gradient(560px circle at var(--mx, 68%) var(--my, 30%), oklch(98% 0.03 300 / 0.5), transparent 68%),
+      conic-gradient(from 40deg at var(--mx, 68%) var(--my, 30%), #FFBD8C12, #F882FF1c, #8785FE14, #9AFCFF16, #99FD9C10, #FFBD8C12);
+  }
+  #hero-sparkles { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+
   .hero-eyebrow {
-    font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase;
-    color: var(--ink-soft); margin-bottom: 34px;
+    margin-bottom: 34px; color: var(--ink-soft); position: relative; z-index: 2;
     opacity: 0; animation: fadeUp .8s .2s forwards;
   }
   .hero-title {
-    font-family: var(--serif); font-weight: 300;
-    font-size: clamp(56px, 9.5vw, 132px); line-height: 1.0; letter-spacing: -0.01em;
+    font-family: var(--serif); font-weight: 300; position: relative; z-index: 2;
+    font-size: clamp(52px, 9vw, 128px); line-height: 1.02; letter-spacing: -0.01em;
   }
   .hero-title .row { display: block; overflow: hidden; }
   .hero-title .row > span { display: inline-block; will-change: transform; }
@@ -88,207 +131,251 @@
     content: ''; position: absolute; left: -2%; right: -2%; top: 54%; height: 3px;
     background: var(--coral); transform: scaleX(var(--strike, 0)); transform-origin: left center;
   }
-  .hero-title em { font-style: italic; color: var(--coral); }
+  /* the holographic word */
+  .holo-word {
+    position: relative; font-style: italic; white-space: nowrap;
+    background: var(--holo-line);
+    background-size: 220% 100%;
+    -webkit-background-clip: text; background-clip: text;
+    color: transparent;
+    animation: holoshift 7s linear infinite;
+    cursor: default;
+  }
+  @keyframes holoshift { from { background-position: 0% 50%; } to { background-position: 220% 50%; } }
+  .holo-word:hover { animation-duration: 1.6s; }
+  .holo-word .spk {
+    position: absolute; font-size: 0.22em; color: var(--purple-deep);
+    opacity: 0; pointer-events: none; -webkit-text-fill-color: var(--purple-deep);
+  }
+  .holo-word .spk:nth-child(1) { top: -0.05em; right: -0.35em; }
+  .holo-word .spk:nth-child(2) { bottom: 0.1em; left: -0.3em; }
+  .holo-word .spk:nth-child(3) { top: 0.28em; right: -0.6em; }
+  .holo-word:hover .spk { animation: sparkpop 0.9s ease-out both; }
+  .holo-word:hover .spk:nth-child(2) { animation-delay: .12s; }
+  .holo-word:hover .spk:nth-child(3) { animation-delay: .24s; }
+  @keyframes sparkpop {
+    0% { opacity: 0; transform: scale(.2) rotate(0deg); }
+    35% { opacity: 1; transform: scale(1.25) rotate(30deg); }
+    100% { opacity: 0; transform: scale(.6) rotate(60deg); }
+  }
   .hero-sub {
-    margin-top: 40px; max-width: 430px; font-size: 16px; line-height: 1.7; color: var(--ink-soft);
-    opacity: 0; animation: fadeUp .9s 1.1s forwards;
+    margin-top: 38px; max-width: 56ch; font-family: var(--text);
+    font-size: 18px; line-height: 1.7; color: var(--ink-soft);
+    position: relative; z-index: 2;
+    opacity: 0; animation: fadeUp .9s 1s forwards;
   }
   .hero-hint {
-    margin-top: 60px; display: flex; align-items: center; gap: 16px;
-    font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--ink-soft);
-    opacity: 0; animation: fadeUp .9s 1.4s forwards;
+    margin-top: 58px; display: flex; align-items: center; gap: 16px;
+    color: var(--ink-soft); position: relative; z-index: 2;
+    opacity: 0; animation: fadeUp .9s 1.3s forwards;
   }
   .hero-hint-line { width: 48px; height: 1px; background: var(--coral-soft); }
-  .hero-eyebrow, .hero-title, .hero-sub, .hero-hint { position: relative; z-index: 2; }
-  .hero-flower {
-    position: absolute; right: 3vw; top: 14%; z-index: 1;
-    width: clamp(240px, 27vw, 400px); aspect-ratio: 1; border-radius: 50%;
-    overflow: hidden; opacity: 0; animation: fadeIn 1.4s .7s forwards;
-    pointer-events: none;
-  }
-  .hero-flower img { width: 100%; height: 100%; object-fit: cover; filter: saturate(1.05); }
   @keyframes fadeUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
-  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-  /* — transformation scenes — */
-  .tf {
-    height: 100vh; position: relative; overflow: hidden;
-    background: var(--bg);
-  }
+  /* ══ THE FOUR SCENES ══ */
+  .tf { height: 100vh; position: relative; overflow: hidden; background: var(--bg); }
   .tf-ordinary {
     position: absolute; inset: 0; z-index: 2;
     display: flex; flex-direction: column; align-items: center; justify-content: center;
-    text-align: center; will-change: transform, opacity;
+    text-align: center; will-change: transform, opacity; padding: 0 24px;
   }
   .tf-ordinary h2 {
     font-family: var(--serif); font-weight: 300;
-    font-size: clamp(64px, 12vw, 168px); line-height: 1;
+    font-size: clamp(56px, 11vw, 150px); line-height: 1;
   }
   .tf-ordinary .tf-sub {
     margin-top: 20px; font-size: 13px; letter-spacing: 0.2em; text-transform: uppercase;
     color: var(--ink-soft);
   }
-  .tf-image {
-    position: absolute; inset: 0; z-index: 3;
-    clip-path: circle(0% at 50% 55%);
-    will-change: clip-path;
+  .tf-reveal {
+    position: absolute; inset: 0; z-index: 3; opacity: 0; will-change: opacity;
+    background: var(--space);
   }
-  .tf-image img {
-    width: 100%; height: 100%; object-fit: cover;
-    will-change: transform; transform: scale(1.18);
+  .tf-reveal img.bgimg, .tf-reveal video {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; display: block;
   }
-  .tf-mythic {
-    position: absolute; z-index: 4; left: 6vw; bottom: 9vh;
+  .tf-reveal img.bgimg { will-change: transform; animation: bgdrift 36s ease-in-out infinite alternate; transform-origin: 50% 50%; }
+  @keyframes bgdrift {
+    from { transform: scale(1.08) translate(-1.5%, -1%); }
+    to   { transform: scale(1.08) translate(1.5%, 1%); }
+  }
+  .tf-shade { position: absolute; inset: 0; background: oklch(14% 0.035 300 / 0.36); }
+  .tf-head {
+    position: absolute; z-index: 5; left: 50%; top: 16%;
+    transform: translateX(-50%);
+    width: min(880px, 88vw); text-align: center;
     opacity: 0; will-change: transform, opacity;
   }
-  .tf-mythic .tf-chip {
-    font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase;
-    color: oklch(98% 0.008 85 / 0.9); margin-bottom: 14px;
+  .tf-head h3 {
+    font-family: var(--display); font-weight: 500;
+    font-size: clamp(30px, 4.4vw, 58px); line-height: 1.14; letter-spacing: -0.005em;
+    color: oklch(96% 0.01 290);
+    text-shadow: 0 2px 34px oklch(12% 0.03 300 / 0.6);
   }
-  .tf-mythic h3 {
-    font-family: var(--serif); font-style: italic; font-weight: 300;
-    font-size: clamp(48px, 7.5vw, 110px); line-height: 1;
-    color: var(--cream);
-    text-shadow: 0 2px 30px oklch(20% 0.02 290 / 0.45);
+  .tf-head h3 em { font-style: italic; color: var(--purple); }
+  .tf-head .tf-headsub {
+    margin-top: 16px; font-family: var(--text);
+    font-size: clamp(15px, 1.5vw, 19px); line-height: 1.65;
+    color: oklch(88% 0.02 290 / 0.95); max-width: 62ch;
+    margin-left: auto; margin-right: auto;
+    text-shadow: 0 1px 18px oklch(12% 0.03 300 / 0.6);
   }
+  .tf-head .tf-headsub strong { font-style: italic; font-weight: 450; color: var(--purple); }
+
+  /* carousel */
+  .tf-carousel {
+    position: absolute; z-index: 4; left: 0; right: 0; top: 50%;
+    transform: translateY(-42%);
+    overflow: visible; pointer-events: none;
+  }
+  .car-track {
+    display: flex; align-items: center; gap: clamp(22px, 3vw, 40px);
+    width: max-content; padding: 60px 8vw;
+    will-change: transform; pointer-events: auto;
+  }
+  .holo-card {
+    position: relative; flex-shrink: 0;
+    width: clamp(200px, 21vw, 290px);
+    border-radius: 16px;
+    box-shadow: 0 26px 60px oklch(8% 0.02 300 / 0.55);
+    --hx: 50%; --hy: 50%; --bd: 0s;
+  }
+  .holo-card img {
+    width: 100%; display: block; border-radius: 16px;
+    will-change: transform;
+    animation: bob 6s ease-in-out infinite; animation-delay: var(--bd);
+  }
+  .tf:not(.live) .holo-card img, .tf:not(.live) .bgimg, .tf:not(.live) .aurora-card::before { animation-play-state: paused; }
+  #s-hero.asleep .prism-blob { animation-play-state: paused; }
+  /* arc + bob rhythm */
+  .car-track .holo-card:nth-child(6n+1) { transform: translateY(26px) rotate(-3.5deg); --bd: 0s; }
+  .car-track .holo-card:nth-child(6n+2) { transform: translateY(-6px) rotate(-1.8deg); --bd: .7s; }
+  .car-track .holo-card:nth-child(6n+3) { transform: translateY(-28px) rotate(-0.5deg); --bd: 1.4s; }
+  .car-track .holo-card:nth-child(6n+4) { transform: translateY(-28px) rotate(0.5deg); --bd: 2.1s; }
+  .car-track .holo-card:nth-child(6n+5) { transform: translateY(-6px) rotate(1.8deg); --bd: 2.8s; }
+  .car-track .holo-card:nth-child(6n+6) { transform: translateY(26px) rotate(3.5deg); --bd: 3.5s; }
+  @keyframes bob {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-14px); }
+  }
+  /* holographic hover (adapted from the reference effect, self-contained noise) */
+  .holo-card::before, .holo-card::after {
+    content: ''; position: absolute; inset: 0; border-radius: 16px;
+    opacity: 0; transition: opacity .45s ease; pointer-events: none;
+  }
+  .holo-card::before {
+    background:
+      conic-gradient(from 0deg at var(--hx) var(--hy), #FFBD8C, #FD8585 13%, #F882FF 29%, #8785FE 44%, #9AFCFF 57%, #99FD9C 72%, #FFFD84 89%, #FFBD8C),
+      radial-gradient(240px circle at var(--hx) var(--hy), rgba(255,255,255,.75), rgba(0,0,0,.4) 55%);
+    background-blend-mode: hue, color-dodge;
+    mix-blend-mode: color-dodge;
+    z-index: 1;
+  }
+  .holo-card::after {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 130px 130px;
+    mix-blend-mode: color-dodge; opacity: 0;
+    z-index: 2;
+  }
+  .holo-card:hover::before { opacity: .8; }
+  .holo-card:hover::after { opacity: .3; }
+  /* aurora treatment for bloom cards */
+  .aurora-card::before {
+    background:
+      repeating-linear-gradient(115deg, oklch(70% 0.16 200 / .8) 0%, oklch(65% 0.19 300 / .8) 24%, oklch(72% 0.15 170 / .8) 47%, oklch(66% 0.17 280 / .8) 74%, oklch(70% 0.16 200 / .8) 100%),
+      radial-gradient(260px circle at var(--hx) var(--hy), rgba(255,255,255,.85), rgba(10,10,20,.35) 60%);
+    background-size: 300% 300%, 100% 100%;
+    background-blend-mode: normal, normal;
+    mix-blend-mode: screen;
+    animation: auroraflow 9s ease-in-out infinite alternate;
+    opacity: .28; transition: opacity .45s ease;
+  }
+  @keyframes auroraflow { from { background-position: 0% 0%, 0 0; } to { background-position: 100% 100%, 0 0; } }
+  .aurora-card:hover::before { opacity: .55; }
+
   .tf-veil {
-    position: absolute; inset: 0; z-index: 5; background: var(--bg);
+    position: absolute; inset: 0; z-index: 6; background: var(--bg);
     transform: translateY(101%); will-change: transform;
   }
-  .tf-arrow {
-    position: absolute; z-index: 2; left: 50%; bottom: 7vh; transform: translateX(-50%);
-    font-family: var(--serif); font-style: italic; font-size: 18px; color: var(--ink-soft);
-  }
 
-  /* — the question — */
-  #s-question {
-    height: 100vh; position: relative; overflow: hidden; background: var(--bg);
-    display: flex; align-items: center; justify-content: center;
+  /* ══ RECAP ══ */
+  #recap { padding: 110px 0 60px; }
+  .recap-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 24px; padding-top: 56px;
   }
-  #question-line {
-    max-width: 1000px; padding: 0 7vw; text-align: center;
-    font-family: var(--serif); font-weight: 300;
-    font-size: clamp(36px, 5.6vw, 76px); line-height: 1.22;
+  .recap-card {
+    display: block; text-decoration: none; color: var(--ink);
+    background: var(--cream); border: 1px solid var(--line); border-radius: 6px;
+    padding: 36px 38px 32px; position: relative; overflow: hidden;
+    transition: transform .45s cubic-bezier(.23,1,.32,1), box-shadow .45s;
   }
-  #question-line .w { display: inline-block; opacity: 0.08; will-change: opacity; }
-  #question-line em { font-style: italic; color: var(--coral); }
-  #question-yes {
-    position: absolute; left: 50%; bottom: 12vh; transform: translateX(-50%);
-    font-family: var(--serif); font-style: italic; font-size: 26px; color: var(--coral);
-    opacity: 0; will-change: opacity, transform;
+  .recap-card:hover { transform: translateY(-5px); box-shadow: 0 24px 50px oklch(60% 0.05 60 / 0.18); }
+  .recap-tool { color: var(--accent); margin-bottom: 16px; }
+  .recap-title {
+    font-family: var(--display); font-weight: 450;
+    font-size: clamp(24px, 2.6vw, 34px); line-height: 1.12; margin-bottom: 10px;
   }
+  .recap-line {
+    font-family: var(--serif); font-style: italic; font-size: 18px;
+    color: var(--ink-soft); margin-bottom: 26px;
+  }
+  .recap-line .to { color: var(--accent); font-style: normal; }
+  .specimen-link {
+    font-family: var(--monoF); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+    text-decoration: none; color: var(--ink);
+    border-bottom: 1px solid var(--accent); padding-bottom: 3px; transition: color .2s;
+  }
+  .recap-card:hover .specimen-link { color: var(--accent); }
+  .specimen-link .arrow { display: inline-block; transition: transform .25s; }
+  .recap-card:hover .specimen-link .arrow, .specimen-link:hover .arrow { transform: translateX(5px); }
+  .specimen-link:hover { color: var(--accent); }
 
-  /* ══ THE CABINET ══ */
-  .wrap { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 0 48px; }
-  .section-label { font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 20px; }
-  .divider { height: 1px; background: oklch(75% 0.04 60 / 0.25); margin: 0 48px; }
-
-  #marquee { overflow: hidden; padding: 60px 0 8px; }
-  #marquee-track {
-    display: flex; gap: 48px; width: max-content; will-change: transform;
-    font-family: var(--serif); font-style: italic; font-size: 26px; color: var(--coral-soft);
-    white-space: nowrap;
+  /* ══ THROUGH A LENS ══ */
+  #photography { padding: 104px 0 96px; }
+  .photo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 36px; padding-top: 56px; }
+  .photo-entry { margin: 0; }
+  .plate-mat { background: var(--paper-deep); border: 1px solid var(--line); padding: clamp(18px, 2.4vw, 30px); }
+  .plate-mat a { display: block; line-height: 0; }
+  .plate-mat img {
+    width: 100%; display: block; border: 1px solid oklch(30% 0.02 55 / 0.28);
+    aspect-ratio: 5/4; object-fit: cover;
+    transition: transform .6s cubic-bezier(.23,1,.32,1);
   }
+  .photo-entry:hover .plate-mat img { transform: scale(1.012); }
+  .photo-entry-body { padding-top: 26px; }
+  .photo-title { font-family: var(--display); font-size: 26px; font-weight: 420; line-height: 1.1; margin: 6px 0 12px; }
+  .photo-title a { text-decoration: none; color: var(--ink); transition: color .2s; }
+  .photo-title a:hover { color: var(--accent); font-style: italic; }
+  .photo-desc { font-family: var(--text); color: var(--ink-soft); font-size: 17px; max-width: 46ch; margin-bottom: 20px; }
+  .photo-meta { color: var(--ink-soft); }
 
-  #tools { padding: 90px 0 140px; }
-  .tools-header { display: flex; align-items: baseline; gap: 32px; margin-bottom: 68px; }
-  .tools-title { font-family: var(--serif); font-size: clamp(42px, 5vw, 72px); font-weight: 300; line-height: 1; }
-  .tools-count { font-family: var(--serif); font-size: 18px; color: var(--coral); font-style: italic; }
+  /* ══ THE IDEA ══ */
+  #manifesto { background: oklch(19% 0.07 285); color: oklch(93% 0.018 290); padding: 120px 0 128px; }
+  #manifesto .section-head { border-bottom-color: oklch(93% 0.018 290 / 0.4); color: oklch(75% 0.04 290); }
+  #manifesto .section-head .roman { color: var(--coral-soft); }
+  .manifesto-grid { display: grid; grid-template-columns: 7fr 5fr; gap: 80px; padding-top: 64px; align-items: start; }
+  .manifesto-quote {
+    font-family: var(--display); font-size: clamp(38px, 4.6vw, 60px);
+    font-weight: 350; line-height: 1.18; letter-spacing: -0.01em;
+  }
+  .manifesto-quote em { font-style: italic; color: var(--coral-soft); font-weight: 400; }
+  .manifesto-body { font-family: var(--text); font-size: 17px; line-height: 1.85; color: oklch(72% 0.03 285); padding-top: 10px; }
+  .manifesto-body p + p { margin-top: 22px; }
+  .manifesto-body strong { color: oklch(93% 0.018 290); font-weight: 450; font-style: italic; }
 
-  .projects-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; }
-  .dreaming-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
-
-  .project-card {
-    background: var(--cream); border-radius: 4px; overflow: hidden; position: relative;
-    transition: transform .5s cubic-bezier(.23,1,.32,1);
-  }
-  .project-card:hover { transform: translateY(-6px); }
-  .card-image { width: 100%; aspect-ratio: 4/3; overflow: hidden; }
-  .card-image img { width: 100%; height: 100%; object-fit: cover; transition: transform .8s cubic-bezier(.23,1,.32,1); filter: saturate(1.05); }
-  .project-card:hover .card-image img { transform: scale(1.04); }
-  .card-body { padding: 36px 40px 40px; }
-  .card-tag { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--coral); margin-bottom: 12px; }
-  .card-title { font-family: var(--serif); font-size: 38px; font-weight: 400; line-height: 1.1; margin-bottom: 16px; }
-  .card-title em { font-style: italic; color: var(--ink-soft); }
-  .card-desc { font-size: 15px; line-height: 1.7; color: var(--ink-soft); max-width: 340px; margin-bottom: 28px; }
-  .card-link {
-    display: inline-flex; align-items: center; gap: 10px;
-    font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase;
-    color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--coral);
-    padding-bottom: 2px; transition: color .2s, gap .2s;
-  }
-  .card-link:hover { color: var(--coral); gap: 16px; }
-  .card-coming {
-    background: oklch(94% 0.022 85); min-height: 340px;
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    gap: 14px; padding: 60px 40px; text-align: center; position: relative; overflow: hidden;
-  }
-  .card-coming .card-ghost { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; opacity: 0.12; }
-  .card-coming .card-ghost img { width: 85%; height: 85%; object-fit: cover; border-radius: 50%; filter: saturate(0.3) brightness(1.05); mix-blend-mode: multiply; }
-  .card-coming-label { font-family: var(--serif); font-size: 28px; font-style: italic; color: var(--ink-soft); position: relative; }
-  .card-coming-sub { font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: oklch(50% 0.04 272); position: relative; max-width: 380px; }
-
-  .dream-card {
-    background: var(--cream); border-radius: 4px; padding: 40px 32px;
-    position: relative; overflow: hidden; min-height: 240px;
-    display: flex; flex-direction: column; justify-content: flex-end;
-    transition: transform .5s cubic-bezier(.23,1,.32,1);
-  }
-  .dream-card:hover { transform: translateY(-6px); }
-  .dream-card-bg { position: absolute; inset: 0; }
-  .dream-card-bg img { width: 100%; height: 100%; object-fit: cover; opacity: 0.18; filter: saturate(0.6) brightness(1.1); mix-blend-mode: multiply; transition: opacity .5s, transform .8s cubic-bezier(.23,1,.32,1); }
-  .dream-card:hover .dream-card-bg img { opacity: 0.28; transform: scale(1.05); }
-  .dream-card-num { font-family: var(--serif); font-size: 11px; font-style: italic; color: var(--coral); letter-spacing: 0.1em; margin-bottom: 10px; position: relative; }
-  .dream-card-title { font-family: var(--serif); font-size: 26px; font-weight: 400; line-height: 1.15; position: relative; margin-bottom: 12px; }
-  .dream-card-title em { font-style: italic; color: var(--ink-soft); }
-  .dream-card-status { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-soft); position: relative; }
-
-  #manifesto { padding: 120px 0 140px; background: oklch(22% 0.02 270); color: var(--cream); }
-  .manifesto-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
-  .manifesto-left .section-label { color: oklch(70% 0.06 272); }
-  .manifesto-quote { font-family: var(--serif); font-size: clamp(32px, 4vw, 54px); font-weight: 300; line-height: 1.25; letter-spacing: -0.01em; }
-  .manifesto-quote em { font-style: italic; color: var(--coral-soft); }
-  .manifesto-right { padding-top: 52px; }
-  .manifesto-body { font-size: 16px; line-height: 1.85; color: oklch(72% 0.03 272); }
-  .manifesto-body p + p { margin-top: 20px; }
-  .manifesto-body strong { color: var(--cream); font-weight: 400; }
-
-  /* about + footer (matches homepage) */
-  .mono {
-    font-family: 'Fragment Mono', 'Courier New', monospace;
-    font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 400;
-  }
-  .section-head {
-    display: flex; justify-content: space-between; align-items: baseline;
-    border-bottom: 1px solid var(--ink); padding-bottom: 16px; color: var(--ink-soft);
-  }
-  .section-head .roman { color: oklch(56% 0.185 29); }
+  /* ══ ABOUT + FOOTER (matches homepage) ══ */
   #about { padding: 104px 0 96px; }
-  .about-grid {
-    display: grid; grid-template-columns: 5fr 7fr; gap: 72px;
-    padding-top: 56px; align-items: start;
-  }
-  .about-heading {
-    font-family: 'Fraunces', Georgia, serif;
-    font-size: clamp(36px, 4vw, 52px); font-weight: 400; line-height: 1.1;
-  }
-  .about-heading em { font-style: italic; color: oklch(56% 0.185 29); }
-  .about-body {
-    font-family: 'Newsreader', Georgia, serif;
-    font-size: 19px; line-height: 1.75; color: var(--ink-soft); max-width: 52ch;
-  }
+  .about-grid { display: grid; grid-template-columns: 5fr 7fr; gap: 72px; padding-top: 56px; align-items: start; }
+  .about-heading { font-family: var(--display); font-size: clamp(36px, 4vw, 52px); font-weight: 400; line-height: 1.1; }
+  .about-heading em { font-style: italic; color: var(--accent); }
+  .about-body { font-family: var(--text); font-size: 19px; line-height: 1.75; color: var(--ink-soft); max-width: 52ch; }
   .about-body + .about-body { margin-top: 20px; }
-  .about-body a { color: oklch(56% 0.185 29); text-decoration: none; border-bottom: 1px solid currentColor; }
-  .about-signature {
-    font-family: 'Fraunces', Georgia, serif; font-style: italic;
-    font-size: 30px; color: oklch(56% 0.185 29); margin-top: 36px;
-  }
+  .about-body a { color: var(--accent); text-decoration: none; border-bottom: 1px solid currentColor; }
+  .about-signature { font-family: var(--display); font-style: italic; font-size: 30px; color: var(--accent); margin-top: 36px; }
   footer { border-top: 1px solid var(--ink); padding: 40px 0 48px; }
-  .footer-grid {
-    display: flex; justify-content: space-between; flex-wrap: wrap;
-    gap: 16px 32px; color: var(--ink-soft);
-  }
-  .footer-grid .fleuron { color: oklch(56% 0.185 29); }
+  .footer-grid { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px 32px; color: var(--ink-soft); }
+  .footer-grid .fleuron { color: var(--accent); }
 
   .reveal { opacity: 0; transform: translateY(30px); transition: opacity .9s cubic-bezier(.23,1,.32,1), transform .9s cubic-bezier(.23,1,.32,1); }
   .reveal.in { opacity: 1; transform: none; }
@@ -303,27 +390,27 @@
     .nav-right a.alt { display: none; }
     #chapter { left: 24px; bottom: 24px; }
     .wrap { padding: 0 24px; }
-    .divider { margin: 0 24px; }
-    .projects-grid { grid-template-columns: 1fr; }
-    .dreaming-grid { grid-template-columns: 1fr 1fr; }
+    .tf-head { top: 12%; }
+    .tf-carousel { transform: translateY(-34%); }
+    .recap-grid { grid-template-columns: 1fr; }
+    .photo-grid { grid-template-columns: 1fr; gap: 40px; }
     .manifesto-grid { grid-template-columns: 1fr; gap: 40px; }
-    .manifesto-right { padding-top: 0; }
     .about-grid { grid-template-columns: 1fr; gap: 32px; }
-    .hero-flower { right: -10vw; top: 8%; opacity: 0 !important; animation: fadeIn 1.4s .7s forwards; }
     .footer-grid { flex-direction: column; }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .hero-eyebrow, .hero-sub, .hero-hint, .hero-flower { animation: none; opacity: 1; }
+    .hero-eyebrow, .hero-sub, .hero-hint { animation: none; opacity: 1; }
+    .prism-blob, .bgimg, .holo-card img, .aurora-card::before { animation: none !important; }
     .hero-title .strike::after { transform: scaleX(1); }
-    .tf-ordinary { position: relative; padding: 18vh 0 6vh; }
-    .tf { height: auto; padding-bottom: 10vh; }
-    .tf-image { position: relative; height: 60vh; clip-path: none; }
-    .tf-image img { transform: none; }
-    .tf-mythic { opacity: 1; }
-    .tf-veil, .tf-arrow { display: none; }
-    #question-line .w { opacity: 1; }
-    #question-yes { opacity: 1; }
+    .holo-word { animation: none; }
+    .tf { height: auto; }
+    .tf-ordinary { position: relative; padding: 16vh 24px 6vh; }
+    .tf-reveal { position: relative; height: 70vh; opacity: 1; }
+    .tf-head { position: relative; left: auto; top: auto; transform: none; opacity: 1; margin: -54vh auto 0; padding-bottom: 24vh; }
+    .tf-carousel { position: relative; top: auto; transform: none; overflow-x: auto; padding: 30px 0; }
+    .car-track { padding: 20px 24px; }
+    .tf-veil { display: none; }
     .reveal { opacity: 1; transform: none; }
   }
 </style>
@@ -338,125 +425,241 @@
     <a class="alt" href="bloom.html">The Bloom</a>
     <a class="here" href="mythic.html">Mythic</a>
     <a class="alt" href="tide.html">The Tide</a>
-    <a href="#tools">Skip to cabinet</a>
+    <a href="#recap">Skip to tools</a>
   </div>
 </nav>
 
 <div id="chapter">
-  <div id="chapter-label">the promise</div>
+  <div id="chapter-label">irina.love · tools of delight</div>
   <div id="chapter-bar"><div id="chapter-fill"></div></div>
 </div>
 
 <div id="film">
 
-  <!-- the promise -->
+  <!-- ══ HERO ══ -->
   <section id="s-hero">
-    <p class="hero-eyebrow">irina.love · a cabinet of curiosities</p>
+    <div class="prism-blob" id="prism-a"></div>
+    <div class="prism-blob" id="prism-b"></div>
+    <div id="prism-sheen"></div>
+    <canvas id="hero-sparkles"></canvas>
+    <p class="hero-eyebrow mono">irina.love · tools of delight</p>
     <h1 class="hero-title" id="hero-title">
       <span class="row"><span>take the <span class="strike" id="strike">ordinary.</span></span></span>
-      <span class="row"><span>return it <em>mythic.</em></span></span>
+      <span class="row"><span>return it <span class="holo-word">mythic.<span class="spk">✦</span><span class="spk">✦</span><span class="spk">✦</span></span></span></span>
     </h1>
-    <p class="hero-sub">Three small transformations, one per scroll. Watch a pet, a mood and a memory come back bigger than they were.</p>
-    <div class="hero-hint"><div class="hero-hint-line"></div>Begin the first</div>
-    <div class="hero-flower">
-      <img src="uploads/flower-pink.avif" alt="">
-    </div>
+    <p class="hero-sub">Small, lovely apps that are highly emotional and deeply personal. Experiences designed to make you feel something. Each one takes something ordinary, a pet, a feeling, a memory, and returns it transformed. Bigger, more beautiful than before.</p>
+    <div class="hero-hint mono"><div class="hero-hint-line"></div>Begin journey</div>
   </section>
 
-  <!-- 01 · a pet -->
-  <section class="tf" id="tf-pet">
+  <!-- ══ tool 01 · cosmic pets ══ -->
+  <section class="tf" id="tf-pets">
     <div class="tf-ordinary">
       <h2>a pet.</h2>
       <div class="tf-sub">photographed on a tuesday</div>
     </div>
-    <div class="tf-arrow">scroll, and look again</div>
-    <div class="tf-image">
-      <img src="uploads/hero_images/cosmic-pets-card.webp" alt="A cat reimagined as a cosmic being in a pink moon">
+    <div class="tf-reveal">
+      <img class="bgimg" src="uploads/scroll/cp-hero-bg-dark-v2.webp" alt="">
+      <div class="tf-shade"></div>
     </div>
-    <div class="tf-mythic">
-      <div class="tf-chip">specimen № 01 · cosmic pet portraits</div>
-      <h3>a cosmic being.</h3>
+    <div class="tf-head">
+      <h3>Your pet reimagined as a <em>cosmic star</em>, available in <em>6 different vibes</em> and their own adventure story files.</h3>
+    </div>
+    <div class="tf-carousel">
+      <div class="car-track">
+        <div class="holo-card"><img src="uploads/scroll/cosmic-pets-hamish-midnight-gothic-v2.webp" alt="Hamish, Midnight Gothic vibe" loading="eager"></div>
+        <div class="holo-card"><img src="uploads/scroll/cosmic-pets-bruno-secret-garden-v1.webp" alt="Bruno, Secret Garden vibe" loading="eager"></div>
+        <div class="holo-card"><img src="uploads/scroll/cosmic-pets-flora-celestial-palace-v5.webp" alt="Flora, Celestial Palace vibe" loading="eager"></div>
+        <div class="holo-card"><img src="uploads/scroll/cosmic-pets-otto-electric-universe-v3.webp" alt="Otto, Electric Universe vibe" loading="eager"></div>
+        <div class="holo-card"><img src="uploads/scroll/cosmic-pets-kiwi-ocean-deep-v4.webp" alt="Kiwi, Ocean Deep vibe" loading="eager"></div>
+        <div class="holo-card"><img src="uploads/scroll/cosmic-pets-mina-cosmic-abstract-v1.webp" alt="Mina, Cosmic Abstract vibe" loading="eager"></div>
+      </div>
     </div>
     <div class="tf-veil"></div>
   </section>
 
-  <!-- 02 · a mood -->
-  <section class="tf" id="tf-mood">
+  <!-- ══ tool 02 · letters from your future self ══ -->
+  <section class="tf" id="tf-letters">
     <div class="tf-ordinary">
       <h2>a mood.</h2>
-      <div class="tf-sub">tuesday, four pm, heavy</div>
+      <div class="tf-sub">friday afternoon, four pm, heavy</div>
     </div>
-    <div class="tf-image">
-      <img src="uploads/hero_images/ocean-card.webp" alt="A face turned upward, rendered as starlit water">
+    <div class="tf-reveal">
+      <video src="uploads/scroll/letters-hero.mp4" muted loop playsinline preload="metadata"></video>
+      <div class="tf-shade"></div>
     </div>
-    <div class="tf-mythic">
-      <div class="tf-chip">specimen № 03 · your ocean</div>
-      <h3>an ocean.</h3>
+    <div class="tf-head">
+      <h3>A letter… from your <em>future self</em></h3>
+      <p class="tf-headsub">Write today. Receive an introspective reply from yourself, <strong>ten years from now</strong>, reflecting on your current worries with love and tender perspective.</p>
+    </div>
+    <div class="tf-carousel">
+      <div class="car-track">
+        <div class="holo-card"><img src="uploads/scroll/letters-1.webp" alt="Letters from your Future Self, example card"></div>
+        <div class="holo-card"><img src="uploads/scroll/letters-2.webp" alt="Letters from your Future Self, example card"></div>
+        <div class="holo-card"><img src="uploads/scroll/letters-3.webp" alt="Letters from your Future Self, example card"></div>
+        <div class="holo-card"><img src="uploads/scroll/letters-4.webp" alt="Letters from your Future Self, example card"></div>
+        <div class="holo-card"><img src="uploads/scroll/letters-5.webp" alt="Letters from your Future Self, example card"></div>
+        <div class="holo-card"><img src="uploads/scroll/letters-6.webp" alt="Letters from your Future Self, example card"></div>
+      </div>
     </div>
     <div class="tf-veil"></div>
   </section>
 
-  <!-- 03 · a memory -->
-  <section class="tf" id="tf-memory">
+  <!-- ══ tool 03 · soundtrack of your life ══ -->
+  <section class="tf" id="tf-soundtrack">
     <div class="tf-ordinary">
-      <h2>a memory.</h2>
-      <div class="tf-sub">summer, half-remembered</div>
+      <h2>a moment.</h2>
+      <div class="tf-sub">an era, a heartbreak, on a sunday evening</div>
     </div>
-    <div class="tf-image">
-      <img src="uploads/hero_images/soundtrack-card.webp" alt="A glittering portrait, listening">
+    <div class="tf-reveal">
+      <video src="uploads/scroll/soundtrack-hero.mp4" muted playsinline preload="metadata"></video>
+      <div class="tf-shade"></div>
     </div>
-    <div class="tf-mythic">
-      <div class="tf-chip">specimen № 04 · soundtrack of your life</div>
-      <h3>a soundtrack.</h3>
+    <div class="tf-head">
+      <h3>A moment turned into a <em>soundtrack</em></h3>
+      <p class="tf-headsub">Life's moments turned into personal musical memories.</p>
+    </div>
+    <div class="tf-carousel">
+      <div class="car-track">
+        <div class="holo-card"><img src="uploads/scroll/soundtrack-1.webp" alt="Soundtrack of Your Life, example card"></div>
+        <div class="holo-card"><img src="uploads/scroll/soundtrack-2.webp" alt="Soundtrack of Your Life, example card"></div>
+        <div class="holo-card"><img src="uploads/scroll/soundtrack-3.webp" alt="Soundtrack of Your Life, example card"></div>
+        <div class="holo-card"><img src="uploads/scroll/soundtrack-4.webp" alt="Soundtrack of Your Life, example card"></div>
+        <div class="holo-card"><img src="uploads/scroll/soundtrack-5.webp" alt="Soundtrack of Your Life, example card"></div>
+        <div class="holo-card"><img src="uploads/scroll/soundtrack-6.webp" alt="Soundtrack of Your Life, example card"></div>
+      </div>
     </div>
     <div class="tf-veil"></div>
   </section>
 
-  <!-- 04 · the question -->
-  <section id="s-question">
-    <p id="question-line">does this make someone feel like the universe <em>noticed</em> them?</p>
-    <div id="question-yes">that is the whole point.</div>
+  <!-- ══ tool 04 · bloom after rain ══ -->
+  <section class="tf" id="tf-bloom">
+    <div class="tf-ordinary">
+      <h2>a loss.</h2>
+      <div class="tf-sub">weighs heavy on you, you can't let it go</div>
+    </div>
+    <div class="tf-reveal">
+      <video src="uploads/scroll/bloom-rain-hero.mp4" muted loop playsinline preload="metadata"></video>
+      <div class="tf-shade"></div>
+    </div>
+    <div class="tf-head">
+      <h3>Bloom <em>after rain</em></h3>
+      <p class="tf-headsub">Something tender is growing, in your garden of resilience.</p>
+    </div>
+    <div class="tf-carousel">
+      <div class="car-track">
+        <div class="holo-card aurora-card"><img src="uploads/scroll/bloom-v1.webp" alt="Bloom after Rain, flower card"></div>
+        <div class="holo-card aurora-card"><img src="uploads/scroll/bloom-v2.webp" alt="Bloom after Rain, flower card"></div>
+        <div class="holo-card aurora-card"><img src="uploads/scroll/bloom-v3.webp" alt="Bloom after Rain, flower card"></div>
+        <div class="holo-card aurora-card"><img src="uploads/scroll/bloom-v4.webp" alt="Bloom after Rain, flower card"></div>
+        <div class="holo-card aurora-card"><img src="uploads/scroll/bloom-v5.webp" alt="Bloom after Rain, flower card"></div>
+        <div class="holo-card aurora-card"><img src="uploads/scroll/bloom-v6.webp" alt="Bloom after Rain, flower card"></div>
+      </div>
+    </div>
+    <div class="tf-veil"></div>
   </section>
 
 </div>
 
-<!-- ══ THE CABINET ══ -->
-<div id="marquee" aria-hidden="true">
-  <div id="marquee-track"></div>
-</div>
-
-<section id="tools">
+<!-- ══ RECAP ══ -->
+<section id="recap">
   <div class="wrap">
-    <div class="tools-header reveal">
-      <h2 class="tools-title">The tools</h2>
-      <span class="tools-count" id="tools-count">more always blooming</span>
+    <div class="section-head mono reveal">
+      <span><span class="roman">I.</span>&ensp;The tools</span>
+      <span>four and counting</span>
     </div>
-    <div id="featured-grid" class="projects-grid"></div>
-    <div id="dreaming-grid" class="dreaming-grid"></div>
+    <div class="recap-grid">
+      <a class="recap-card reveal" href="https://www.cosmicpets.love" target="_blank" rel="noopener">
+        <p class="recap-tool mono">tool 01</p>
+        <h3 class="recap-title">Cosmic Pet Portraits</h3>
+        <p class="recap-line">a pet. <span class="to">→</span> a cosmic being.</p>
+        <span class="specimen-link">Visit cosmicpets.love <span class="arrow">→</span></span>
+      </a>
+      <a class="recap-card reveal" href="https://letters.irina.love" target="_blank" rel="noopener">
+        <p class="recap-tool mono">tool 02</p>
+        <h3 class="recap-title">Letters from your Future Self</h3>
+        <p class="recap-line">a mood. <span class="to">→</span> a letter.</p>
+        <span class="specimen-link">Visit letters.irina.love <span class="arrow">→</span></span>
+      </a>
+      <a class="recap-card reveal" href="https://soundtrack.irina.love/" target="_blank" rel="noopener">
+        <p class="recap-tool mono">tool 03</p>
+        <h3 class="recap-title">Soundtrack of Your Life</h3>
+        <p class="recap-line">a moment. <span class="to">→</span> a soundtrack.</p>
+        <span class="specimen-link">Visit soundtrack.irina.love <span class="arrow">→</span></span>
+      </a>
+      <a class="recap-card reveal" href="https://bloom.irina.love/" target="_blank" rel="noopener">
+        <p class="recap-tool mono">tool 04</p>
+        <h3 class="recap-title">Bloom after Rain</h3>
+        <p class="recap-line">a loss. <span class="to">→</span> a bloom.</p>
+        <span class="specimen-link">Visit bloom.irina.love <span class="arrow">→</span></span>
+      </a>
+    </div>
   </div>
 </section>
 
-<div class="divider"></div>
+<!-- ══ THROUGH A LENS ══ -->
+<section id="photography">
+  <div class="wrap">
+    <div class="section-head mono reveal">
+      <span><span class="roman">II.</span>&ensp;Through a lens</span>
+      <span>03 series · more always developing</span>
+    </div>
+    <div class="photo-grid">
+      <figure class="photo-entry reveal">
+        <div class="plate-mat">
+          <a href="cats.html" tabindex="-1"><img src="uploads/photography/cats-cover.webp" alt="Cats of China — photo series"></a>
+        </div>
+        <div class="photo-entry-body">
+          <p class="mono photo-meta">Photo series · 19 photographs</p>
+          <h3 class="photo-title"><a href="cats.html">Cats of China</a></h3>
+          <p class="photo-desc">Nineteen cats met along the way — stationed in doorways, on market carts, under neon signs. Unhurried, perfectly at home in the beautiful chaos of it all.</p>
+          <a class="specimen-link" href="cats.html">View the series <span class="arrow">→</span></a>
+        </div>
+      </figure>
+      <figure class="photo-entry reveal">
+        <div class="plate-mat">
+          <a href="streets.html" tabindex="-1"><img src="uploads/photography/streets-cover.webp" alt="Streets and Light — photo series"></a>
+        </div>
+        <div class="photo-entry-body">
+          <p class="mono photo-meta">Photo series · 25 photographs</p>
+          <h3 class="photo-title"><a href="streets.html">Streets &amp; Light</a></h3>
+          <p class="photo-desc">Twenty-five photographs made in the current of the city — candid portraits, mountain cities, neon and midday glare, the quiet between crowds.</p>
+          <a class="specimen-link" href="streets.html">View the series <span class="arrow">→</span></a>
+        </div>
+      </figure>
+      <figure class="photo-entry reveal">
+        <div class="plate-mat">
+          <a href="lights.html" tabindex="-1"><img src="uploads/photography/lights-cover.webp" alt="Light and Texture — photo series"></a>
+        </div>
+        <div class="photo-entry-body">
+          <p class="mono photo-meta">Photo series · 25 photographs</p>
+          <h3 class="photo-title"><a href="lights.html">Light &amp; Texture</a></h3>
+          <p class="photo-desc">Twenty-five studies in surface, material and light — from neon-drenched rooftops and dense residential towers to the extraordinary detail of couture embroidery.</p>
+          <a class="specimen-link" href="lights.html">View the series <span class="arrow">→</span></a>
+        </div>
+      </figure>
+    </div>
+  </div>
+</section>
 
+<!-- ══ THE IDEA ══ -->
 <section id="manifesto">
   <div class="wrap">
+    <div class="section-head mono reveal">
+      <span><span class="roman">III.</span>&ensp;The idea</span>
+      <span>a small manifesto</span>
+    </div>
     <div class="manifesto-grid">
-      <div class="manifesto-left reveal">
-        <p class="section-label">The idea</p>
-        <p class="manifesto-quote">I take something ordinary<br>and return it <em>mythic.</em></p>
-      </div>
-      <div class="manifesto-right reveal">
-        <div class="manifesto-body">
-          <p>Pets become cosmic beings. Moods become oceans. Memories become tracks you can play back. These tools aren't just fun, they make people feel <strong>seen</strong>. That's rarer and harder to copy than any feature.</p>
-          <p>Each tool is a small act of attention. A moment where technology stops being cold and becomes something close to <strong>tender</strong>.</p>
-          <p>Think of this as a cabinet of curiosities. Each new specimen teaches something new, about image generation, about emotion, about what it means to make something <strong>personal at scale</strong>.</p>
-          <p>Always asking the same question: does this make someone feel like the universe noticed them?</p>
-        </div>
+      <p class="manifesto-quote reveal">I take something ordinary and return it <em>mythic.</em></p>
+      <div class="manifesto-body reveal">
+        <p>Pets become cosmic beings. Moods become oceans. Your future self offers perspective. Memories become something you can hold.</p>
+        <p>Each tool is a small act of attention, the moment technology stops being cold and becomes something close to <strong>tender</strong>. Some of what I make will land quietly. A few people will hold it close and never say a word. Some of it will travel further than I expected. All of it counts.</p>
+        <p>Always asking the same question: does this make someone feel something real?</p>
       </div>
     </div>
   </div>
 </section>
 
+<!-- ══ ABOUT ══ -->
 <section id="about">
   <div class="wrap">
     <div class="section-head mono reveal">
@@ -504,158 +707,179 @@
     gsap.ticker.lagSmoothing(0);
   }
 
-  /* hero entrance */
+  /* ── hero entrance + prismatic sheen ── */
   if (!REDUCED) {
     gsap.fromTo('.hero-title .row > span', { yPercent: 115 },
       { yPercent: 0, duration: 1.2, ease: 'power4.out', stagger: 0.14, delay: 0.35 });
     gsap.fromTo('#strike', { '--strike': 0 }, { '--strike': 1, duration: 0.7, ease: 'power2.inOut', delay: 1.5 });
   }
-
-  /* split the question into words */
   (function () {
-    var el = document.getElementById('question-line');
-    var html = el.innerHTML;
-    el.innerHTML = html.split(/\s+/).map(function (w) {
-      if (w.indexOf('<em>') !== -1) return '<span class="w">' + w + '</span>';
-      return '<span class="w">' + w + '</span>';
-    }).join(' ');
-  })();
-
-  /* ── data ── */
-  var FALLBACK = { tools: [
-    { num: '01', title: 'Cosmic Pet Portraits', status: 'live' },
-    { num: '02', title: 'Letters from your Future Self', status: 'coming-soon' },
-    { num: '03', title: 'Your Ocean', status: 'coming-soon' },
-    { num: '04', title: 'Soundtrack of Your Life', status: 'coming-soon' },
-    { num: '05', title: 'Your Inner World Map', status: 'dreaming' },
-    { num: '06', title: 'Bloom After Rain', status: 'dreaming' },
-    { num: '07', title: 'Childhood Toy Reunion', status: 'dreaming' }
-  ]};
-
-  function renderCabinet(tools) {
-    var featured = tools.filter(function (t) { return t.status === 'live' || t.status === 'coming-soon'; });
-    var dreaming = tools.filter(function (t) { return t.status === 'dreaming'; });
-    document.getElementById('tools-count').textContent =
-      String(tools.length).padStart(2, '0') + ' specimens · more always blooming';
-
-    document.getElementById('featured-grid').innerHTML = featured.map(function (t) {
-      var tag = t.status === 'live' ? 'Tool № ' + t.num + ' · live' : 'Tool № ' + t.num + ' · in the making';
-      if (t.status === 'live' && t.image) {
-        return '<div class="project-card reveal">' +
-          '<div class="card-image"><img src="' + t.image + '" alt="' + t.title + '"></div>' +
-          '<div class="card-body"><div class="card-tag">' + tag + '</div>' +
-          '<h3 class="card-title">' + (t.subtitle ? t.title.replace(t.subtitle, '<em>' + t.subtitle + '</em>') : t.title) + '</h3>' +
-          '<p class="card-desc">' + t.description + '</p>' +
-          (t.url ? '<a class="card-link" href="' + t.url + '" target="_blank" rel="noopener">' + (t.urlLabel || 'Visit') + ' →</a>' : '') +
-          '</div></div>';
-      }
-      return '<div class="project-card reveal"><div class="card-coming">' +
-        (t.image ? '<div class="card-ghost"><img src="' + t.image + '" alt=""></div>' : '') +
-        '<div class="card-tag">' + tag + '</div>' +
-        '<div class="card-coming-label">' + t.title + '</div>' +
-        '<p class="card-coming-sub">' + (t.description || '') + '</p>' +
-        '</div></div>';
-    }).join('');
-
-    var cards = dreaming.map(function (t) {
-      return '<div class="dream-card reveal">' +
-        (t.image ? '<div class="dream-card-bg"><img src="' + t.image + '" alt=""></div>' : '') +
-        '<div class="dream-card-num">No. ' + t.num + '</div>' +
-        '<div class="dream-card-title">' + (t.subtitle ? t.title.replace(t.subtitle, '<em>' + t.subtitle + '</em>') : t.title) + '</div>' +
-        '<div class="dream-card-status">Dreaming · 2026</div></div>';
+    var hero = document.getElementById('s-hero');
+    hero.style.setProperty('--mx', '68%'); hero.style.setProperty('--my', '30%');
+    hero.addEventListener('pointermove', function (e) {
+      var r = hero.getBoundingClientRect();
+      hero.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100).toFixed(2) + '%');
+      hero.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100).toFixed(2) + '%');
     });
-    cards.push('<div class="dream-card reveal" style="background:oklch(94% 0.015 85);border:1px dashed oklch(75% 0.04 60 / 0.35);">' +
-      '<div class="dream-card-num" style="color:var(--ink-soft);">···</div>' +
-      '<div class="dream-card-title" style="font-style:italic;color:var(--ink-soft);font-size:24px;">More always<br>blooming</div>' +
-      '<div class="dream-card-status">The cabinet grows</div></div>');
-    document.getElementById('dreaming-grid').innerHTML = cards.join('');
-  }
-
-  /* marquee */
-  (function () {
-    var pairs = ['a pet', 'a cosmic being', 'a mood', 'an ocean', 'a memory', 'a soundtrack'];
-    var row = pairs.map(function (w) { return w + ' ·'; }).join(' ');
-    document.getElementById('marquee-track').textContent = row + ' ' + row + ' ' + row + ' ' + row;
   })();
 
-  /* ── chapters ── */
+  /* hero sparkles */
+  var sparklesOn = true;
+  (function () {
+    var cv = document.getElementById('hero-sparkles'), cx = cv.getContext('2d');
+    var DPR = Math.min(devicePixelRatio || 1, 1.5);
+    var COLS = ['oklch(80% 0.12 350 / 0.8)', 'oklch(84% 0.1 80 / 0.8)', 'oklch(80% 0.11 290 / 0.8)', 'oklch(82% 0.1 200 / 0.8)'];
+    var pts = [];
+    function size() { cv.width = cv.offsetWidth * DPR; cv.height = cv.offsetHeight * DPR; }
+    size(); addEventListener('resize', size);
+    for (var i = 0; i < 24; i++) {
+      pts.push({ x: Math.random(), y: Math.random(), r: Math.random() * 1.8 + 0.7,
+        s: Math.random() * 0.00008 + 0.00003, ph: Math.random() * 6.28, col: COLS[i % COLS.length] });
+    }
+    function tick(ts) {
+      if (!sparklesOn || REDUCED) { requestAnimationFrame(tick); return; }
+      cx.clearRect(0, 0, cv.width, cv.height);
+      pts.forEach(function (p) {
+        var x = (p.x + Math.sin(ts * p.s + p.ph) * 0.02) * cv.width;
+        var y = (p.y + Math.cos(ts * p.s * 1.4 + p.ph) * 0.03) * cv.height;
+        cx.globalAlpha = 0.45 + 0.55 * Math.abs(Math.sin(ts * 0.0016 + p.ph * 3));
+        cx.fillStyle = p.col;
+        var r = p.r * DPR;
+        cx.beginPath();
+        cx.moveTo(x, y - r * 2.2); cx.lineTo(x + r * 0.5, y - r * 0.5); cx.lineTo(x + r * 2.2, y);
+        cx.lineTo(x + r * 0.5, y + r * 0.5); cx.lineTo(x, y + r * 2.2); cx.lineTo(x - r * 0.5, y + r * 0.5);
+        cx.lineTo(x - r * 2.2, y); cx.lineTo(x - r * 0.5, y - r * 0.5);
+        cx.closePath(); cx.fill();
+      });
+      cx.globalAlpha = 1;
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  })();
+
+  /* ── holographic card mouse tracking (delegated) ── */
+  document.querySelectorAll('.car-track').forEach(function (track) {
+    track.addEventListener('pointermove', function (e) {
+      var card = e.target.closest('.holo-card');
+      if (!card) return;
+      var r = card.getBoundingClientRect();
+      card.style.setProperty('--hx', ((e.clientX - r.left) / r.width * 100).toFixed(1) + '%');
+      card.style.setProperty('--hy', ((e.clientY - r.top) / r.height * 100).toFixed(1) + '%');
+    });
+  });
+
+  /* ── video control ── */
+  var pingpong = { raf: null, dir: 1 };
+  function startPingpong(v) {
+    stopPingpong();
+    v.pause();
+    var last = performance.now();
+    function step(now) {
+      var dt = (now - last) / 1000; last = now;
+      if (v.duration) {
+        var t = v.currentTime + pingpong.dir * dt;
+        if (t >= v.duration - 0.05) { t = v.duration - 0.05; pingpong.dir = -1; }
+        if (t <= 0.05) { t = 0.05; pingpong.dir = 1; }
+        v.currentTime = t;
+      }
+      pingpong.raf = requestAnimationFrame(step);
+    }
+    pingpong.raf = requestAnimationFrame(step);
+  }
+  function stopPingpong() { if (pingpong.raf) { cancelAnimationFrame(pingpong.raf); pingpong.raf = null; } }
+
+  /* ── the four scenes ── */
+  var TOOL_LABELS = {
+    'tf-pets': 'tool 01 · cosmic pet portraits',
+    'tf-letters': 'tool 02 · letters from your future self',
+    'tf-soundtrack': 'tool 03 · soundtrack of your life',
+    'tf-bloom': 'tool 04 · bloom after rain'
+  };
   var chapterEl = document.getElementById('chapter');
   var chapterLabel = document.getElementById('chapter-label');
   var chapterFill = document.getElementById('chapter-fill');
-  var CHAPTERS = [
-    ['the promise', 0], ['01 · a pet', 0.1], ['02 · a mood', 0.34],
-    ['03 · a memory', 0.58], ['04 · the question', 0.82]
-  ];
+  var navEl = document.getElementById('nav');
 
-  /* ── scenes ── */
   function buildScenes() {
-    if (REDUCED) return;
+    if (REDUCED) {
+      document.querySelectorAll('.tf video').forEach(function (v) { v.setAttribute('controls', ''); });
+      return;
+    }
 
-    // three transformations (pinned) — created FIRST, in order
-    ['#tf-pet', '#tf-mood', '#tf-memory'].forEach(function (sel) {
-      var scene = document.querySelector(sel);
+    ['tf-pets', 'tf-letters', 'tf-soundtrack', 'tf-bloom'].forEach(function (id) {
+      var scene = document.getElementById(id);
+      var video = scene.querySelector('video');
+      var track = scene.querySelector('.car-track');
+      var head = scene.querySelector('.tf-head');
+      var isPets = id === 'tf-pets';
+      var isSoundtrack = id === 'tf-soundtrack';
+      var headFades = !isPets; /* letters/soundtrack/bloom headlines fade back out */
+
       var tl = gsap.timeline({
         scrollTrigger: {
-          trigger: sel, start: 'top top', end: '+=230%',
-          pin: true, scrub: true, invalidateOnRefresh: true
+          trigger: scene, start: 'top top', end: '+=380%',
+          pin: true, scrub: true, invalidateOnRefresh: true,
+          onUpdate: function (st) {
+            var dark = st.progress > 0.18 && st.progress < 0.96;
+            navEl.classList.toggle('on-dark', dark && st.isActive);
+            chapterEl.classList.toggle('on-dark', dark && st.isActive);
+            if (st.isActive && st.progress > 0.05 && chapterLabel.textContent !== TOOL_LABELS[id]) {
+              chapterLabel.textContent = TOOL_LABELS[id];
+            }
+          },
+          onToggle: function (st) {
+            scene.classList.toggle('live', st.isActive);
+            if (!video) return;
+            if (st.isActive) {
+              if (isSoundtrack) startPingpong(video);
+              else video.play().catch(function () {});
+            } else {
+              if (isSoundtrack) stopPingpong();
+              video.pause();
+            }
+          }
         }
       });
-      var arrow = scene.querySelector('.tf-arrow');
-      tl
-        .fromTo(scene.querySelector('.tf-image'),
-          { clipPath: 'circle(0% at 50% 55%)' },
-          { clipPath: 'circle(75% at 50% 50%)', duration: 1.15, ease: 'power1.inOut' }, 0.2)
-        .fromTo(scene.querySelector('.tf-image img'),
-          { scale: 1.18 }, { scale: 1.02, duration: 1.9, ease: 'none' }, 0.2)
-        .to(scene.querySelector('.tf-ordinary'),
-          { opacity: 0, scale: 0.94, y: -60, duration: 0.55 }, 0.35)
-        .fromTo(scene.querySelector('.tf-mythic'),
-          { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 0.45 }, 1.05)
-        .to(scene.querySelector('.tf-veil'),
-          { yPercent: 0, duration: 0.45, ease: 'power2.in' }, 1.85);
-      if (arrow) {
-        tl.to(arrow, { opacity: 0, duration: 0.2 }, 0.25);
-      }
-    });
 
-    // the question (pinned word reveal)
-    var qWords = gsap.utils.toArray('#question-line .w');
-    var qTl = gsap.timeline({
-      scrollTrigger: {
-        trigger: '#s-question', start: 'top top', end: '+=220%',
-        pin: true, scrub: true, invalidateOnRefresh: true
+      /* the ordinary word breathes, then lifts away */
+      tl.fromTo(scene.querySelector('.tf-ordinary'),
+          { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.35 }, 0.05)
+        .to(scene.querySelector('.tf-ordinary'),
+          { opacity: 0, scale: 0.94, y: -70, duration: 0.5 }, 0.75)
+        /* the world rolls in */
+        .fromTo(scene.querySelector('.tf-reveal'),
+          { opacity: 0 }, { opacity: 1, duration: 0.55 }, 0.7)
+        /* headline rises */
+        .fromTo(head, { opacity: 0, y: 46 }, { opacity: 1, y: 0, duration: 0.5 }, 1.3);
+      if (headFades) {
+        tl.to(head, { opacity: 0, y: -36, duration: 0.5 }, 2.6);
       }
+      /* carousel drifts right → left */
+      tl.fromTo(track,
+          { x: function () { return innerWidth; } },
+          { x: function () { return -(track.scrollWidth - innerWidth + innerWidth * 0.08); },
+            ease: 'none', duration: 1.85 }, 1.75)
+        /* cream veil closes the scene */
+        .to(scene.querySelector('.tf-veil'), { yPercent: 0, duration: 0.28, ease: 'power2.in' }, 3.52);
     });
-    qTl
-      .to(qWords, { opacity: 1, stagger: 0.09, duration: 0.35, ease: 'none' }, 0.1)
-      .fromTo('#question-yes', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.35 }, 1.35);
 
     /* ambient AFTER pins */
     ScrollTrigger.create({
       trigger: '#film', start: 'top top', end: 'bottom bottom',
       onUpdate: function (st) {
         chapterFill.style.width = (st.progress * 100).toFixed(1) + '%';
-        var label = CHAPTERS[0][0];
-        for (var i = 0; i < CHAPTERS.length; i++) if (st.progress >= CHAPTERS[i][1]) label = CHAPTERS[i][0];
-        if (chapterLabel.textContent !== label) chapterLabel.textContent = label;
+        if (st.progress < 0.04 && chapterLabel.textContent !== 'irina.love · tools of delight') {
+          chapterLabel.textContent = 'irina.love · tools of delight';
+        }
       },
-      onLeave: function () { chapterEl.classList.add('gone'); },
+      onLeave: function () { chapterEl.classList.add('gone'); navEl.classList.remove('on-dark'); chapterEl.classList.remove('on-dark'); },
       onEnterBack: function () { chapterEl.classList.remove('gone'); }
     });
 
-    // hero flower drift
-    gsap.to('.hero-flower', {
-      y: -80, ease: 'none',
-      scrollTrigger: { trigger: '#s-hero', start: 'top top', end: 'bottom top', scrub: true }
-    });
-
-    // marquee drift + velocity skew
-    var mTrack = document.getElementById('marquee-track');
-    gsap.to(mTrack, { xPercent: -50, ease: 'none', duration: 40, repeat: -1 });
-    var skewSetter = gsap.quickSetter(mTrack, 'skewX', 'deg');
-    var skewClamp = gsap.utils.clamp(-8, 8);
     ScrollTrigger.create({
-      onUpdate: function (st) { skewSetter(skewClamp(st.getVelocity() / -220)); }
+      trigger: '#s-hero', start: 'top top', end: 'bottom top',
+      onLeave: function () { sparklesOn = false; document.getElementById('s-hero').classList.add('asleep'); },
+      onEnterBack: function () { sparklesOn = true; document.getElementById('s-hero').classList.remove('asleep'); }
     });
   }
 
@@ -668,14 +892,8 @@
   }
 
   /* boot */
-  var toolsReady = fetch('data/tools.json')
-    .then(function (r) { return r.json(); })
-    .catch(function () { return FALLBACK; })
-    .then(function (data) { renderCabinet((data && data.tools) || FALLBACK.tools); });
-
-  Promise.all([toolsReady, document.fonts ? document.fonts.ready : Promise.resolve()])
+  (document.fonts ? document.fonts.ready : Promise.resolve())
     .then(function () {
-      // pre-decode film imagery so no JPEG decode spikes land mid-scroll
       var decodes = Array.prototype.map.call(document.querySelectorAll('img'), function (im) {
         return im.decode ? im.decode().catch(function () {}) : Promise.resolve();
       });
