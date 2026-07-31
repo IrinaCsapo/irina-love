@@ -756,24 +756,33 @@
   })();
 
   /* ── video control ── */
-  var pingpong = { raf: null, dir: 1 };
+  /* back-and-forth: play forward at speed, then glide the playhead home and go again */
+  var pingpong = { active: false, video: null, tween: null };
+  function pingpongCycle() {
+    var v = pingpong.video;
+    if (!pingpong.active || !v) return;
+    v.play().catch(function () {});
+  }
+  function onPingEnded() {
+    var v = pingpong.video;
+    if (!pingpong.active || !v) return;
+    pingpong.tween = gsap.to(v, {
+      currentTime: 0.05, duration: 1.4, ease: 'power1.inOut',
+      onComplete: pingpongCycle
+    });
+  }
   function startPingpong(v) {
     stopPingpong();
-    v.pause();
-    var last = performance.now();
-    function step(now) {
-      var dt = (now - last) / 1000; last = now;
-      if (v.duration) {
-        var t = v.currentTime + pingpong.dir * dt;
-        if (t >= v.duration - 0.05) { t = v.duration - 0.05; pingpong.dir = -1; }
-        if (t <= 0.05) { t = 0.05; pingpong.dir = 1; }
-        v.currentTime = t;
-      }
-      pingpong.raf = requestAnimationFrame(step);
-    }
-    pingpong.raf = requestAnimationFrame(step);
+    pingpong.active = true; pingpong.video = v;
+    v.loop = false;
+    v.addEventListener('ended', onPingEnded);
+    pingpongCycle();
   }
-  function stopPingpong() { if (pingpong.raf) { cancelAnimationFrame(pingpong.raf); pingpong.raf = null; } }
+  function stopPingpong() {
+    if (pingpong.tween) { pingpong.tween.kill(); pingpong.tween = null; }
+    if (pingpong.video) { pingpong.video.removeEventListener('ended', onPingEnded); pingpong.video.pause(); }
+    pingpong.active = false; pingpong.video = null;
+  }
 
   /* ── the four scenes ── */
   var TOOL_LABELS = {
@@ -802,9 +811,10 @@
       var isSoundtrack = id === 'tf-soundtrack';
       var headFades = !isPets; /* letters/soundtrack/bloom headlines fade back out */
 
+      gsap.set(scene.querySelector('.tf-veil'), { y: 0, yPercent: 101 });
       var tl = gsap.timeline({
         scrollTrigger: {
-          trigger: scene, start: 'top top', end: '+=380%',
+          trigger: scene, start: 'top top', end: '+=330%',
           pin: true, scrub: true, invalidateOnRefresh: true,
           onUpdate: function (st) {
             var dark = st.progress > 0.18 && st.progress < 0.96;
@@ -846,7 +856,7 @@
       var DTH = 17.5;
       function layoutWheel() {
         var R = Math.max(innerHeight * 1.15, 640);
-        track.style.top = (innerHeight * 0.48 + R) + 'px';
+        track.style.top = (innerHeight * 0.58 + R) + 'px';
         Array.prototype.forEach.call(track.children, function (card, i) {
           card.style.marginLeft = -(card.offsetWidth / 2) + 'px';
           card.style.marginTop = -(card.offsetHeight / 2) + 'px';
@@ -857,9 +867,9 @@
       addEventListener('resize', layoutWheel);
       tl.fromTo(track,
           { rotation: 68 },
-          { rotation: -(68 + 5 * DTH), ease: 'none', duration: 1.85 }, 1.75)
-        /* cream veil closes the scene */
-        .to(scene.querySelector('.tf-veil'), { yPercent: 0, duration: 0.28, ease: 'power2.in' }, 3.52);
+          { rotation: -(68 + 5 * DTH), ease: 'none', duration: 1.55 }, 1.75)
+        /* cream veil rises while the last cards are still crossing */
+        .to(scene.querySelector('.tf-veil'), { yPercent: 0, duration: 0.3, ease: 'power2.in' }, 2.95);
     });
 
     /* ambient AFTER pins */
