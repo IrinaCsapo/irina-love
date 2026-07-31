@@ -81,6 +81,53 @@
   #chapter-bar { width: 120px; height: 1px; background: oklch(60% 0.03 60 / 0.3); }
   #chapter-fill { width: 0%; height: 100%; background: var(--coral); }
 
+  /* back to top */
+  #back-top {
+    position: fixed; right: 26px; bottom: 28px; z-index: 110;
+    width: 46px; height: 46px; border-radius: 50%;
+    border: 1px solid var(--line); cursor: pointer;
+    background: oklch(98% 0.01 85 / 0.9);
+    -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    color: var(--ink); font-size: 18px; line-height: 1;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none; transform: translateY(8px);
+    transition: opacity .4s, transform .4s, box-shadow .3s;
+  }
+  #back-top.show { opacity: 1; pointer-events: auto; transform: translateY(0); }
+  #back-top:hover { box-shadow: 0 10px 26px oklch(40% 0.05 60 / 0.25); transform: translateY(-3px); }
+
+  /* side scroll progress rail */
+  #side-progress {
+    position: fixed; top: 0; right: 0; bottom: 0; width: 3px;
+    z-index: 105; background: oklch(60% 0.03 60 / 0.14); pointer-events: none;
+  }
+  #side-progress-fill {
+    width: 100%; height: 100%;
+    transform: scaleY(0); transform-origin: top center; will-change: transform;
+    background: linear-gradient(180deg, var(--coral), var(--purple-deep));
+  }
+
+  /* floating jump menu */
+  #jump-menu {
+    position: fixed; left: 50%; bottom: 22px; transform: translate(-50%, 10px);
+    z-index: 110; display: flex; gap: 2px; padding: 5px 8px;
+    border-radius: 999px; border: 1px solid var(--line);
+    background: oklch(98% 0.01 85 / 0.85);
+    -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+    box-shadow: 0 12px 34px oklch(30% 0.03 60 / 0.16);
+    opacity: 0; pointer-events: none;
+    transition: opacity .4s, transform .4s;
+  }
+  #jump-menu.show { opacity: 1; pointer-events: auto; transform: translate(-50%, 0); }
+  #jump-menu button {
+    font-family: var(--monoF); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--ink-soft); background: none; border: 0; cursor: pointer;
+    padding: 7px 11px; border-radius: 999px;
+    transition: color .25s, background .25s;
+  }
+  #jump-menu button:hover { color: var(--ink); background: oklch(93% 0.02 85 / 0.9); }
+  #jump-menu button.active { color: var(--accent); background: oklch(93% 0.03 60 / 0.7); }
+
   .mono {
     font-family: var(--monoF); font-size: 11px;
     letter-spacing: 0.14em; text-transform: uppercase; font-weight: 400;
@@ -405,10 +452,12 @@
     nav { padding: 20px 24px; }
     .nav-right { gap: 16px; }
     .nav-right a.alt { display: none; }
-    #chapter { left: 24px; bottom: 24px; }
+    #chapter { display: none; }
     .wrap { padding: 0 24px; }
-    .tf-head { top: 12%; }
-    .tf-carousel { transform: translateY(-34%); }
+    .tf-head { top: 10%; }
+    #back-top { right: 16px; bottom: 84px; width: 42px; height: 42px; }
+    #jump-menu { bottom: 16px; max-width: calc(100vw - 24px); overflow-x: auto; }
+    #jump-menu button { padding: 7px 9px; font-size: 9px; }
     .recap-grid { grid-template-columns: 1fr; }
     .photo-grid { grid-template-columns: 1fr; gap: 40px; }
     .manifesto-grid { grid-template-columns: 1fr; gap: 40px; }
@@ -446,6 +495,15 @@
     <a href="#recap">Skip to tools</a>
   </div>
 </nav>
+
+<button id="back-top" aria-label="Back to top">↑</button>
+<div id="side-progress"><div id="side-progress-fill"></div></div>
+<div id="jump-menu" role="navigation" aria-label="Jump to a tool">
+  <button data-scene="tf-pets">Cosmic Pets</button>
+  <button data-scene="tf-letters">Letters</button>
+  <button data-scene="tf-soundtrack">Soundtrack</button>
+  <button data-scene="tf-bloom">Bloom</button>
+</div>
 
 <div id="chapter">
   <div id="chapter-label">irina.love · tools of delight</div>
@@ -856,6 +914,39 @@
     'tf-soundtrack': 'tool 03 · soundtrack of your life',
     'tf-bloom': 'tool 04 · bloom after rain'
   };
+  var sceneTriggers = {};
+  var jumpBtns = {};
+  document.querySelectorAll('#jump-menu button').forEach(function (b) {
+    jumpBtns[b.dataset.scene] = b;
+    b.addEventListener('click', function () {
+      var st = sceneTriggers[b.dataset.scene];
+      var y = st ? st.start + 2 : (document.getElementById(b.dataset.scene) || {}).offsetTop || 0;
+      if (lenis) lenis.scrollTo(y, { duration: 1.2 });
+      else window.scrollTo({ top: y, behavior: 'smooth' });
+    });
+  });
+  function setActiveJump(id) {
+    for (var k in jumpBtns) jumpBtns[k].classList.toggle('active', k === id);
+  }
+  document.getElementById('back-top').addEventListener('click', function () {
+    if (lenis) lenis.scrollTo(0, { duration: 1.4 });
+    else window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+  /* fixed chrome show/hide + side progress rail (runs in all modes) */
+  (function () {
+    var fill = document.getElementById('side-progress-fill');
+    var setFill = gsap.quickSetter(fill, 'scaleY');
+    ScrollTrigger.create({
+      start: 0, end: 'max',
+      onUpdate: function (st) {
+        setFill(st.progress);
+        var show = st.scroll() > innerHeight * 0.6;
+        document.getElementById('back-top').classList.toggle('show', show);
+        document.getElementById('jump-menu').classList.toggle('show', show);
+      }
+    });
+  })();
+
   var chapterEl = document.getElementById('chapter');
   var chapterLabel = document.getElementById('chapter-label');
   var chapterFill = document.getElementById('chapter-fill');
@@ -888,6 +979,7 @@
             if (st.isActive && st.progress > 0.05 && chapterLabel.textContent !== TOOL_LABELS[id]) {
               chapterLabel.textContent = TOOL_LABELS[id];
             }
+            if (st.isActive) setActiveJump(id);
           },
           onToggle: function (st) {
             scene.classList.toggle('live', st.isActive);
@@ -918,7 +1010,8 @@
       var DTH = 17.5;
       function layoutWheel() {
         var R = Math.max(innerHeight * 1.15, 640);
-        track.style.top = (innerHeight * 0.58 + R) + 'px';
+        var peak = innerWidth < 900 ? 0.72 : 0.58;
+        track.style.top = (innerHeight * peak + R) + 'px';
         Array.prototype.forEach.call(track.children, function (card, i) {
           card.style.marginLeft = -(card.offsetWidth / 2) + 'px';
           card.style.marginTop = -(card.offsetHeight / 2) + 'px';
@@ -932,6 +1025,7 @@
           { rotation: -(68 + 5 * DTH), ease: 'none', duration: 1.55 }, 1.1)
         /* cream veil rises while the last cards are still crossing */
         .to(scene.querySelector('.tf-veil'), { yPercent: 0, duration: 0.3, ease: 'power2.in' }, 2.5);
+      sceneTriggers[id] = tl.scrollTrigger;
     });
 
     /* ambient AFTER pins */
