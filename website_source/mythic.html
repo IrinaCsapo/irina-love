@@ -838,11 +838,9 @@
         }
       });
 
-      /* the ordinary word breathes, then lifts away */
-      tl.fromTo(scene.querySelector('.tf-ordinary'),
-          { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.35 }, 0.05)
-        .to(scene.querySelector('.tf-ordinary'),
-          { opacity: 0, scale: 0.94, y: -70, duration: 0.5 }, 0.75)
+      /* the ordinary word rides in with the section, already visible, then lifts away */
+      tl.to(scene.querySelector('.tf-ordinary'),
+          { opacity: 0, scale: 0.94, y: -70, duration: 0.5 }, 0.7)
         /* the world opens as a growing circle */
         .fromTo(scene.querySelector('.tf-reveal'),
           { clipPath: 'circle(0% at 50% 55%)' },
