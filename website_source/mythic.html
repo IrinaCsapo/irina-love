@@ -224,45 +224,44 @@
   }
   .tf-head .tf-headsub strong { font-style: italic; font-weight: 450; color: var(--purple); }
 
-  /* carousel */
+  /* carousel: a wheel — cards rise from bottom-right, arc overhead, set bottom-left */
   .tf-carousel {
-    position: absolute; z-index: 4; left: 0; right: 0; top: 50%;
-    transform: translateY(-42%);
+    position: absolute; z-index: 4; inset: 0;
     overflow: visible; pointer-events: none;
   }
   .car-track {
-    display: flex; align-items: center; gap: clamp(22px, 3vw, 40px);
-    width: max-content; padding: 60px 8vw;
+    position: absolute; left: 50%; top: 0; width: 0; height: 0;
     will-change: transform; pointer-events: auto;
   }
+  .car-track .holo-card { position: absolute; left: 0; top: 0; }
   .holo-card {
     position: relative; flex-shrink: 0;
     width: clamp(200px, 21vw, 290px);
-    border-radius: 16px;
-    box-shadow: 0 26px 60px oklch(8% 0.02 300 / 0.55);
+    border-radius: 6.5%;
     --hx: 50%; --hy: 50%; --bd: 0s;
   }
   .holo-card img {
-    width: 100%; display: block; border-radius: 16px;
+    width: 100%; display: block;
     will-change: transform;
+    filter: drop-shadow(0 22px 34px oklch(8% 0.02 300 / 0.5));
     animation: bob 6s ease-in-out infinite; animation-delay: var(--bd);
   }
   .tf:not(.live) .holo-card img, .tf:not(.live) .bgimg, .tf:not(.live) .aurora-card::before { animation-play-state: paused; }
   #s-hero.asleep .prism-blob { animation-play-state: paused; }
   /* arc + bob rhythm */
-  .car-track .holo-card:nth-child(6n+1) { transform: translateY(26px) rotate(-3.5deg); --bd: 0s; }
-  .car-track .holo-card:nth-child(6n+2) { transform: translateY(-6px) rotate(-1.8deg); --bd: .7s; }
-  .car-track .holo-card:nth-child(6n+3) { transform: translateY(-28px) rotate(-0.5deg); --bd: 1.4s; }
-  .car-track .holo-card:nth-child(6n+4) { transform: translateY(-28px) rotate(0.5deg); --bd: 2.1s; }
-  .car-track .holo-card:nth-child(6n+5) { transform: translateY(-6px) rotate(1.8deg); --bd: 2.8s; }
-  .car-track .holo-card:nth-child(6n+6) { transform: translateY(26px) rotate(3.5deg); --bd: 3.5s; }
+  .car-track .holo-card:nth-child(6n+1) { --bd: 0s; }
+  .car-track .holo-card:nth-child(6n+2) { --bd: .7s; }
+  .car-track .holo-card:nth-child(6n+3) { --bd: 1.4s; }
+  .car-track .holo-card:nth-child(6n+4) { --bd: 2.1s; }
+  .car-track .holo-card:nth-child(6n+5) { --bd: 2.8s; }
+  .car-track .holo-card:nth-child(6n+6) { --bd: 3.5s; }
   @keyframes bob {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-14px); }
   }
   /* holographic hover (adapted from the reference effect, self-contained noise) */
   .holo-card::before, .holo-card::after {
-    content: ''; position: absolute; inset: 0; border-radius: 16px;
+    content: ''; position: absolute; inset: 0; border-radius: 6.5%;
     opacity: 0; transition: opacity .45s ease; pointer-events: none;
   }
   .holo-card::before {
@@ -406,8 +405,9 @@
     .tf-ordinary { position: relative; padding: 16vh 24px 6vh; }
     .tf-reveal { position: relative; height: 70vh; clip-path: none; }
     .tf-head { position: relative; left: auto; top: auto; transform: none; opacity: 1; margin: -54vh auto 0; padding-bottom: 24vh; }
-    .tf-carousel { position: relative; top: auto; transform: none; overflow-x: auto; padding: 30px 0; }
-    .car-track { padding: 20px 24px; }
+    .tf-carousel { position: relative; inset: auto; overflow-x: auto; padding: 30px 0; }
+    .car-track { position: static; width: max-content; height: auto; display: flex; gap: 24px; padding: 20px 24px; }
+    .car-track .holo-card { position: relative; }
     .tf-veil { display: none; }
     .reveal { opacity: 1; transform: none; }
   }
@@ -842,11 +842,22 @@
       if (headFades) {
         tl.to(head, { opacity: 0, y: -36, duration: 0.5 }, 2.6);
       }
-      /* carousel drifts right → left */
+      /* the wheel: cards rise bottom-right, arc overhead, set bottom-left */
+      var DTH = 17.5;
+      function layoutWheel() {
+        var R = Math.max(innerHeight * 1.15, 640);
+        track.style.top = (innerHeight * 0.48 + R) + 'px';
+        Array.prototype.forEach.call(track.children, function (card, i) {
+          card.style.marginLeft = -(card.offsetWidth / 2) + 'px';
+          card.style.marginTop = -(card.offsetHeight / 2) + 'px';
+          card.style.transform = 'rotate(' + (i * DTH) + 'deg) translateY(' + (-R) + 'px)';
+        });
+      }
+      layoutWheel();
+      addEventListener('resize', layoutWheel);
       tl.fromTo(track,
-          { x: function () { return innerWidth; } },
-          { x: function () { return -(track.scrollWidth - innerWidth + innerWidth * 0.08); },
-            ease: 'none', duration: 1.85 }, 1.75)
+          { rotation: 68 },
+          { rotation: -(68 + 5 * DTH), ease: 'none', duration: 1.85 }, 1.75)
         /* cream veil closes the scene */
         .to(scene.querySelector('.tf-veil'), { yPercent: 0, duration: 0.28, ease: 'power2.in' }, 3.52);
     });
