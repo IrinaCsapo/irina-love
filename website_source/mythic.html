@@ -98,6 +98,15 @@
     display: flex; flex-direction: column; align-items: center; justify-content: center;
     text-align: center; padding: 130px 24px 80px;
   }
+  #hero-wash {
+    position: absolute; inset: 0; pointer-events: none; opacity: .6;
+    background:
+      radial-gradient(58% 42% at 12% 18%, oklch(87% 0.09 300 / .8), transparent 70%),
+      radial-gradient(50% 40% at 88% 12%, oklch(90% 0.08 60 / .75), transparent 70%),
+      radial-gradient(55% 45% at 82% 78%, oklch(88% 0.08 230 / .7), transparent 70%),
+      radial-gradient(48% 40% at 14% 84%, oklch(89% 0.09 340 / .7), transparent 70%),
+      radial-gradient(40% 34% at 50% 45%, oklch(93% 0.06 170 / .55), transparent 72%);
+  }
   .prism-blob {
     position: absolute; border-radius: 50%;
     background: var(--holo);
@@ -105,8 +114,8 @@
     transform: translateZ(0);
     pointer-events: none; will-change: transform;
   }
-  #prism-a { width: 58vmax; height: 58vmax; left: -20vmax; top: -24vmax; opacity: .3; animation: prismspin 44s linear infinite; }
-  #prism-b { width: 48vmax; height: 48vmax; right: -17vmax; bottom: -21vmax; opacity: .22; animation: prismspin 58s linear infinite reverse; }
+  #prism-a { width: 58vmax; height: 58vmax; left: -20vmax; top: -24vmax; opacity: .42; animation: prismspin 44s linear infinite; }
+  #prism-b { width: 48vmax; height: 48vmax; right: -17vmax; bottom: -21vmax; opacity: .34; animation: prismspin 58s linear infinite reverse; }
   @keyframes prismspin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
   #prism-sheen {
     position: absolute; inset: 0; pointer-events: none;
@@ -121,8 +130,8 @@
     opacity: 0; animation: fadeUp .8s .2s forwards;
   }
   .hero-title {
-    font-family: var(--serif); font-weight: 300; position: relative; z-index: 2;
-    font-size: clamp(52px, 9vw, 128px); line-height: 1.02; letter-spacing: -0.01em;
+    font-family: var(--display); font-weight: 560; position: relative; z-index: 2;
+    font-size: clamp(46px, 8.2vw, 116px); line-height: 1.04; letter-spacing: -0.015em;
   }
   .hero-title .row { display: block; overflow: hidden; }
   .hero-title .row > span { display: inline-block; will-change: transform; }
@@ -180,8 +189,8 @@
     text-align: center; will-change: transform, opacity; padding: 0 24px;
   }
   .tf-ordinary h2 {
-    font-family: var(--serif); font-weight: 300;
-    font-size: clamp(56px, 11vw, 150px); line-height: 1;
+    font-family: var(--display); font-weight: 560;
+    font-size: clamp(50px, 9.6vw, 132px); line-height: 1; letter-spacing: -0.01em;
   }
   .tf-ordinary .tf-sub {
     margin-top: 20px; font-size: 13px; letter-spacing: 0.2em; text-transform: uppercase;
@@ -202,6 +211,7 @@
     to   { transform: scale(1.08) translate(1.5%, 1%); }
   }
   .tf-shade { position: absolute; inset: 0; background: oklch(14% 0.035 300 / 0.36); }
+  .reveal-stars { position: absolute; inset: 0; width: 100%; height: 100%; }
   .tf-head {
     position: absolute; z-index: 5; left: 50%; top: 16%;
     transform: translateX(-50%);
@@ -209,7 +219,7 @@
     opacity: 0; will-change: transform, opacity;
   }
   .tf-head h3 {
-    font-family: var(--display); font-weight: 350;
+    font-family: var(--display); font-weight: 520;
     font-size: clamp(30px, 4.4vw, 58px); line-height: 1.14; letter-spacing: -0.005em;
     color: oklch(96% 0.01 290);
     text-shadow: 0 2px 34px oklch(12% 0.03 300 / 0.6);
@@ -294,7 +304,17 @@
   .tf-veil {
     position: absolute; inset: 0; z-index: 6; background: var(--bg);
     transform: translateY(101%); will-change: transform;
+    display: flex; align-items: center; justify-content: center;
   }
+  .tf-veil .veil-mark { color: var(--coral-soft); font-size: 22px; opacity: .8; }
+  .lead-spark {
+    position: absolute; z-index: 2; font-size: 15px;
+    color: var(--coral-soft); opacity: .75;
+    animation: leadfloat 5s ease-in-out infinite;
+  }
+  .lead-spark.p2 { color: var(--purple); animation-delay: 1.6s; }
+  .lead-spark.p3 { color: oklch(80% 0.1 200); animation-delay: 3.2s; font-size: 12px; }
+  @keyframes leadfloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 
   /* ══ RECAP ══ */
   #recap { padding: 110px 0 60px; }
@@ -436,6 +456,7 @@
 
   <!-- ══ HERO ══ -->
   <section id="s-hero">
+    <div id="hero-wash"></div>
     <div class="prism-blob" id="prism-a"></div>
     <div class="prism-blob" id="prism-b"></div>
     <div id="prism-sheen"></div>
@@ -451,16 +472,21 @@
 
   <!-- ══ tool 01 · cosmic pets ══ -->
   <section class="tf" id="tf-pets">
+    <span class="lead-spark" style="top:7%;left:46%">✦</span>
+    <span class="lead-spark p2" style="top:14%;left:55%">✦</span>
+    <span class="lead-spark p3" style="top:21%;left:42%">✦</span>
     <div class="tf-ordinary">
       <h2>a pet.</h2>
       <div class="tf-sub">photographed on a tuesday</div>
     </div>
     <div class="tf-reveal">
       <img class="bgimg" src="uploads/scroll/cp-hero-bg-dark-v2.webp" alt="">
+      <canvas class="reveal-stars"></canvas>
       <div class="tf-shade"></div>
     </div>
     <div class="tf-head">
-      <h3>Your pet reimagined as a <em>cosmic star</em>, available in <em>6 different vibes</em> and their own adventure story files.</h3>
+      <h3>Your pet <em>reimagined.</em></h3>
+      <p class="tf-headsub">Transform your pet into a <strong>cosmic being</strong>, with <strong>6 different vibes</strong> and their own little adventure stories.</p>
     </div>
     <div class="tf-carousel">
       <div class="car-track">
@@ -472,11 +498,14 @@
         <div class="holo-card"><img src="uploads/scroll/cosmic-pets-mina-cosmic-abstract-v1.webp" alt="Mina, Cosmic Abstract vibe" loading="eager"></div>
       </div>
     </div>
-    <div class="tf-veil"></div>
+    <div class="tf-veil"><span class="veil-mark">✳</span></div>
   </section>
 
   <!-- ══ tool 02 · letters from your future self ══ -->
   <section class="tf" id="tf-letters">
+    <span class="lead-spark" style="top:7%;left:46%">✦</span>
+    <span class="lead-spark p2" style="top:14%;left:55%">✦</span>
+    <span class="lead-spark p3" style="top:21%;left:42%">✦</span>
     <div class="tf-ordinary">
       <h2>a mood.</h2>
       <div class="tf-sub">friday afternoon, four pm, heavy</div>
@@ -499,11 +528,14 @@
         <div class="holo-card"><img src="uploads/scroll/letters-6.webp" alt="Letters from your Future Self, example card"></div>
       </div>
     </div>
-    <div class="tf-veil"></div>
+    <div class="tf-veil"><span class="veil-mark">✳</span></div>
   </section>
 
   <!-- ══ tool 03 · soundtrack of your life ══ -->
   <section class="tf" id="tf-soundtrack">
+    <span class="lead-spark" style="top:7%;left:46%">✦</span>
+    <span class="lead-spark p2" style="top:14%;left:55%">✦</span>
+    <span class="lead-spark p3" style="top:21%;left:42%">✦</span>
     <div class="tf-ordinary">
       <h2>a moment.</h2>
       <div class="tf-sub">an era, a heartbreak, on a sunday evening</div>
@@ -526,11 +558,14 @@
         <div class="holo-card"><img src="uploads/scroll/soundtrack-6.webp" alt="Soundtrack of Your Life, example card"></div>
       </div>
     </div>
-    <div class="tf-veil"></div>
+    <div class="tf-veil"><span class="veil-mark">✳</span></div>
   </section>
 
   <!-- ══ tool 04 · bloom after rain ══ -->
   <section class="tf" id="tf-bloom">
+    <span class="lead-spark" style="top:7%;left:46%">✦</span>
+    <span class="lead-spark p2" style="top:14%;left:55%">✦</span>
+    <span class="lead-spark p3" style="top:21%;left:42%">✦</span>
     <div class="tf-ordinary">
       <h2>a loss.</h2>
       <div class="tf-sub">weighs heavy on you, you can't let it go</div>
@@ -553,7 +588,7 @@
         <div class="holo-card aurora-card"><img src="uploads/scroll/bloom-v6.webp" alt="Bloom after Rain, flower card"></div>
       </div>
     </div>
-    <div class="tf-veil"></div>
+    <div class="tf-veil"><span class="veil-mark">✳</span></div>
   </section>
 
 </div>
@@ -569,25 +604,25 @@
       <a class="recap-card reveal" href="https://www.cosmicpets.love" target="_blank" rel="noopener">
         <p class="recap-tool mono">tool 01</p>
         <h3 class="recap-title">Cosmic Pet Portraits</h3>
-        <p class="recap-line">a pet. <span class="to">→</span> a cosmic being.</p>
+        <p class="recap-line">A pet transformed into a cosmic being.</p>
         <span class="specimen-link">Visit cosmicpets.love <span class="arrow">→</span></span>
       </a>
       <a class="recap-card reveal" href="https://letters.irina.love" target="_blank" rel="noopener">
         <p class="recap-tool mono">tool 02</p>
         <h3 class="recap-title">Letters from your Future Self</h3>
-        <p class="recap-line">a mood. <span class="to">→</span> a letter.</p>
+        <p class="recap-line">A mood written into a tender letter.</p>
         <span class="specimen-link">Visit letters.irina.love <span class="arrow">→</span></span>
       </a>
       <a class="recap-card reveal" href="https://soundtrack.irina.love/" target="_blank" rel="noopener">
         <p class="recap-tool mono">tool 03</p>
         <h3 class="recap-title">Soundtrack of Your Life</h3>
-        <p class="recap-line">a moment. <span class="to">→</span> a soundtrack.</p>
+        <p class="recap-line">A moment composed into a soundtrack.</p>
         <span class="specimen-link">Visit soundtrack.irina.love <span class="arrow">→</span></span>
       </a>
       <a class="recap-card reveal" href="https://bloom.irina.love/" target="_blank" rel="noopener">
         <p class="recap-tool mono">tool 04</p>
         <h3 class="recap-title">Bloom after Rain</h3>
-        <p class="recap-line">a loss. <span class="to">→</span> a bloom.</p>
+        <p class="recap-line">A bloom grown from a loss.</p>
         <span class="specimen-link">Visit bloom.irina.love <span class="arrow">→</span></span>
       </a>
     </div>
@@ -755,6 +790,36 @@
     requestAnimationFrame(tick);
   })();
 
+  /* ── twinkling stars over the cosmic pets background ── */
+  (function () {
+    var cv = document.querySelector('#tf-pets .reveal-stars');
+    if (!cv) return;
+    var cx = cv.getContext('2d');
+    var DPR = Math.min(devicePixelRatio || 1, 1.5);
+    var scene = document.getElementById('tf-pets');
+    var pts = [];
+    function size() { cv.width = cv.offsetWidth * DPR; cv.height = cv.offsetHeight * DPR; }
+    size(); addEventListener('resize', size);
+    for (var i = 0; i < 90; i++) {
+      pts.push({ x: Math.random(), y: Math.random(), r: Math.random() * 1.5 + 0.4,
+        ph: Math.random() * 6.28, sp: Math.random() * 0.0016 + 0.0006,
+        warm: Math.random() < 0.25 });
+    }
+    function tick(ts) {
+      if (REDUCED || !scene.classList.contains('live')) { requestAnimationFrame(tick); return; }
+      cx.clearRect(0, 0, cv.width, cv.height);
+      pts.forEach(function (p) {
+        var tw = 0.2 + 0.8 * Math.abs(Math.sin(ts * p.sp + p.ph));
+        cx.globalAlpha = tw;
+        cx.fillStyle = p.warm ? 'oklch(85% 0.1 60 / 0.9)' : 'oklch(93% 0.02 290 / 0.9)';
+        cx.beginPath(); cx.arc(p.x * cv.width, p.y * cv.height, p.r * DPR, 0, 6.283); cx.fill();
+      });
+      cx.globalAlpha = 1;
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  })();
+
   /* ── video control ── */
   /* back-and-forth: play forward at speed, then glide the playhead home and go again */
   var pingpong = { active: false, video: null, tween: null };
@@ -814,7 +879,7 @@
       gsap.set(scene.querySelector('.tf-veil'), { y: 0, yPercent: 101 });
       var tl = gsap.timeline({
         scrollTrigger: {
-          trigger: scene, start: 'top top', end: '+=330%',
+          trigger: scene, start: 'top top', end: '+=290%',
           pin: true, scrub: true, invalidateOnRefresh: true,
           onUpdate: function (st) {
             var dark = st.progress > 0.18 && st.progress < 0.96;
@@ -838,17 +903,16 @@
         }
       });
 
-      /* the ordinary word rides in with the section, already visible, then lifts away */
+      /* the word rides in visible; the iris starts the moment the scene locks */
       tl.to(scene.querySelector('.tf-ordinary'),
-          { opacity: 0, scale: 0.94, y: -70, duration: 0.5 }, 0.7)
-        /* the world opens as a growing circle */
+          { opacity: 0, scale: 0.94, y: -70, duration: 0.4 }, 0.05)
         .fromTo(scene.querySelector('.tf-reveal'),
           { clipPath: 'circle(0% at 50% 55%)' },
-          { clipPath: 'circle(75% at 50% 50%)', duration: 0.6, ease: 'power1.inOut' }, 0.7)
+          { clipPath: 'circle(75% at 50% 50%)', duration: 0.6, ease: 'power1.inOut' }, 0.05)
         /* headline rises */
-        .fromTo(head, { opacity: 0, y: 46 }, { opacity: 1, y: 0, duration: 0.5 }, 1.3);
+        .fromTo(head, { opacity: 0, y: 46 }, { opacity: 1, y: 0, duration: 0.45 }, 0.7);
       if (headFades) {
-        tl.to(head, { opacity: 0, y: -36, duration: 0.5 }, 2.6);
+        tl.to(head, { opacity: 0, y: -36, duration: 0.5 }, 2.15);
       }
       /* the wheel: cards rise bottom-right, arc overhead, set bottom-left */
       var DTH = 17.5;
@@ -865,9 +929,9 @@
       addEventListener('resize', layoutWheel);
       tl.fromTo(track,
           { rotation: 68 },
-          { rotation: -(68 + 5 * DTH), ease: 'none', duration: 1.55 }, 1.75)
+          { rotation: -(68 + 5 * DTH), ease: 'none', duration: 1.55 }, 1.1)
         /* cream veil rises while the last cards are still crossing */
-        .to(scene.querySelector('.tf-veil'), { yPercent: 0, duration: 0.3, ease: 'power2.in' }, 2.95);
+        .to(scene.querySelector('.tf-veil'), { yPercent: 0, duration: 0.3, ease: 'power2.in' }, 2.5);
     });
 
     /* ambient AFTER pins */
