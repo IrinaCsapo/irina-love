@@ -156,6 +156,17 @@
     transform: rotate(-40deg); border-radius: 2px;
   }
   #sound-toggle.on .off-line { display: none; }
+  #sound-label {
+    position: fixed; right: 82px; bottom: 99px; z-index: 110;
+    font-family: var(--monoF); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--ink-soft); background: oklch(98% 0.01 85 / 0.88);
+    border: 1px solid var(--line); border-radius: 999px; padding: 6px 10px;
+    opacity: 0; pointer-events: none; transform: translateY(8px);
+    transition: opacity .4s, transform .4s;
+    white-space: nowrap;
+  }
+  #sound-label.show { opacity: 1; transform: translateY(0); }
+  #sound-label.off { opacity: 0 !important; }
 
   .mono {
     font-family: var(--monoF); font-size: 11px;
@@ -501,6 +512,7 @@
     .tf-head { top: 10%; }
     #back-top { right: 16px; bottom: 84px; width: 42px; height: 42px; }
     #sound-toggle { right: 16px; bottom: 134px; width: 42px; height: 42px; }
+    #sound-label { right: 64px; bottom: 145px; }
     #jump-menu { bottom: 16px; max-width: calc(100vw - 24px); overflow-x: auto; }
     #jump-menu button { padding: 7px 9px; font-size: 9px; }
     .recap-grid { grid-template-columns: 1fr; }
@@ -544,6 +556,7 @@
 <div id="jump-veil"></div>
 <button id="back-top" aria-label="Back to top">↑</button>
 <button id="sound-toggle" aria-label="Toggle sound" aria-pressed="false">♪<span class="off-line"></span></button>
+<span id="sound-label" aria-hidden="true">Turn music on</span>
 <div id="side-progress"><div id="side-progress-fill"></div></div>
 <div id="jump-menu" role="navigation" aria-label="Jump to a tool">
   <button data-scene="tf-pets">Cosmic Pets</button>
@@ -1000,12 +1013,11 @@
      Browsers block unmuted playback until the first user gesture, so the mix
      fades in at the visitor's first tap/click/keypress. The toggle opts out. */
   var MUSIC_VOL = 0.46; /* measured: film -24.2 dBFS RMS, stardust -17.5; 0.46 sets them level */
-  var soundOn = true;
+  var soundOn = false;
   var audioUnlocked = false;
   var activeAudioScene = null;
   var soundBtn = document.getElementById('sound-toggle');
-  soundBtn.classList.add('on');
-  soundBtn.setAttribute('aria-pressed', 'true');
+  var soundLabel = document.getElementById('sound-label');
 
   function sceneAudio(id) {
     var sc = document.getElementById(id);
@@ -1038,20 +1050,13 @@
   function syncSceneAudio() {
     if (activeAudioScene && soundOn && audioUnlocked) fadeInAudio(activeAudioScene);
   }
-  function unlockAudio() {
-    if (audioUnlocked) return;
-    audioUnlocked = true;
-    syncSceneAudio();
-  }
-  addEventListener('pointerdown', unlockAudio, { once: false });
-  addEventListener('keydown', unlockAudio, { once: false });
-
   soundBtn.addEventListener('click', function (e) {
     e.stopPropagation();
     audioUnlocked = true;
     soundOn = !soundOn;
     soundBtn.classList.toggle('on', soundOn);
     soundBtn.setAttribute('aria-pressed', String(soundOn));
+    soundLabel.classList.toggle('off', soundOn);
     if (soundOn) syncSceneAudio();
     else { fadeOutAudio('tf-pets'); fadeOutAudio('tf-letters'); }
   });
@@ -1067,6 +1072,7 @@
         document.getElementById('back-top').classList.toggle('show', show);
         document.getElementById('jump-menu').classList.toggle('show', show);
         document.getElementById('sound-toggle').classList.toggle('show', show);
+        document.getElementById('sound-label').classList.toggle('show', show);
       }
     });
   })();
