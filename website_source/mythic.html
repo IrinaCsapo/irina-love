@@ -585,10 +585,11 @@
       <div class="tf-sub">photographed on a tuesday</div>
     </div>
     <div class="tf-reveal">
-      <img class="bgimg" src="uploads/scroll/cp-hero-bg-dark-v2.webp" alt="">
+      <video src="uploads/scroll/cosmic-pets-bg.mp4" muted loop playsinline preload="metadata" poster="uploads/scroll/cp-hero-bg-dark-v2.webp"></video>
       <canvas class="reveal-stars"></canvas>
       <div class="tf-shade"></div>
     </div>
+    <audio id="pets-music" src="uploads/scroll/stardust-crew.mp3" loop preload="metadata"></audio>
     <div class="tf-head">
       <h3>Your pet <em>reimagined.</em></h3>
       <p class="tf-headsub">Transform your pet into a <strong>cosmic being</strong>, with <strong>6 different vibes</strong> and their own little adventure stories.</p>
@@ -994,19 +995,65 @@
   document.getElementById('back-top').addEventListener('click', function () {
     fadeJumpTo(0);
   });
-  /* sound: off by default, one toggle; only the letters film carries audio */
-  var soundOn = false;
+
+  /* ── sound: part of the experience, ON by default ──
+     Browsers block unmuted playback until the first user gesture, so the mix
+     fades in at the visitor's first tap/click/keypress. The toggle opts out. */
+  var MUSIC_VOL = 0.46; /* measured: film -24.2 dBFS RMS, stardust -17.5; 0.46 sets them level */
+  var soundOn = true;
+  var audioUnlocked = false;
+  var activeAudioScene = null;
   var soundBtn = document.getElementById('sound-toggle');
-  function lettersVideo() {
-    var sc = document.getElementById('tf-letters');
-    return sc && sc.querySelector('video');
+  soundBtn.classList.add('on');
+  soundBtn.setAttribute('aria-pressed', 'true');
+
+  function sceneAudio(id) {
+    var sc = document.getElementById(id);
+    if (!sc) return null;
+    if (id === 'tf-pets') return { video: sc.querySelector('video'), music: document.getElementById('pets-music') };
+    if (id === 'tf-letters') return { video: sc.querySelector('video') };
+    return null;
   }
-  soundBtn.addEventListener('click', function () {
+  function fadeInAudio(id) {
+    var a = sceneAudio(id);
+    if (!a) return;
+    if (a.video) {
+      a.video.muted = false; a.video.volume = 0;
+      gsap.to(a.video, { volume: 1, duration: 1.3, ease: 'power1.out', overwrite: 'auto' });
+    }
+    if (a.music) {
+      a.music.volume = 0;
+      a.music.play().catch(function () {});
+      gsap.to(a.music, { volume: MUSIC_VOL, duration: 1.3, ease: 'power1.out', overwrite: 'auto' });
+    }
+  }
+  function fadeOutAudio(id) {
+    var a = sceneAudio(id);
+    if (!a) return;
+    if (a.video) gsap.to(a.video, { volume: 0, duration: 0.9, ease: 'power1.in', overwrite: 'auto',
+      onComplete: function () { a.video.muted = true; } });
+    if (a.music) gsap.to(a.music, { volume: 0, duration: 0.9, ease: 'power1.in', overwrite: 'auto',
+      onComplete: function () { a.music.pause(); } });
+  }
+  function syncSceneAudio() {
+    if (activeAudioScene && soundOn && audioUnlocked) fadeInAudio(activeAudioScene);
+  }
+  function unlockAudio() {
+    if (audioUnlocked) return;
+    audioUnlocked = true;
+    syncSceneAudio();
+  }
+  addEventListener('pointerdown', unlockAudio, { once: false });
+  addEventListener('keydown', unlockAudio, { once: false });
+
+  soundBtn.addEventListener('click', function (e) {
+    e.stopPropagation();
+    audioUnlocked = true;
     soundOn = !soundOn;
     soundBtn.classList.toggle('on', soundOn);
     soundBtn.setAttribute('aria-pressed', String(soundOn));
-    var v = lettersVideo();
-    if (v) v.muted = !soundOn;
+    if (soundOn) syncSceneAudio();
+    else { fadeOutAudio('tf-pets'); fadeOutAudio('tf-letters'); }
   });
   /* fixed chrome show/hide + side progress rail (runs in all modes) */
   (function () {
@@ -1062,12 +1109,20 @@
             scene.classList.toggle('live', st.isActive);
             if (!video) return;
             if (st.isActive) {
-              if (id === 'tf-letters') video.muted = !soundOn;
               if (isSoundtrack) startPingpong(video);
               else video.play().catch(function () {});
+              if (sceneAudio(id)) {
+                activeAudioScene = id;
+                if (soundOn && audioUnlocked) fadeInAudio(id);
+              }
             } else {
+              if (sceneAudio(id)) {
+                if (activeAudioScene === id) activeAudioScene = null;
+                fadeOutAudio(id);
+              }
               if (isSoundtrack) stopPingpong();
-              video.pause();
+              if (id !== 'tf-pets') video.pause();
+              else setTimeout(function () { if (!scene.classList.contains('live')) video.pause(); }, 1000);
             }
           }
         }
