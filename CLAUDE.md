@@ -15,6 +15,15 @@ Static HTML/CSS/JS site hosted at irina.love. Source files live in `website_sour
 - Fonts: Fraunces (display/serif), Newsreader (text), Fragment Mono (mono)
 - No build step — plain HTML files, edit directly
 
+## Video assets
+
+- A `-web` suffix in a video filename means Irina has already re-formatted/compressed it for the web. Only deploy `-web` versions.
+- ALERT Irina before using any video that lacks the `-web` suffix or is larger than 10MB, so she can re-export it first.
+
+## Sound
+
+- Sound is part of the portfolio experience: default ON (fades in on the visitor's first interaction, as browsers require), with a floating toggle to turn it off.
+
 ## Photography albums
 
 - `streets.html` — 25 photos, accent `oklch(56% 0.185 29)` (coral)
