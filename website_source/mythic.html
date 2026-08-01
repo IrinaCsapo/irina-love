@@ -413,14 +413,29 @@
     display: flex; align-items: center; justify-content: center;
   }
   .tf-veil .veil-mark { color: var(--coral-soft); font-size: 22px; opacity: .8; }
-  .lead-spark {
-    position: absolute; z-index: 2; font-size: 15px;
-    color: var(--coral-soft); opacity: .75;
-    animation: leadfloat 5s ease-in-out infinite;
+  .intro-el {
+    position: absolute; z-index: 2; pointer-events: none; will-change: transform;
   }
-  .lead-spark.p2 { color: var(--purple); animation-delay: 1.6s; }
-  .lead-spark.p3 { color: oklch(80% 0.1 200); animation-delay: 3.2s; font-size: 12px; }
-  @keyframes leadfloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+  .intro-el img { width: 100%; display: block; }
+  .intro-el .bobwrap { animation: leadfloat 6s ease-in-out infinite; }
+  .intro-el.f2 .bobwrap { animation-delay: 1.5s; animation-duration: 7s; }
+  .intro-el.f3 .bobwrap { animation-delay: 3s; animation-duration: 8s; }
+  .intro-el.driftx .bobwrap { animation-name: petaldrift; }
+  .intro-word {
+    font-family: var(--display); font-style: italic; font-weight: 480;
+    white-space: nowrap;
+  }
+  .intro-letter { font-family: var(--display); font-weight: 500; }
+  .intro-chain {
+    font-family: var(--monoF); font-size: 11px; letter-spacing: 0.18em;
+    text-transform: lowercase; white-space: nowrap;
+  }
+  @keyframes leadfloat { 0%,100% { transform: translate(0, 0); } 50% { transform: translate(0, -12px); } }
+  @keyframes petaldrift {
+    0%,100% { transform: translate(0, 0) rotate(0deg); }
+    33% { transform: translate(16px, -14px) rotate(5deg); }
+    66% { transform: translate(-14px, -6px) rotate(-4deg); }
+  }
 
   /* ══ RECAP ══ */
   #recap { padding: 110px 0 60px; }
@@ -530,6 +545,7 @@
     .hero-eyebrow, .hero-sub, .hero-hint { animation: none; opacity: 1; }
     .prism-blob, .bgimg, .holo-card img, .aurora-card::before { animation: none !important; }
     #hero-video { display: none; }
+    .intro-el .bobwrap { animation: none !important; }
     .hero-title .strike::after { transform: scaleX(1); }
     .holo-word { animation: none; }
     .tf { height: auto; }
@@ -596,9 +612,17 @@
 
   <!-- ══ tool 01 · cosmic pets ══ -->
   <section class="tf" id="tf-pets">
-    <span class="lead-spark" style="top:7%;left:46%">✦</span>
-    <span class="lead-spark p2" style="top:14%;left:55%">✦</span>
-    <span class="lead-spark p3" style="top:21%;left:42%">✦</span>
+    <span class="intro-el f1" data-sp="0.8" style="left:6%;top:5%;width:clamp(90px,10vw,150px)"><span class="bobwrap"><img src="uploads/scroll/els/planet-saturn.webp" alt=""></span></span>
+    <span class="intro-el f2" data-sp="0.5" style="right:20%;top:2%;width:clamp(60px,7vw,100px)"><span class="bobwrap"><img src="uploads/scroll/els/planet-moon.webp" alt=""></span></span>
+    <span class="intro-el f3" data-sp="1.1" style="left:32%;top:16%;width:clamp(34px,4vw,52px)"><span class="bobwrap"><img src="uploads/scroll/els/planet-orb.webp" alt=""></span></span>
+    <span class="intro-el f2" data-sp="0.7" style="right:38%;top:11%;width:clamp(26px,3vw,40px)"><span class="bobwrap"><img src="uploads/scroll/els/planet-pink.webp" alt=""></span></span>
+    <span class="intro-el f2" data-sp="1.3" style="left:9%;top:26%;width:clamp(64px,7vw,104px)"><span class="bobwrap"><img src="uploads/scroll/els/crystal-amethyst.webp" alt=""></span></span>
+    <span class="intro-el f3" data-sp="0.9" style="right:6%;top:22%;width:clamp(60px,6.5vw,96px)"><span class="bobwrap"><img src="uploads/scroll/els/crystal-blue.webp" alt=""></span></span>
+    <span class="intro-el f1" data-sp="1.5" style="left:22%;top:8%;width:26px"><span class="bobwrap"><img src="uploads/scroll/els/star-gold8.webp" alt=""></span></span>
+    <span class="intro-el f2" data-sp="1.2" style="right:12%;top:7%;width:30px"><span class="bobwrap"><img src="uploads/scroll/els/star-violet.webp" alt=""></span></span>
+    <span class="intro-el f3" data-sp="0.6" style="left:44%;top:3%;width:22px"><span class="bobwrap"><img src="uploads/scroll/els/star-pink.webp" alt=""></span></span>
+    <span class="intro-el f1" data-sp="1.6" style="right:28%;top:19%;width:22px"><span class="bobwrap"><img src="uploads/scroll/els/star-teal.webp" alt=""></span></span>
+    <span class="intro-el" id="rocket-el" style="right:10%;top:12%;width:clamp(90px,10vw,150px)"><img src="uploads/scroll/els/rocket.webp" alt=""></span>
     <div class="tf-ordinary">
       <h2>a pet.</h2>
       <div class="tf-sub">photographed on a tuesday</div>
@@ -628,9 +652,17 @@
 
   <!-- ══ tool 02 · letters from your future self ══ -->
   <section class="tf" id="tf-letters">
-    <span class="lead-spark" style="top:7%;left:46%">✦</span>
-    <span class="lead-spark p2" style="top:14%;left:55%">✦</span>
-    <span class="lead-spark p3" style="top:21%;left:42%">✦</span>
+    <span class="intro-el intro-word f1" data-sp="0.9" style="left:8%;top:5%;font-size:clamp(20px,2.4vw,32px);color:oklch(62% 0.14 300);transform:rotate(-8deg)"><span class="bobwrap">perspective</span></span>
+    <span class="intro-el intro-word f2" data-sp="0.6" style="left:36%;top:13%;font-size:clamp(18px,2.2vw,30px);color:oklch(66% 0.1 80);transform:rotate(-4deg)"><span class="bobwrap">yourself</span></span>
+    <span class="intro-el intro-word f3" data-sp="1.2" style="right:30%;top:4%;font-size:clamp(22px,2.6vw,36px);color:oklch(70% 0.14 355);transform:rotate(3deg)"><span class="bobwrap">love</span></span>
+    <span class="intro-el intro-word f1" data-sp="0.8" style="right:6%;top:14%;font-size:clamp(19px,2.3vw,31px);color:oklch(38% 0.09 275);transform:rotate(-2deg)"><span class="bobwrap">strength</span></span>
+    <span class="intro-el intro-word f2" data-sp="1.4" style="left:18%;top:20%;font-size:clamp(20px,2.4vw,33px);color:oklch(66% 0.12 310);transform:rotate(-6deg)"><span class="bobwrap">tenderness</span></span>
+    <span class="intro-el intro-word f3" data-sp="0.7" style="right:16%;top:23%;font-size:clamp(18px,2.2vw,30px);color:oklch(60% 0.1 60);transform:rotate(2deg)"><span class="bobwrap">wonder</span></span>
+    <span class="intro-el intro-letter f2" data-sp="1.5" style="left:28%;top:2%;font-size:clamp(26px,3vw,42px);color:oklch(64% 0.12 295)"><span class="bobwrap">A</span></span>
+    <span class="intro-el intro-letter f1" data-sp="1.0" style="right:44%;top:18%;font-size:clamp(24px,2.8vw,38px);color:oklch(40% 0.1 275)"><span class="bobwrap">Q</span></span>
+    <span class="intro-el intro-letter f3" data-sp="1.7" style="right:3%;top:2%;font-size:clamp(28px,3.2vw,46px);color:oklch(45% 0.08 280)"><span class="bobwrap">S</span></span>
+    <span class="intro-el intro-letter f2" data-sp="0.5" style="left:3%;top:14%;font-size:clamp(22px,2.6vw,36px);color:oklch(72% 0.11 20)"><span class="bobwrap">k</span></span>
+    <span class="intro-el intro-chain f1" data-sp="0.9" style="left:50%;top:27%;transform:translateX(-50%)"><span class="bobwrap"><span style="color:oklch(40% 0.09 275)">seen</span> · <span style="color:oklch(70% 0.09 170)">blooming</span> · <span style="color:oklch(70% 0.14 355)">delight</span> · <span style="color:oklch(66% 0.1 60)">tender</span> · <span style="color:oklch(62% 0.14 300)">mythic</span> · <span style="color:oklch(66% 0.1 80)">wonder</span></span></span>
     <div class="tf-ordinary">
       <h2>a mood.</h2>
       <div class="tf-sub">friday afternoon, four pm, heavy</div>
@@ -658,9 +690,16 @@
 
   <!-- ══ tool 03 · soundtrack of your life ══ -->
   <section class="tf" id="tf-soundtrack">
-    <span class="lead-spark" style="top:7%;left:46%">✦</span>
-    <span class="lead-spark p2" style="top:14%;left:55%">✦</span>
-    <span class="lead-spark p3" style="top:21%;left:42%">✦</span>
+    <span class="intro-el f1" data-sp="1.0" style="left:5%;top:4%;width:clamp(26px,3vw,42px)"><span class="bobwrap"><img src="uploads/scroll/els/note-clef.webp" alt=""></span></span>
+    <span class="intro-el f2" data-sp="0.7" style="left:16%;top:16%;width:clamp(18px,2.2vw,30px)"><span class="bobwrap"><img src="uploads/scroll/els/note-purple.webp" alt=""></span></span>
+    <span class="intro-el f3" data-sp="1.3" style="left:30%;top:6%;width:clamp(16px,2vw,26px)"><span class="bobwrap"><img src="uploads/scroll/els/note-pink.webp" alt=""></span></span>
+    <span class="intro-el f1" data-sp="0.5" style="left:44%;top:19%;width:clamp(22px,2.6vw,36px)"><span class="bobwrap"><img src="uploads/scroll/els/note-goldpair.webp" alt=""></span></span>
+    <span class="intro-el f2" data-sp="1.5" style="right:34%;top:3%;width:clamp(24px,2.8vw,40px)"><span class="bobwrap"><img src="uploads/scroll/els/note-navypair.webp" alt=""></span></span>
+    <span class="intro-el f3" data-sp="0.8" style="right:22%;top:15%;width:clamp(17px,2.1vw,28px)"><span class="bobwrap"><img src="uploads/scroll/els/note-coral.webp" alt=""></span></span>
+    <span class="intro-el f1" data-sp="1.1" style="right:10%;top:6%;width:clamp(18px,2.2vw,30px)"><span class="bobwrap"><img src="uploads/scroll/els/note-lilac.webp" alt=""></span></span>
+    <span class="intro-el f2" data-sp="1.6" style="right:4%;top:21%;width:clamp(22px,2.6vw,36px)"><span class="bobwrap"><img src="uploads/scroll/els/note-navy.webp" alt=""></span></span>
+    <span class="intro-el f3" data-sp="1.2" style="left:7%;top:26%;width:clamp(18px,2.2vw,30px)"><span class="bobwrap"><img src="uploads/scroll/els/note-rose.webp" alt=""></span></span>
+    <span class="intro-el f1" data-sp="0.9" style="right:45%;top:25%;width:clamp(16px,2vw,26px)"><span class="bobwrap"><img src="uploads/scroll/els/note-gold.webp" alt=""></span></span>
     <div class="tf-ordinary">
       <h2>a moment.</h2>
       <div class="tf-sub">an era, a heartbreak, on a sunday evening</div>
@@ -669,6 +708,7 @@
       <video src="uploads/scroll/soundtrack-hero.mp4" muted playsinline preload="metadata"></video>
       <div class="tf-shade"></div>
     </div>
+    <audio id="soundtrack-music" src="uploads/scroll/forest-can-wait.mp3" loop preload="metadata"></audio>
     <div class="tf-head">
       <h3>A moment turned into a <em>soundtrack</em></h3>
       <p class="tf-headsub">Life's moments turned into personal musical memories.</p>
@@ -688,9 +728,17 @@
 
   <!-- ══ tool 04 · bloom after rain ══ -->
   <section class="tf" id="tf-bloom">
-    <span class="lead-spark" style="top:7%;left:46%">✦</span>
-    <span class="lead-spark p2" style="top:14%;left:55%">✦</span>
-    <span class="lead-spark p3" style="top:21%;left:42%">✦</span>
+    <span class="intro-el f1" data-sp="0.9" style="left:5%;top:3%;width:clamp(60px,7vw,104px)"><span class="bobwrap"><img src="uploads/scroll/els/flower-rose.webp" alt=""></span></span>
+    <span class="intro-el f2" data-sp="1.2" style="right:6%;top:4%;width:clamp(70px,8vw,120px)"><span class="bobwrap"><img src="uploads/scroll/els/flower-dahlia.webp" alt=""></span></span>
+    <span class="intro-el f3" data-sp="0.6" style="left:20%;top:17%;width:clamp(54px,6vw,90px)"><span class="bobwrap"><img src="uploads/scroll/els/flower-anemone.webp" alt=""></span></span>
+    <span class="intro-el f1" data-sp="1.4" style="right:24%;top:17%;width:clamp(56px,6.4vw,94px)"><span class="bobwrap"><img src="uploads/scroll/els/flower-clematis.webp" alt=""></span></span>
+    <span class="intro-el f2" data-sp="1.0" style="left:40%;top:4%;width:clamp(36px,4.2vw,60px)"><span class="bobwrap"><img src="uploads/scroll/els/flower-daisy.webp" alt=""></span></span>
+    <span class="intro-el f3" data-sp="0.7" style="right:42%;top:12%;width:clamp(30px,3.6vw,52px)"><span class="bobwrap"><img src="uploads/scroll/els/flower-cornflower.webp" alt=""></span></span>
+    <span class="intro-el f1" data-sp="1.6" style="right:2%;top:22%;width:clamp(40px,4.8vw,70px)"><span class="bobwrap"><img src="uploads/scroll/els/flower-lavender.webp" alt=""></span></span>
+    <span class="intro-el driftx f2" data-sp="1.3" style="left:12%;top:11%;width:clamp(20px,2.4vw,34px)"><span class="bobwrap"><img src="uploads/scroll/els/petal-pink.webp" alt=""></span></span>
+    <span class="intro-el driftx f3" data-sp="0.8" style="right:15%;top:9%;width:clamp(20px,2.4vw,34px)"><span class="bobwrap"><img src="uploads/scroll/els/petal-purple.webp" alt=""></span></span>
+    <span class="intro-el driftx f1" data-sp="1.5" style="left:33%;top:24%;width:clamp(18px,2.2vw,30px)"><span class="bobwrap"><img src="uploads/scroll/els/petal-cream.webp" alt=""></span></span>
+    <span class="intro-el driftx f2" data-sp="1.1" style="right:33%;top:26%;width:clamp(18px,2.2vw,30px)"><span class="bobwrap"><img src="uploads/scroll/els/petal-rose.webp" alt=""></span></span>
     <div class="tf-ordinary">
       <h2>a loss.</h2>
       <div class="tf-sub">weighs heavy on you, you can't let it go</div>
@@ -699,6 +747,7 @@
       <video src="uploads/scroll/bloom-rain-hero.mp4" muted loop playsinline preload="metadata"></video>
       <div class="tf-shade"></div>
     </div>
+    <audio id="bloom-music" src="uploads/scroll/bloom-forest.mp3" loop preload="metadata"></audio>
     <div class="tf-head">
       <h3>Bloom <em>after rain</em></h3>
       <p class="tf-headsub">Something tender is growing, in your garden of resilience.</p>
@@ -1028,8 +1077,11 @@
   function sceneAudio(id) {
     var sc = document.getElementById(id);
     if (!sc) return null;
-    if (id === 'tf-pets') return { video: sc.querySelector('video'), music: document.getElementById('pets-music') };
+    /* music gains measured against the pets film reference (-24.2 dBFS RMS) */
+    if (id === 'tf-pets') return { video: sc.querySelector('video'), music: document.getElementById('pets-music'), musicVol: 0.46 };
     if (id === 'tf-letters') return { video: sc.querySelector('video') };
+    if (id === 'tf-soundtrack') return { music: document.getElementById('soundtrack-music'), musicVol: 0.395 };
+    if (id === 'tf-bloom') return { music: document.getElementById('bloom-music'), musicVol: 0.784 };
     return null;
   }
   function fadeInAudio(id) {
@@ -1042,7 +1094,7 @@
     if (a.music) {
       a.music.volume = 0;
       a.music.play().catch(function () {});
-      gsap.to(a.music, { volume: MUSIC_VOL, duration: 1.3, ease: 'power1.out', overwrite: 'auto' });
+      gsap.to(a.music, { volume: a.musicVol || MUSIC_VOL, duration: 1.3, ease: 'power1.out', overwrite: 'auto' });
     }
   }
   function fadeOutAudio(id) {
@@ -1064,7 +1116,7 @@
     soundBtn.setAttribute('aria-pressed', String(soundOn));
     soundLabel.classList.toggle('off', soundOn);
     if (soundOn) syncSceneAudio();
-    else { fadeOutAudio('tf-pets'); fadeOutAudio('tf-letters'); }
+    else { fadeOutAudio('tf-pets'); fadeOutAudio('tf-letters'); fadeOutAudio('tf-soundtrack'); fadeOutAudio('tf-bloom'); }
   });
   /* fixed chrome show/hide + side progress rail (runs in all modes) */
   (function () {
@@ -1185,6 +1237,26 @@
       onLeave: function () { chapterEl.classList.add('gone'); navEl.classList.remove('on-dark'); chapterEl.classList.remove('on-dark'); },
       onEnterBack: function () { chapterEl.classList.remove('gone'); }
     });
+
+    /* transition elements: drift with approach; rocket flies up from the bottom */
+    ['tf-pets', 'tf-letters', 'tf-soundtrack', 'tf-bloom'].forEach(function (id) {
+      var sc = document.getElementById(id);
+      sc.querySelectorAll('.intro-el').forEach(function (el) {
+        if (el.id === 'rocket-el') return;
+        var sp = parseFloat(el.dataset.sp || 1);
+        gsap.fromTo(el, { y: 60 * sp }, {
+          y: -90 * sp, ease: 'none',
+          scrollTrigger: { trigger: sc, start: 'top bottom', end: 'top top', scrub: true }
+        });
+      });
+    });
+    var rocket = document.getElementById('rocket-el');
+    if (rocket) {
+      gsap.fromTo(rocket, { y: '85vh', rotation: 2 }, {
+        y: '-30vh', rotation: -3, ease: 'none',
+        scrollTrigger: { trigger: '#tf-pets', start: 'top bottom', end: 'top top', scrub: true }
+      });
+    }
 
     ScrollTrigger.create({
       trigger: '#s-hero', start: 'top top', end: 'bottom top',
