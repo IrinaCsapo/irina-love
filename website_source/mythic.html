@@ -185,6 +185,10 @@
     display: flex; flex-direction: column; align-items: center; justify-content: center;
     text-align: center; padding: 130px 24px 80px;
   }
+  #hero-video {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; pointer-events: none;
+  }
   #hero-wash {
     position: absolute; inset: 0; pointer-events: none; opacity: .6;
     background:
@@ -525,6 +529,7 @@
   @media (prefers-reduced-motion: reduce) {
     .hero-eyebrow, .hero-sub, .hero-hint { animation: none; opacity: 1; }
     .prism-blob, .bgimg, .holo-card img, .aurora-card::before { animation: none !important; }
+    #hero-video { display: none; }
     .hero-title .strike::after { transform: scaleX(1); }
     .holo-word { animation: none; }
     .tf { height: auto; }
@@ -574,6 +579,7 @@
 
   <!-- ══ HERO ══ -->
   <section id="s-hero">
+    <video id="hero-video" src="uploads/scroll/hero-bg.mp4" autoplay muted loop playsinline preload="metadata"></video>
     <div id="hero-wash"></div>
     <div class="prism-blob" id="prism-a"></div>
     <div class="prism-blob" id="prism-b"></div>
@@ -1182,8 +1188,16 @@
 
     ScrollTrigger.create({
       trigger: '#s-hero', start: 'top top', end: 'bottom top',
-      onLeave: function () { sparklesOn = false; document.getElementById('s-hero').classList.add('asleep'); },
-      onEnterBack: function () { sparklesOn = true; document.getElementById('s-hero').classList.remove('asleep'); }
+      onLeave: function () {
+        sparklesOn = false;
+        document.getElementById('s-hero').classList.add('asleep');
+        var hv = document.getElementById('hero-video'); if (hv) hv.pause();
+      },
+      onEnterBack: function () {
+        sparklesOn = true;
+        document.getElementById('s-hero').classList.remove('asleep');
+        var hv = document.getElementById('hero-video'); if (hv) hv.play().catch(function () {});
+      }
     });
   }
 
