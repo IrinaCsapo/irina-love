@@ -22,7 +22,7 @@ Static HTML/CSS/JS site hosted at irina.love. Source files live in `website_sour
 
 ## Sound
 
-- Sound is part of the portfolio experience: default ON (fades in on the visitor's first interaction, as browsers require), with a floating toggle to turn it off.
+- Sound is opt-in: OFF by default with a visible "Turn music on" tag next to the floating toggle (browser autoplay rules made default-on buggy; Irina chose explicit opt-in).
 
 ## Photography albums
 
