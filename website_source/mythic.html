@@ -128,6 +128,35 @@
   #jump-menu button:hover { color: var(--ink); background: oklch(93% 0.02 85 / 0.9); }
   #jump-menu button.active { color: var(--accent); background: oklch(93% 0.03 60 / 0.7); }
 
+  /* full-screen fade veil for gentle jumps */
+  #jump-veil {
+    position: fixed; inset: 0; z-index: 200; background: var(--bg);
+    opacity: 0; pointer-events: none; transition: opacity .38s ease;
+  }
+  #jump-veil.on { opacity: 1; pointer-events: auto; }
+
+  /* sound toggle */
+  #sound-toggle {
+    position: fixed; right: 26px; bottom: 86px; z-index: 110;
+    width: 46px; height: 46px; border-radius: 50%;
+    border: 1px solid var(--line); cursor: pointer;
+    background: oklch(98% 0.01 85 / 0.9);
+    -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    color: var(--ink-soft); font-size: 17px; line-height: 1;
+    display: flex; align-items: center; justify-content: center;
+    position: fixed;
+    opacity: 0; pointer-events: none; transform: translateY(8px);
+    transition: opacity .4s, transform .4s, box-shadow .3s, color .3s;
+  }
+  #sound-toggle.show { opacity: 1; pointer-events: auto; transform: translateY(0); }
+  #sound-toggle:hover { box-shadow: 0 10px 26px oklch(40% 0.05 60 / 0.25); }
+  #sound-toggle.on { color: var(--accent); border-color: var(--accent); }
+  #sound-toggle .off-line {
+    position: absolute; width: 24px; height: 1.5px; background: currentColor;
+    transform: rotate(-40deg); border-radius: 2px;
+  }
+  #sound-toggle.on .off-line { display: none; }
+
   .mono {
     font-family: var(--monoF); font-size: 11px;
     letter-spacing: 0.14em; text-transform: uppercase; font-weight: 400;
@@ -348,6 +377,21 @@
   }
   @keyframes auroraflow { from { background-position: 0% 0%, 0 0; } to { background-position: 100% 100%, 0 0; } }
 
+  .card-cap {
+    position: absolute; top: calc(100% + 12px); left: 0; right: 0;
+    display: flex; flex-direction: column; gap: 4px; text-align: center;
+    pointer-events: none;
+  }
+  .cap-name {
+    font-family: var(--display); font-style: italic; font-weight: 480;
+    font-size: clamp(16px, 1.5vw, 20px); color: oklch(96% 0.01 290);
+    text-shadow: 0 1px 14px oklch(10% 0.03 300 / 0.8);
+  }
+  .cap-vibe {
+    font-family: var(--monoF); font-size: 9px; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--purple);
+    text-shadow: 0 1px 10px oklch(10% 0.03 300 / 0.8);
+  }
   .tf-veil {
     position: absolute; inset: 0; z-index: 6; background: var(--bg);
     transform: translateY(101%); will-change: transform;
@@ -456,6 +500,7 @@
     .wrap { padding: 0 24px; }
     .tf-head { top: 10%; }
     #back-top { right: 16px; bottom: 84px; width: 42px; height: 42px; }
+    #sound-toggle { right: 16px; bottom: 134px; width: 42px; height: 42px; }
     #jump-menu { bottom: 16px; max-width: calc(100vw - 24px); overflow-x: auto; }
     #jump-menu button { padding: 7px 9px; font-size: 9px; }
     .recap-grid { grid-template-columns: 1fr; }
@@ -496,7 +541,9 @@
   </div>
 </nav>
 
+<div id="jump-veil"></div>
 <button id="back-top" aria-label="Back to top">↑</button>
+<button id="sound-toggle" aria-label="Toggle sound" aria-pressed="false">♪<span class="off-line"></span></button>
 <div id="side-progress"><div id="side-progress-fill"></div></div>
 <div id="jump-menu" role="navigation" aria-label="Jump to a tool">
   <button data-scene="tf-pets">Cosmic Pets</button>
@@ -548,12 +595,12 @@
     </div>
     <div class="tf-carousel">
       <div class="car-track">
-        <div class="holo-card"><img src="uploads/scroll/cosmic-pets-hamish-midnight-gothic-v2.webp" alt="Hamish, Midnight Gothic vibe" loading="eager"></div>
-        <div class="holo-card"><img src="uploads/scroll/cosmic-pets-bruno-secret-garden-v1.webp" alt="Bruno, Secret Garden vibe" loading="eager"></div>
-        <div class="holo-card"><img src="uploads/scroll/cosmic-pets-flora-celestial-palace-v5.webp" alt="Flora, Celestial Palace vibe" loading="eager"></div>
-        <div class="holo-card"><img src="uploads/scroll/cosmic-pets-otto-electric-universe-v3.webp" alt="Otto, Electric Universe vibe" loading="eager"></div>
-        <div class="holo-card"><img src="uploads/scroll/cosmic-pets-kiwi-ocean-deep-v4.webp" alt="Kiwi, Ocean Deep vibe" loading="eager"></div>
-        <div class="holo-card"><img src="uploads/scroll/cosmic-pets-mina-cosmic-abstract-v1.webp" alt="Mina, Cosmic Abstract vibe" loading="eager"></div>
+        <div class="holo-card"><img src="uploads/scroll/cosmic-pets-hamish-midnight-gothic-v2.webp" alt="Hamish, Midnight Gothic vibe" loading="eager"><div class="card-cap"><span class="cap-name">Hamish</span><span class="cap-vibe">Midnight Gothic</span></div></div>
+        <div class="holo-card"><img src="uploads/scroll/cosmic-pets-bruno-secret-garden-v1.webp" alt="Bruno, Secret Garden vibe" loading="eager"><div class="card-cap"><span class="cap-name">Bruno</span><span class="cap-vibe">Secret Garden</span></div></div>
+        <div class="holo-card"><img src="uploads/scroll/cosmic-pets-flora-celestial-palace-v5.webp" alt="Flora, Celestial Palace vibe" loading="eager"><div class="card-cap"><span class="cap-name">Flora</span><span class="cap-vibe">Celestial Palace</span></div></div>
+        <div class="holo-card"><img src="uploads/scroll/cosmic-pets-otto-electric-universe-v3.webp" alt="Otto, Electric Universe vibe" loading="eager"><div class="card-cap"><span class="cap-name">Otto</span><span class="cap-vibe">Electric Universe</span></div></div>
+        <div class="holo-card"><img src="uploads/scroll/cosmic-pets-kiwi-ocean-deep-v4.webp" alt="Kiwi, Ocean Deep vibe" loading="eager"><div class="card-cap"><span class="cap-name">Kiwi</span><span class="cap-vibe">Ocean Deep</span></div></div>
+        <div class="holo-card"><img src="uploads/scroll/cosmic-pets-mina-cosmic-abstract-v1.webp" alt="Mina, Cosmic Abstract vibe" loading="eager"><div class="card-cap"><span class="cap-name">Mina</span><span class="cap-vibe">Cosmic Abstract</span></div></div>
       </div>
     </div>
     <div class="tf-veil"><span class="veil-mark">✳</span></div>
@@ -916,21 +963,50 @@
   };
   var sceneTriggers = {};
   var jumpBtns = {};
+  /* gentle jump: fade to cream, land, fade back */
+  var jumpVeil = document.getElementById('jump-veil');
+  function fadeJumpTo(y) {
+    jumpVeil.classList.add('on');
+    setTimeout(function () {
+      if (lenis) lenis.scrollTo(y, { immediate: true });
+      else window.scrollTo(0, y);
+      ScrollTrigger.update();
+      ScrollTrigger.getAll().forEach(function (st) {
+        if (st.animation) st.animation.progress(st.progress);
+      });
+      ScrollTrigger.update();
+      requestAnimationFrame(function () {
+        setTimeout(function () { jumpVeil.classList.remove('on'); }, 80);
+      });
+    }, 400);
+  }
   document.querySelectorAll('#jump-menu button').forEach(function (b) {
     jumpBtns[b.dataset.scene] = b;
     b.addEventListener('click', function () {
       var st = sceneTriggers[b.dataset.scene];
       var y = st ? st.start + 2 : (document.getElementById(b.dataset.scene) || {}).offsetTop || 0;
-      if (lenis) lenis.scrollTo(y, { duration: 1.2 });
-      else window.scrollTo({ top: y, behavior: 'smooth' });
+      fadeJumpTo(y);
     });
   });
   function setActiveJump(id) {
     for (var k in jumpBtns) jumpBtns[k].classList.toggle('active', k === id);
   }
   document.getElementById('back-top').addEventListener('click', function () {
-    if (lenis) lenis.scrollTo(0, { duration: 1.4 });
-    else window.scrollTo({ top: 0, behavior: 'smooth' });
+    fadeJumpTo(0);
+  });
+  /* sound: off by default, one toggle; only the letters film carries audio */
+  var soundOn = false;
+  var soundBtn = document.getElementById('sound-toggle');
+  function lettersVideo() {
+    var sc = document.getElementById('tf-letters');
+    return sc && sc.querySelector('video');
+  }
+  soundBtn.addEventListener('click', function () {
+    soundOn = !soundOn;
+    soundBtn.classList.toggle('on', soundOn);
+    soundBtn.setAttribute('aria-pressed', String(soundOn));
+    var v = lettersVideo();
+    if (v) v.muted = !soundOn;
   });
   /* fixed chrome show/hide + side progress rail (runs in all modes) */
   (function () {
@@ -943,6 +1019,7 @@
         var show = st.scroll() > innerHeight * 0.6;
         document.getElementById('back-top').classList.toggle('show', show);
         document.getElementById('jump-menu').classList.toggle('show', show);
+        document.getElementById('sound-toggle').classList.toggle('show', show);
       }
     });
   })();
@@ -985,6 +1062,7 @@
             scene.classList.toggle('live', st.isActive);
             if (!video) return;
             if (st.isActive) {
+              if (id === 'tf-letters') video.muted = !soundOn;
               if (isSoundtrack) startPingpong(video);
               else video.play().catch(function () {});
             } else {
