@@ -495,22 +495,44 @@
 
   /* ══ THROUGH A LENS ══ */
   #photography { padding: 104px 0 96px; }
-  .photo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 36px; padding-top: 56px; }
-  .photo-entry { margin: 0; }
-  .plate-mat { background: var(--paper-deep); border: 1px solid var(--line); padding: clamp(18px, 2.4vw, 30px); }
-  .plate-mat a { display: block; line-height: 0; }
-  .plate-mat img {
-    width: 100%; display: block; border: 1px solid oklch(30% 0.02 55 / 0.28);
-    aspect-ratio: 5/4; object-fit: cover;
-    transition: transform .6s cubic-bezier(.23,1,.32,1);
+  .photo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; padding-top: 56px; }
+  .photo-card {
+    position: relative; display: block; overflow: hidden; border-radius: 14px;
+    aspect-ratio: 3/4.1; color: oklch(97% 0.008 85); text-decoration: none;
+    background: var(--paper-deep);
+    box-shadow: 0 22px 48px oklch(30% 0.03 60 / 0.22);
+    transition: transform .45s cubic-bezier(.23,1,.32,1), box-shadow .45s;
   }
-  .photo-entry:hover .plate-mat img { transform: scale(1.012); }
-  .photo-entry-body { padding-top: 26px; }
-  .photo-title { font-family: var(--display); font-size: 26px; font-weight: 420; line-height: 1.1; margin: 6px 0 12px; }
-  .photo-title a { text-decoration: none; color: var(--ink); transition: color .2s; }
-  .photo-title a:hover { color: var(--accent); font-style: italic; }
-  .photo-desc { font-family: var(--text); color: var(--ink-soft); font-size: 17px; max-width: 46ch; margin-bottom: 20px; }
-  .photo-meta { color: var(--ink-soft); }
+  .photo-card:hover { transform: translateY(-5px); box-shadow: 0 30px 60px oklch(30% 0.04 60 / 0.32); }
+  .photo-card img {
+    position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+    transition: transform .8s cubic-bezier(.23,1,.32,1);
+  }
+  .photo-card:hover img { transform: scale(1.04); }
+  .photo-scrim {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, oklch(20% 0.02 290 / 0.4) 0%, oklch(20% 0.02 290 / 0) 26% 52%, oklch(11% 0.03 300 / 0.85) 100%);
+  }
+  .photo-top {
+    position: absolute; top: 0; left: 0; right: 0;
+    display: flex; justify-content: space-between; padding: 20px 22px;
+    font-family: var(--monoF); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: oklch(97% 0.008 85 / 0.92);
+    text-shadow: 0 1px 10px oklch(10% 0.02 290 / 0.6);
+  }
+  .photo-body { position: absolute; left: 0; right: 0; bottom: 0; padding: 24px 24px 22px; }
+  .photo-title {
+    font-family: var(--display); font-weight: 420;
+    font-size: clamp(22px, 2.2vw, 30px); line-height: 1.1; margin-bottom: 8px;
+    text-shadow: 0 1px 16px oklch(10% 0.03 300 / 0.6);
+  }
+  .photo-desc {
+    font-family: var(--text); font-size: 14px; line-height: 1.55;
+    color: oklch(92% 0.012 290 / 0.94); margin-bottom: 14px; max-width: 40ch;
+    text-shadow: 0 1px 10px oklch(10% 0.03 300 / 0.6);
+  }
+  .photo-card .specimen-link { color: oklch(97% 0.008 85); border-bottom-color: var(--coral-soft); }
+  .photo-card:hover .specimen-link { color: var(--coral-soft); }
 
   /* ══ THE IDEA ══ */
   #manifesto { background: oklch(19% 0.07 285); color: oklch(93% 0.018 290); padding: 120px 0 128px; }
@@ -554,6 +576,7 @@
     .wrap { padding: 0 24px; }
     .tf-head { top: 10%; }
     #back-top { right: 16px; bottom: 84px; width: 42px; height: 42px; }
+    .holo-card { width: clamp(230px, 62vw, 300px); }
     #sound-toggle { right: 16px; bottom: 134px; width: 42px; height: 42px; }
     #sound-label { right: 64px; bottom: 145px; }
     #jump-menu { bottom: 16px; max-width: calc(100vw - 24px); overflow-x: auto; }
@@ -642,7 +665,6 @@
     <span class="intro-el f2" data-sp="0.7" style="right:36%;top:14%;width:clamp(26px,3vw,40px)"><span class="bobwrap"><img src="uploads/scroll/els/planet-pink.webp" alt=""></span></span>
     <span class="intro-el f2" data-sp="1.2" style="left:9%;top:33%;width:clamp(64px,7vw,104px)"><span class="bobwrap"><img src="uploads/scroll/els/crystal-amethyst.webp" alt=""></span></span>
     <span class="intro-el f3" data-sp="0.8" style="right:5%;top:30%;width:clamp(60px,6.5vw,96px)"><span class="bobwrap"><img src="uploads/scroll/els/crystal-blue.webp" alt=""></span></span>
-    <span class="intro-el f1" data-sp="1.4" style="left:42%;top:40%;width:clamp(34px,4vw,54px)"><span class="bobwrap"><img src="uploads/scroll/els/crystal-prism.webp" alt=""></span></span>
     <span class="intro-el f1" data-sp="1.5" style="left:22%;top:10%;width:26px"><span class="bobwrap"><img src="uploads/scroll/els/star-gold8.webp" alt=""></span></span>
     <span class="intro-el f2" data-sp="1.2" style="right:11%;top:9%;width:30px"><span class="bobwrap"><img src="uploads/scroll/els/star-violet.webp" alt=""></span></span>
     <span class="intro-el f3" data-sp="0.6" style="left:46%;top:7%;width:22px"><span class="bobwrap"><img src="uploads/scroll/els/star-pink.webp" alt=""></span></span>
@@ -782,7 +804,7 @@
     <span class="intro-el driftx f3" data-sp="0.8" style="left:13%;top:42%;width:clamp(16px,2vw,26px)"><span class="bobwrap"><img src="uploads/scroll/els/petal-lilac.webp" alt=""></span></span>
     <div class="tf-ordinary">
       <h2>a loss.</h2>
-      <div class="tf-sub">weighs heavy on you, you can't let it go</div>
+      <div class="tf-sub">turned into resilience</div>
     </div>
     <div class="tf-reveal">
       <video src="uploads/scroll/bloom-rain-hero.mp4" muted loop playsinline preload="metadata"></video>
@@ -868,39 +890,36 @@
       <span>03 series · more always developing</span>
     </div>
     <div class="photo-grid">
-      <figure class="photo-entry reveal">
-        <div class="plate-mat">
-          <a href="cats.html" tabindex="-1"><img src="uploads/photography/cats-cover.webp" alt="Cats of China — photo series"></a>
+      <a class="photo-card reveal" href="cats.html">
+        <img src="uploads/photography/cats-cover.webp" alt="Cats of China photo series">
+        <div class="photo-scrim"></div>
+        <div class="photo-top"><span>01/</span><span>19 photographs</span></div>
+        <div class="photo-body">
+          <h3 class="photo-title">Cats of China</h3>
+          <p class="photo-desc">Nineteen cats met along the way, perfectly at home in the beautiful chaos of it all.</p>
+          <span class="specimen-link">View the series <span class="arrow">→</span></span>
         </div>
-        <div class="photo-entry-body">
-          <p class="mono photo-meta">Photo series · 19 photographs</p>
-          <h3 class="photo-title"><a href="cats.html">Cats of China</a></h3>
-          <p class="photo-desc">Nineteen cats met along the way — stationed in doorways, on market carts, under neon signs. Unhurried, perfectly at home in the beautiful chaos of it all.</p>
-          <a class="specimen-link" href="cats.html">View the series <span class="arrow">→</span></a>
+      </a>
+      <a class="photo-card reveal" href="streets.html">
+        <img src="uploads/photography/streets-cover.webp" alt="Streets and Light photo series">
+        <div class="photo-scrim"></div>
+        <div class="photo-top"><span>02/</span><span>25 photographs</span></div>
+        <div class="photo-body">
+          <h3 class="photo-title">Streets &amp; Light</h3>
+          <p class="photo-desc">Candid portraits, neon and midday glare, the quiet between crowds.</p>
+          <span class="specimen-link">View the series <span class="arrow">→</span></span>
         </div>
-      </figure>
-      <figure class="photo-entry reveal">
-        <div class="plate-mat">
-          <a href="streets.html" tabindex="-1"><img src="uploads/photography/streets-cover.webp" alt="Streets and Light — photo series"></a>
+      </a>
+      <a class="photo-card reveal" href="lights.html">
+        <img src="uploads/photography/lights-cover.webp" alt="Light and Texture photo series">
+        <div class="photo-scrim"></div>
+        <div class="photo-top"><span>03/</span><span>25 photographs</span></div>
+        <div class="photo-body">
+          <h3 class="photo-title">Light &amp; Texture</h3>
+          <p class="photo-desc">Studies in surface, material and light, from rooftops to couture embroidery.</p>
+          <span class="specimen-link">View the series <span class="arrow">→</span></span>
         </div>
-        <div class="photo-entry-body">
-          <p class="mono photo-meta">Photo series · 25 photographs</p>
-          <h3 class="photo-title"><a href="streets.html">Streets &amp; Light</a></h3>
-          <p class="photo-desc">Twenty-five photographs made in the current of the city — candid portraits, mountain cities, neon and midday glare, the quiet between crowds.</p>
-          <a class="specimen-link" href="streets.html">View the series <span class="arrow">→</span></a>
-        </div>
-      </figure>
-      <figure class="photo-entry reveal">
-        <div class="plate-mat">
-          <a href="lights.html" tabindex="-1"><img src="uploads/photography/lights-cover.webp" alt="Light and Texture — photo series"></a>
-        </div>
-        <div class="photo-entry-body">
-          <p class="mono photo-meta">Photo series · 25 photographs</p>
-          <h3 class="photo-title"><a href="lights.html">Light &amp; Texture</a></h3>
-          <p class="photo-desc">Twenty-five studies in surface, material and light — from neon-drenched rooftops and dense residential towers to the extraordinary detail of couture embroidery.</p>
-          <a class="specimen-link" href="lights.html">View the series <span class="arrow">→</span></a>
-        </div>
-      </figure>
+      </a>
     </div>
   </div>
 </section>
