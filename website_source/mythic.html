@@ -388,6 +388,10 @@
     z-index: 2;
   }
   /* aurora treatment for bloom cards */
+  #tf-bloom .holo-card { background: oklch(27% 0.045 300 / 0.92); border-radius: 6.5%; }
+  #tf-bloom .holo-card img {
+    filter: drop-shadow(0 20px 32px oklch(6% 0.02 300 / 0.7)) drop-shadow(0 4px 10px oklch(6% 0.02 300 / 0.45));
+  }
   .aurora-card::before {
     background:
       repeating-linear-gradient(115deg, oklch(70% 0.16 200 / .8) 0%, oklch(65% 0.19 300 / .8) 24%, oklch(72% 0.15 170 / .8) 47%, oklch(66% 0.17 280 / .8) 74%, oklch(70% 0.16 200 / .8) 100%),
@@ -449,22 +453,36 @@
     display: grid; grid-template-columns: 1fr 1fr; gap: 24px; padding-top: 56px;
   }
   .recap-card {
-    display: block; text-decoration: none; color: var(--ink);
-    background: var(--cream); border: 1px solid var(--line); border-radius: 6px;
-    padding: 36px 38px 32px; position: relative; overflow: hidden;
+    display: block; text-decoration: none; color: oklch(96% 0.01 290);
+    position: relative; overflow: hidden; border-radius: 12px;
+    aspect-ratio: 16/10; background: var(--space);
+    box-shadow: 0 22px 48px oklch(25% 0.03 300 / 0.28);
     transition: transform .45s cubic-bezier(.23,1,.32,1), box-shadow .45s;
   }
-  .recap-card:hover { transform: translateY(-5px); box-shadow: 0 24px 50px oklch(60% 0.05 60 / 0.18); }
-  .recap-tool { color: var(--accent); margin-bottom: 16px; }
+  .recap-card:hover { transform: translateY(-5px); box-shadow: 0 30px 60px oklch(25% 0.04 300 / 0.4); }
+  .recap-card video {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; transition: transform .8s cubic-bezier(.23,1,.32,1);
+  }
+  .recap-card:hover video { transform: scale(1.03); }
+  .recap-scrim {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, oklch(15% 0.03 300 / 0.05) 34%, oklch(11% 0.03 300 / 0.85) 100%);
+  }
+  .recap-body { position: absolute; left: 0; right: 0; bottom: 0; padding: 26px 30px 24px; }
+  .recap-tool { color: var(--coral-soft); margin-bottom: 10px; }
   .recap-title {
-    font-family: var(--display); font-weight: 380;
-    font-size: clamp(24px, 2.6vw, 34px); line-height: 1.12; margin-bottom: 10px;
+    font-family: var(--display); font-weight: 420;
+    font-size: clamp(22px, 2.4vw, 32px); line-height: 1.1; margin-bottom: 8px;
+    text-shadow: 0 1px 18px oklch(10% 0.03 300 / 0.6);
   }
-  .recap-line {
-    font-family: var(--serif); font-style: italic; font-size: 18px;
-    color: var(--ink-soft); margin-bottom: 26px;
+  .recap-blurb {
+    font-family: var(--text); font-size: 15px; line-height: 1.5;
+    color: oklch(90% 0.015 290 / 0.94); max-width: 46ch; margin-bottom: 16px;
+    text-shadow: 0 1px 12px oklch(10% 0.03 300 / 0.6);
   }
-  .recap-line .to { color: var(--accent); font-style: normal; }
+  .recap-card .specimen-link { color: oklch(96% 0.01 290); border-bottom-color: var(--coral-soft); }
+  .recap-card:hover .specimen-link { color: var(--coral-soft); }
   .specimen-link {
     font-family: var(--monoF); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
     text-decoration: none; color: var(--ink);
@@ -625,7 +643,6 @@
     <span class="intro-el f2" data-sp="1.2" style="left:9%;top:33%;width:clamp(64px,7vw,104px)"><span class="bobwrap"><img src="uploads/scroll/els/crystal-amethyst.webp" alt=""></span></span>
     <span class="intro-el f3" data-sp="0.8" style="right:5%;top:30%;width:clamp(60px,6.5vw,96px)"><span class="bobwrap"><img src="uploads/scroll/els/crystal-blue.webp" alt=""></span></span>
     <span class="intro-el f1" data-sp="1.4" style="left:42%;top:40%;width:clamp(34px,4vw,54px)"><span class="bobwrap"><img src="uploads/scroll/els/crystal-prism.webp" alt=""></span></span>
-    <span class="intro-el f2" data-sp="0.6" style="right:42%;top:36%;width:clamp(44px,5vw,72px)"><span class="bobwrap"><img src="uploads/scroll/els/crystal-geode.webp" alt=""></span></span>
     <span class="intro-el f1" data-sp="1.5" style="left:22%;top:10%;width:26px"><span class="bobwrap"><img src="uploads/scroll/els/star-gold8.webp" alt=""></span></span>
     <span class="intro-el f2" data-sp="1.2" style="right:11%;top:9%;width:30px"><span class="bobwrap"><img src="uploads/scroll/els/star-violet.webp" alt=""></span></span>
     <span class="intro-el f3" data-sp="0.6" style="left:46%;top:7%;width:22px"><span class="bobwrap"><img src="uploads/scroll/els/star-pink.webp" alt=""></span></span>
@@ -787,7 +804,6 @@
         <div class="holo-card aurora-card"><img src="uploads/scroll/bloom-v6.webp" alt="Bloom after Rain, flower card"></div>
       </div>
     </div>
-    <div class="tf-veil"></div>
   </section>
 
 </div>
@@ -801,28 +817,44 @@
     </div>
     <div class="recap-grid">
       <a class="recap-card reveal" href="https://www.cosmicpets.love" target="_blank" rel="noopener">
-        <p class="recap-tool mono">tool 01</p>
-        <h3 class="recap-title">Cosmic Pet Portraits</h3>
-        <p class="recap-line">A pet transformed into a cosmic being.</p>
-        <span class="specimen-link">Visit cosmicpets.love <span class="arrow">→</span></span>
+        <video src="uploads/scroll/cosmic-pets-bg.mp4" muted loop playsinline preload="metadata"></video>
+        <div class="recap-scrim"></div>
+        <div class="recap-body">
+          <p class="recap-tool mono">tool 01</p>
+          <h3 class="recap-title">Cosmic Pet Portraits</h3>
+          <p class="recap-blurb">A pet transformed into a cosmic being. Six vibes, each with its own little adventure story.</p>
+          <span class="specimen-link">Visit cosmicpets.love <span class="arrow">→</span></span>
+        </div>
       </a>
       <a class="recap-card reveal" href="https://letters.irina.love" target="_blank" rel="noopener">
-        <p class="recap-tool mono">tool 02</p>
-        <h3 class="recap-title">Letters from your Future Self</h3>
-        <p class="recap-line">A mood written into a tender letter.</p>
-        <span class="specimen-link">Visit letters.irina.love <span class="arrow">→</span></span>
+        <video src="uploads/scroll/letters-hero.mp4" muted loop playsinline preload="metadata"></video>
+        <div class="recap-scrim"></div>
+        <div class="recap-body">
+          <p class="recap-tool mono">tool 02</p>
+          <h3 class="recap-title">Letters from your Future Self</h3>
+          <p class="recap-blurb">A mood written into a tender letter. Your future self replies with love and perspective.</p>
+          <span class="specimen-link">Visit letters.irina.love <span class="arrow">→</span></span>
+        </div>
       </a>
       <a class="recap-card reveal" href="https://soundtrack.irina.love/" target="_blank" rel="noopener">
-        <p class="recap-tool mono">tool 03</p>
-        <h3 class="recap-title">Soundtrack of Your Life</h3>
-        <p class="recap-line">A moment composed into a soundtrack.</p>
-        <span class="specimen-link">Visit soundtrack.irina.love <span class="arrow">→</span></span>
+        <video src="uploads/scroll/soundtrack-hero.mp4" muted loop playsinline preload="metadata"></video>
+        <div class="recap-scrim"></div>
+        <div class="recap-body">
+          <p class="recap-tool mono">tool 03</p>
+          <h3 class="recap-title">Soundtrack of Your Life</h3>
+          <p class="recap-blurb">A moment composed into a soundtrack. Personal musical memories you can play back.</p>
+          <span class="specimen-link">Visit soundtrack.irina.love <span class="arrow">→</span></span>
+        </div>
       </a>
       <a class="recap-card reveal" href="https://bloom.irina.love/" target="_blank" rel="noopener">
-        <p class="recap-tool mono">tool 04</p>
-        <h3 class="recap-title">Bloom after Rain</h3>
-        <p class="recap-line">A bloom grown from a loss.</p>
-        <span class="specimen-link">Visit bloom.irina.love <span class="arrow">→</span></span>
+        <video src="uploads/scroll/bloom-rain-hero.mp4" muted loop playsinline preload="metadata"></video>
+        <div class="recap-scrim"></div>
+        <div class="recap-body">
+          <p class="recap-tool mono">tool 04</p>
+          <h3 class="recap-title">Bloom after Rain</h3>
+          <p class="recap-blurb">A bloom grown from a loss. Something tender growing in your garden of resilience.</p>
+          <span class="specimen-link">Visit bloom.irina.love <span class="arrow">→</span></span>
+        </div>
       </a>
     </div>
   </div>
@@ -1180,10 +1212,11 @@
       var isSoundtrack = id === 'tf-soundtrack';
       var headFades = !isPets; /* letters/soundtrack/bloom headlines fade back out */
 
-      gsap.set(scene.querySelector('.tf-veil'), { y: 0, yPercent: 101 });
+      var veil = scene.querySelector('.tf-veil');
+      if (veil) gsap.set(veil, { y: 0, yPercent: 101 });
       var tl = gsap.timeline({
         scrollTrigger: {
-          trigger: scene, start: 'top top', end: '+=290%',
+          trigger: scene, start: 'top top', end: (id === 'tf-bloom' ? '+=255%' : '+=290%'),
           pin: true, scrub: true, invalidateOnRefresh: true,
           onUpdate: function (st) {
             var dark = st.progress > 0.18 && st.progress < 0.96;
@@ -1245,8 +1278,8 @@
       tl.fromTo(track,
           { rotation: 68 },
           { rotation: -(68 + 5 * DTH), ease: 'none', duration: 1.55 }, 1.1)
-        /* cream veil rises while the last cards are still crossing */
-        .to(scene.querySelector('.tf-veil'), { yPercent: 0, duration: 0.3, ease: 'power2.in' }, 2.5);
+      /* cream veil rises while the last cards are still crossing */
+      if (veil) tl.to(veil, { yPercent: 0, duration: 0.3, ease: 'power2.in' }, 2.5);
       sceneTriggers[id] = tl.scrollTrigger;
     });
 
@@ -1289,6 +1322,19 @@
       }
     });
   }
+
+  /* recap videos play only while on screen */
+  (function () {
+    var vids = document.querySelectorAll('.recap-card video');
+    if (!vids.length) return;
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) e.target.play().catch(function () {});
+        else e.target.pause();
+      });
+    }, { threshold: 0.2 });
+    vids.forEach(function (v) { io.observe(v); });
+  })();
 
   /* reveal observer */
   var obs = new IntersectionObserver(function (entries) {
