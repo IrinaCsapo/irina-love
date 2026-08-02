@@ -88,21 +88,31 @@
 
       <div class="reveal">
         <!--
-          FORM SETUP
-          1. Create a free account at https://formspree.io and add a new form.
-          2. Copy the endpoint it gives you (it looks like https://formspree.io/f/abcdwxyz).
-          3. Replace the action below with that URL.
-          Until you do, this form falls back to a normal browser submit so nothing
-          is silently lost.
+          FORM SETUP  (FormSubmit.co: free, no account, no submission limit)
+
+          Nothing to sign up for. The first time someone submits this form,
+          FormSubmit emails hello@cosmicpets.co.uk asking you to confirm it.
+          Click the link in that email once and the form is live. Submissions
+          made before you confirm are held for 30 days and delivered after.
+
+          Optional, to keep the address out of the page source: after
+          confirming, FormSubmit shows you a random alias endpoint like
+          https://formsubmit.co/ajax/a1b2c3d4e5. Swap the action below for it.
+
+          If FormSubmit is ever unreachable, site.js turns the answers into a
+          pre-filled email instead, so a message is never lost.
         -->
         <form class="form" data-ajax-form
-              action="https://formspree.io/f/YOUR_FORM_ID"
+              data-inbox="hello@cosmicpets.co.uk"
+              action="https://formsubmit.co/ajax/hello@cosmicpets.co.uk"
               method="POST">
 
           <input type="hidden" name="_subject" value="New Cosmic Pets enquiry">
+          <input type="hidden" name="_template" value="table">
+          <input type="hidden" name="_captcha" value="false">
           <label class="hp" aria-hidden="true">
             Leave this empty
-            <input type="text" name="_gotcha" tabindex="-1" autocomplete="off">
+            <input type="text" name="_honey" tabindex="-1" autocomplete="off">
           </label>
 
           <div class="field-row">

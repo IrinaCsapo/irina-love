@@ -29,16 +29,29 @@ assets/fonts/       Aventi Bold, self-hosted.
 
 ## Things you need to do once
 
-### 1. Wire up the contact form
+### 1. Confirm the contact form
 
-The form posts to Formspree, which is free for up to 50 submissions a month.
+The form posts to [FormSubmit](https://formsubmit.co), which is free, has no
+account to create and no cap on submissions. Formspree was the obvious choice
+until it moved its free tier behind a paywall.
 
-1. Sign up at <https://formspree.io> with hello@cosmicpets.co.uk.
-2. Create a form. It gives you an endpoint like `https://formspree.io/f/abcdwxyz`.
-3. In `contact.html`, replace `https://formspree.io/f/YOUR_FORM_ID` with it.
+There is nothing to set up in advance. The first time anyone submits the form,
+FormSubmit emails hello@cosmicpets.co.uk asking you to confirm you own it.
+Click the link once and the form is live. Anything submitted before you confirm
+is held for 30 days and delivered afterwards, so no early messages are lost.
 
-Until you do that the form still works, it just falls back to a normal browser
-submit instead of the nice inline "thank you" message.
+Two optional tweaks once it is confirmed:
+
+- FormSubmit will show you a random alias endpoint, something like
+  `https://formsubmit.co/ajax/a1b2c3d4e5`. Swapping it into the `action` in
+  `contact.html` keeps your email address out of the page source, where
+  scrapers can find it.
+- `_subject`, `_template` and `_captcha` are hidden fields in the form and
+  control the email you receive. Their meanings are in the FormSubmit docs.
+
+If FormSubmit is ever unreachable, or you have not confirmed it yet, `site.js`
+catches the failure and offers the visitor a pre-filled email containing
+everything they typed. A message can fail to send, but it cannot vanish.
 
 ### 2. Point the domain at GitHub Pages
 

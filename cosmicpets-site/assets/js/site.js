@@ -185,22 +185,55 @@
     }
   }
 
-  /* ── contact form (Formspree, submitted over fetch) ──────────────────── */
+  /* ── contact form ─────────────────────────────────────────────────────
+
+     Posts to FormSubmit (free, no account, no submission cap). If that ever
+     fails, or the endpoint goes away entirely, the same answers are turned
+     into a pre-filled email instead, so a message is never lost.
+     ------------------------------------------------------------------- */
 
   var form = document.querySelector('[data-ajax-form]');
   if (form) {
     var status = form.querySelector('.form-status');
     var submit = form.querySelector('button[type="submit"]');
     var submitLabel = submit ? submit.textContent : '';
+    var inbox = form.getAttribute('data-inbox') || 'hello@cosmicpets.co.uk';
+
+    // Turn the answers into a mailto: the visitor can send by hand.
+    function mailtoLink() {
+      var get = function (n) {
+        var f = form.querySelector('[name="' + n + '"]');
+        return f && f.value ? f.value.trim() : '';
+      };
+      var body = [
+        'Hello Irina,', '',
+        'My name: ' + (get('name') || '(not given)'),
+        'My email: ' + (get('email') || '(not given)'),
+        'My pet: ' + (get('pet') || '(not given)'),
+        'Package: ' + (get('package') || '(not chosen)'),
+        '', 'About them:', get('message') || '', ''
+      ].join('\n');
+      return 'mailto:' + inbox +
+             '?subject=' + encodeURIComponent('Cosmic Pet Portrait enquiry') +
+             '&body=' + encodeURIComponent(body).slice(0, 1800);
+    }
+
+    function fallback(reason) {
+      status.className = 'form-status is-visible is-err';
+      status.innerHTML = reason + ' Your answers are safe, nothing was lost. ' +
+        '<a class="text-link" href="' + mailtoLink() + '">Send them to me as an email instead</a>, ' +
+        'or write to <a class="text-link" href="mailto:' + inbox + '">' + inbox + '</a>.';
+    }
 
     form.addEventListener('submit', function (e) {
       var action = form.getAttribute('action') || '';
-
-      // Not wired up to an endpoint yet: let the browser handle it normally so
-      // nothing silently swallows the message.
-      if (action.indexOf('YOUR_FORM_ID') !== -1) { return; }
-
       e.preventDefault();
+
+      if (!action || action.indexOf('YOUR_') !== -1) {
+        fallback('This form is not connected to an inbox yet.');
+        return;
+      }
+
       status.className = 'form-status';
       if (submit) { submit.disabled = true; submit.textContent = 'Sending…'; }
 
@@ -209,17 +242,16 @@
         body: new FormData(form),
         headers: { Accept: 'application/json' }
       }).then(function (res) {
-        if (res.ok) {
-          form.reset();
-          status.className = 'form-status is-visible is-ok';
-          status.textContent = 'Thank you! Your message is on its way. I will get back to you as soon as I can.';
-        } else {
-          throw new Error('bad response');
-        }
+        if (!res.ok) { throw new Error('http ' + res.status); }
+        return res.json().catch(function () { return {}; });
+      }).then(function (data) {
+        if (data && data.success === 'false') { throw new Error('rejected'); }
+        form.reset();
+        status.className = 'form-status is-visible is-ok';
+        status.textContent = 'Thank you! Your message is on its way. ' +
+          'I will get back to you as soon as I can, usually within a day or two.';
       }).catch(function () {
-        status.className = 'form-status is-visible is-err';
-        status.innerHTML = 'Something went wrong sending that. Please email me directly at ' +
-          '<a class="text-link" href="mailto:hello@cosmicpets.co.uk">hello@cosmicpets.co.uk</a>.';
+        fallback('That did not send.');
       }).then(function () {
         if (submit) { submit.disabled = false; submit.textContent = submitLabel; }
       });
