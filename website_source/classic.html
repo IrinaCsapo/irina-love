@@ -1,0 +1,1554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>irina.love — tools of delight</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="shortcut icon" href="favicon.ico">
+
+<!-- SEO & Open Graph -->
+<meta name="description" content="A cabinet of delights, small lovely tools built with love, designed to surprise and move you.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://irina.love/">
+<meta property="og:title" content="tools of delight · irina.love">
+<meta property="og:description" content="A cabinet of delights, small lovely tools built with love, designed to surprise and move you.">
+<meta property="og:image" content="https://irina.love/uploads/hero_images/og-preview.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="tools of delight · irina.love">
+<meta name="twitter:description" content="A cabinet of delights, small lovely tools built with love, designed to surprise and move you.">
+<meta name="twitter:image" content="https://irina.love/uploads/hero_images/og-preview.jpg">
+
+<script defer src="https://irina-umami.vercel.app/script.js" data-website-id="9c96c480-3224-4ef0-ba74-a5212d1f6d69"></script>
+<script defer src="https://irina-umami.vercel.app/recorder.js" data-website-id="9c96c480-3224-4ef0-ba74-a5212d1f6d69"></script>
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=Newsreader:ital,opsz,wght@0,6..72,300..500;1,6..72,300..500&family=Fragment+Mono:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --paper: oklch(96.8% 0.013 85);
+    --paper-deep: oklch(94.8% 0.016 85);
+    --ink: oklch(24% 0.018 55);
+    --ink-soft: oklch(43% 0.02 55);
+    --line: oklch(82% 0.022 75);
+    --line-soft: oklch(88% 0.018 80);
+    --accent: oklch(56% 0.185 29);
+    --accent-soft: oklch(74% 0.11 29);
+
+    --display: 'Fraunces', Georgia, serif;
+    --text: 'Newsreader', Georgia, serif;
+    --mono: 'Fragment Mono', 'Courier New', monospace;
+
+    --tint: var(--accent);
+  }
+
+  .tint-01 { --tint: oklch(45% 0.13 295); }
+  .tint-02 { --tint: oklch(56% 0.185 29); }
+  .tint-03 { --tint: oklch(66% 0.13 85); }
+  .tint-04 { --tint: oklch(50% 0.1 155); }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--text);
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    pointer-events: none;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23grain)'/%3E%3C/svg%3E");
+    background-size: 240px 240px;
+  }
+
+  ::selection { background: oklch(56% 0.185 29 / 0.18); }
+
+  .wrap {
+    max-width: 1160px;
+    margin: 0 auto;
+    padding: 0 48px;
+  }
+
+  .mono {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 400;
+  }
+
+  a { color: inherit; }
+
+  .skip-link {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    background: var(--ink);
+    color: var(--paper);
+    padding: 10px 18px;
+    z-index: 200;
+    font-family: var(--mono);
+    font-size: 12px;
+  }
+  .skip-link:focus { left: 0; }
+
+  /* ── nav ── */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: oklch(96.8% 0.013 85 / 0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .nav-inner {
+    max-width: 1160px;
+    margin: 0 auto;
+    padding: 18px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+  .nav-logo {
+    font-family: var(--display);
+    font-size: 21px;
+    font-weight: 450;
+    text-decoration: none;
+    letter-spacing: 0.01em;
+  }
+  .nav-logo em { font-style: italic; color: var(--accent); }
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    text-decoration: none;
+    transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  /* ── hero ── */
+  #hero { padding: 96px 0 88px; }
+  .hero-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--ink);
+    color: var(--ink-soft);
+  }
+  .hero-meta .fleuron { color: var(--accent); letter-spacing: 0; }
+
+  .hero-title {
+    font-family: var(--display);
+    font-optical-sizing: auto;
+    font-size: clamp(72px, 12vw, 162px);
+    font-weight: 380;
+    line-height: 0.98;
+    letter-spacing: -0.015em;
+    padding: 56px 0 8px;
+  }
+  .hero-title em {
+    font-style: italic;
+    font-weight: 420;
+    color: var(--accent);
+  }
+
+  .hero-cols {
+    display: grid;
+    grid-template-columns: 5fr 6fr;
+    gap: 72px;
+    align-items: start;
+    padding-top: 40px;
+  }
+  .hero-lead {
+    font-size: 21px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+    max-width: 42ch;
+  }
+  .hero-lead .lead-in { font-style: italic; color: var(--ink); }
+  .hero-byline { margin-top: 28px; color: var(--ink-soft); }
+
+  /* contents index */
+  .index-heading { color: var(--ink-soft); padding-bottom: 14px; }
+  .index-list { list-style: none; }
+  .index-list li { border-top: 1px solid var(--line); }
+  .index-list li:last-child { border-bottom: 1px solid var(--line); }
+  .index-row {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    padding: 13px 2px;
+    text-decoration: none;
+    transition: padding-left .25s cubic-bezier(.23,1,.32,1);
+  }
+  .index-row:hover { padding-left: 10px; }
+  .index-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--ink-soft);
+    flex-shrink: 0;
+    width: 44px;
+  }
+  .index-name {
+    font-family: var(--display);
+    font-size: 20px;
+    font-weight: 420;
+    white-space: nowrap;
+  }
+  .index-row:hover .index-name { font-style: italic; color: var(--tint); }
+  .index-leader {
+    flex: 1;
+    border-bottom: 1px dotted var(--line);
+    transform: translateY(-4px);
+    min-width: 24px;
+  }
+  .index-note {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+  }
+  .index-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--tint);
+    display: inline-block;
+    flex-shrink: 0;
+  }
+
+  /* ── section headers ── */
+  .section-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    border-bottom: 1px solid var(--ink);
+    padding-bottom: 16px;
+    color: var(--ink-soft);
+  }
+  .section-head .roman { color: var(--accent); }
+  #tools-head { padding-bottom: 72px; }
+
+  /* ── worlds ── */
+  .world {
+    position: relative;
+    min-height: 92vh;
+    display: flex;
+    align-items: center;
+    padding: 120px 0;
+    overflow: hidden;
+  }
+  .world-grid {
+    display: grid;
+    grid-template-columns: 6fr 5.5fr;
+    gap: 80px;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+  }
+  .world.img-left .world-grid > .world-media { order: 1; }
+  .world.img-left .world-grid > .world-body  { order: 2; }
+
+  .world-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 20px;
+    margin-bottom: 34px;
+  }
+  .world-title {
+    font-family: var(--display);
+    font-weight: 390;
+    line-height: 1.03;
+    letter-spacing: -0.01em;
+    font-size: clamp(44px, 5.4vw, 76px);
+    margin-bottom: 26px;
+  }
+  .world-desc {
+    font-size: 19px;
+    line-height: 1.72;
+    max-width: 44ch;
+    margin-bottom: 38px;
+  }
+  .world-link {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding-bottom: 3px;
+    transition: opacity .2s;
+  }
+  .world-link:hover { opacity: 0.75; }
+  .world-link .arrow { display: inline-block; transition: transform .25s; }
+  .world-link:hover .arrow { transform: translateX(5px); }
+
+  .world-media { position: relative; }
+  .world-media img { width: 100%; display: block; }
+  .media-caption { margin-top: 22px; }
+
+  .status { display: inline-flex; align-items: center; gap: 9px; }
+  .status-dot {
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    animation: breathe 3.2s ease-in-out infinite;
+  }
+  @keyframes breathe { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+  /* ════ WORLD 01 · COSMIC ════ */
+  #specimen-01 {
+    background: oklch(17% 0.045 290);
+    color: oklch(93% 0.01 290);
+  }
+  #cosmic-canvas {
+    position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  }
+
+  #specimen-01 .world-meta { color: oklch(72% 0.05 300); }
+  #specimen-01 .world-title em { font-style: italic; color: oklch(80% 0.11 310); font-weight: 420; }
+  #specimen-01 .world-desc { color: oklch(78% 0.03 290); }
+  #specimen-01 .world-link { color: oklch(93% 0.01 290); border-bottom: 1px solid oklch(80% 0.11 310); }
+  #specimen-01 .status-dot { background: oklch(80% 0.11 310); }
+  #specimen-01 .media-caption { color: oklch(65% 0.05 300); text-align: center; }
+  #specimen-01 .world-media { display: flex; justify-content: center; }
+
+  .portal {
+    width: min(440px, 100%);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 1px solid oklch(80% 0.11 310 / 0.5);
+    box-shadow:
+      0 0 60px oklch(60% 0.14 310 / 0.35),
+      0 0 140px oklch(50% 0.12 280 / 0.25),
+      inset 0 0 40px oklch(20% 0.06 290 / 0.6);
+  }
+  .portal img { width: 100%; height: 100%; object-fit: cover; }
+  .orbit {
+    position: absolute;
+    width: 560px; height: 560px;
+    border: 1px dashed oklch(70% 0.08 310 / 0.25);
+    border-radius: 50%;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    animation: orbit-spin 90s linear infinite;
+  }
+  @keyframes orbit-spin { to { transform: translate(-50%, -50%) rotate(360deg); } }
+
+  /* ════ WORLD 02 · LETTERS ════ */
+  #specimen-02 {
+    background: oklch(95.5% 0.02 85);
+    color: oklch(25% 0.02 55);
+  }
+  #specimen-02::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(
+      to bottom,
+      transparent 0px,
+      transparent 35px,
+      oklch(80% 0.03 75 / 0.35) 35px,
+      oklch(80% 0.03 75 / 0.35) 36px
+    );
+    pointer-events: none;
+  }
+  #specimen-02::after {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0;
+    left: clamp(24px, 6vw, 96px);
+    width: 1px;
+    background: oklch(56% 0.185 29 / 0.35);
+    pointer-events: none;
+  }
+  #specimen-02 .world-meta { color: oklch(48% 0.03 55); }
+  #specimen-02 .salutation {
+    font-family: var(--display);
+    font-style: italic;
+    font-size: 22px;
+    color: oklch(48% 0.03 55);
+    margin-bottom: 10px;
+  }
+  #specimen-02 .world-title { font-style: italic; font-weight: 400; }
+  #specimen-02 .world-title em { color: oklch(52% 0.19 29); }
+  #specimen-02 .world-desc { color: oklch(42% 0.025 55); font-style: italic; }
+  #specimen-02 .signoff {
+    font-family: var(--display);
+    font-style: italic;
+    font-size: 20px;
+    color: oklch(42% 0.025 55);
+    margin: -16px 0 38px;
+  }
+  #specimen-02 .world-link { color: oklch(25% 0.02 55); border-bottom: 1px solid oklch(52% 0.19 29); }
+  #specimen-02 .status-dot { background: oklch(52% 0.19 29); }
+  #specimen-02 .media-caption { color: oklch(50% 0.03 55); margin-top: 44px; }
+
+  .envelope-frame {
+    position: relative;
+    background: oklch(98.5% 0.008 85);
+    padding: 18px 18px 58px;
+    box-shadow: 0 14px 44px oklch(30% 0.03 55 / 0.18);
+    transform: rotate(-1.6deg);
+  }
+  .envelope-frame img { border: 1px solid oklch(80% 0.02 70); }
+  .wax-seal {
+    position: absolute;
+    bottom: -26px; right: 36px;
+    width: 64px; height: 64px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, oklch(62% 0.19 29), oklch(48% 0.19 29) 70%);
+    box-shadow: 0 6px 18px oklch(48% 0.19 29 / 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: oklch(96% 0.015 85);
+    font-size: 22px;
+  }
+
+  /* ════ WORLD 03 · SOUNDTRACK ════ */
+  #specimen-03 {
+    background: oklch(20% 0.025 70);
+    color: oklch(93% 0.012 85);
+  }
+  #specimen-03::before {
+    content: '';
+    position: absolute;
+    top: 50%; right: -30vmin;
+    width: 120vmin; height: 120vmin;
+    transform: translateY(-50%);
+    border-radius: 50%;
+    background: repeating-radial-gradient(
+      circle at center,
+      transparent 0px,
+      transparent 9px,
+      oklch(80% 0.13 85 / 0.07) 9px,
+      oklch(80% 0.13 85 / 0.07) 10px
+    );
+    pointer-events: none;
+  }
+  #specimen-03 .world-meta { color: oklch(72% 0.06 82); }
+  #specimen-03 .side-label {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: oklch(80% 0.13 85);
+    border: 1px solid oklch(80% 0.13 85 / 0.5);
+    border-radius: 999px;
+    padding: 6px 14px;
+    margin-bottom: 22px;
+  }
+  #specimen-03 .world-title em { font-style: italic; color: oklch(80% 0.13 85); font-weight: 420; }
+  #specimen-03 .world-desc { color: oklch(76% 0.02 80); }
+  .tracklist {
+    list-style: none;
+    margin: 0 0 38px;
+    max-width: 400px;
+  }
+  .tracklist li {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    padding: 9px 0;
+    border-bottom: 1px solid oklch(80% 0.13 85 / 0.18);
+    font-family: var(--display);
+    font-size: 18px;
+    color: oklch(85% 0.02 82);
+  }
+  .tracklist .tno { font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; color: oklch(72% 0.1 85); }
+  .tracklist .tleader { flex: 1; border-bottom: 1px dotted oklch(80% 0.13 85 / 0.3); transform: translateY(-4px); }
+  .tracklist .tlen { font-family: var(--mono); font-size: 10px; color: oklch(65% 0.06 82); }
+  #specimen-03 .world-link { color: oklch(93% 0.012 85); border-bottom: 1px solid oklch(80% 0.13 85); }
+  #specimen-03 .status-dot { background: oklch(80% 0.13 85); }
+  #specimen-03 .media-caption { color: oklch(65% 0.05 82); }
+
+  .sleeve {
+    position: relative;
+    width: min(440px, 100%);
+    margin: 0 auto;
+    aspect-ratio: 1;
+    overflow: hidden;
+  }
+  .sleeve img, .sleeve video {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    display: block;
+    box-shadow: 0 20px 64px oklch(10% 0.02 70 / 0.55);
+  }
+  /* vinyl record peeking from behind */
+  .sleeve::after {
+    content: '';
+    position: absolute;
+    top: 6%; right: -13%;
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: oklch(11% 0.01 70);
+    background-image: repeating-radial-gradient(
+      circle at center,
+      transparent 0px,
+      transparent 9px,
+      oklch(22% 0.015 70 / 0.85) 9px,
+      oklch(22% 0.015 70 / 0.85) 10px
+    );
+    box-shadow: 0 20px 64px oklch(10% 0.02 70 / 0.55);
+    z-index: -1;
+  }
+
+  /* ════ WORLD 04 · BLOOM ════ */
+  #specimen-04 {
+    background: linear-gradient(oklch(27% 0.05 155), oklch(24% 0.045 160));
+    color: oklch(96% 0.012 140);
+  }
+  #specimen-04::before {
+    content: '';
+    position: absolute; inset: 0;
+    z-index: 0;
+    background: repeating-linear-gradient(
+      100deg,
+      transparent 0px,
+      transparent 90px,
+      oklch(90% 0.03 150 / 0.045) 90px,
+      oklch(90% 0.03 150 / 0.045) 91px
+    );
+    pointer-events: none;
+  }
+  #specimen-04::after {
+    content: '';
+    position: absolute; inset: 0;
+    z-index: 0;
+    background:
+      radial-gradient(ellipse 70% 40% at 25% 100%, oklch(50% 0.09 155 / 0.4) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 30% at 85% 15%, oklch(70% 0.06 350 / 0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  #specimen-04 .world-meta { color: oklch(78% 0.04 150); }
+  #specimen-04 .world-title { font-weight: 350; }
+  #specimen-04 .world-title em { font-style: italic; color: oklch(85% 0.07 350); font-weight: 400; }
+  #specimen-04 .world-desc { color: oklch(84% 0.025 145); }
+  #specimen-04 .world-link { color: oklch(96% 0.012 140); border-bottom: 1px solid oklch(85% 0.07 350); }
+  #specimen-04 .status-dot { background: oklch(85% 0.07 350); }
+  #specimen-04 .media-caption { color: oklch(75% 0.04 150); text-align: center; }
+
+  .arch {
+    position: relative;
+    width: min(440px, 100%);
+    margin: 0 auto;
+    aspect-ratio: 4/5;
+    overflow: hidden;
+    border-radius: 300px 300px 8px 8px;
+    border: 1px solid oklch(85% 0.07 350 / 0.4);
+    box-shadow: 0 20px 70px oklch(12% 0.03 160 / 0.6);
+  }
+  .arch img, .arch video {
+    width: 100%; height: 100%;
+    object-fit: cover; display: block;
+  }
+  .arch-overlay {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 36px 28px;
+    text-align: center;
+    background: linear-gradient(
+      to bottom,
+      oklch(6% 0.02 160 / 0.5) 0%,
+      oklch(6% 0.02 160 / 0.05) 30%,
+      oklch(6% 0.02 160 / 0.05) 55%,
+      oklch(6% 0.02 160 / 0.65) 100%
+    );
+  }
+  .arch-title {
+    font-family: var(--display);
+    font-size: clamp(32px, 5.5vw, 56px);
+    font-weight: 350;
+    line-height: 1.08;
+    letter-spacing: -0.01em;
+    color: oklch(97% 0.01 140);
+    margin-bottom: 14px;
+  }
+  .arch-title em { font-style: italic; color: oklch(85% 0.07 350); font-weight: 400; }
+  .arch-sub {
+    font-family: var(--display);
+    font-size: 15px;
+    font-style: italic;
+    color: oklch(90% 0.015 140 / 0.82);
+    margin-bottom: 28px;
+  }
+  .arch-cta {
+    display: inline-flex; align-items: center;
+    padding: 9px 32px;
+    border: 1px solid oklch(90% 0.015 140 / 0.5);
+    border-radius: 999px;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: oklch(97% 0.01 140);
+    text-decoration: none;
+    background: oklch(97% 0.01 140 / 0.1);
+    transition: background 0.2s;
+  }
+  .arch-cta:hover { background: oklch(97% 0.01 140 / 0.22); }
+  .petal {
+    position: absolute;
+    width: 10px; height: 10px;
+    border-radius: 60% 40% 60% 40%;
+    background: oklch(85% 0.07 350 / 0.7);
+    animation: petal-fall 11s linear infinite;
+    opacity: 0;
+  }
+  @keyframes petal-fall {
+    0%   { transform: translateY(-5vh) rotate(0deg); opacity: 0; }
+    10%  { opacity: 0.8; }
+    90%  { opacity: 0.5; }
+    100% { transform: translateY(105vh) rotate(320deg); opacity: 0; }
+  }
+
+  /* ── photography ── */
+  #photography { padding: 96px 0 104px; }
+  .photo-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 36px;
+    padding-top: 56px;
+  }
+  .photo-entry { margin: 0; }
+  .plate-mat {
+    background: var(--paper-deep);
+    border: 1px solid var(--line);
+    padding: clamp(18px, 2.4vw, 30px);
+  }
+  .plate-mat a { display: block; line-height: 0; }
+  .plate-mat img {
+    width: 100%;
+    display: block;
+    border: 1px solid oklch(30% 0.02 55 / 0.28);
+    aspect-ratio: 5/4;
+    object-fit: cover;
+    transition: transform .6s cubic-bezier(.23,1,.32,1);
+  }
+  .photo-entry:hover .plate-mat img { transform: scale(1.012); }
+  .photo-entry-body { padding-top: 26px; }
+  .photo-title {
+    font-family: var(--display);
+    font-size: 26px;
+    font-weight: 420;
+    line-height: 1.1;
+    margin: 6px 0 12px;
+  }
+  .photo-title a { text-decoration: none; transition: color .2s; }
+  .photo-title a:hover { color: var(--accent); font-style: italic; }
+  .photo-desc {
+    color: var(--ink-soft);
+    font-size: 17px;
+    max-width: 46ch;
+    margin-bottom: 20px;
+  }
+  .photo-meta { color: var(--ink-soft); }
+  .specimen-link {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--ink);
+    border-bottom: 1px solid var(--accent);
+    padding-bottom: 3px;
+    transition: color .2s;
+  }
+  .specimen-link:hover { color: var(--accent); }
+  .specimen-link .arrow { display: inline-block; transition: transform .25s; }
+  .specimen-link:hover .arrow { transform: translateX(5px); }
+  .photo-darkroom {
+    grid-column: 1 / -1;
+    border-top: 1px solid var(--line);
+    margin-top: 8px;
+    padding-top: 22px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    color: var(--ink-soft);
+  }
+  .photo-darkroom .darkroom-name {
+    font-family: var(--display);
+    font-style: italic;
+    font-size: 22px;
+    color: var(--ink-soft);
+  }
+
+  /* ── manifesto ── */
+  #manifesto {
+    background: oklch(19% 0.07 285);
+    color: oklch(93% 0.018 290);
+    padding: 120px 0 128px;
+  }
+  #manifesto .section-head {
+    border-bottom-color: oklch(93% 0.018 290 / 0.4);
+    color: oklch(68% 0.045 285);
+  }
+  #manifesto .section-head .roman { color: var(--accent-soft); }
+  .manifesto-grid {
+    display: grid;
+    grid-template-columns: 7fr 5fr;
+    gap: 80px;
+    padding-top: 64px;
+    align-items: start;
+  }
+  .manifesto-quote {
+    font-family: var(--display);
+    font-size: clamp(38px, 4.6vw, 60px);
+    font-weight: 350;
+    line-height: 1.18;
+    letter-spacing: -0.01em;
+  }
+  .manifesto-quote em { font-style: italic; color: var(--accent-soft); font-weight: 400; }
+  .manifesto-body {
+    font-size: 17px;
+    line-height: 1.85;
+    color: oklch(72% 0.03 285);
+    padding-top: 10px;
+  }
+  .manifesto-body p + p { margin-top: 22px; }
+  .manifesto-body strong { color: oklch(93% 0.018 290); font-weight: 450; font-style: italic; }
+
+  /* ── about ── */
+  #about { padding: 104px 0 96px; }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 5fr 7fr;
+    gap: 72px;
+    padding-top: 56px;
+    align-items: start;
+  }
+  .about-heading {
+    font-family: var(--display);
+    font-size: clamp(36px, 4vw, 52px);
+    font-weight: 400;
+    line-height: 1.1;
+  }
+  .about-heading em { font-style: italic; color: var(--accent); }
+  .about-body {
+    font-size: 19px;
+    line-height: 1.75;
+    color: var(--ink-soft);
+    max-width: 52ch;
+  }
+  .about-body + .about-body { margin-top: 20px; }
+  .about-body a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid currentColor;
+  }
+  .about-signature {
+    font-family: var(--display);
+    font-style: italic;
+    font-size: 30px;
+    color: var(--accent);
+    margin-top: 36px;
+  }
+
+  /* ── footer ── */
+  footer {
+    border-top: 1px solid var(--ink);
+    padding: 40px 0 48px;
+  }
+  .footer-grid {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px 32px;
+    color: var(--ink-soft);
+  }
+  .footer-grid a { color: inherit; text-decoration: none; }
+  .footer-grid a:hover { color: var(--accent); }
+  .footer-grid .fleuron { color: var(--accent); }
+
+  /* ── reveal ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(22px);
+    transition: opacity .8s cubic-bezier(.23,1,.32,1), transform .8s cubic-bezier(.23,1,.32,1);
+  }
+  .reveal.in { opacity: 1; transform: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .reveal { opacity: 1; transform: none; transition: none; }
+    .status-dot, .petal, .orbit, #specimen-01::before { animation: none; }
+    *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+  }
+
+  /* ── responsive ── */
+  @media (max-width: 900px) {
+    .hero-cols { grid-template-columns: 1fr; gap: 48px; }
+    .world { padding: 88px 0; min-height: auto; }
+    .world-grid, .world.img-left .world-grid { grid-template-columns: 1fr; gap: 48px; }
+    .world.img-left .world-grid > .world-media { order: 2; }
+    .world.img-left .world-grid > .world-body  { order: 1; }
+    .orbit { display: none; }
+    .sleeve::after { right: -6%; }
+    #specimen-02::after { display: none; }
+    .manifesto-grid { grid-template-columns: 1fr; gap: 44px; }
+    .about-grid { grid-template-columns: 1fr; gap: 32px; }
+  }
+
+  @media (max-width: 768px) {
+    body { font-size: 17px; }
+    .wrap { padding: 0 24px; }
+    .nav-inner { padding: 16px 24px; }
+    .nav-links { gap: 18px; }
+    #hero { padding: 56px 0 64px; }
+    .hero-title { padding: 36px 0 4px; }
+    .hero-lead { font-size: 19px; }
+    .index-name { font-size: 18px; white-space: normal; }
+    .index-note { font-size: 11px; }
+    #tools-head { padding-bottom: 48px; }
+    .photo-grid { grid-template-columns: repeat(2, 1fr); gap: 28px; padding-top: 40px; }
+    #photography { padding: 64px 0 72px; }
+    #manifesto { padding: 72px 0 80px; }
+    #about { padding: 72px 0 64px; }
+    .footer-grid { flex-direction: column; }
+  }
+
+  @media (max-width: 480px) {
+    .nav-links li:nth-child(2), .nav-links li:nth-child(3) { display: none; }
+    .hero-meta { flex-direction: column; gap: 6px; }
+    .photo-grid { grid-template-columns: 1fr; gap: 44px; }
+  }
+</style>
+
+<style>
+  /* ── grainy dawn: atmospheric hero ── */
+  #hero { position: relative; overflow: hidden; }
+  #hero .wrap { position: relative; z-index: 1; }
+  .hero-atmos {
+    position: absolute; inset: -4%;
+    z-index: 0; pointer-events: none;
+    background:
+      radial-gradient(ellipse 70% 55% at 12% 6%,  oklch(87% 0.07 210 / .85), transparent 62%),
+      radial-gradient(ellipse 62% 52% at 88% 10%, oklch(86% 0.1 330 / .8),  transparent 62%),
+      radial-gradient(ellipse 75% 48% at 55% 34%, oklch(90% 0.09 65 / .75), transparent 68%),
+      radial-gradient(ellipse 95% 42% at 35% 96%, oklch(83% 0.11 20 / .6),  transparent 72%),
+      radial-gradient(ellipse 60% 40% at 78% 78%, oklch(82% 0.09 300 / .5), transparent 68%);
+    -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 97%);
+    mask-image: linear-gradient(to bottom, black 50%, transparent 97%);
+    animation: atmos-drift 26s ease-in-out infinite alternate;
+  }
+  .hero-atmos::after {
+    content: ''; position: absolute; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+    background-size: 170px 170px;
+    mix-blend-mode: overlay;
+    opacity: .95;
+    animation: grain-jitter 1.1s steps(2) infinite;
+  }
+  @keyframes atmos-drift { from { transform: translateY(-1.5%) scale(1.02); } to { transform: translateY(1.5%) scale(1.06); } }
+  @keyframes grain-jitter { 50% { transform: translate(6px, -4px); } }
+
+  #photography, #about { position: relative; }
+  #photography::before, #about::before {
+    content: ''; position: absolute; inset: 0; pointer-events: none;
+    background:
+      radial-gradient(ellipse 60% 55% at 92% 0%,  oklch(90% 0.05 320 / .5), transparent 60%),
+      radial-gradient(ellipse 55% 45% at 4% 90%,  oklch(90% 0.06 200 / .45), transparent 60%);
+  }
+  #photography .wrap, #about .wrap { position: relative; z-index: 1; }
+
+  footer { border-top: 1px solid oklch(70% 0.03 60 / .5); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-atmos, .hero-atmos::after { animation: none; }
+  }
+</style>
+
+<style>
+  /* ── dawn punch: colour blocks + marquee ── */
+
+  .hero-title em {
+    color: transparent;
+    background: linear-gradient(94deg, #FFAC00, #F34C45 42%, #0076FF 90%);
+    background-size: 220% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation: hue-slide 7s ease-in-out infinite alternate;
+  }
+  @keyframes hue-slide { from { background-position: 0% 0; } to { background-position: 100% 0; } }
+
+  .tint-01 { --tint: oklch(41% 0.16 263); }
+  .tint-02 { --tint: #F34C45; }
+  .tint-03 { --tint: #E89000; }
+
+  /* marquee */
+  .marquee {
+    border-top: 1px solid var(--ink);
+    border-bottom: 1px solid var(--ink);
+    overflow: hidden;
+    padding: 13px 0;
+    background: var(--paper);
+    position: relative;
+    z-index: 1;
+  }
+  .marquee-track {
+    display: flex;
+    gap: 56px;
+    width: max-content;
+    white-space: nowrap;
+    animation: marquee 26s linear infinite;
+    font-family: var(--display);
+    font-style: italic;
+    font-size: 21px;
+  }
+  .marquee-track span { flex-shrink: 0; }
+  .marquee-track span:nth-child(4n+1) { color: #F34C45; }
+  .marquee-track span:nth-child(4n+2) { color: var(--ink); }
+  .marquee-track span:nth-child(4n+3) { color: oklch(41% 0.16 263); }
+  .marquee-track span:nth-child(4n+4) { color: #E89000; }
+  @keyframes marquee { to { transform: translateX(-50%); } }
+  #tools-head { padding-top: 56px; }
+
+  /* halftone spray */
+  .spray {
+    position: relative;
+    z-index: 6;
+    height: 92px;
+    margin: 0 0 -92px;
+    pointer-events: none;
+    background-image:
+      radial-gradient(circle, var(--sc) 1.6px, transparent 1.7px),
+      radial-gradient(circle, var(--sc) 1.2px, transparent 1.3px),
+      radial-gradient(circle, var(--sc) 2.1px, transparent 2.2px);
+    background-size: 9px 9px, 13px 13px, 21px 21px;
+    background-position: 0 0, 5px 7px, 11px 3px;
+    -webkit-mask-image: linear-gradient(to bottom, black 8%, transparent 92%);
+    mask-image: linear-gradient(to bottom, black 8%, transparent 92%);
+  }
+
+  /* № 01 — royal blue */
+  #specimen-01 { background: oklch(41% 0.16 263); }
+  #specimen-01 .world-meta { color: oklch(88% 0.05 260); }
+  #specimen-01 .world-title em { color: #FFAC00; }
+  #specimen-01 .world-desc { color: oklch(93% 0.025 260); }
+  #specimen-01 .world-link { color: #fff; border-bottom-color: #FFAC00; }
+  #specimen-01 .status-dot { background: #FFAC00; }
+  #specimen-01 .media-caption { color: oklch(86% 0.04 260); }
+  .portal { border: 2px solid #fff; box-shadow: 16px 16px 0 oklch(27% 0.11 263); }
+  .orbit { border-color: oklch(100% 0 0 / .4); }
+
+  /* № 02 — blush rose */
+  #specimen-02 {
+    background-color: oklch(91% 0.045 25);
+    background-image:
+      url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='0.5'/%3E%3C/svg%3E"),
+      radial-gradient(ellipse 75% 60% at 88% 80%, oklch(90% 0.06 350 / .8), transparent 66%);
+    background-blend-mode: overlay, normal;
+    background-size: 200px 200px, auto;
+    color: var(--ink);
+  }
+  #specimen-02::before {
+    background: repeating-linear-gradient(to bottom, transparent 0 35px, oklch(60% 0.1 25 / .22) 35px 36px);
+  }
+  #specimen-02::after { background: oklch(56% 0.185 29 / .35); }
+  #specimen-02 .world-meta, #specimen-02 .salutation, #specimen-02 .signoff { color: oklch(46% 0.05 30); }
+  #specimen-02 .world-title em { color: var(--accent); }
+  #specimen-02 .world-desc { color: oklch(40% 0.04 30); font-style: italic; }
+  #specimen-02 .world-link { color: var(--ink); border-bottom-color: var(--accent); }
+  #specimen-02 .status-dot { background: var(--accent); }
+  #specimen-02 .media-caption { color: oklch(46% 0.05 30); }
+  .envelope-frame { box-shadow: 0 14px 44px oklch(30% 0.05 30 / .25); }
+
+  /* № 03 — butter */
+  #specimen-03 {
+    background-color: oklch(92% 0.055 90);
+    background-image:
+      url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='0.5'/%3E%3C/svg%3E"),
+      radial-gradient(ellipse 80% 60% at 15% 20%, oklch(93% 0.06 60 / .85), transparent 68%);
+    background-blend-mode: overlay, normal;
+    background-size: 200px 200px, auto;
+    color: var(--ink);
+  }
+  #specimen-03::before {
+    background: repeating-radial-gradient(circle at center, transparent 0 9px, oklch(40% 0.05 80 / .14) 9px 10px);
+    top: 50%; right: -20vmin; width: 110vmin; height: 110vmin; border-radius: 50%; transform: translateY(-50%);
+  }
+  #specimen-03 .world-meta { color: oklch(46% 0.06 75); }
+  #specimen-03 .side-label { color: var(--ink); border-color: oklch(40% 0.05 80 / .5); }
+  #specimen-03 .world-title em { color: oklch(58% 0.14 55); }
+  #specimen-03 .world-desc { color: oklch(40% 0.05 70); }
+  #specimen-03 .tracklist li { color: var(--ink); border-bottom-color: oklch(40% 0.05 80 / .3); }
+  #specimen-03 .tracklist .tno, #specimen-03 .tracklist .tlen { color: oklch(48% 0.07 65); }
+  #specimen-03 .tracklist .tleader { border-bottom-color: oklch(40% 0.05 80 / .3); }
+  #specimen-03 .world-link { color: var(--ink); border-bottom-color: oklch(58% 0.14 55); }
+  #specimen-03 .status-dot { background: oklch(58% 0.14 55); }
+  #specimen-03 .media-caption { color: oklch(46% 0.06 75); }
+  .sleeve { box-shadow: none; border: none; }
+  .sleeve img, .sleeve video { box-shadow: 0 18px 50px oklch(38% 0.06 80 / .4); }
+
+  /* ── Cosmic Pets · canvas starfield (see JS) ── */
+  .cosmic-dust-REMOVED {
+    position: absolute; inset: 0;
+    z-index: 1; pointer-events: none; overflow: hidden;
+    background-image:
+      /* large hero stars */
+      radial-gradient(2.8px 2.8px at  8% 14%, #fff 40%, transparent 100%),
+      radial-gradient(2.2px 2.2px at 88%  7%, oklch(92% 0.06 200) 40%, transparent 100%),
+      radial-gradient(3px   3px   at 41% 21%, #fff 40%, transparent 100%),
+      radial-gradient(2.4px 2.4px at 72% 46%, oklch(90% 0.08 310) 40%, transparent 100%),
+      radial-gradient(2px   2px   at 18% 67%, #fff 40%, transparent 100%),
+      radial-gradient(2.6px 2.6px at 94% 83%, oklch(94% 0.04  85) 40%, transparent 100%),
+      radial-gradient(2px   2px   at 55% 90%, #fff 40%, transparent 100%),
+      /* mid stars */
+      radial-gradient(1.4px 1.4px at 25%  9%, oklch(93% 0.03 290 / .85) 50%, transparent 100%),
+      radial-gradient(1.2px 1.2px at 67% 17%, #fff 50%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 14% 36%, oklch(91% 0.05 310 / .80) 50%, transparent 100%),
+      radial-gradient(1.1px 1.1px at 83% 29%, #fff 50%, transparent 100%),
+      radial-gradient(1.3px 1.3px at 38% 51%, oklch(92% 0.04 200 / .75) 50%, transparent 100%),
+      radial-gradient(1.4px 1.4px at 93% 61%, #fff 50%, transparent 100%),
+      radial-gradient(1.2px 1.2px at 50% 76%, oklch(93% 0.02 290 / .80) 50%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 30% 89%, #fff 50%, transparent 100%),
+      radial-gradient(1.1px 1.1px at 75% 81%, oklch(90% 0.05  85 / .70) 50%, transparent 100%),
+      radial-gradient(1.3px 1.3px at 60%  7%, #fff 50%, transparent 100%),
+      radial-gradient(1px   1px   at  6% 53%, oklch(92% 0.03 310 / .65) 50%, transparent 100%),
+      /* fine stars */
+      radial-gradient(0.9px 0.9px at 48% 38%, #fff 50%, transparent 100%),
+      radial-gradient(0.8px 0.8px at 22% 23%, oklch(93% 0.02 290 / .70) 50%, transparent 100%),
+      radial-gradient(1px   1px   at 79% 55%, #fff 50%, transparent 100%),
+      radial-gradient(0.9px 0.9px at 35% 64%, oklch(90% 0.04 200 / .60) 50%, transparent 100%),
+      radial-gradient(0.8px 0.8px at 62% 41%, #fff 50%, transparent 100%),
+      radial-gradient(0.9px 0.9px at 12% 79%, oklch(92% 0.02 310 / .65) 50%, transparent 100%),
+      radial-gradient(1px   1px   at 87% 43%, #fff 50%, transparent 100%),
+      radial-gradient(0.8px 0.8px at 45% 57%, oklch(93% 0.03  85 / .60) 50%, transparent 100%),
+      radial-gradient(0.9px 0.9px at 19% 47%, #fff 50%, transparent 100%),
+      radial-gradient(0.8px 0.8px at 72% 31%, oklch(90% 0.02 290 / .65) 50%, transparent 100%),
+      radial-gradient(1px   1px   at 56% 16%, #fff 50%, transparent 100%),
+      radial-gradient(0.9px 0.9px at 37% 77%, oklch(92% 0.04 200 / .60) 50%, transparent 100%),
+      radial-gradient(0.8px 0.8px at 81% 91%, #fff 50%, transparent 100%),
+      radial-gradient(1px   1px   at 33% 43%, oklch(93% 0.02 310 / .55) 50%, transparent 100%),
+      /* dithered star dust — SVG fractal noise thresholded to white pixels */
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='420' height='420'%3E%3Cfilter id='s'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.78' numOctaves='1' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 -10 7'/%3E%3C/filter%3E%3Crect width='420' height='420' filter='url(%23s)' opacity='0.14'/%3E%3C/svg%3E");
+    animation: star-twinkle-a 4.5s ease-in-out infinite alternate;
+  }
+
+  .cosmic-dust::before {
+    content: ''; position: absolute; inset: 0;
+    background-image:
+      radial-gradient(0.9px 0.9px at 15% 19%, oklch(93% 0.02 290 / .70) 50%, transparent 100%),
+      radial-gradient(1px   1px   at 52% 31%, #fff 50%, transparent 100%),
+      radial-gradient(0.8px 0.8px at 70% 63%, oklch(92% 0.03  85 / .65) 50%, transparent 100%),
+      radial-gradient(0.9px 0.9px at 28% 54%, #fff 50%, transparent 100%),
+      radial-gradient(1px   1px   at 82% 14%, oklch(93% 0.02 200 / .70) 50%, transparent 100%),
+      radial-gradient(0.8px 0.8px at 40% 86%, #fff 50%, transparent 100%),
+      radial-gradient(0.9px 0.9px at 91% 49%, oklch(92% 0.04 310 / .60) 50%, transparent 100%),
+      radial-gradient(1px   1px   at  5% 73%, #fff 50%, transparent 100%),
+      radial-gradient(0.8px 0.8px at 65% 93%, oklch(93% 0.02 290 / .55) 50%, transparent 100%),
+      radial-gradient(0.9px 0.9px at 47%  4%, #fff 50%, transparent 100%),
+      radial-gradient(0.8px 0.8px at 76% 71%, oklch(90% 0.03  85 / .60) 50%, transparent 100%),
+      radial-gradient(1px   1px   at 22% 93%, #fff 50%, transparent 100%),
+      radial-gradient(0.8px 0.8px at 58% 53%, oklch(92% 0.02 310 / .50) 50%, transparent 100%),
+      radial-gradient(0.9px 0.9px at  3% 33%, #fff 50%, transparent 100%),
+      radial-gradient(0.8px 0.8px at 44% 70%, oklch(93% 0.03 200 / .55) 50%, transparent 100%);
+    animation: star-twinkle-b 6.5s ease-in-out infinite alternate-reverse;
+  }
+
+  /* shooting star */
+  .cosmic-dust::after {
+    content: '';
+    position: absolute;
+    height: 1.5px; width: 130px;
+    top: 22%; left: -130px;
+    background: linear-gradient(90deg, transparent, #fff 45%, oklch(90% 0.08 310 / .85) 65%, transparent);
+    filter: blur(0.4px);
+    animation: shoot-star 24s linear 5s infinite;
+  }
+
+  @keyframes star-twinkle-a {
+    0%   { opacity: 0.55; }
+    30%  { opacity: 0.92; }
+    70%  { opacity: 0.68; }
+    100% { opacity: 1;    }
+  }
+  @keyframes star-twinkle-b {
+    0%   { opacity: 0.75; }
+    50%  { opacity: 1;    }
+    100% { opacity: 0.48; }
+  }
+  @keyframes shoot-star {
+    0%    { left: -8%;  opacity: 0; transform: rotate(-18deg); }
+    0.6%  { opacity: 0.88; }
+    5%    { left: 108%; opacity: 0; transform: rotate(-18deg); }
+    100%  { left: 108%; opacity: 0; transform: rotate(-18deg); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cosmic-dust, .cosmic-dust::before, .cosmic-dust::after { animation: none; }
+  }
+
+  /* № 04 — after-rain green: untouched */
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-track, .hero-title em { animation: none; }
+  }
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#specimen-01">Skip to the tools</a>
+
+<nav>
+  <div class="nav-inner">
+    <a class="nav-logo" href="#">irina<em>.love</em></a>
+    <ul class="nav-links">
+      <li><a href="#specimen-01">The tools</a></li>
+      <li><a href="#photography">The eye</a></li>
+      <li><a href="#manifesto">The idea</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header id="hero">
+  <div class="hero-atmos" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="hero-meta mono">
+      <span>A cabinet of delights <span class="fleuron">✳</span></span>
+      <span>Catalogue Vol. 01 · MMXXVI</span>
+    </div>
+
+    <h1 class="hero-title">tools of <em>delight</em></h1>
+
+    <div class="hero-cols">
+      <div>
+        <p class="hero-lead"><span class="lead-in">Small, lovely apps that are highly emotional and deeply personal.</span> Experiences designed to make you feel something. Each one takes something ordinary, a pet, a feeling, a memory, and returns it transformed. Bigger, more beautiful than before.</p>
+        <p class="hero-byline mono">Irina · product designer · artist · agent of delight</p>
+      </div>
+
+      <div>
+        <p class="index-heading mono">Contents</p>
+        <ul class="index-list">
+          <li class="tint-01"><a class="index-row" href="#specimen-01">
+            <span class="index-num">№ 01</span>
+            <span class="index-name">Cosmic Pet Portraits</span>
+            <span class="index-leader"></span>
+            <span class="index-note"><span class="index-dot"></span><span class="note-label">In Orbit</span></span>
+          </a></li>
+          <li class="tint-02"><a class="index-row" href="#specimen-02">
+            <span class="index-num">№ 02</span>
+            <span class="index-name">Letters from your Future Self</span>
+            <span class="index-leader"></span>
+            <span class="index-note"><span class="index-dot"></span><span class="note-label">Sent</span></span>
+          </a></li>
+          <li class="tint-03"><a class="index-row" href="#specimen-03">
+            <span class="index-num">№ 03</span>
+            <span class="index-name">Soundtrack of Your Life</span>
+            <span class="index-leader"></span>
+            <span class="index-note"><span class="index-dot"></span><span class="note-label">Composed</span></span>
+          </a></li>
+          <li class="tint-04"><a class="index-row" href="#specimen-04">
+            <span class="index-num">№ 04</span>
+            <span class="index-name">Bloom after Rain</span>
+            <span class="index-leader"></span>
+            <span class="index-note"><span class="index-dot"></span><span class="note-label">Bloomed</span></span>
+          </a></li>
+          <li><a class="index-row" href="#photography">
+            <span class="index-num">app.</span>
+            <span class="index-name">Through a Lens</span>
+            <span class="index-leader"></span>
+            <span class="index-note"><span class="note-label">three photo series</span></span>
+          </a></li>
+          <li><a class="index-row" href="#manifesto">
+            <span class="index-num">n.b.</span>
+            <span class="index-name">The Idea</span>
+            <span class="index-leader"></span>
+            <span class="index-note"><span class="note-label">a small manifesto</span></span>
+          </a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <span>tools of delight</span><span>✳</span><span>more always blooming</span><span>✳</span><span>a cabinet of delights</span><span>✳</span><span>made with love</span><span>✳</span><span>tools of delight</span><span>✳</span><span>more always blooming</span><span>✳</span><span>a cabinet of delights</span><span>✳</span><span>made with love</span><span>✳</span>
+  </div>
+</div>
+
+<div class="wrap" id="tools-head">
+  <div class="section-head mono reveal">
+    <span><span class="roman">I.</span>&ensp;The tools</span>
+    <span id="tools-count">04 worlds — more always blooming</span>
+  </div>
+</div>
+
+<!-- ════ № 01 · COSMIC PETS ════ -->
+<section class="world" id="specimen-01">
+  <canvas id="cosmic-canvas" aria-hidden="true"></canvas>
+  <div class="wrap" style="width:100%">
+    <div class="world-grid">
+      <div class="world-body reveal">
+        <div class="world-meta mono">
+          <span>Specimen № 01</span><span>·</span>
+          <span class="status"><span class="status-dot"></span>In Orbit</span><span>·</span>
+          <span>cosmicpets.love</span>
+        </div>
+        <h2 class="world-title">Cosmic Pet <em>Portraits</em></h2>
+        <p class="world-desc">Your pet, reimagined as a cosmic entity. AI-generated portraits so eerily right that people cry a little. A universe that noticed your animal.</p>
+        <a class="world-link" href="https://www.cosmicpets.love" target="_blank" rel="noopener">Visit cosmicpets.love <span class="arrow">→</span></a>
+      </div>
+      <div class="world-media reveal">
+        <div class="orbit"></div>
+        <div>
+          <div class="portal">
+            <img src="uploads/hero_images/cosmic-pets-card.webp" alt="A cat portrayed as a cosmic being, seen through a round portal">
+          </div>
+          <p class="media-caption mono">Specimen seen through the portal</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════ № 02 · LETTERS ════ -->
+<section class="world img-left" id="specimen-02">
+  <div class="wrap" style="width:100%">
+    <div class="world-grid">
+      <div class="world-media reveal">
+        <figure class="envelope-frame">
+          <img src="uploads/hero_images/letters-card.webp" alt="Letters from your Future Self">
+        </figure>
+        <p class="media-caption mono">Delivered from ten years ahead</p>
+      </div>
+      <div class="world-body reveal">
+        <div class="world-meta mono">
+          <span>Specimen № 02</span><span>·</span>
+          <span class="status"><span class="status-dot"></span>Sent</span><span>·</span>
+          <span>letters.irina.love</span>
+        </div>
+        <p class="salutation">Dear you, ten years from now —</p>
+        <h2 class="world-title">Letters from your <em>Future Self</em></h2>
+        <p class="world-desc">Write today. Receive a tender, knowing reply from yourself ten years from now — reflecting on your current worries with love and impossible perspective.</p>
+        <p class="signoff">— with love, from further along</p>
+        <a class="world-link" href="https://letters.irina.love" target="_blank" rel="noopener">Visit letters.irina.love <span class="arrow">→</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════ № 03 · SOUNDTRACK ════ -->
+<section class="world" id="specimen-03">
+  <div class="wrap" style="width:100%">
+    <div class="world-grid">
+      <div class="world-body reveal">
+        <div class="world-meta mono">
+          <span>Specimen № 03</span><span>·</span>
+          <span class="status"><span class="status-dot"></span>Composed</span><span>·</span>
+          <span>soundtrack.irina.love</span>
+        </div>
+        <span class="side-label">Side A · 33⅓ rpm</span>
+        <h2 class="world-title">Soundtrack of <em>Your Life</em></h2>
+        <p class="world-desc">Every life deserves a score. Tell it your story and receive a deeply personal playlist that sounds like you.</p>
+        <ul class="tracklist">
+          <li><span class="tno">A1</span>The eras<span class="tleader"></span><span class="tlen">4:12</span></li>
+          <li><span class="tno">A2</span>The heartbreaks<span class="tleader"></span><span class="tlen">3:47</span></li>
+          <li><span class="tno">A3</span>The quiet Tuesday mornings<span class="tleader"></span><span class="tlen">5:03</span></li>
+        </ul>
+        <a class="world-link" href="https://soundtrack.irina.love/" target="_blank" rel="noopener">Visit soundtrack.irina.love <span class="arrow">→</span></a>
+      </div>
+      <div class="world-media reveal">
+        <figure class="sleeve">
+          <video autoplay loop muted playsinline>
+            <source src="uploads/videos/soundtrack-hero-section-video-web.mp4" type="video/mp4">
+          </video>
+        </figure>
+        <p class="media-caption mono">Pressed for an audience of one</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════ № 04 · BLOOM ════ -->
+<section class="world img-left" id="specimen-04">
+  <span class="petal" style="left:12%; animation-delay:0s;"></span>
+  <span class="petal" style="left:38%; animation-delay:3.5s; width:8px; height:8px;"></span>
+  <span class="petal" style="left:70%; animation-delay:6s;"></span>
+  <span class="petal" style="left:88%; animation-delay:1.8s; width:7px; height:7px;"></span>
+  <div class="wrap" style="width:100%">
+    <div class="world-grid">
+      <div class="world-media reveal">
+        <div class="arch">
+          <video autoplay loop muted playsinline>
+            <source src="uploads/videos/bloom-rain-hero-v2-web.mp4" type="video/mp4">
+          </video>
+          <div class="arch-overlay"></div>
+        </div>
+        <p class="media-caption mono">The garden of resilience</p>
+      </div>
+      <div class="world-body reveal">
+        <div class="world-meta mono">
+          <span>Specimen № 04</span><span>·</span>
+          <span class="status"><span class="status-dot"></span>Bloomed</span><span>·</span>
+          <span>bloom.irina.love</span>
+        </div>
+        <h2 class="world-title">Bloom after <em>Rain</em></h2>
+        <p class="world-desc">Something tender is growing. A tool about renewal, grief, and what quietly returns after loss — built for the moments you need to feel less alone.</p>
+        <a class="world-link" href="https://bloom.irina.love/" target="_blank" rel="noopener">Visit bloom.irina.love <span class="arrow">→</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- photography -->
+<section id="photography">
+  <div class="wrap">
+    <div class="section-head mono reveal">
+      <span><span class="roman">II.</span>&ensp;Through a lens</span>
+      <span>03 series · more always developing</span>
+    </div>
+
+    <div class="photo-grid">
+      <figure class="photo-entry reveal">
+        <div class="plate-mat">
+          <a href="cats.html" tabindex="-1">
+            <img src="uploads/photography/cats-cover.webp" alt="Cats of China — photo series">
+          </a>
+        </div>
+        <div class="photo-entry-body">
+          <p class="mono photo-meta">Photo series · 19 photographs</p>
+          <h3 class="photo-title"><a href="cats.html">Cats of China</a></h3>
+          <p class="photo-desc">Nineteen cats met along the way — stationed in doorways, on market carts, under neon signs. Unhurried, perfectly at home in the beautiful chaos of it all.</p>
+          <a class="specimen-link" href="cats.html">View the series <span class="arrow">→</span></a>
+        </div>
+      </figure>
+
+      <figure class="photo-entry reveal">
+        <div class="plate-mat">
+          <a href="streets.html" tabindex="-1">
+            <img src="uploads/photography/streets-cover.webp" alt="Streets and Light — photo series">
+          </a>
+        </div>
+        <div class="photo-entry-body">
+          <p class="mono photo-meta">Photo series · 25 photographs</p>
+          <h3 class="photo-title"><a href="streets.html">Streets &amp; Light</a></h3>
+          <p class="photo-desc">Twenty-five photographs made in the current of the city — candid portraits, mountain cities, neon and midday glare, the quiet between crowds.</p>
+          <a class="specimen-link" href="streets.html">View the series <span class="arrow">→</span></a>
+        </div>
+      </figure>
+
+      <figure class="photo-entry reveal">
+        <div class="plate-mat">
+          <a href="lights.html" tabindex="-1">
+            <img src="uploads/photography/lights-cover.webp" alt="Light and Texture — photo series">
+          </a>
+        </div>
+        <div class="photo-entry-body">
+          <p class="mono photo-meta">Photo series · 25 photographs</p>
+          <h3 class="photo-title"><a href="lights.html">Light &amp; Texture</a></h3>
+          <p class="photo-desc">Twenty-five studies in surface, material and light — from neon-drenched rooftops and dense residential towers to the extraordinary detail of couture embroidery.</p>
+          <a class="specimen-link" href="lights.html">View the series <span class="arrow">→</span></a>
+        </div>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- manifesto -->
+<section id="manifesto">
+  <div class="wrap">
+    <div class="section-head mono reveal">
+      <span><span class="roman">III.</span>&ensp;The idea</span>
+      <span>a small manifesto</span>
+    </div>
+    <div class="manifesto-grid">
+      <p class="manifesto-quote reveal">I take something ordinary and return it <em>mythic.</em></p>
+      <div class="manifesto-body reveal">
+        <p>Pets become cosmic beings. Moods become oceans. Your future self offers perspective. Memories become something you can hold.</p>
+        <p>Each tool is a small act of attention, the moment technology stops being cold and becomes something close to <strong>tender</strong>. Some of what I make will land quietly. A few people will hold it close and never say a word. Some of it will travel further than I expected. All of it counts.</p>
+        <p>Always asking the same question: does this make someone feel something real?</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- about -->
+<section id="about">
+  <div class="wrap">
+    <div class="section-head mono reveal">
+      <span><span class="roman">IV.</span>&ensp;About Irina</span>
+      <span>the keeper of the cabinet</span>
+    </div>
+    <div class="about-grid">
+      <h2 class="about-heading reveal">Making things that feel like <em>love</em></h2>
+      <div class="reveal">
+        <p class="about-body">I'm a <a href="https://irinacsapo.co.uk/" target="_blank" rel="noopener">product designer</a> and <a href="https://www.instagram.com/irina_csapo_art" target="_blank" rel="noopener">artist</a>, and an agent of delight. I build small apps that sit at the intersection of AI and emotion. My tools are personal, playful, and designed to make you feel something real.</p>
+        <p class="about-body">Delight seemed too soft a word to build a life around. It wasn't.</p>
+        <p class="about-body">irina.love is the home for everything I'm making, one experience at a time.</p>
+        <p class="about-signature">— irina</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid mono">
+      <span>irina.love <span class="fleuron">✳</span> tools of delight</span>
+      <span>© 2026 · made with love</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ── COSMIC PETS STARFIELD ──
+(function () {
+  const sc = document.getElementById('cosmic-canvas');
+  if (!sc) return;
+  const section = sc.parentElement;
+  const sCtx = sc.getContext('2d');
+  const nebCanvas = document.createElement('canvas');
+  const nebCtx = nebCanvas.getContext('2d');
+
+  function buildNebula(w, h) {
+    nebCanvas.width = w; nebCanvas.height = h;
+    nebCtx.clearRect(0, 0, w, h);
+    const blobs = [
+      { x:w*0.10, y:h*0.05, r:w*0.55, c:'rgba(80,50,160,0.28)' },
+      { x:w*0.30, y:h*0.22, r:w*0.48, c:'rgba(50,70,190,0.22)' },
+      { x:w*0.52, y:h*0.42, r:w*0.52, c:'rgba(100,40,160,0.20)' },
+      { x:w*0.72, y:h*0.60, r:w*0.44, c:'rgba(55,80,180,0.18)' },
+      { x:w*0.90, y:h*0.82, r:w*0.48, c:'rgba(60,50,150,0.25)' },
+      { x:w*0.18, y:h*0.55, r:w*0.30, c:'rgba(210,40,150,0.14)' },
+      { x:w*0.65, y:h*0.30, r:w*0.26, c:'rgba(190,30,120,0.12)' },
+      { x:w*0.40, y:h*0.85, r:w*0.28, c:'rgba(220,60,140,0.11)' },
+      { x:w*0.78, y:h*0.18, r:w*0.26, c:'rgba(30,140,230,0.13)' },
+      { x:w*0.08, y:h*0.70, r:w*0.22, c:'rgba(40,110,210,0.11)' },
+      { x:w*0.55, y:h*0.12, r:w*0.22, c:'rgba(150,40,220,0.12)' },
+      { x:w*0.85, y:h*0.55, r:w*0.24, c:'rgba(120,50,200,0.10)' },
+      { x:w*0.25, y:h*0.38, r:w*0.18, c:'rgba(160,60,210,0.09)' },
+    ];
+    blobs.forEach(b => {
+      const g = nebCtx.createRadialGradient(b.x, b.y, 0, b.x, b.y, b.r);
+      g.addColorStop(0, b.c); g.addColorStop(1, 'rgba(0,0,0,0)');
+      nebCtx.fillStyle = g; nebCtx.fillRect(0, 0, w, h);
+    });
+  }
+
+  let stars = [];
+  function resizeStars() {
+    sc.width = section.offsetWidth; sc.height = section.offsetHeight;
+    buildNebula(sc.width, sc.height);
+    const w = sc.width, h = sc.height;
+    stars = [];
+    const tT = ['255,255,255','255,255,255','255,255,255','200,190,255','190,210,255','255,200,230'];
+    const mT = ['255,255,255','180,200,255','255,180,220','200,160,255','160,210,255','255,220,200','230,170,255','170,230,255'];
+    const gT = ['255,255,255','210,190,255','255,190,220','180,210,255'];
+    for (let i=0;i<320;i++) stars.push({ x:Math.random()*w, y:Math.random()*h, r:Math.random()*0.75+0.15, a:Math.random()*Math.PI*2, sp:Math.random()*0.018+0.008, dx:(Math.random()-0.5)*0.025, dy:(Math.random()-0.5)*0.025, rgb:tT[Math.floor(Math.random()*tT.length)], layer:0 });
+    for (let i=0;i<90;i++)  stars.push({ x:Math.random()*w, y:Math.random()*h, r:Math.random()*1.1+0.7,  a:Math.random()*Math.PI*2, sp:Math.random()*0.025+0.012, dx:(Math.random()-0.5)*0.018, dy:(Math.random()-0.5)*0.018, rgb:mT[Math.floor(Math.random()*mT.length)], layer:1 });
+    for (let i=0;i<16;i++)  stars.push({ x:Math.random()*w, y:Math.random()*h, r:Math.random()*1.4+2.0,  a:Math.random()*Math.PI*2, sp:Math.random()*0.020+0.010, dx:(Math.random()-0.5)*0.012, dy:(Math.random()-0.5)*0.012, rgb:gT[Math.floor(Math.random()*gT.length)], layer:2, glintAngle:Math.random()*Math.PI });
+  }
+  resizeStars();
+  window.addEventListener('resize', resizeStars);
+
+  let mX=0, mY=0, tMX=0, tMY=0;
+  window.addEventListener('mousemove', e => { tMX=(e.clientX/window.innerWidth-0.5)*2; tMY=(e.clientY/window.innerHeight-0.5)*2; });
+  window.addEventListener('touchmove', e => { const t=e.touches[0]; tMX=(t.clientX/window.innerWidth-0.5)*2; tMY=(t.clientY/window.innerHeight-0.5)*2; }, {passive:true});
+
+  (function anim() {
+    mX += (tMX-mX)*0.05; mY += (tMY-mY)*0.05;
+    sCtx.clearRect(0, 0, sc.width, sc.height);
+    sCtx.save(); sCtx.translate(mX*8, mY*8);
+    sCtx.drawImage(nebCanvas, -8, -8, sc.width+16, sc.height+16);
+    sCtx.restore();
+    stars.forEach(s => {
+      const depth = s.layer===0?4:s.layer===1?10:18;
+      const px=s.x+mX*depth, py=s.y+mY*depth;
+      s.x+=s.dx; s.y+=s.dy;
+      if(s.x<-4) s.x=sc.width+4; else if(s.x>sc.width+4) s.x=-4;
+      if(s.y<-4) s.y=sc.height+4; else if(s.y>sc.height+4) s.y=-4;
+      s.a+=s.sp;
+      const alpha=(Math.sin(s.a)*0.55+0.45)*0.95+0.05;
+      if(s.layer===2){
+        const halo=sCtx.createRadialGradient(px,py,0,px,py,s.r*4);
+        halo.addColorStop(0,`rgba(${s.rgb},${alpha*0.5})`); halo.addColorStop(1,'rgba(0,0,0,0)');
+        sCtx.fillStyle=halo; sCtx.beginPath(); sCtx.arc(px,py,s.r*4,0,Math.PI*2); sCtx.fill();
+        const gl=s.r*6;
+        for(let ang=0;ang<Math.PI;ang+=Math.PI/2){
+          const a2=ang+s.glintAngle;
+          const grd=sCtx.createLinearGradient(px-Math.cos(a2)*gl,py-Math.sin(a2)*gl,px+Math.cos(a2)*gl,py+Math.sin(a2)*gl);
+          grd.addColorStop(0,'rgba(255,255,255,0)'); grd.addColorStop(0.5,`rgba(255,255,255,${alpha*0.55})`); grd.addColorStop(1,'rgba(255,255,255,0)');
+          sCtx.strokeStyle=grd; sCtx.lineWidth=0.7;
+          sCtx.beginPath(); sCtx.moveTo(px-Math.cos(a2)*gl,py-Math.sin(a2)*gl); sCtx.lineTo(px+Math.cos(a2)*gl,py+Math.sin(a2)*gl); sCtx.stroke();
+        }
+      }
+      sCtx.beginPath(); sCtx.arc(px,py,s.r,0,Math.PI*2);
+      sCtx.fillStyle=`rgba(${s.rgb},${alpha})`; sCtx.fill();
+    });
+    requestAnimationFrame(anim);
+  })();
+})();
+
+if (window.netlifyIdentity) {
+  window.netlifyIdentity.on('init', user => {
+    if (!user) {
+      window.netlifyIdentity.on('login', () => { document.location.href = '/admin/'; });
+    }
+  });
+}
+
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); } });
+}, { threshold: 0.12 });
+
+if (reduceMotion) {
+  document.querySelectorAll('.reveal').forEach(r => r.classList.add('in'));
+} else {
+  document.querySelectorAll('.reveal').forEach(r => obs.observe(r));
+}
+
+fetch('data/tools.json')
+  .then(r => r.json())
+  .then(data => {
+    const live = (data.tools || []).filter(t => t.status === 'live').length;
+    const el = document.getElementById('tools-count');
+    if (el && live) el.textContent = `${String(live).padStart(2, '0')} worlds — more always blooming`;
+  })
+  .catch(() => {});
+</script>
+</body>
+</html>
