@@ -122,7 +122,13 @@ Do not reuse the irina.love website ID, it would mix the two sites' data.
 
 - Colours use `oklch()` throughout. Do not convert them to hex or rgb.
 - Photography and portraits are WebP.
-- Aventi Bold is a commercial font, self-hosted in `assets/fonts/`. It came from
-  the Webflow export where it was already being served publicly. If the licence
-  does not cover self-hosting, swap `--display` in `site.css` for a free display
-  serif such as Playfair Display or Bodoni Moda.
+- See `LICENSE.md`. The artwork is all rights reserved, the website code is MIT.
+- `robots.txt` asks the major AI training crawlers to stay away. That does not
+  affect Google or Bing search rankings, `Google-Extended` covers Gemini
+  training only and is separate from `Googlebot`. Delete the block to undo.
+- **Aventi Bold needs a decision.** It is a commercial font, self-hosted in
+  `assets/fonts/`. Serving it from a website is normal webfont use and is what
+  Webflow was already doing. Committing the file to a *public* repo is closer to
+  redistribution, which most font licences forbid. Either check your licence
+  covers it, or swap `--display` in `site.css` for a free display serif. Playfair
+  Display and Bodoni Moda are both close in feel and free for any use.
