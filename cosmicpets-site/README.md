@@ -81,22 +81,68 @@ When you are ready to launch:
 
 ### 3. Point the domain at GitHub Pages
 
-In your domain registrar's DNS settings:
+**Neither the domain nor the email lives at Webflow.** Checked against live DNS
+on 2026-08-03:
 
-| Type  | Name  | Value                    |
-|-------|-------|--------------------------|
-| A     | @     | 185.199.108.153          |
-| A     | @     | 185.199.109.153          |
-| A     | @     | 185.199.110.153          |
-| A     | @     | 185.199.111.153          |
-| CNAME | www   | irinacsapo.github.io     |
+- Nameservers are `ns-cloud-b1..b4.googledomains.com`, so DNS is managed at
+  Google, not Webflow. Cancelling Webflow cannot take the domain with it.
+- Mail is **Zoho** (`mx.zoho.eu`, `mx2`, `mx3`). hello@cosmicpets.co.uk is not
+  a Webflow service either, so cancelling cannot break your email.
+- There is no `CAA` record, so GitHub's Let's Encrypt certificate will issue
+  without any extra step.
+
+So the migration is only two record changes.
+
+**Change these two:**
+
+| Type  | Name | From               | To                   |
+|-------|------|--------------------|----------------------|
+| A     | @    | `198.202.211.1`    | `185.199.108.153`    |
+| A     | @    |                    | `185.199.109.153`    |
+| A     | @    |                    | `185.199.110.153`    |
+| A     | @    |                    | `185.199.111.153`    |
+| CNAME | www  | `cdn.webflow.com`  | `irinacsapo.github.io` |
+
+`198.202.211.1` and `cdn.webflow.com` are Webflow's. They are the only two
+records pointing there.
+
+**Do not touch these, or email stops working:**
+
+| Type | Name      | Value                                     |
+|------|-----------|-------------------------------------------|
+| MX   | @         | `10 mx.zoho.eu`, `20 mx3.zoho.eu`, `50 mx2.zoho.eu` |
+| TXT  | @         | `v=spf1 include:zoho.eu ~all`              |
+| TXT  | `_dmarc`  | `v=DMARC1; p=none; rua=...`                |
+
+Deleting the MX or SPF records while repointing the site is the single most
+common way this migration goes wrong. Edit the two records above, do not clear
+the zone and start again.
 
 Then in the repo: **Settings → Pages → Custom domain** → `www.cosmicpets.co.uk`,
-and tick **Enforce HTTPS** once the certificate has been issued (can take an hour).
+and tick **Enforce HTTPS** once the certificate has been issued (up to an hour).
 
 `CNAME.disabled` already holds the domain. Rename it to `CNAME` and Pages picks
 it up. It is parked under the other name so it cannot redirect the
 irinacsapo.github.io preview URL to a domain that is not pointed here yet.
+
+### Order of operations for leaving Webflow
+
+DNS changes take time to propagate and the HTTPS certificate is issued only
+after the domain resolves to GitHub. Cancel last, not first.
+
+1. Repo public, Pages on, site live and checked at `irinacsapo.github.io/cosmicpets-site/`.
+2. Rename `CNAME.disabled` to `CNAME`, uncomment the push trigger, push.
+3. Change the two DNS records above. Leave MX, SPF and DMARC alone.
+4. Wait for `www.cosmicpets.co.uk` to serve the new site, then wait for the
+   certificate, then tick Enforce HTTPS.
+5. Send yourself a test email at hello@cosmicpets.co.uk and confirm it arrives.
+6. Submit the form once and confirm the FormSubmit activation email.
+7. **Only now** cancel Webflow.
+
+Step 7 last matters for one more reason: the original portraits are still
+served from Webflow's CDN today. Copies now live in `assets/portraits/`, so
+nothing is lost either way, but there is no reason to remove the fallback
+before the replacement is proven.
 
 ### 4. Analytics (optional)
 
