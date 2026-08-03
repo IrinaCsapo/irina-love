@@ -62,9 +62,18 @@
     }
   }
 
-  /* ── portrait lightbox ───────────────────────────────────────────────── */
+  /* ── portrait lightbox ─────────────────────────────────────────────────
 
-  var portraits = Array.prototype.slice.call(document.querySelectorAll('[data-portrait]'));
+     Scoped to a container so a page can hold more than one independent
+     gallery. With no [data-lightbox-group] on the page, which is the normal
+     case, the whole document is one group.
+     ------------------------------------------------------------------- */
+
+  var groups = document.querySelectorAll('[data-lightbox-group]');
+  Array.prototype.forEach.call(groups.length ? groups : [document], initLightbox);
+
+  function initLightbox(root) {
+  var portraits = Array.prototype.slice.call(root.querySelectorAll('[data-portrait]'));
 
   if (portraits.length) {
     var box = document.createElement('div');
@@ -171,6 +180,7 @@
       if (Math.abs(dx) > 45) { show(index + (dx < 0 ? 1 : -1)); }
       startX = null;
     }, { passive: true });
+  }
   }
 
   /* ── preselect a package from ?package=… ─────────────────────────────── */
