@@ -1,8 +1,19 @@
 name: Deploy to GitHub Pages
 
+# Manual only, because the site has not launched yet and Pages is switched off.
+# Leaving the push trigger on would make every commit fail with a red X.
+#
+# TO GO LIVE:
+#   1. Settings > Pages > Source: GitHub Actions.
+#      (Needs a public repo on GitHub Free. Private repos need GitHub Pro.)
+#   2. Uncomment the push trigger below so every commit deploys.
+#   3. Rename CNAME.disabled to CNAME once the DNS records point at GitHub.
+#
+# on:
+#   push:
+#     branches: [main]
+
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
 
 permissions:

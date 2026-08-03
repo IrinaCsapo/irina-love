@@ -1,9 +1,10 @@
 # Cosmic Pets
 
-The cosmicpets.co.uk website, rebuilt by hand and hosted free on GitHub Pages.
-Replaces the Webflow site (£29/month) with plain HTML, CSS and one small JS file.
+The cosmicpets.co.uk website, rebuilt by hand to replace the Webflow site
+(£29/month) with plain HTML, CSS and one small JS file. Ready for GitHub Pages,
+not deployed yet. See "Go live" below.
 
-**No build step.** Edit the HTML directly, commit, push. GitHub Actions deploys it.
+**No build step.** Edit the HTML directly, commit, push.
 
 ## Structure
 
@@ -22,6 +23,7 @@ assets/js/site.js   Nav, scroll reveals, portrait lightbox, form submit.
 assets/portraits/   Portrait images. name.webp (full) + name-thumb.webp (grid).
 assets/img/         Everything else.
 assets/fonts/       Aventi Bold, self-hosted.
+CNAME.disabled      The custom domain, parked until launch.
 
 <slug>/index.html   Redirect stubs so the old Webflow URLs keep working
                     (/about, /order, /cosmic-crew, /faqs, /gift-vouchers, ...)
@@ -53,7 +55,31 @@ If FormSubmit is ever unreachable, or you have not confirmed it yet, `site.js`
 catches the failure and offers the visitor a pre-filled email containing
 everything they typed. A message can fail to send, but it cannot vanish.
 
-### 2. Point the domain at GitHub Pages
+### 2. Go live
+
+The site is deliberately **not deployed yet**. Pages is off, the deploy
+workflow is manual-only so commits do not fail with a red X, and the domain
+file is parked as `CNAME.disabled` so it cannot hijack the preview URL.
+
+A note on privacy, because the two settings are easy to confuse:
+
+- **Repo visibility.** GitHub Pages runs from public repos on the free plan.
+  Publishing from a *private* repo needs GitHub Pro, currently $4/month.
+- **Site visibility.** A Pages site is reachable by anyone on the internet
+  either way. Restricting who can view it needs GitHub Enterprise Cloud, so
+  it is not realistically an option for a personal account.
+
+In other words there is no free way to have a *live but private* site here.
+Keeping the repo private and Pages switched off costs nothing, which is the
+current state.
+
+When you are ready to launch:
+
+1. Settings > Pages > Source: **GitHub Actions**.
+2. Uncomment the `push` trigger in `.github/workflows/pages.yml`.
+3. Rename `CNAME.disabled` back to `CNAME`, after the DNS below resolves.
+
+### 3. Point the domain at GitHub Pages
 
 In your domain registrar's DNS settings:
 
@@ -68,9 +94,11 @@ In your domain registrar's DNS settings:
 Then in the repo: **Settings → Pages → Custom domain** → `www.cosmicpets.co.uk`,
 and tick **Enforce HTTPS** once the certificate has been issued (can take an hour).
 
-The `CNAME` file in this repo already holds the domain, so Pages picks it up.
+`CNAME.disabled` already holds the domain. Rename it to `CNAME` and Pages picks
+it up. It is parked under the other name so it cannot redirect the
+irinacsapo.github.io preview URL to a domain that is not pointed here yet.
 
-### 3. Analytics (optional)
+### 4. Analytics (optional)
 
 Irina self-hosts Umami at irina-umami.vercel.app. Add a *new* website there for
 cosmicpets.co.uk, get its website ID, then add this to the `<head>` of every page:
