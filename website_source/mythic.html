@@ -43,6 +43,24 @@
     overflow-x: hidden;
   }
 
+  /* splash: paints instantly, lifts when fonts are truly ready */
+  #splash {
+    position: fixed; inset: 0; z-index: 999; background: var(--bg);
+    display: flex; align-items: center; justify-content: center;
+    transition: opacity .7s ease, visibility .7s ease;
+  }
+  #splash.lift { opacity: 0; visibility: hidden; pointer-events: none; }
+  .splash-orb {
+    width: 54px; height: 54px; border-radius: 50%;
+    background: var(--holo);
+    filter: blur(10px) saturate(1.1);
+    animation: orbpulse 1.6s ease-in-out infinite;
+  }
+  @keyframes orbpulse {
+    0%, 100% { transform: scale(0.82); opacity: .75; }
+    50% { transform: scale(1.14); opacity: 1; }
+  }
+
   .grain {
     position: fixed; inset: 0; z-index: 40; pointer-events: none; opacity: 0.05;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
@@ -218,8 +236,9 @@
 
   .hero-eyebrow {
     margin-bottom: 34px; color: var(--ink-soft); position: relative; z-index: 2;
-    opacity: 0; animation: fadeUp .8s .2s forwards;
+    opacity: 0;
   }
+  body.booted .hero-eyebrow { animation: fadeUp .8s .1s forwards; }
   .hero-title {
     font-family: var(--display); font-weight: 560; position: relative; z-index: 2;
     font-size: clamp(46px, 8.2vw, 116px); line-height: 1.04; letter-spacing: -0.015em;
@@ -262,13 +281,15 @@
     margin-top: 38px; max-width: 56ch; font-family: var(--text);
     font-size: 18px; line-height: 1.7; color: var(--ink-soft);
     position: relative; z-index: 2;
-    opacity: 0; animation: fadeUp .9s 1s forwards;
+    opacity: 0;
   }
+  body.booted .hero-sub { animation: fadeUp .9s .8s forwards; }
   .hero-hint {
     margin-top: 58px; display: flex; align-items: center; gap: 16px;
     color: var(--ink-soft); position: relative; z-index: 2;
-    opacity: 0; animation: fadeUp .9s 1.3s forwards;
+    opacity: 0;
   }
+  body.booted .hero-hint { animation: fadeUp .9s 1.1s forwards; }
   .hero-hint-line { width: 48px; height: 1px; background: var(--coral-soft); }
   @keyframes fadeUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
 
@@ -589,7 +610,8 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .hero-eyebrow, .hero-sub, .hero-hint { animation: none; opacity: 1; }
+    .hero-eyebrow, .hero-sub, .hero-hint { animation: none !important; opacity: 1; }
+    .splash-orb { animation: none; }
     .prism-blob, .bgimg, .holo-card img, .aurora-card::before { animation: none !important; }
     #hero-video { display: none; }
     .intro-el .bobwrap { animation: none !important; }
@@ -608,6 +630,8 @@
 </style>
 </head>
 <body>
+
+<div id="splash"><div class="splash-orb"></div></div>
 
 <div class="grain"></div>
 
@@ -991,10 +1015,12 @@
   }
 
   /* ── hero entrance + prismatic sheen ── */
-  if (!REDUCED) {
+  gsap.set('.hero-title .row > span', { yPercent: 115 });
+  function heroEntrance() {
+    if (REDUCED) { gsap.set('.hero-title .row > span', { yPercent: 0 }); return; }
     gsap.fromTo('.hero-title .row > span', { yPercent: 115 },
-      { yPercent: 0, duration: 1.2, ease: 'power4.out', stagger: 0.14, delay: 0.35 });
-    gsap.fromTo('#strike', { '--strike': 0 }, { '--strike': 1, duration: 0.7, ease: 'power2.inOut', delay: 1.5 });
+      { yPercent: 0, duration: 1.2, ease: 'power4.out', stagger: 0.14, delay: 0.15 });
+    gsap.fromTo('#strike', { '--strike': 0 }, { '--strike': 1, duration: 0.7, ease: 'power2.inOut', delay: 1.3 });
   }
   (function () {
     var hero = document.getElementById('s-hero');
@@ -1364,14 +1390,20 @@
   }
 
   /* boot */
-  (document.fonts ? document.fonts.ready : Promise.resolve())
+  Promise.race([
+    (document.fonts ? document.fonts.ready : Promise.resolve())
+      .then(function () {
+        var decodes = Array.prototype.map.call(document.querySelectorAll('img'), function (im) {
+          return im.decode ? im.decode().catch(function () {}) : Promise.resolve();
+        });
+        return Promise.all(decodes);
+      }),
+    new Promise(function (res) { setTimeout(res, 8000); }) /* never trap a visitor on the splash */
+  ])
     .then(function () {
-      var decodes = Array.prototype.map.call(document.querySelectorAll('img'), function (im) {
-        return im.decode ? im.decode().catch(function () {}) : Promise.resolve();
-      });
-      return Promise.all(decodes);
-    })
-    .then(function () {
+      document.getElementById('splash').classList.add('lift');
+      document.body.classList.add('booted');
+      heroEntrance();
       buildScenes();
       observeReveals();
       ScrollTrigger.refresh();
