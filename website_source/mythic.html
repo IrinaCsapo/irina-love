@@ -3,11 +3,23 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Return it Mythic — irina.love</title>
+<title>Return it Mythic · irina.love</title>
 <meta name="description" content="Take the ordinary. Return it mythic. Four tools of delight, revealed one scroll at a time.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://irina.love/mythic.html">
+<meta property="og:title" content="Return it Mythic · irina.love">
+<meta property="og:description" content="Take the ordinary. Return it mythic. Four tools of delight, revealed one scroll at a time.">
+<meta property="og:image" content="https://irina.love/uploads/og-home.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Return it Mythic · irina.love">
+<meta name="twitter:description" content="Take the ordinary. Return it mythic. Four tools of delight, revealed one scroll at a time.">
+<meta name="twitter:image" content="https://irina.love/uploads/og-home.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=Newsreader:ital,opsz,wght@0,6..72,300..500;1,6..72,300..500&family=Fragment+Mono:ital@0;1&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=Newsreader:ital,opsz,wght@0,6..72,300..500;1,6..72,300..500&family=Fragment+Mono:ital@0;1&display=swap" rel="stylesheet">
 <script defer src="https://irina-umami.vercel.app/script.js" data-website-id="9c96c480-3224-4ef0-ba74-a5212d1f6d69"></script>
 <script defer src="https://irina-umami.vercel.app/recorder.js" data-website-id="9c96c480-3224-4ef0-ba74-a5212d1f6d69"></script>
 <style>
@@ -35,11 +47,9 @@
     --line: oklch(82% 0.022 75);
     --paper-deep: oklch(94.8% 0.016 85);
     --space: oklch(14% 0.035 300);
-    --serif: 'Cormorant Garamond', Georgia, serif;
     --display: 'Fraunces', Georgia, serif;
     --text: 'Newsreader', Georgia, serif;
     --monoF: 'Fragment Mono', 'Courier New', monospace;
-    --sans: 'Jost', sans-serif;
     /* holographic palette (from the reference effect) */
     --holo: conic-gradient(from 0deg, #FFBD8C, #FD8585, #F882FF, #8785FE, #9AFCFF, #99FD9C, #FFFD84, #FFBD8C);
     --holo-line: linear-gradient(100deg, #FFBD8C, #FD8585, #F882FF, #8785FE, #9AFCFF, #99FD9C, #FFFD84, #FFBD8C);
@@ -48,7 +58,7 @@
   html { background: var(--bg); }
   body {
     background: var(--bg); color: var(--ink);
-    font-family: var(--sans); font-weight: 300;
+    font-family: var(--text); font-weight: 400;
     overflow-x: hidden;
   }
 
@@ -83,11 +93,12 @@
     color: var(--ink); transition: color .5s;
   }
   nav.on-dark { color: oklch(93% 0.015 290); }
-  .nav-logo { font-family: var(--serif); font-size: 20px; letter-spacing: 0.02em; color: currentColor; text-decoration: none; }
+  .nav-logo { font-family: var(--display); font-size: 20px; letter-spacing: 0.02em; color: currentColor; text-decoration: none; }
   .nav-logo em { color: var(--coral); font-style: italic; }
   nav.on-dark .nav-logo em { color: var(--coral-soft); }
   .nav-right { display: flex; gap: 28px; align-items: center; }
   .nav-right a {
+    font-family: var(--monoF);
     font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase;
     color: currentColor; text-decoration: none; opacity: .62; transition: opacity .2s;
   }
@@ -261,7 +272,7 @@
   }
   /* lock the display cut: browsers pick Fraunces' optical size differently,
      which made mobile and desktop render different-looking letterforms */
-  .hero-title, .tf-ordinary h2, .tf-head h3, .recap-title, .photo-title,
+  .tf-head h3, .recap-title, .photo-title,
   .about-heading, .manifesto-quote, .intro-word, .intro-letter, .cap-name {
     font-optical-sizing: none;
     font-variation-settings: 'opsz' 100;
@@ -330,6 +341,7 @@
     animation: holoshift 3.5s linear infinite;
   }
   .tf-ordinary .tf-sub {
+    font-family: var(--monoF);
     margin-top: 20px; font-size: 13px; letter-spacing: 0.2em; text-transform: uppercase;
     color: var(--ink-soft);
   }
@@ -769,7 +781,7 @@
       <div class="tf-sub">friday afternoon, four pm, heavy</div>
     </div>
     <div class="tf-reveal">
-      <video src="uploads/scroll/letters-hero.mp4" muted loop playsinline preload="metadata"></video>
+      <video src="uploads/scroll/letters-hero-web.mp4" muted loop playsinline preload="metadata"></video>
       <div class="tf-shade"></div>
     </div>
     <div class="tf-head">
@@ -856,7 +868,7 @@
       <div class="tf-sub">turned into resilience</div>
     </div>
     <div class="tf-reveal">
-      <video src="uploads/scroll/bloom-rain-hero.mp4" muted loop playsinline preload="metadata"></video>
+      <video src="uploads/scroll/bloom-rain-hero-web.mp4" muted loop playsinline preload="metadata"></video>
       <div class="tf-shade"></div>
     </div>
     <audio id="bloom-music" src="uploads/scroll/bloom-forest.mp3" loop preload="metadata"></audio>
@@ -898,7 +910,7 @@
         </div>
       </a>
       <a class="recap-card reveal" href="https://letters.irina.love" target="_blank" rel="noopener">
-        <video src="uploads/scroll/letters-hero.mp4" muted loop playsinline preload="metadata"></video>
+        <video src="uploads/scroll/letters-hero-web.mp4" muted loop playsinline preload="metadata"></video>
         <div class="recap-scrim"></div>
         <div class="recap-body">
           <p class="recap-tool mono">tool 02</p>
@@ -918,7 +930,7 @@
         </div>
       </a>
       <a class="recap-card reveal" href="https://bloom.irina.love/" target="_blank" rel="noopener">
-        <video src="uploads/scroll/bloom-rain-hero.mp4" muted loop playsinline preload="metadata"></video>
+        <video src="uploads/scroll/bloom-rain-hero-web.mp4" muted loop playsinline preload="metadata"></video>
         <div class="recap-scrim"></div>
         <div class="recap-body">
           <p class="recap-tool mono">tool 04</p>
