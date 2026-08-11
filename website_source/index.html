@@ -634,10 +634,10 @@
     #chapter { display: none; }
     .wrap { padding: 0 24px; }
     .tf-head { top: 10%; }
-    #back-top { right: 16px; bottom: 84px; width: 42px; height: 42px; }
+    #back-top { right: 16px; bottom: 62px; width: 42px; height: 42px; }
     .holo-card { width: clamp(230px, 62vw, 300px); }
-    #sound-toggle { right: 16px; bottom: 134px; width: 42px; height: 42px; }
-    #sound-label { right: 64px; bottom: 145px; }
+    #sound-toggle { right: 16px; bottom: 110px; width: 42px; height: 42px; }
+    #sound-label { right: 64px; bottom: 121px; }
     #jump-menu { bottom: 16px; max-width: calc(100vw - 24px); overflow-x: auto; }
     #jump-menu button { padding: 7px 9px; font-size: 9px; }
     .recap-grid { grid-template-columns: 1fr; }
@@ -720,7 +720,7 @@
       <span class="row"><span>take the <span class="strike" id="strike">ordinary.</span></span></span>
       <span class="row"><span>return it <span class="holo-word">mythic.<span class="spk">✦</span><span class="spk">✦</span><span class="spk">✦</span></span></span></span>
     </h1>
-    <p class="hero-sub">Small, lovely apps that are highly emotional and deeply personal. Experiences designed to make you feel something. Each one takes something ordinary, a pet, a feeling, a memory, and returns it transformed. Bigger, more beautiful than before.</p>
+    <p class="hero-sub">Small, lovely apps designed to make you feel something. Each one takes something ordinary, a pet, a mood, a moment, a loss, and returns it transformed. Bigger, more beautiful than before.</p>
     <div class="hero-hint mono"><div class="hero-hint-line"></div>Begin journey</div>
   </section>
 
@@ -747,7 +747,7 @@
     </div>
     <audio id="pets-music" src="uploads/scroll/stardust-crew.mp3" loop preload="metadata"></audio>
     <div class="tf-head">
-      <h3>Your pet <em>reimagined.</em></h3>
+      <h3>Meet their <em>cosmic self</em></h3>
       <p class="tf-headsub">Transform your pet into a <strong>cosmic being</strong>, with <strong>6 different vibes</strong> and their own little adventure stories.</p>
       <a class="tf-cta" href="https://www.cosmicpets.love" target="_blank" rel="noopener">Visit cosmicpets.love →</a>
     </div>
@@ -1276,7 +1276,7 @@
         document.getElementById('back-top').classList.toggle('show', show);
         document.getElementById('jump-menu').classList.toggle('show', show);
         document.getElementById('sound-toggle').classList.toggle('show', show);
-        document.getElementById('sound-label').classList.toggle('show', show);
+        document.getElementById('sound-label').classList.toggle('show', show && st.scroll() < innerHeight * 9);
       }
     });
   })();
