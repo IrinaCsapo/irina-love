@@ -554,10 +554,10 @@
 
   /* ══ THROUGH A LENS ══ */
   #photography { padding: 104px 0 96px; }
-  .photo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; padding-top: 56px; }
+  .photo-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px; padding-top: 56px; }
   .photo-card {
     position: relative; display: block; overflow: hidden; border-radius: 14px;
-    aspect-ratio: 3/4.1; color: oklch(97% 0.008 85); text-decoration: none;
+    aspect-ratio: 4/3; color: oklch(97% 0.008 85); text-decoration: none;
     background: var(--paper-deep);
     box-shadow: 0 22px 48px oklch(30% 0.03 60 / 0.22);
     transition: transform .45s cubic-bezier(.23,1,.32,1), box-shadow .45s;
@@ -589,6 +589,25 @@
     font-family: var(--text); font-size: 14px; line-height: 1.55;
     color: oklch(92% 0.012 290 / 0.94); margin-bottom: 14px; max-width: 40ch;
     text-shadow: 0 1px 10px oklch(10% 0.03 300 / 0.6);
+  }
+  .photo-card.placeholder { cursor: default; }
+  .photo-card.placeholder:hover { transform: none; box-shadow: 0 22px 48px oklch(30% 0.03 60 / 0.22); }
+  .photo-fill {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(120% 90% at 82% 10%, oklch(42% 0.12 300 / 0.5), transparent 55%),
+      radial-gradient(110% 85% at 10% 92%, oklch(40% 0.1 210 / 0.38), transparent 60%),
+      oklch(19% 0.05 290);
+  }
+  .photo-card.placeholder::after {
+    content: ''; position: absolute; inset: 14px; pointer-events: none;
+    border: 1px dashed oklch(85% 0.02 290 / 0.32); border-radius: 10px;
+  }
+  .coming-tag {
+    display: inline-block; font-family: var(--monoF); font-size: 10px;
+    letter-spacing: 0.14em; text-transform: uppercase; padding: 6px 12px;
+    border: 1px solid oklch(97% 0.008 85 / 0.4); border-radius: 999px;
+    color: oklch(97% 0.008 85 / 0.85);
   }
   .photo-card .specimen-link { color: oklch(97% 0.008 85); border-bottom-color: var(--coral-soft); }
   .photo-card:hover .specimen-link { color: var(--coral-soft); }
@@ -683,7 +702,7 @@
   <a class="nav-logo" href="index.html">irina<em>.love</em></a>
   <div class="nav-right">
     <a href="#recap">The tools</a>
-    <a class="alt" href="#photography">Through a lens</a>
+    <a class="alt" href="#photography">Beyond the screen</a>
     <a class="alt" href="#about">About</a>
   </div>
 </nav>
@@ -953,40 +972,29 @@
 <section id="photography">
   <div class="wrap">
     <div class="section-head mono reveal">
-      <span><span class="roman">II.</span>&ensp;Through a lens</span>
-      <span>03 series · more always developing</span>
+      <span><span class="roman">II.</span>&ensp;Beyond the screen</span>
+      <span>photography · art</span>
     </div>
     <div class="photo-grid">
-      <a class="photo-card reveal" href="cats.html">
-        <img src="uploads/photography/cats-cover.webp" alt="Cats of China photo series">
+      <a class="photo-card reveal" href="lens.html">
+        <img src="uploads/photography/streets-cover.webp" alt="Photography by Irina">
         <div class="photo-scrim"></div>
-        <div class="photo-top"><span>01/</span><span>19 photographs</span></div>
+        <div class="photo-top"><span>01/</span><span>3 series · 69 photographs</span></div>
         <div class="photo-body">
-          <h3 class="photo-title">Cats of China</h3>
-          <p class="photo-desc">Nineteen cats met along the way, perfectly at home in the beautiful chaos of it all.</p>
-          <span class="specimen-link">View the series <span class="arrow">→</span></span>
+          <h3 class="photo-title">Through a lens</h3>
+          <p class="photo-desc">Street life, cats and studies in light across Chongqing, Chengdu and Kunming. Three photobooks, browsed page by page.</p>
+          <span class="specimen-link">Browse the series <span class="arrow">→</span></span>
         </div>
       </a>
-      <a class="photo-card reveal" href="streets.html">
-        <img src="uploads/photography/streets-cover.webp" alt="Streets and Light photo series">
-        <div class="photo-scrim"></div>
-        <div class="photo-top"><span>02/</span><span>25 photographs</span></div>
+      <div class="photo-card placeholder reveal">
+        <div class="photo-fill"></div>
+        <div class="photo-top"><span>02/</span><span>in the making</span></div>
         <div class="photo-body">
-          <h3 class="photo-title">Streets &amp; Light</h3>
-          <p class="photo-desc">Candid portraits, neon and midday glare, the quiet between crowds.</p>
-          <span class="specimen-link">View the series <span class="arrow">→</span></span>
+          <h3 class="photo-title">Through my hands</h3>
+          <p class="photo-desc">E-waste collages and other experiments in physical material. Gathering the pieces worth showing.</p>
+          <span class="coming-tag">coming soon</span>
         </div>
-      </a>
-      <a class="photo-card reveal" href="lights.html">
-        <img src="uploads/photography/lights-cover.webp" alt="Light and Texture photo series">
-        <div class="photo-scrim"></div>
-        <div class="photo-top"><span>03/</span><span>25 photographs</span></div>
-        <div class="photo-body">
-          <h3 class="photo-title">Light &amp; Texture</h3>
-          <p class="photo-desc">Studies in surface, material and light, from rooftops to couture embroidery.</p>
-          <span class="specimen-link">View the series <span class="arrow">→</span></span>
-        </div>
-      </a>
+      </div>
     </div>
   </div>
 </section>
