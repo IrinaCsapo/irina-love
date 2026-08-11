@@ -1047,6 +1047,13 @@
   var REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var JUMP = new URLSearchParams(location.search).get('jump');
   if (JUMP !== null) history.scrollRestoration = 'manual';
+  /* capture and strip any #hash so the browser can't re-anchor to the
+     pre-pin position on load; we land at the true position ourselves */
+  var LAND = location.hash;
+  if (LAND) {
+    history.scrollRestoration = 'manual';
+    history.replaceState(null, '', location.pathname + location.search);
+  }
 
   gsap.registerPlugin(ScrollTrigger);
 
@@ -1208,6 +1215,14 @@
   }
   document.getElementById('back-top').addEventListener('click', function () {
     fadeJumpTo(0);
+  });
+  document.querySelectorAll('a[href^="#"]').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      var el = document.querySelector(a.getAttribute('href'));
+      if (!el) return;
+      e.preventDefault();
+      fadeJumpTo(el.getBoundingClientRect().top + window.scrollY - 20);
+    });
   });
 
   /* ── sound: part of the experience, ON by default ──
@@ -1453,8 +1468,12 @@
       ScrollTrigger.refresh();
       requestAnimationFrame(function () {
         requestAnimationFrame(function () {
-          if (JUMP !== null) {
-            window.scrollTo(0, +JUMP || 0);
+          var landEl = JUMP === null && LAND && document.querySelector(LAND);
+          if (JUMP !== null || landEl) {
+            var landY = JUMP !== null ? (+JUMP || 0)
+              : landEl.getBoundingClientRect().top + window.scrollY - 20;
+            if (lenis) { lenis.resize(); lenis.scrollTo(landY, { immediate: true }); }
+            else window.scrollTo(0, landY);
             ScrollTrigger.update();
             ScrollTrigger.getAll().forEach(function (st) {
               if (st.animation) st.animation.progress(st.progress);
