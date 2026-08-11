@@ -6,7 +6,7 @@
 
 ## Project overview
 
-Static HTML/CSS/JS site hosted at irina.love. Source files live in `website_source/`. Previously deployed via Netlify; migrating to GitHub Pages.
+Static HTML/CSS/JS site hosted at irina.love via GitHub Pages. Source files live in `website_source/`; pushes to main deploy through the Actions workflow (.github/workflows/pages.yml). Netlify is fully retired.
 
 ## Tech notes
 
