@@ -134,6 +134,21 @@
   #back-top.show { opacity: 1; pointer-events: auto; transform: translateY(0); }
   #back-top:hover { box-shadow: 0 10px 26px oklch(40% 0.05 60 / 0.25); transform: translateY(-3px); }
 
+  /* skip past the four scenes */
+  #skip-down {
+    position: fixed; right: 26px; bottom: 86px; z-index: 110;
+    width: 46px; height: 46px; border-radius: 50%;
+    border: 1px solid var(--line); cursor: pointer;
+    background: oklch(98% 0.01 85 / 0.9);
+    -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    color: var(--ink); font-size: 18px; line-height: 1;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none; transform: translateY(8px);
+    transition: opacity .4s, transform .4s, box-shadow .3s;
+  }
+  #skip-down.show { opacity: 1; pointer-events: auto; transform: translateY(0); }
+  #skip-down:hover { box-shadow: 0 10px 26px oklch(40% 0.05 60 / 0.25); transform: translateY(3px); }
+
   /* side scroll progress rail */
   #side-progress {
     position: fixed; top: 0; right: 0; bottom: 0; width: 3px;
@@ -176,7 +191,7 @@
 
   /* sound toggle */
   #sound-toggle {
-    position: fixed; right: 26px; bottom: 86px; z-index: 110;
+    position: fixed; right: 26px; bottom: 144px; z-index: 110;
     width: 46px; height: 46px; border-radius: 50%;
     border: 1px solid var(--line); cursor: pointer;
     background: oklch(98% 0.01 85 / 0.9);
@@ -196,7 +211,7 @@
   }
   #sound-toggle.on .off-line { display: none; }
   #sound-label {
-    position: fixed; right: 82px; bottom: 99px; z-index: 110;
+    position: fixed; right: 82px; bottom: 157px; z-index: 110;
     font-family: var(--monoF); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase;
     color: var(--ink-soft); background: oklch(98% 0.01 85 / 0.88);
     border: 1px solid var(--line); border-radius: 999px; padding: 6px 10px;
@@ -655,8 +670,9 @@
     .tf-head { top: 10%; }
     #back-top { right: 16px; bottom: 62px; width: 42px; height: 42px; }
     .holo-card { width: clamp(230px, 62vw, 300px); }
-    #sound-toggle { right: 16px; bottom: 110px; width: 42px; height: 42px; }
-    #sound-label { right: 64px; bottom: 121px; }
+    #sound-toggle { right: 16px; bottom: 158px; width: 42px; height: 42px; }
+    #sound-label { right: 64px; bottom: 169px; }
+    #skip-down { right: 16px; bottom: 110px; width: 42px; height: 42px; }
     #jump-menu { bottom: 16px; max-width: calc(100vw - 24px); overflow-x: auto; }
     #jump-menu button { padding: 7px 9px; font-size: 9px; }
     .recap-grid { grid-template-columns: 1fr; }
@@ -709,6 +725,7 @@
 
 <div id="jump-veil"></div>
 <button id="back-top" aria-label="Back to top">↑</button>
+<button id="skip-down" aria-label="Skip to the tools">↓</button>
 <button id="sound-toggle" aria-label="Toggle sound" aria-pressed="false">♪<span class="off-line"></span></button>
 <span id="sound-label" aria-hidden="true">Turn music on</span>
 <div id="side-progress"><div id="side-progress-fill"></div></div>
@@ -1224,6 +1241,14 @@
   document.getElementById('back-top').addEventListener('click', function () {
     fadeJumpTo(0);
   });
+  var recapStart = 0;
+  ScrollTrigger.addEventListener('refresh', function () {
+    var rec = document.getElementById('recap');
+    recapStart = rec.getBoundingClientRect().top + window.scrollY;
+  });
+  document.getElementById('skip-down').addEventListener('click', function () {
+    fadeJumpTo(recapStart - 20);
+  });
   document.querySelectorAll('a[href^="#"]').forEach(function (a) {
     a.addEventListener('click', function (e) {
       var el = document.querySelector(a.getAttribute('href'));
@@ -1296,6 +1321,7 @@
       onUpdate: function (st) {
         setFill(st.progress);
         var show = st.scroll() > innerHeight * 0.6;
+        document.getElementById('skip-down').classList.toggle('show', !recapStart || st.scroll() < recapStart - innerHeight);
         document.getElementById('back-top').classList.toggle('show', show);
         document.getElementById('jump-menu').classList.toggle('show', show);
         document.getElementById('sound-toggle').classList.toggle('show', show);
@@ -1488,6 +1514,8 @@
             });
             ScrollTrigger.update();
           }
+          if (!recapStart || window.scrollY < recapStart - innerHeight)
+            document.getElementById('skip-down').classList.add('show');
           window.__ready = true;
         });
       });
