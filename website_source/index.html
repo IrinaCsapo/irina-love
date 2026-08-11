@@ -240,7 +240,7 @@
   }
   body.booted .hero-eyebrow { animation: fadeUp .8s .1s forwards; }
   .hero-title {
-    font-family: var(--display); font-weight: 560; position: relative; z-index: 2;
+    font-family: var(--display); font-weight: 600; position: relative; z-index: 2;
     font-size: clamp(46px, 8.2vw, 116px); line-height: 1.04; letter-spacing: -0.015em;
   }
   .hero-title .row { display: block; overflow: hidden; padding-bottom: 0.16em; margin-bottom: -0.16em; }
@@ -250,6 +250,14 @@
     content: ''; position: absolute; left: -2%; right: -2%; top: 54%; height: 3px;
     background: var(--coral); transform: scaleX(var(--strike, 0)); transform-origin: left center;
   }
+  /* lock the display cut: browsers pick Fraunces' optical size differently,
+     which made mobile and desktop render different-looking letterforms */
+  .hero-title, .tf-ordinary h2, .tf-head h3, .recap-title, .photo-title,
+  .about-heading, .manifesto-quote, .intro-word, .intro-letter, .cap-name {
+    font-optical-sizing: none;
+    font-variation-settings: 'opsz' 100;
+  }
+
   /* the holographic word */
   .holo-word {
     position: relative; font-style: italic; white-space: nowrap;
@@ -301,7 +309,7 @@
     text-align: center; will-change: transform, opacity; padding: 0 24px;
   }
   .tf-ordinary h2 {
-    font-family: var(--display); font-weight: 560;
+    font-family: var(--display); font-weight: 600;
     font-size: clamp(50px, 9.6vw, 132px); line-height: 1; letter-spacing: -0.01em;
   }
   .tf-ordinary .tf-sub {
