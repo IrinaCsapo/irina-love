@@ -554,6 +554,16 @@
 
   /* ══ RECAP ══ */
   #recap { padding: 110px 0 60px; }
+  .recap-intro {
+    display: none;
+    font-family: var(--display); font-weight: 520;
+    font-optical-sizing: none; font-variation-settings: 'opsz' 100;
+    font-size: clamp(26px, 3.6vw, 46px); line-height: 1.2;
+    margin: 52px 0 -14px;
+  }
+  .recap-intro em { color: var(--coral); font-style: italic; }
+  body.short-mode .recap-intro { display: block; animation: fadeUp .8s .15s both; }
+
   .recap-grid {
     display: grid; grid-template-columns: 1fr 1fr; gap: 24px; padding-top: 56px;
   }
@@ -975,6 +985,7 @@
       <span><span class="roman">I.</span>&ensp;The tools</span>
       <span>four and counting</span>
     </div>
+    <p class="recap-intro">The Tools, ordinary moments <em>transformed</em>.</p>
     <div class="recap-grid">
       <a class="recap-card reveal" href="https://www.cosmicpets.love" target="_blank" rel="noopener">
         <video src="uploads/scroll/cosmic-pets-bg.mp4" muted loop playsinline preload="metadata"></video>
@@ -1289,6 +1300,7 @@
   function setMode(m, jump) {
     modeLong.classList.toggle('active', m === 'long');
     modeShort.classList.toggle('active', m === 'short');
+    document.body.classList.toggle('short-mode', m === 'short');
     try { localStorage.setItem('irina-mode', m); } catch (e) {}
     if (jump) fadeJumpTo(m === 'short' ? recapStart - 20 : 0);
   }
