@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script defer src="https://irina-umami.vercel.app/script.js" data-website-id="9c96c480-3224-4ef0-ba74-a5212d1f6d69"></script>
+<script defer src="https://irina-umami.vercel.app/recorder.js" data-website-id="9c96c480-3224-4ef0-ba74-a5212d1f6d69"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Greetings from outer space · irina.love</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<meta name="description" content="A little astronaut parallax. Move your mouse.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alegreya:wght@700;800;900&display=swap" rel="stylesheet">
+
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body { height: 100%; }
+  body {
+    overflow: hidden;
+    background-image: url('uploads/space/stars-bg.svg'), linear-gradient(#15004e, #1500b6);
+    background-position: 50%, 0 0;
+    background-repeat: no-repeat, repeat;
+    background-size: cover, auto;
+    font-family: 'Alegreya', Georgia, serif;
+    color: #fff;
+  }
+
+  .scene {
+    height: 100vh;
+    perspective: 2000px;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .stage {
+    position: relative;
+    width: 100%; height: 100%;
+    transform-style: preserve-3d;
+    will-change: transform;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .layer {
+    position: absolute;
+    transform-style: preserve-3d;
+    will-change: transform;
+  }
+
+  /* soft red glow backdrop */
+  .glow {
+    width: min(1200px, 86vw); height: min(720px, 76vh);
+    border-radius: 9999px;
+    background: #ed1c24;
+    filter: blur(100px);
+    opacity: 0.6;
+    transform: translateZ(30px);
+  }
+
+  /* black hole full of stars */
+  .hole {
+    width: min(500px, 60vw); height: min(500px, 60vw);
+    border-radius: 999px;
+    background: #000 url('uploads/space/stars-dots.png') center / cover no-repeat;
+    filter: sepia(1);
+    transform: translateZ(60px);
+  }
+
+  /* white concentric rings */
+  .rings {
+    width: min(70vw, 1050px);
+    transform: translateZ(95px);
+  }
+  .rings img { width: 100%; height: auto; display: block; }
+
+  /* planets */
+  .planet-small {
+    width: clamp(90px, 14vw, 200px); height: clamp(90px, 14vw, 200px);
+    border-radius: 999px;
+    background: linear-gradient(#ff0000, #ff9d00);
+    filter: brightness(2);
+    top: 6%; right: 40%; left: auto;
+    align-self: flex-start;
+    transform: translateZ(150px);
+  }
+  .planet-medium {
+    width: clamp(140px, 21vw, 300px); height: clamp(140px, 21vw, 300px);
+    border-radius: 999px;
+    background: linear-gradient(#1500ff, #ff9d00);
+    filter: saturate(2);
+    top: 73%; right: 38%; left: auto;
+    transform: translateZ(120px);
+  }
+
+  /* the words */
+  .heading-big {
+    z-index: 7;
+    width: 100%; max-width: 1400px;
+    top: 30%; left: 0; right: 0;
+    margin: 0 auto;
+    font-weight: 800;
+    font-size: clamp(78px, 15vw, 240px);
+    line-height: 0.95;
+    text-align: left;
+    padding-left: 4vw;
+    transform: translateZ(181px);
+    pointer-events: none;
+  }
+  .heading-small {
+    z-index: 6;
+    width: 100%; max-width: 1100px;
+    top: 52%; left: 0; right: 0;
+    margin: 0 auto;
+    font-weight: 700;
+    font-size: clamp(44px, 8vw, 130px);
+    line-height: 1.0;
+    text-align: left;
+    padding-left: 9vw;
+    transform: translateZ(176px);
+    pointer-events: none;
+  }
+
+  /* the traveller */
+  .astronaut {
+    z-index: 9;
+    width: clamp(240px, 34vw, 430px);
+    transform: translateZ(220px);
+    animation: drift 7s ease-in-out infinite;
+  }
+  .astronaut img { width: 100%; height: auto; display: block; }
+  @keyframes drift {
+    0%, 100% { margin-top: -43px; rotate: 0deg; }
+    50% { margin-top: -75px; rotate: -2.5deg; }
+  }
+
+  /* corner tag */
+  .tag {
+    position: fixed; left: 28px; bottom: 24px; z-index: 50;
+    font-family: 'Courier New', monospace; font-size: 10px;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: #fff; opacity: 0.55; text-decoration: none;
+  }
+  .tag:hover { opacity: 1; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .astronaut { animation: none; }
+  }
+  @media (max-width: 600px) {
+    .heading-big { top: 24%; }
+    .heading-small { top: 50%; padding-left: 12vw; }
+    .planet-small { right: 12%; }
+    .planet-medium { right: 8%; }
+  }
+</style>
+</head>
+<body>
+
+<div class="scene" id="scene">
+  <div class="stage" id="stage">
+    <div class="layer glow"></div>
+    <div class="layer hole"></div>
+    <div class="layer rings"><img src="uploads/space/rings.svg" alt=""></div>
+    <div class="layer planet-small"></div>
+    <div class="layer planet-medium"></div>
+    <h1 class="layer heading-big">Greetings</h1>
+    <h1 class="layer heading-small">from outer space</h1>
+    <div class="layer astronaut"><img src="uploads/space/astronaut.svg" alt="A floating astronaut"></div>
+  </div>
+</div>
+
+<a class="tag" href="index.html">irina.love · a little experiment</a>
+
+<script>
+(function () {
+  var stage = document.getElementById('stage');
+  var reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduced) return;
+
+  var tx = 0, ty = 0;      // target tilt (deg)
+  var cx = 0, cy = 0;      // current tilt
+
+  addEventListener('mousemove', function (e) {
+    var mx = e.clientX / innerWidth * 2 - 1;   // -1 .. 1
+    var my = e.clientY / innerHeight * 2 - 1;
+    tx = mx * 7;
+    ty = -my * 7;
+  });
+
+  /* gentle tilt from device motion on touch screens */
+  addEventListener('deviceorientation', function (e) {
+    if (e.gamma == null) return;
+    tx = Math.max(-10, Math.min(10, e.gamma / 4));
+    ty = Math.max(-10, Math.min(10, (e.beta - 45) / -4));
+  });
+
+  (function tick() {
+    cx += (tx - cx) * 0.08;
+    cy += (ty - cy) * 0.08;
+    stage.style.transform = 'rotateY(' + cx.toFixed(3) + 'deg) rotateX(' + cy.toFixed(3) + 'deg)';
+    requestAnimationFrame(tick);
+  })();
+})();
+</script>
+</body>
+</html>
