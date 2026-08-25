@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script defer src="https://irina-umami.vercel.app/script.js" data-website-id="9c96c480-3224-4ef0-ba74-a5212d1f6d69"></script>
+<script defer src="https://irina-umami.vercel.app/recorder.js" data-website-id="9c96c480-3224-4ef0-ba74-a5212d1f6d69"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Voyage (greybox) · irina.love</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<meta name="description" content="Greybox prototype. An astronaut gathers everything needed for a life on Earth.">
+
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body {
+    overflow: hidden;
+    background: oklch(16% 0.03 270);
+    font-family: 'Courier New', monospace;
+    color: oklch(96% 0.01 270);
+    user-select: none;
+  }
+
+  #world { position: fixed; inset: 0; }
+
+  /* ---- entities (greybox shapes) ---- */
+  .e { position: absolute; top: 0; left: 0; will-change: transform; pointer-events: none; }
+  .dust   { width: 5px; height: 5px; border-radius: 99px; background: oklch(92% 0.02 270 / 0.8); }
+  .common { width: 16px; height: 16px; }
+  .lost   { width: 14px; height: 14px; opacity: 0.9; }
+  .common i, .lost i, .rare i, .secret i {
+    display: block; width: 100%; height: 100%;
+    transform: rotate(45deg); border-radius: 2px;
+  }
+  .rare   { width: 28px; height: 28px; }
+  .rare i   { box-shadow: 0 0 22px 6px var(--c); background: var(--c); }
+  .secret { width: 22px; height: 22px; }
+  .secret i { box-shadow: 0 0 18px 4px oklch(70% 0.25 340 / 0.7); background: oklch(70% 0.25 340); }
+  .salv   { width: 22px; height: 22px; background: oklch(70% 0.08 80); border-radius: 3px; }
+  .anti   { width: 30px; height: 30px; border-radius: 99px;
+            border: 2px solid oklch(65% 0.22 25); display: flex; align-items: center; justify-content: center; }
+  .anti i { width: 10px; height: 10px; border-radius: 99px; background: oklch(98% 0.02 25);
+            box-shadow: 0 0 10px 3px oklch(80% 0.15 25 / 0.8); }
+  .debris { width: 64px; height: 10px; background: oklch(60% 0.02 270); border-radius: 2px; }
+  .tele   { position: absolute; left: 0; height: 2px; width: 100%;
+            background: linear-gradient(90deg, transparent, oklch(70% 0.15 25 / 0.55));
+            pointer-events: none; }
+  .comet  { width: 30px; height: 30px; border-radius: 99px; background: oklch(85% 0.06 220);
+            box-shadow: 26px 0 22px 2px oklch(85% 0.06 220 / 0.35), 52px 0 30px 2px oklch(85% 0.06 220 / 0.15); }
+  .rad    { position: absolute; top: 0; left: 0;
+            background: repeating-linear-gradient(-55deg,
+              oklch(70% 0.17 145 / 0.13) 0 14px, oklch(70% 0.17 145 / 0.05) 14px 28px);
+            border-top: 1px dashed oklch(70% 0.17 145 / 0.5);
+            border-bottom: 1px dashed oklch(70% 0.17 145 / 0.5); }
+  .hole   { border-radius: 99px;
+            background: radial-gradient(circle, oklch(5% 0.01 300) 0 38%, oklch(25% 0.08 300 / 0.8) 60%, transparent 72%); }
+  .hole i { position: absolute; inset: 0; border-radius: 99px;
+            border: 1px dashed oklch(60% 0.1 300 / 0.35); } /* greybox: visible pull radius */
+
+  /* ---- astronaut ---- */
+  #ast { position: absolute; top: 0; left: 0; width: 52px; height: 52px; will-change: transform; z-index: 5; }
+  #astBody { position: absolute; inset: 0; border-radius: 99px;
+             background: oklch(96% 0.01 270); transition: background 120ms; }
+  #ast .crk { position: absolute; width: 8px; height: 8px; border-radius: 99px;
+              background: oklch(80% 0.12 140); border: 1px solid oklch(30% 0.02 270); }
+  #ast .crk.off { background: oklch(35% 0.02 270); }
+  #crk0 { top: -12px; left: 22px; } #crk1 { bottom: -6px; left: -4px; } #crk2 { bottom: -6px; right: -4px; }
+  #poseTag { position: absolute; top: 58px; width: 120px; left: -34px; text-align: center;
+             font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.6; }
+
+  /* ---- hud ---- */
+  #hud { position: fixed; top: 16px; left: 20px; z-index: 20; font-size: 12px; line-height: 1.9;
+         letter-spacing: 0.06em; text-shadow: 0 1px 4px oklch(0% 0 0 / 0.6); }
+  #hud b { font-weight: 700; }
+  #prog { position: fixed; top: 0; left: 0; width: 100%; height: 3px; z-index: 20;
+          background: oklch(100% 0 0 / 0.1); }
+  #progFill { height: 100%; width: 0%; background: var(--accent, oklch(80% 0.1 260)); }
+  #schemeTag { position: fixed; right: 20px; top: 16px; z-index: 20; font-size: 11px; opacity: 0.65;
+               letter-spacing: 0.08em; text-align: right; line-height: 1.8; }
+  #pop { position: absolute; z-index: 15; font-size: 13px; letter-spacing: 0.12em; opacity: 0;
+         transition: opacity 150ms; text-shadow: 0 1px 6px oklch(0% 0 0 / 0.8); pointer-events: none; }
+
+  /* ---- overlays ---- */
+  #ov { position: fixed; inset: 0; z-index: 30; display: none;
+        align-items: center; justify-content: center; text-align: center;
+        background: oklch(10% 0.02 270 / 0.82); backdrop-filter: blur(4px); }
+  #ov.show { display: flex; }
+  #ov .card { max-width: 720px; padding: 40px; }
+  #ov h1 { font-size: clamp(26px, 4.5vw, 44px); letter-spacing: 0.04em; margin-bottom: 18px; font-weight: 700; }
+  #ov h2 { font-size: 15px; letter-spacing: 0.24em; text-transform: uppercase; opacity: 0.7; margin-bottom: 14px; }
+  #ov p  { font-size: 14px; line-height: 2; opacity: 0.85; }
+  #ov .keys { margin-top: 26px; font-size: 12px; opacity: 0.55; line-height: 2.1; }
+  #ov .go { margin-top: 30px; font-size: 13px; letter-spacing: 0.3em; text-transform: uppercase;
+            animation: pulse 1.6s ease-in-out infinite; }
+  @keyframes pulse { 0%,100% { opacity: 0.35; } 50% { opacity: 1; } }
+
+  .shelf { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; margin: 14px 0 26px; }
+  .slot { width: 96px; padding: 10px 6px 8px; border: 1px solid oklch(100% 0 0 / 0.15); border-radius: 6px; }
+  .slot .gem { width: 22px; height: 22px; margin: 4px auto 8px; transform: rotate(45deg); border-radius: 3px; }
+  .slot.ghost { opacity: 0.32; border-style: dashed; }
+  .slot.ghost .gem { background: transparent !important; border: 1px dashed oklch(100% 0 0 / 0.5); box-shadow: none !important; }
+  .slot small { display: block; font-size: 10px; letter-spacing: 0.08em; }
+  .slot .nm { font-size: 12px; font-weight: 700; }
+
+  /* ---- intro ---- */
+  #earth { position: fixed; left: -14vw; bottom: -46vh; width: 72vh; height: 72vh; border-radius: 99px;
+           background: radial-gradient(circle at 35% 30%, oklch(52% 0.05 80), oklch(28% 0.02 60) 70%);
+           box-shadow: 0 0 90px 30px oklch(40% 0.03 70 / 0.5);
+           z-index: 2; display: none; }
+  #rocket { position: fixed; width: 16px; height: 44px; border-radius: 8px 8px 3px 3px;
+            background: oklch(92% 0.02 270); z-index: 3; display: none; will-change: transform; }
+  #rocket i { position: absolute; left: 3px; bottom: -16px; width: 10px; height: 16px;
+              border-radius: 0 0 99px 99px; background: oklch(75% 0.19 55);
+              box-shadow: 0 6px 14px 4px oklch(75% 0.19 55 / 0.5); }
+
+  .tag { position: fixed; left: 28px; bottom: 24px; z-index: 50;
+         font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+         color: oklch(100% 0 0); opacity: 0.55; text-decoration: none; }
+  .tag:hover { opacity: 1; }
+</style>
+</head>
+<body>
+
+<div id="prog"><div id="progFill"></div></div>
+<div id="hud"></div>
+<div id="schemeTag"></div>
+<div id="earth"></div>
+<div id="rocket"><i></i></div>
+<div id="world"></div>
+<div id="ast">
+  <div id="astBody"></div>
+  <div class="crk" id="crk0"></div><div class="crk" id="crk1"></div><div class="crk" id="crk2"></div>
+  <div id="poseTag"></div>
+</div>
+<div id="pop"></div>
+<div id="ov"><div class="card" id="ovCard"></div></div>
+<a class="tag" href="index.html">irina.love · greybox prototype</a>
+
+<script>
+(function () {
+'use strict';
+
+/* ---------------- data ---------------- */
+
+var LEVELS = [
+  { name: 'The Blue Nursery',  bg: 'oklch(17% 0.05 260)', accent: 'oklch(78% 0.13 260)', rare: 'Wonder',  secret: 'Trust' },
+  { name: 'The Amber Cloud',   bg: 'oklch(19% 0.05 75)',  accent: 'oklch(80% 0.12 75)',  rare: 'Love',    secret: 'Patience' },
+  { name: 'The Green Nebula',  bg: 'oklch(17% 0.05 150)', accent: 'oklch(76% 0.14 150)', rare: 'Wisdom',  secret: 'Forgiveness' },
+  { name: 'The Violet Deep',   bg: 'oklch(14% 0.05 300)', accent: 'oklch(74% 0.15 300)', rare: 'Courage', secret: 'Vulnerability' },
+  { name: 'The Red Horizon',   bg: 'oklch(16% 0.06 25)',  accent: 'oklch(72% 0.17 25)',  rare: 'Home',    secret: 'Grace' }
+];
+var COMMONS = ['Sleep', 'Laughter', 'Coffee', 'Rain', 'Sunday'];
+var COMMON_C = ['oklch(80% 0.08 260)', 'oklch(82% 0.12 90)', 'oklch(65% 0.09 60)', 'oklch(78% 0.09 220)', 'oklch(82% 0.11 340)'];
+var SALVAGE = [
+  ['a glove', 'a hatch handle'],
+  ['a boot', 'a camera housing'],
+  ['a golden record', 'a faded flag'],
+  ['a dish fragment', 'a panel, still lit'],
+  ['a wrench', 'a photograph']
+];
+
+var SCROLL = 170;         /* world px per second */
+var LEVEL_LEN = 12000;
+var SPEED_A = 300;        /* drift scheme forward speed */
+var ROT_A = 150;          /* drift scheme rotate deg per second */
+var SPEED_B = 460;        /* direct scheme vertical speed */
+var PULL = 420;           /* black hole pull at core edge */
+
+/* ---------------- state ---------------- */
+
+var W = innerWidth, H = innerHeight;
+var mode = 'title';       /* title, intro, play, pause, swallow, tally, card, cabinet, finale */
+var lvl = 0;
+var cameraX = 0;
+var ents = [], zones = [], holes = [];
+var satchel, integrity, invuln = 0, radT = 0, hitFlash = 0, reachFlash = 0;
+var ay, avy = 0, xoff = 0, theta = 0, targetY;
+var scheme = 'drift';     /* drift (trajectory) or direct */
+var keys = {};
+var swallowT = 0, swallowHole = null, introT = 0;
+var reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+var cabinetFrom = 'title';
+
+var st = load();
+function load() {
+  var base = { dust: 0, commons: 0, rares: {}, secrets: {}, salvage: {}, cleared: 0, introSeen: false };
+  try {
+    var raw = localStorage.getItem('voyageCabinetV1');
+    if (raw) { var p = JSON.parse(raw); for (var k in base) if (!(k in p)) p[k] = base[k]; return p; }
+  } catch (e) {}
+  return base;
+}
+function save() { try { localStorage.setItem('voyageCabinetV1', JSON.stringify(st)); } catch (e) {} }
+
+function mulberry32(a) {
+  return function () {
+    a |= 0; a = a + 0x6D2B79F5 | 0;
+    var t = Math.imul(a ^ a >>> 15, 1 | a);
+    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+    return ((t ^ t >>> 14) >>> 0) / 4294967296;
+  };
+}
+
+/* ---------------- dom refs ---------------- */
+
+var world = document.getElementById('world');
+var astEl = document.getElementById('ast');
+var astBody = document.getElementById('astBody');
+var poseTag = document.getElementById('poseTag');
+var hud = document.getElementById('hud');
+var schemeTag = document.getElementById('schemeTag');
+var progFill = document.getElementById('progFill');
+var ov = document.getElementById('ov');
+var ovCard = document.getElementById('ovCard');
+var pop = document.getElementById('pop');
+var earthEl = document.getElementById('earth');
+var rocketEl = document.getElementById('rocket');
+var crkEls = [document.getElementById('crk0'), document.getElementById('crk1'), document.getElementById('crk2')];
+
+/* ---------------- level build ---------------- */
+
+function el(cls, html) {
+  var d = document.createElement('div');
+  d.className = cls;
+  if (html) d.innerHTML = html;
+  world.appendChild(d);
+  return d;
+}
+
+function buildLevel(n) {
+  world.innerHTML = '';
+  ents = []; zones = []; holes = [];
+  cameraX = 0;
+  satchel = { commons: 0, byName: [], rare: false, secret: false, salvage: [], dust: 0 };
+  integrity = 3; invuln = 0; radT = 0; hitFlash = 0; reachFlash = 0;
+  ay = H * 0.5; avy = 0; xoff = 0; theta = 0; targetY = ay;
+  var R = mulberry32(1234 + n * 7777);
+  var L = LEVEL_LEN;
+  document.body.style.background = LEVELS[n].bg;
+  document.documentElement.style.setProperty('--accent', LEVELS[n].accent);
+
+  for (var x = 600; x < L - 500; x += 110 + R() * 170)
+    ents.push({ t: 'dust', x: x, yf: 0.08 + R() * 0.84, el: el('e dust') });
+
+  for (var i = 0; i < 26; i++) {
+    var cx = 700 + (L - 1600) * (i / 26) + R() * 300;
+    var k = Math.floor(R() * 5);
+    var c = el('e common', '<i style="background:' + COMMON_C[k] + '"></i>');
+    ents.push({ t: 'common', k: k, x: cx, yf: 0.1 + R() * 0.8, el: c });
+  }
+
+  [0.33, 0.72].forEach(function (f, si) {
+    ents.push({ t: 'salv', name: SALVAGE[n][si], x: L * f, yf: 0.15 + R() * 0.7, spin: 0, el: el('e salv') });
+  });
+
+  var rareYf = 0.35 + R() * 0.3;
+  ents.push({ t: 'rare', x: L * 0.55, yf: rareYf, el: el('e rare', '<i style="--c:' + LEVELS[n].accent + '"></i>') });
+
+  /* hazards, introduced one per level and then combined */
+  var antiN = [8, 4, 5, 6, 9][n];
+  var secretX, secretYf;
+  if (n === 0) { secretX = L * 0.64; secretYf = 0.5; }
+  for (i = 0; i < antiN; i++) {
+    var axp, ayf;
+    if (n === 0 && i < 5) { /* ring of antimatter around the level 1 secret */
+      var ang = (i / 5) * Math.PI * 2;
+      axp = secretX + Math.cos(ang) * 130; ayf = secretYf + Math.sin(ang) * (130 / H);
+    } else { axp = 1400 + R() * (L - 2400); ayf = 0.1 + R() * 0.8; }
+    ents.push({ t: 'anti', x: axp, yf: ayf, ph: R() * 6.28, el: el('e anti', '<i></i>') });
+  }
+
+  if (n >= 1) {
+    var debN = 3 + n;
+    for (i = 0; i < debN; i++) {
+      var trig = L * (0.14 + 0.72 * (i / debN)) + R() * 400;
+      var dyf = 0.12 + R() * 0.76;
+      var tl = el('tele'); tl.style.display = 'none';
+      ents.push({ t: 'debris', trigger: trig, yf: dyf, state: 'wait', tt: 0, x: 0, spin: 0,
+                  el: el('e debris'), tele: tl });
+      if (n === 1 && i === 2) { secretX = trig + W * 0.5; secretYf = dyf; }
+    }
+    for (i = 0; i < 2; i++)
+      ents.push({ t: 'comet', x: L * (0.3 + 0.4 * i) + R() * 600, baseYf: 0.25 + R() * 0.5,
+                  ph: R() * 6.28, yf: 0, cool: 0, el: el('e comet') });
+  }
+
+  if (n >= 2) {
+    var zx = L * 0.45, zw = 900;
+    var gapBottom = R() > 0.5;
+    var z = { x: zx, w: zw, yf0: gapBottom ? 0 : 0.38, yf1: gapBottom ? 0.62 : 1, el: el('rad') };
+    zones.push(z);
+    if (n === 2) { secretX = zx + zw * 0.5; secretYf = (z.yf0 + z.yf1) / 2; }
+    if (n === 4) zones.push({ x: L * 0.36, w: 700, yf0: 0.3, yf1: 1, el: el('rad') });
+  }
+
+  if (n >= 3) {
+    var hx = L * 0.6, hyf = 0.5;
+    holes.push(mkHole(hx, hyf));
+    if (n === 3) { secretX = hx; secretYf = hyf - 175 / H; } /* inside the pull, above the core */
+    if (n === 4) {
+      var h2 = mkHole(L * 0.4, 0.35); holes.push(h2);
+      holes[0].x = L * 0.78;
+      secretX = L * 0.78 + 150; secretYf = 0.5;
+    }
+  }
+
+  ents.push({ t: 'secret', x: secretX, yf: secretYf, el: el('e secret', '<i></i>') });
+}
+
+function mkHole(x, yf) {
+  var coreR = 52, pullR = 270;
+  var h = el('hole', '<i></i>');
+  h.style.width = (coreR * 2.6) + 'px'; h.style.height = (coreR * 2.6) + 'px';
+  var ring = h.firstChild;
+  ring.style.inset = (coreR * 1.3 - pullR) + 'px';
+  return { x: x, yf: yf, coreR: coreR, pullR: pullR, el: h };
+}
+
+/* ---------------- overlays ---------------- */
+
+function show(html) { ovCard.innerHTML = html; ov.classList.add('show'); }
+function hide() { ov.classList.remove('show'); }
+
+function titleScreen() {
+  mode = 'title';
+  document.body.style.background = 'oklch(14% 0.03 270)';
+  world.innerHTML = ''; astEl.style.display = 'none';
+  earthEl.style.display = 'block'; rocketEl.style.display = 'none';
+  hud.innerHTML = ''; schemeTag.innerHTML = ''; progFill.style.width = '0%';
+  show(
+    '<h2>a greybox prototype · working title</h2>' +
+    '<h1>Homeward</h1>' +
+    '<p>The world below has gone grey and airless.<br>An astronaut goes up to gather the things<br>needed to bring it back to life.</p>' +
+    '<div class="keys">arrows steer · space starts and pauses<br>' +
+    'C switches control scheme · G opens the cabinet · R restarts a level<br>' +
+    'fall into a black hole and the level begins again</div>' +
+    '<div class="go">press space to launch</div>'
+  );
+}
+
+function levelCard(n) {
+  mode = 'card';
+  show(
+    '<h2>level ' + (n + 1) + ' of 5</h2>' +
+    '<h1>' + LEVELS[n].name + '</h1>' +
+    '<p>Somewhere in it: <b>' + LEVELS[n].rare + '</b>.<br>And something harder to reach.</p>' +
+    '<div class="go">press space</div>'
+  );
+}
+
+function gemSlot(name, sub, got, color) {
+  return '<div class="slot' + (got ? '' : ' ghost') + '">' +
+    '<div class="gem" style="background:' + color + ';box-shadow:0 0 14px 2px ' + color + '"></div>' +
+    '<div class="nm">' + (got ? name : '?') + '</div><small>' + sub + '</small></div>';
+}
+
+function cabinet() {
+  mode = 'cabinet';
+  var top = '', bottom = '';
+  LEVELS.forEach(function (Lv) { top += gemSlot(Lv.rare, 'found on the path', !!st.rares[Lv.rare], Lv.accent); });
+  LEVELS.forEach(function (Lv) { top += gemSlot(Lv.secret, 'found past fear', !!st.secrets[Lv.secret], 'oklch(70% 0.25 340)'); });
+  SALVAGE.forEach(function (pair) {
+    pair.forEach(function (s) {
+      bottom += '<div class="slot' + (st.salvage[s] ? '' : ' ghost') + '">' +
+        '<div class="gem" style="background:oklch(70% 0.08 80);transform:none;border-radius:3px"></div>' +
+        '<div class="nm">' + (st.salvage[s] ? s : '?') + '</div><small>salvage</small></div>';
+    });
+  });
+  show(
+    '<h2>the cabinet</h2>' +
+    '<div class="shelf">' + top + '</div>' +
+    '<div class="shelf">' + bottom + '</div>' +
+    '<p>stardust: <b>' + st.dust + '</b> · everyday crystals kept: <b>' + st.commons + '</b></p>' +
+    '<div class="go">space to close</div>'
+  );
+}
+
+function tally(early) {
+  mode = 'tally';
+  st.dust += satchel.dust;
+  st.commons += satchel.commons;
+  if (satchel.rare) st.rares[LEVELS[lvl].rare] = true;
+  if (satchel.secret) st.secrets[LEVELS[lvl].secret] = true;
+  satchel.salvage.forEach(function (s) { st.salvage[s] = true; });
+  st.cleared = Math.max(st.cleared, lvl + 1);
+  save();
+  var lines = '<p>';
+  lines += 'stardust: <b>' + satchel.dust + '</b><br>everyday crystals: <b>' + satchel.commons + '</b><br>';
+  lines += LEVELS[lvl].rare + ': <b>' + (satchel.rare ? 'kept' : 'not this time') + '</b><br>';
+  lines += LEVELS[lvl].secret + ': <b>' + (satchel.secret ? 'kept' : 'still out there') + '</b><br>';
+  lines += 'salvage: <b>' + (satchel.salvage.length ? satchel.salvage.join(', ') : 'none') + '</b></p>';
+  show(
+    '<h2>' + (early ? 'suit failing · you drift home early' : 'end of ' + LEVELS[lvl].name) + '</h2>' +
+    '<h1>What you kept</h1>' + lines + '<div class="go">press space</div>'
+  );
+}
+
+function finale() {
+  mode = 'finale';
+  var got = Object.keys(st.rares).length + Object.keys(st.secrets).length;
+  var heal = Math.round(got / 10 * 100);
+  var earthCol = 'color-mix(in oklch, oklch(62% 0.15 145) ' + heal + '%, oklch(48% 0.04 70))';
+  var extra = got === 10
+    ? '<p style="font-size:24px;letter-spacing:0.4em;margin-top:10px">\ud83c\udf08 \ud83d\udc26 \ud83e\udd8b</p>' +
+      '<p>Rain falls clean. Birds come back. Butterflies.<br>The world remembers how to be alive.</p>'
+    : '<p>The land is greener where you touched down,<br>but ' + (10 - got) + ' of the named crystals are still out there.<br>The world waits for the rest.</p>';
+  show(
+    '<h2>re-entry</h2><h1>You came home.</h1>' +
+    '<div style="width:150px;height:150px;border-radius:99px;margin:20px auto;' +
+    'background:radial-gradient(circle at 35% 30%, ' + earthCol + ', oklch(30% 0.06 250) 78%);' +
+    'box-shadow:0 0 70px 10px ' + earthCol + '"></div>' +
+    '<p>' + got + ' of 10 named crystals unpacked.</p>' + extra +
+    '<div class="go">space for the cabinet</div>'
+  );
+}
+
+/* ---------------- gameplay helpers ---------------- */
+
+function popText(txt) {
+  pop.textContent = txt;
+  pop.style.left = (W * 0.3 + xoff + 40) + 'px';
+  pop.style.top = (ay - 34) + 'px';
+  pop.style.opacity = '1';
+  clearTimeout(pop._t);
+  pop._t = setTimeout(function () { pop.style.opacity = '0'; }, 750);
+}
+
+function scatter(nMax) {
+  var n = Math.min(nMax, satchel.commons + (satchel.rare ? 1 : 0));
+  for (var i = 0; i < n; i++) {
+    var isRare = false, k = 0, name;
+    if (satchel.commons > 0) {
+      satchel.commons--; name = satchel.byName.pop() || COMMONS[0]; k = COMMONS.indexOf(name);
+    } else if (satchel.rare) {
+      satchel.rare = false; isRare = true; name = LEVELS[lvl].rare;
+    } else break;
+    var cls = isRare ? 'e rare' : 'e lost';
+    var col = isRare ? LEVELS[lvl].accent : COMMON_C[Math.max(0, k)];
+    ents.push({
+      t: 'lostDrift', name: name, isRare: isRare, k: Math.max(0, k),
+      x: cameraX + W * 0.3 + xoff, yf: ay / H,
+      vx: -30 - Math.random() * 60, vy: (Math.random() * 2 - 1) * 200, life: 7,
+      el: el(cls, '<i style="' + (isRare ? '--c:' + col : 'background:' + col) + '"></i>')
+    });
+  }
+}
+
+function crack(source) {
+  if (invuln > 0) return;
+  integrity--; invuln = 1.2; hitFlash = 0.55;
+  scatter(3 + Math.floor(Math.random() * 2));
+  popText(source);
+  if (integrity <= 0) { hide(); tally(true); }
+}
+
+function collect(e) {
+  e.dead = true; e.el.style.display = 'none';
+  reachFlash = 0.35;
+  if (e.t === 'dust') { satchel.dust++; return; }
+  if (e.t === 'common') { satchel.commons++; satchel.byName.push(COMMONS[e.k]); popText('+ ' + COMMONS[e.k]); }
+  if (e.t === 'rare') { satchel.rare = true; popText('+ ' + LEVELS[lvl].rare); }
+  if (e.t === 'secret') { satchel.secret = true; popText('+ ' + LEVELS[lvl].secret); }
+  if (e.t === 'salv') { satchel.salvage.push(e.name); popText('+ ' + e.name); }
+  if (e.t === 'lostDrift') {
+    if (e.isRare) { satchel.rare = true; popText('+ ' + e.name + ', recovered'); }
+    else { satchel.commons++; satchel.byName.push(e.name); popText('+ ' + e.name + ', recovered'); }
+  }
+}
+
+/* ---------------- main loop ---------------- */
+
+var last = performance.now();
+function tick(now) {
+  var dt = Math.min(0.033, (now - last) / 1000);
+  last = now;
+
+  if (mode === 'intro') stepIntro(dt);
+  if (mode === 'play') stepPlay(dt);
+  if (mode === 'swallow') stepSwallow(dt);
+
+  requestAnimationFrame(tick);
+}
+
+function stepIntro(dt) {
+  introT += dt;
+  var t = Math.min(1, introT / 4.6);
+  /* quadratic bezier from the pad up around the planet's shoulder */
+  var p0 = { x: W * 0.18, y: H * 0.92 }, p1 = { x: W * 0.05, y: H * 0.25 }, p2 = { x: W * 0.62, y: H * 0.3 };
+  var u = 1 - t;
+  var rx = u * u * p0.x + 2 * u * t * p1.x + t * t * p2.x;
+  var ry = u * u * p0.y + 2 * u * t * p1.y + t * t * p2.y;
+  var angle = Math.atan2(
+    2 * u * (p1.y - p0.y) + 2 * t * (p2.y - p1.y),
+    2 * u * (p1.x - p0.x) + 2 * t * (p2.x - p1.x)
+  ) * 180 / Math.PI + 90;
+  rocketEl.style.transform = 'translate3d(' + rx + 'px,' + ry + 'px,0) rotate(' + angle + 'deg)';
+  /* sky shifts from launch warmth into the level's colour */
+  var hueMix = Math.round(t * 100);
+  document.body.style.background =
+    'color-mix(in oklch, ' + LEVELS[lvl].bg + ' ' + hueMix + '%, oklch(32% 0.04 70))';
+  earthEl.style.transform = 'translate3d(0,' + (t * H * 0.55) + 'px,0)';
+  if (introT > 4.0 && astEl.style.display === 'none') {
+    astEl.style.display = 'block'; ay = ry; targetY = H * 0.5;
+  }
+  if (astEl.style.display !== 'none') {
+    ay += (H * 0.5 - ay) * Math.min(1, 2.2 * dt);
+    drawAst(0, 'drift');
+  }
+  if (introT >= 4.9) startPlay();
+}
+
+function startPlay() {
+  st.introSeen = true; save();
+  earthEl.style.display = 'none'; rocketEl.style.display = 'none';
+  document.body.style.background = LEVELS[lvl].bg;
+  astEl.style.display = 'block';
+  mode = 'play';
+}
+
+function stepPlay(dt) {
+  cameraX += SCROLL * dt;
+  if (invuln > 0) invuln -= dt;
+  if (hitFlash > 0) hitFlash -= dt;
+  if (reachFlash > 0) reachFlash -= dt;
+
+  /* -- controls -- */
+  var up = keys.ArrowUp || keys.ArrowLeft, down = keys.ArrowDown || keys.ArrowRight;
+  if (scheme === 'drift') {
+    if (up) theta -= ROT_A * dt;
+    if (down) theta += ROT_A * dt;
+    theta = Math.max(-80, Math.min(80, theta));
+    if (!up && !down) theta *= Math.pow(0.35, dt); /* slow settle toward level flight */
+    var rad = theta * Math.PI / 180;
+    avy = Math.sin(rad) * SPEED_A;
+    xoff += ((Math.cos(rad) - 1) * SPEED_A * 0.6) * dt; /* turning hard costs forward drift */
+    xoff += (0 - xoff) * Math.min(1, 0.6 * dt);
+  } else {
+    if (up) targetY -= SPEED_B * dt;
+    if (down) targetY += SPEED_B * dt;
+    targetY = Math.max(40, Math.min(H - 40, targetY));
+    var prevY = ay;
+    ay += (targetY - ay) * Math.min(1, 6 * dt);
+    avy = (ay - prevY) / Math.max(dt, 0.001);
+  }
+  if (scheme === 'drift') ay += avy * dt;
+
+  /* -- black holes -- */
+  var ax = W * 0.3 + xoff;
+  var pulled = 0;
+  for (var hi = 0; hi < holes.length; hi++) {
+    var h = holes[hi];
+    var hx = h.x - cameraX, hy = h.yf * H;
+    var ddx = hx - ax, ddy = hy - ay;
+    var r = Math.hypot(ddx, ddy);
+    if (r < h.pullR) {
+      var f = PULL * Math.pow(1 - r / h.pullR, 2);
+      pulled = Math.max(pulled, f);
+      ay += ddy / r * f * dt;
+      xoff += ddx / r * f * dt;
+      if (r < h.coreR + 14) { beginSwallow(h); return; }
+    }
+    var d = h.coreR * 1.3;
+    h.el.style.transform = 'translate3d(' + (hx - d) + 'px,' + (hy - d) + 'px,0)';
+    h.el.style.display = (hx > -600 && hx < W + 600) ? 'block' : 'none';
+  }
+  ay = Math.max(36, Math.min(H - 36, ay));
+  xoff = Math.max(-W * 0.17, Math.min(W * 0.24, xoff));
+  if (scheme === 'direct') targetY = Math.max(40, Math.min(H - 40, pulled > 0 ? ay : targetY));
+  ax = W * 0.3 + xoff;
+
+  /* -- radiation -- */
+  var inRad = false;
+  zones.forEach(function (z) {
+    var zx = z.x - cameraX;
+    z.el.style.transform = 'translate3d(' + zx + 'px,' + (z.yf0 * H) + 'px,0)';
+    z.el.style.width = z.w + 'px';
+    z.el.style.height = ((z.yf1 - z.yf0) * H) + 'px';
+    z.el.style.display = (zx > -z.w - 100 && zx < W + 100) ? 'block' : 'none';
+    if (ax > zx && ax < zx + z.w && ay > z.yf0 * H && ay < z.yf1 * H) inRad = true;
+  });
+  if (inRad) {
+    radT += dt;
+    if (radT > 0.7) {
+      radT = 0;
+      if (satchel.commons > 0) { scatter(1); popText('radiation, a crystal slips away'); }
+      else if (satchel.dust > 0) { satchel.dust = Math.max(0, satchel.dust - 4); popText('radiation, dust burning off'); }
+    }
+  } else radT = 0;
+
+  /* -- entities -- */
+  var t = performance.now() / 1000;
+  for (var i = 0; i < ents.length; i++) {
+    var e = ents[i];
+    if (e.dead) continue;
+
+    if (e.t === 'debris') {
+      if (e.state === 'wait' && cameraX > e.trigger) { e.state = 'tele'; e.tt = 0; }
+      if (e.state === 'tele') {
+        e.tt += dt;
+        e.tele.style.display = 'block';
+        e.tele.style.top = (e.yf * H) + 'px';
+        e.tele.style.opacity = 0.3 + 0.7 * Math.abs(Math.sin(e.tt * 9));
+        if (e.tt > 1.4) { e.state = 'fly'; e.x = cameraX + W + 90; e.tele.style.display = 'none'; }
+      }
+      if (e.state === 'fly') {
+        e.x += -430 * dt; e.spin += 540 * dt;
+        var sx = e.x - cameraX, sy = e.yf * H;
+        e.el.style.display = 'block';
+        e.el.style.transform = 'translate3d(' + (sx - 32) + 'px,' + (sy - 5) + 'px,0) rotate(' + e.spin + 'deg)';
+        if (Math.hypot(sx - ax, sy - ay) < 38) { crack('space junk'); }
+        if (sx < -200) { e.dead = true; e.el.style.display = 'none'; }
+      }
+      continue;
+    }
+
+    if (e.t === 'comet') {
+      e.x += -40 * dt;
+      e.yf = e.baseYf + (reduced ? 0 : Math.sin(t * 1.2 + e.ph) * 0.16);
+      if (e.cool > 0) e.cool -= dt;
+    }
+    if (e.t === 'anti') e._wob = reduced ? 0 : Math.sin(t * 2 + e.ph) * 10;
+    if (e.t === 'salv') e.spin += 30 * dt;
+    if (e.t === 'lostDrift') {
+      e.life -= dt;
+      e.x += e.vx * dt;
+      e.yf += (e.vy * dt) / H;
+      e.vy *= Math.pow(0.4, dt);
+      if (e.life <= 0) { e.dead = true; e.el.style.display = 'none'; continue; }
+    }
+
+    var ex = e.x - cameraX, ey = e.yf * H + (e._wob || 0);
+    if (ex < -160 || ex > W + 700) { e.el.style.display = 'none'; continue; }
+    e.el.style.display = 'block';
+    var rot = e.t === 'salv' ? ' rotate(' + e.spin + 'deg)' : '';
+    e.el.style.transform = 'translate3d(' + (ex - 12) + 'px,' + (ey - 12) + 'px,0)' + rot;
+
+    var d2 = Math.hypot(ex - ax, ey - ay);
+    if (e.t === 'dust' && d2 < 34) collect(e);
+    else if ((e.t === 'common' || e.t === 'lostDrift') && d2 < 38) collect(e);
+    else if ((e.t === 'rare' || e.t === 'secret' || e.t === 'salv') && d2 < 44) collect(e);
+    else if (e.t === 'anti' && d2 < 26) { e.dead = true; e.el.style.display = 'none'; crack('antimatter'); }
+    else if (e.t === 'comet' && d2 < 34 && e.cool <= 0) {
+      e.cool = 1.2;
+      var push = (ay < ey ? -1 : 1) * 340;
+      if (scheme === 'direct') targetY += push * 0.6; else avy += push * 0.4;
+      ay += push * 0.12;
+      popText('a comet, rude');
+    }
+  }
+
+  /* -- pose -- */
+  var pose = 'drift';
+  if (pulled > 60) pose = 'tumble';
+  else if (hitFlash > 0) pose = 'brace';
+  else if (reachFlash > 0) pose = 'reach';
+  else if (Math.abs(avy) > 260) pose = 'glide';
+  drawAst(pulled, pose);
+
+  progFill.style.width = Math.min(100, cameraX / LEVEL_LEN * 100) + '%';
+  drawHud();
+
+  if (cameraX > LEVEL_LEN) tally(false);
+}
+
+var poseColor = {
+  drift: 'oklch(96% 0.01 270)', reach: 'oklch(80% 0.16 150)', brace: 'oklch(65% 0.2 25)',
+  tumble: 'oklch(70% 0.16 300)', glide: 'oklch(80% 0.1 220)', wave: 'oklch(96% 0.01 270)'
+};
+var tumbleSpin = 0;
+function drawAst(pulled, pose) {
+  var ax = W * 0.3 + xoff;
+  var tilt = scheme === 'drift' ? theta * 0.6 : Math.max(-18, Math.min(18, avy * 0.03));
+  if (pose === 'tumble') { tumbleSpin += 8; tilt = tumbleSpin; } else tumbleSpin = 0;
+  astEl.style.transform = 'translate3d(' + (ax - 26) + 'px,' + (ay - 26) + 'px,0) rotate(' + tilt + 'deg)';
+  astEl.style.opacity = (invuln > 0 && Math.floor(performance.now() / 90) % 2) ? 0.3 : 1;
+  astBody.style.background = poseColor[pose];
+  poseTag.textContent = pose;
+  for (var i = 0; i < 3; i++) crkEls[i].className = 'crk' + (i < integrity ? '' : ' off');
+}
+
+function drawHud() {
+  hud.innerHTML =
+    '<b>L' + (lvl + 1) + ' · ' + LEVELS[lvl].name + '</b><br>' +
+    'stardust ' + satchel.dust + ' · crystals ' + satchel.commons +
+    (satchel.rare ? ' · <b>' + LEVELS[lvl].rare + ' ✓</b>' : '') +
+    (satchel.secret ? ' · <b>' + LEVELS[lvl].secret + ' ✓</b>' : '') +
+    (satchel.salvage.length ? '<br>salvage: ' + satchel.salvage.join(', ') : '');
+  schemeTag.innerHTML = 'scheme [C]: <b>' + scheme + '</b><br>space pauses · R restarts';
+}
+
+/* ---------------- swallow ---------------- */
+
+function beginSwallow(h) {
+  mode = 'swallow'; swallowT = 0; swallowHole = h;
+}
+function stepSwallow(dt) {
+  swallowT += dt;
+  var h = swallowHole;
+  var hx = h.x - cameraX, hy = h.yf * H;
+  var k = Math.min(1, swallowT / 0.9);
+  var ax = W * 0.3 + xoff;
+  var nx = ax + (hx - ax) * k, ny = ay + (hy - ay) * k;
+  tumbleSpin += 14;
+  astEl.style.transform = 'translate3d(' + (nx - 26) + 'px,' + (ny - 26) + 'px,0) rotate(' + tumbleSpin + 'deg) scale(' + (1 - k) + ')';
+  poseTag.textContent = 'tumble';
+  if (swallowT >= 1.0) {
+    show(
+      '<h2>the dark took it all back</h2>' +
+      '<h1>' + LEVELS[lvl].name + ' begins again</h1>' +
+      '<p>Everything you gathered here has returned to where it was.<br>The level is exactly as you left it. You know the way now.</p>' +
+      '<div class="go">press space</div>'
+    );
+    mode = 'swallowed';
+  }
+}
+
+/* ---------------- input ---------------- */
+
+addEventListener('keydown', function (ev) {
+  if (ev.code === 'Space') ev.preventDefault();
+  keys[ev.code] = true;
+
+  if (ev.code === 'KeyC') { scheme = scheme === 'drift' ? 'direct' : 'drift'; targetY = ay; theta = 0; if (mode==='play') drawHud(); }
+  if (ev.code === 'KeyG' && (mode === 'title' || mode === 'pause')) { cabinetFrom = mode; hide(); cabinet(); return; }
+  if (ev.code === 'KeyR' && (mode === 'play' || mode === 'pause')) { hide(); buildLevel(lvl); mode = 'play'; return; }
+  if (ev.code >= 'Digit1' && ev.code <= 'Digit5' && (mode === 'title' || mode === 'play' || mode === 'pause')) {
+    lvl = +ev.code.slice(5) - 1; hide(); buildLevel(lvl); startPlay(); return; /* greybox dev shortcut */
+  }
+  if (ev.code === 'Escape' && mode !== 'title') { titleScreen(); return; }
+
+  if (ev.code !== 'Space') return;
+
+  if (mode === 'title') {
+    hide(); buildLevel(lvl = 0);
+    astEl.style.display = 'none'; earthEl.style.display = 'block'; rocketEl.style.display = 'block';
+    introT = 0; mode = 'intro';
+  }
+  else if (mode === 'intro') { startPlay(); }        /* space again skips the launch */
+  else if (mode === 'play') {
+    mode = 'pause';
+    show('<h2>paused</h2><h1>Floating in place</h1><div class="go">space to resume</div>');
+  }
+  else if (mode === 'pause') { hide(); mode = 'play'; }
+  else if (mode === 'swallowed') { hide(); buildLevel(lvl); mode = 'play'; }
+  else if (mode === 'card') { hide(); buildLevel(lvl); startPlay(); }
+  else if (mode === 'tally') {
+    hide();
+    if (lvl >= 4) finale();
+    else { lvl++; levelCard(lvl); }
+  }
+  else if (mode === 'finale') { cabinetFrom = 'finaleDone'; cabinet(); }
+  else if (mode === 'cabinet') {
+    hide();
+    if (cabinetFrom === 'pause') { show('<h2>paused</h2><h1>Floating in place</h1><div class="go">space to resume</div>'); mode = 'pause'; }
+    else titleScreen();
+  }
+});
+addEventListener('keyup', function (ev) { keys[ev.code] = false; });
+addEventListener('resize', function () { W = innerWidth; H = innerHeight; });
+
+/* ---------------- go ---------------- */
+
+titleScreen();
+requestAnimationFrame(tick);
+})();
+</script>
+</body>
+</html>
