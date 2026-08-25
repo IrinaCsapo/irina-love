@@ -89,10 +89,17 @@
   /* ── nav + chapter ── */
   nav {
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    padding: 26px 44px; display: flex; justify-content: space-between; align-items: center;
-    color: var(--ink); transition: color .5s;
+    padding: 20px 44px; display: flex; justify-content: space-between; align-items: center;
+    color: var(--ink); transition: color .5s, background .5s, border-color .5s;
+    background: oklch(98% 0.01 85 / 0.55);
+    -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+    border-bottom: 1px solid oklch(82% 0.022 75 / 0.3);
   }
-  nav.on-dark { color: oklch(93% 0.015 290); }
+  nav.on-dark {
+    color: oklch(93% 0.015 290);
+    background: oklch(15% 0.03 300 / 0.42);
+    border-bottom-color: oklch(93% 0.015 290 / 0.12);
+  }
   .nav-logo { font-family: var(--display); font-size: 20px; letter-spacing: 0.02em; color: currentColor; text-decoration: none; }
   .nav-logo em { color: var(--coral); font-style: italic; }
   nav.on-dark .nav-logo em { color: var(--coral-soft); }
@@ -103,6 +110,30 @@
     color: currentColor; text-decoration: none; opacity: .62; transition: opacity .2s;
   }
   .nav-right a:hover, .nav-right a.here { opacity: 1; }
+
+  /* long / short story toggle */
+  #mode-toggle {
+    position: absolute; left: 50%; transform: translateX(-50%);
+    display: flex; gap: 2px; padding: 3px;
+    border: 1px solid var(--line); border-radius: 999px;
+    background: oklch(98% 0.01 85 / 0.7);
+  }
+  #mode-toggle button {
+    font-family: var(--monoF); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+    border: 0; background: none; cursor: pointer; color: var(--ink-soft);
+    padding: 6px 12px; border-radius: 999px; white-space: nowrap;
+    transition: color .25s, background .25s;
+  }
+  #mode-toggle button:hover { color: var(--ink); }
+  #mode-toggle button.active { color: var(--accent); background: oklch(93% 0.03 60 / 0.85); }
+  nav.on-dark #mode-toggle { background: oklch(20% 0.03 300 / 0.55); border-color: oklch(93% 0.015 290 / 0.2); }
+  nav.on-dark #mode-toggle button { color: oklch(80% 0.02 290); }
+  nav.on-dark #mode-toggle button:hover { color: oklch(93% 0.015 290); }
+  nav.on-dark #mode-toggle button.active { color: var(--coral-soft); background: oklch(93% 0.015 290 / 0.14); }
+  @media (max-width: 860px) {
+    #mode-toggle .vw { display: none; }
+    #mode-toggle button { font-size: 9px; padding: 5px 9px; }
+  }
   .nav-right a.here { border-bottom: 1px solid var(--coral); padding-bottom: 2px; }
 
   #chapter {
@@ -716,6 +747,10 @@
 
 <nav id="nav">
   <a class="nav-logo" href="index.html">irina<em>.love</em></a>
+  <div id="mode-toggle" role="group" aria-label="Story length">
+    <button id="mode-long" class="active">Long<span class="vw"> version</span></button>
+    <button id="mode-short">Short<span class="vw"> version</span></button>
+  </div>
   <div class="nav-right">
     <a href="#recap">The tools</a>
     <a class="alt" href="#photography">Beyond the screen</a>
@@ -1249,6 +1284,19 @@
   document.getElementById('skip-down').addEventListener('click', function () {
     fadeJumpTo(recapStart - 20);
   });
+  var modeLong = document.getElementById('mode-long');
+  var modeShort = document.getElementById('mode-short');
+  function setMode(m, jump) {
+    modeLong.classList.toggle('active', m === 'long');
+    modeShort.classList.toggle('active', m === 'short');
+    try { localStorage.setItem('irina-mode', m); } catch (e) {}
+    if (jump) fadeJumpTo(m === 'short' ? recapStart - 20 : 0);
+  }
+  modeLong.addEventListener('click', function () { setMode('long', true); });
+  modeShort.addEventListener('click', function () { setMode('short', true); });
+  var savedMode = 'long';
+  try { savedMode = localStorage.getItem('irina-mode') || 'long'; } catch (e) {}
+  if (savedMode === 'short') setMode('short', false);
   document.querySelectorAll('a[href^="#"]').forEach(function (a) {
     a.addEventListener('click', function (e) {
       var el = document.querySelector(a.getAttribute('href'));
@@ -1503,9 +1551,11 @@
       requestAnimationFrame(function () {
         requestAnimationFrame(function () {
           var landEl = JUMP === null && LAND && document.querySelector(LAND);
-          if (JUMP !== null || landEl) {
-            var landY = JUMP !== null ? (+JUMP || 0)
-              : landEl.getBoundingClientRect().top + window.scrollY - 20;
+          var landY = null;
+          if (JUMP !== null) landY = +JUMP || 0;
+          else if (landEl) landY = landEl.getBoundingClientRect().top + window.scrollY - 20;
+          else if (savedMode === 'short' && recapStart) landY = recapStart - 20;
+          if (landY !== null) {
             if (lenis) { lenis.resize(); lenis.scrollTo(landY, { immediate: true }); }
             else window.scrollTo(0, landY);
             ScrollTrigger.update();
