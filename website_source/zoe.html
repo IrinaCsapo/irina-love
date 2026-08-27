@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Application · Senior Product Designer, App Experience · Irina Csapo</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Irina Csapo's application for Senior Product Designer, App Experience at Zoe. A cover letter, followed by how she meets each point under What You'll Bring.">
+
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="shortcut icon" href="favicon.ico">
+
+<script defer src="https://irina-umami.vercel.app/script.js" data-website-id="9c96c480-3224-4ef0-ba74-a5212d1f6d69"></script>
+<script defer src="https://irina-umami.vercel.app/recorder.js" data-website-id="9c96c480-3224-4ef0-ba74-a5212d1f6d69"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    /* Paycada brand palette. Each token carries its L C H components so
+       alpha variants compose without repeating the colour. */
+    --ink-lch:   23.82% 0.1185 274.52;
+    --pink-lch:  61.75% 0.2533 355.34;
+    --blue-lch:  58.95% 0.2160 268.67;
+    --amber-lch: 78.79% 0.1635 72.21;
+
+    --ink:   oklch(var(--ink-lch));
+    --pink:  oklch(var(--pink-lch));
+    --blue:  oklch(var(--blue-lch));
+    --amber: oklch(var(--amber-lch));
+    --panel: oklch(97.55% 0.0045 258.32);
+    --desk:  oklch(96.4% 0.002 90);
+    --sheet: oklch(100% 0 0);
+
+    --font: 'Poppins', -apple-system, 'Segoe UI', system-ui, sans-serif;
+
+    /* Print geometry. The sheet is A4 with a 0.7in inset on every page. */
+    --page-w: 210mm;
+    --page-margin: 0.7in;
+  }
+
+  html { -webkit-text-size-adjust: 100%; }
+
+  body {
+    background: var(--desk);
+    font-family: var(--font);
+    color: var(--ink);
+    padding: 48px 24px;
+    min-height: 100vh;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  :where(h1, h2, h3) { text-wrap: balance; }
+  :where(p, li) { text-wrap: pretty; orphans: 3; widows: 3; }
+  img, svg { break-inside: avoid; }
+
+  a {
+    color: var(--blue);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
+    font-weight: 500;
+    word-break: break-word;
+  }
+  a:hover { color: var(--pink); }
+
+  /* ---------- Sheet ---------- */
+
+  .sheet {
+    width: var(--page-w);
+    margin: 0 auto;
+    background: var(--sheet);
+    box-shadow: 0 2px 10px oklch(20% 0.005 90 / .12);
+    border-radius: 7px;
+    padding: var(--page-margin);
+  }
+
+  .frame { width: 100%; border-collapse: collapse; }
+  .frame td, .frame th { padding: 0; text-align: left; font-weight: inherit; }
+
+  /* On screen the footer sits once at the foot of the tall sheet. At
+     print it is fixed, and this spacer (repeated by the print engine on
+     every page) reserves the bottom margin for it. */
+  .ftr-space { height: auto; }
+
+  .running-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    font-size: 9.5px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: oklch(var(--ink-lch) / .5);
+    padding-top: 8px;
+    border-top: 1px solid oklch(var(--ink-lch) / .1);
+  }
+
+  /* ---------- Shared section furniture ---------- */
+
+  .section + .section { break-before: page; padding-top: 16px; }
+
+  .eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--pink);
+  }
+
+  .section-tag {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 14px;
+  }
+  .section-tag .label { color: oklch(var(--ink-lch) / .5); }
+
+  h2 {
+    margin: 0 0 12px;
+    font-size: 34px;
+    line-height: 1.15;
+    letter-spacing: -.02em;
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  .rule {
+    width: 64px;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--pink);
+  }
+  .rule.blue { background: var(--blue); }
+
+  .lede {
+    font-size: 16px;
+    line-height: 1.68;
+    color: oklch(var(--ink-lch) / .86);
+  }
+  .intro .lede + .lede { margin-top: 18px; }
+
+  .panel {
+    background: var(--panel);
+    border-radius: 12px;
+    padding: 20px 24px;
+    break-inside: avoid;
+  }
+  .panel.blue { background: oklch(var(--blue-lch) / .07); }
+  .panel.pink { background: oklch(var(--pink-lch) / .07); }
+  .panel.amber { background: oklch(var(--amber-lch) / .1); }
+  .panel p {
+    font-size: 15.5px;
+    line-height: 1.65;
+    color: oklch(var(--ink-lch) / .86);
+  }
+  .panel strong { color: var(--ink); }
+
+  .panel-tag {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  .link-line { font-size: 15px; line-height: 1.5; }
+
+  /* ---------- Thumbnails ----------
+     A .thumb shows its image when one is present, and the designed
+     placeholder when it is not. To fill a slot, drop the asset into
+     uploads/zoe/ and put an <img> inside the .thumb. Set
+     data-thumbs="off" on <body> to hide every slot instead. */
+
+  .thumb {
+    flex: none;
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    width: 150px;
+    height: 112px;
+  }
+  .thumb.circle { border-radius: 50%; width: 150px; height: 150px; }
+  .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  .thumb:not(:has(img)) {
+    background: var(--panel);
+    border: 1px dashed oklch(var(--ink-lch) / .22);
+  }
+  .thumb:not(:has(img))::after {
+    content: attr(data-label);
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: .01em;
+    color: oklch(var(--ink-lch) / .45);
+  }
+
+  body[data-thumbs="off"] .thumb { display: none; }
+
+  /* ---------- 00 Cover ---------- */
+
+  .cover {
+    height: 9.4in;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+  }
+  .cover > * { position: relative; }
+
+  .blob { position: absolute; border-radius: 50%; }
+  .blob-pink {
+    top: -160px; right: -180px; width: 520px; height: 520px;
+    background: radial-gradient(circle, oklch(var(--pink-lch) / .16), oklch(var(--pink-lch) / 0) 70%);
+  }
+  .blob-blue {
+    bottom: 60px; left: -220px; width: 480px; height: 480px;
+    background: radial-gradient(circle, oklch(var(--blue-lch) / .18), oklch(var(--blue-lch) / 0) 70%);
+  }
+  .blob-amber {
+    top: 220px; left: 180px; width: 300px; height: 300px;
+    background: radial-gradient(circle, oklch(var(--amber-lch) / .14), oklch(var(--amber-lch) / 0) 70%);
+  }
+
+  .wordmark { font-size: 19px; font-weight: 700; letter-spacing: -.02em; }
+  .wordmark .dot { color: var(--pink); }
+
+  .cover h1 {
+    margin: 0;
+    font-size: 42px;
+    line-height: 1.1;
+    letter-spacing: -.025em;
+    font-weight: 700;
+    max-width: 9.5em;
+  }
+  .cover h1 .accent { color: var(--blue); }
+  .cover .eyebrow { display: block; margin-bottom: 20px; }
+  .cover .standfirst {
+    margin: 28px 0 0;
+    font-size: 17px;
+    line-height: 1.6;
+    color: oklch(var(--ink-lch) / .8);
+    max-width: 24em;
+  }
+
+  .cover-contacts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 32px;
+    font-size: 13.5px;
+    line-height: 1.5;
+    color: oklch(var(--ink-lch) / .8);
+    padding-top: 24px;
+    border-top: 2px solid var(--ink);
+  }
+
+  /* ---------- Contents ---------- */
+
+  .contents-list { display: flex; flex-direction: column; gap: 26px; }
+  .contents-item { display: flex; gap: 20px; align-items: baseline; }
+  .contents-item .num {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--blue);
+    min-width: 34px;
+  }
+  .contents-item .name {
+    font-size: 19px;
+    font-weight: 600;
+    letter-spacing: -.01em;
+  }
+  .contents-item .desc {
+    font-size: 14px;
+    color: oklch(var(--ink-lch) / .65);
+    margin-top: 4px;
+  }
+  .contents-item .desc.stacked { margin-top: 8px; line-height: 1.9; }
+
+  /* ---------- 01 Introduction ---------- */
+
+  .salutation {
+    margin: 0 0 20px;
+    font-size: 16px;
+    line-height: 1.5;
+    font-weight: 600;
+  }
+  .signoff { break-inside: avoid; }
+  .signoff p:first-child { font-size: 16px; line-height: 1.6; color: oklch(var(--ink-lch) / .86); }
+  .signoff .name {
+    margin-top: 6px;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -.02em;
+  }
+
+  /* ---------- 02 What I'll Bring ---------- */
+
+  .points { display: flex; flex-direction: column; gap: 44px; }
+  .point h3 {
+    margin: 0 0 16px;
+    font-size: 21px;
+    line-height: 1.3;
+    letter-spacing: -.01em;
+    font-weight: 700;
+  }
+  .point > * + * { margin-top: 16px; }
+  .point .panel + .panel { margin-top: 12px; }
+
+  .dot-list { display: flex; flex-direction: column; gap: 12px; }
+  .dot-list li {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    break-inside: avoid;
+    list-style: none;
+  }
+  .dot-list .bullet {
+    flex: none;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-top: 9px;
+    background: var(--blue);
+  }
+  .dot-list li:nth-child(2) .bullet { background: var(--pink); }
+  .dot-list li:nth-child(3) .bullet { background: var(--amber); }
+  .dot-list p { font-size: 16px; line-height: 1.6; color: oklch(var(--ink-lch) / .86); }
+
+  /* ---------- 03 Selected work ---------- */
+
+  .work-list { display: flex; flex-direction: column; gap: 24px; }
+  .work {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+    break-inside: avoid;
+  }
+  .work h3 {
+    margin: 0 0 6px;
+    font-size: 19px;
+    font-weight: 700;
+    letter-spacing: -.01em;
+  }
+  .work .blurb {
+    margin-bottom: 8px;
+    font-size: 15.5px;
+    line-height: 1.6;
+    color: oklch(var(--ink-lch) / .8);
+  }
+  .work .link-line { font-size: 14.5px; }
+  .work .muted { color: oklch(var(--ink-lch) / .6); }
+
+  /* ---------- 04 About me ---------- */
+
+  .about {
+    display: flex;
+    gap: 28px;
+    align-items: flex-start;
+    margin-bottom: 28px;
+    break-inside: avoid;
+  }
+  .about .lede + .lede { margin-top: 16px; }
+
+  .sub-head {
+    margin: 0 0 18px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+  }
+
+  .timeline { display: flex; flex-direction: column; gap: 16px; margin-bottom: 36px; }
+  .timeline li {
+    display: flex;
+    gap: 18px;
+    align-items: flex-start;
+    break-inside: avoid;
+    list-style: none;
+  }
+  .timeline .when {
+    flex: none;
+    width: 104px;
+    padding-top: 3px;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: oklch(var(--ink-lch) / .55);
+  }
+  .timeline .what { font-size: 16px; font-weight: 600; }
+  .timeline p {
+    margin-top: 4px;
+    font-size: 15px;
+    line-height: 1.6;
+    color: oklch(var(--ink-lch) / .8);
+  }
+
+  .toolkit { padding: 26px 28px; }
+  .toolkit-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 28px;
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: oklch(var(--ink-lch) / .82);
+  }
+
+  /* ---------- 05 Get in touch ---------- */
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px 24px;
+    margin-bottom: 44px;
+  }
+  .contact-card { padding: 20px 22px; }
+  .contact-card .field {
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: oklch(var(--ink-lch) / .55);
+    margin-bottom: 8px;
+  }
+  .contact-card .value { font-size: 15.5px; line-height: 1.4; }
+  .contact-card .value.plain { font-weight: 500; }
+
+  .link-index { display: flex; flex-direction: column; gap: 12px; margin-bottom: 48px; }
+  .link-index li {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    padding-bottom: 11px;
+    border-bottom: 1px solid oklch(var(--ink-lch) / .1);
+    break-inside: avoid;
+    list-style: none;
+    font-size: 15px;
+  }
+  .link-index .what { color: oklch(var(--ink-lch) / .8); }
+  .link-index a { flex: none; }
+
+  .colophon {
+    border-top: 2px solid var(--ink);
+    padding-top: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 24px;
+    break-inside: avoid;
+  }
+  .colophon .wordmark { font-size: 24px; }
+  .colophon .role {
+    font-size: 14px;
+    color: oklch(var(--ink-lch) / .65);
+    margin-top: 4px;
+  }
+  .pips { display: flex; gap: 6px; }
+  .pips span { width: 12px; height: 12px; border-radius: 50%; }
+  .pips .b { background: var(--blue); }
+  .pips .p { background: var(--pink); }
+  .pips .a { background: var(--amber); }
+
+  /* ---------- Save as PDF ---------- */
+
+  .save {
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    z-index: 10;
+    font: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--sheet);
+    background: var(--ink);
+    border: 0;
+    border-radius: 999px;
+    padding: 13px 22px;
+    cursor: pointer;
+    box-shadow: 0 4px 16px oklch(var(--ink-lch) / .28);
+    transition: background .2s ease, transform .2s ease;
+  }
+  .save:hover { background: var(--pink); transform: translateY(-1px); }
+  .save:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; }
+
+  /* ---------- Narrow screens ----------
+     Print output is unchanged: the sheet only goes fluid on screen, where
+     a fixed 210mm page would otherwise scroll sideways on a phone. */
+
+  @media screen and (max-width: 860px) {
+    body { padding: 20px 12px 96px; }
+    .sheet { width: 100%; max-width: var(--page-w); padding: 32px 24px; }
+    .cover { height: auto; gap: 56px; padding: 24px 0 8px; }
+    .cover h1 { font-size: 34px; }
+    h2 { font-size: 28px; }
+    .cover-contacts,
+    .contact-grid,
+    .toolkit-grid { grid-template-columns: 1fr; }
+    .about { flex-direction: column; gap: 20px; }
+    .work { gap: 18px; }
+    .link-index li { flex-direction: column; gap: 4px; }
+    .timeline li { flex-direction: column; gap: 4px; }
+    .timeline .when { width: auto; padding-top: 0; }
+    .save { right: 12px; bottom: 12px; }
+  }
+
+  /* ---------- Print ----------
+     @page carries no margin, so Chrome has no margin box to stamp its own
+     date and URL into. The sheet keeps the horizontal inset as padding,
+     and the repeating tfoot spacer carries the vertical inset on every
+     page with the fixed footer sitting inside it. */
+
+  @page { size: A4; margin: 0; }
+
+  @media print {
+    body { background: none; padding: 0; min-height: 0; }
+    .sheet {
+      width: auto;
+      margin: 0;
+      box-shadow: none;
+      border-radius: 0;
+      padding: 0 var(--page-margin);
+    }
+    .ftr-space { height: var(--page-margin); }
+    .running-footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 0 var(--page-margin) calc(var(--page-margin) * .45);
+    }
+    .save { display: none; }
+    a { color: var(--blue); }
+  }
+</style>
+</head>
+<body>
+
+<div class="sheet">
+<table class="frame" role="presentation">
+<tbody><tr><td>
+
+<!-- ============ Cover ============ -->
+<section class="section cover">
+  <div class="blob blob-pink"></div>
+  <div class="blob blob-blue"></div>
+  <div class="blob blob-amber"></div>
+
+  <div class="wordmark">Irina Csapo<span class="dot">.</span></div>
+
+  <div>
+    <span class="eyebrow">Application &middot; Zoe</span>
+    <h1>Senior Product Designer,<br><span class="accent">App Experience</span></h1>
+    <p class="standfirst">A cover letter, written without AI, followed by how I meet each point under <em>What You'll Bring</em>, with the specific work behind each one.</p>
+  </div>
+
+  <div class="cover-contacts">
+    <div><a href="mailto:irina.csapo@gmail.com">irina.csapo@gmail.com</a></div>
+    <div>+44 (0)7599 840486</div>
+    <div><a href="https://irinacsapo.co.uk">irinacsapo.co.uk</a></div>
+    <div><a href="https://www.linkedin.com/in/irinacsapo/">linkedin.com/in/irinacsapo</a></div>
+    <div><a href="https://irina.love/">irina.love</a></div>
+    <div><a href="https://linktr.ee/irina.csapo">linktr.ee/irina.csapo</a></div>
+  </div>
+</section>
+
+<!-- ============ Contents ============ -->
+<section class="section">
+  <div class="eyebrow" style="margin-bottom:14px">Contents</div>
+  <h2 style="margin-bottom:40px">What's in here</h2>
+
+  <div class="contents-list">
+    <div class="contents-item">
+      <span class="num">01</span>
+      <div>
+        <div class="name">Introduction</div>
+        <div class="desc">The cover letter</div>
+      </div>
+    </div>
+
+    <div class="contents-item">
+      <span class="num">02</span>
+      <div>
+        <div class="name">What I'll Bring</div>
+        <div class="desc stacked">
+          Strong end-to-end consumer native app work<br>
+          Genuinely creative, real range<br>
+          Energised by ambiguity<br>
+          Designing for habit and behaviour change<br>
+          Thinking in user problems, flows and behaviours<br>
+          Strong product judgement<br>
+          Communicating with clarity<br>
+          From an ambiguous starting point through to shipped<br>
+          Low-ego, pragmatic, ownership through to the end<br>
+          Using AI where it genuinely helps
+        </div>
+      </div>
+    </div>
+
+    <div class="contents-item">
+      <span class="num">03</span>
+      <div>
+        <div class="name">Selected work</div>
+        <div class="desc">Case studies and live links</div>
+      </div>
+    </div>
+
+    <div class="contents-item">
+      <span class="num">04</span>
+      <div>
+        <div class="name">About me</div>
+        <div class="desc">Practice, skills and recent work</div>
+      </div>
+    </div>
+
+    <div class="contents-item">
+      <span class="num">05</span>
+      <div>
+        <div class="name">Get in touch</div>
+        <div class="desc">Every link in one place</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel" style="margin-top:56px;padding:24px 28px">
+    <p>Every link in this document is live: case studies, the Zoe hackathon app, and the products I ship independently are all one click away.</p>
+  </div>
+</section>
+
+<!-- ============ 01 Introduction ============ -->
+<section class="section intro">
+  <div class="section-tag">
+    <span class="eyebrow">01</span>
+    <span class="eyebrow label">Introduction</span>
+  </div>
+  <h2 style="margin-bottom:36px;max-width:22em">Application for Senior Product Designer, App Experience</h2>
+
+  <p class="salutation">Dear Hiring Team at Zoe,</p>
+
+  <p class="lede">I'm writing this cover letter without AI, for a change, plus an AI-assisted attachment below.</p>
+
+  <p class="lede">I've been a long fan of the company and the science that powers the Zoe ethos. I have myself as a woman, struggled in life with cultivating a positive relationship with food so I can be healthier, have more energy and feel better. It's a struggle that so many women know all too well (men too, of course, but diet culture and nutrition marketing are overwhelmingly aimed at women) and while I haven't achieved yet the level of perfect controlled dieting (I love food too much), I'm always keenly aware of how important food and especially, gut health is to our bodies and minds.</p>
+
+  <p class="lede">That's why when the opportunity was presented I excitedly took part in ZOE's Women in Tech Hackathon in July. My team designed and built an AI-powered misinformation decoder for wellness, beauty and supplement content, end to end, in 48 hours. The hard part wasn't the AI which I used happily, but it was working out how to show someone how confident the evidence actually is behind a health claim, without either overwhelming them or falsely reassuring them. I've really enjoyed ideating, thinking and working in this problem space and the Zoe hackathon was fantastic in making space for these problems.</p>
+
+  <p class="lede">This particular problem, of making complex scientific information land with someone making a real decision about their own body, perhaps even when they're in a heightened emotional state and vulnerable to rash, quick decisions, is the one I find most interesting in this field. Because I am one of those people, and I need to design for people like me. I am the end user I tend to design for. Figuring out how data can be presented in a snapshot or easy to digest facts rather than clinical jargon is a craft problem as much as an information design one, and it's where I want to be spending my time.</p>
+
+  <p class="lede">Right now, I have 15 years designing end-to-end web and mobile products across healthtech, fintech, e-commerce and hardware-connected devices. Four of those years were as the only designer on a regulated web fintech product taken from zero, where I owned the brand, the information architecture, the design system and every screen. I also designed many consumer-facing mobile apps throughout my career, mostly in healthcare and femtech. Most recently in healthtech, I designed conditional onboarding and personalised dashboard states for people navigating fertility, menopause and neurodiversity, work that was fundamentally about deciding what to surface, when, and on what basis.</p>
+
+  <p class="lede">I'm applying to this Senior Product Designer role at Zoe for a few reasons. The first is that this is not a role for someone who only wants to optimise. I've done that and can do that kind of work, experiment-driven work based on hypothesis, and I'm comfortable with evidence, but the work I'm proudest of is where the problem wasn't defined yet and I had to generate genuinely different directions before choosing one. I'm a creative, deep thinker, empath and obsessive solutions finder and artist at heart. Finding solutions to problems, whether I'm working on a product or fixing my life, is one of my strongest, most human, most resilient and proudest strengths. I apply that skill generously to all my design work.</p>
+
+  <p class="lede">The second reason is that Zoe takes a scientific approach while still asking for strong design convictions. I love that. I love nerding out on the science, on the design and I love learning and I love changing my mind based on new evidence available, whilst always being true to my values. This is the kind of environment I want to work in.</p>
+
+  <p class="lede" style="margin-bottom:30px">I took some time to reflect below how I meet each of the points under <em>What You'll Bring</em>, with the specific work behind each one.</p>
+
+  <div class="signoff">
+    <p>Best regards,</p>
+    <p class="name">Irina Csapo</p>
+  </div>
+</section>
+
+<!-- ============ 02 What I'll Bring ============ -->
+<section class="section">
+  <div class="section-tag">
+    <span class="eyebrow">02</span>
+    <span class="eyebrow label">What I'll Bring</span>
+  </div>
+  <h2 style="max-width:20em">The points under <span style="color:var(--blue)">What You'll Bring</span>, and the work behind each one</h2>
+  <div class="rule" style="margin-bottom:48px"></div>
+
+  <div class="points">
+
+    <article class="point">
+      <h3>Strong end-to-end consumer native app work, talked about honestly</h3>
+      <p class="lede">Veva is a native iOS and Android app controlling home EV charge points. The charger has no screen, so the app was the entire interface to an unpredictable physical object. I designed the full state model: connecting, charging, paused, scheduled, error, offline, and every transition between them, so it stayed legible on a phone even when the hardware itself was behaving unreliably.</p>
+      <div class="panel">
+        <p><strong>A decision I'd defend:</strong> two very different users, installing engineers and homeowners, in one app rather than two. I rejected separate builds on maintenance cost and because the engineer is frequently setting the charger up with the homeowner present. That created a real trade-off, a settings area complete enough for an engineer and safe enough for a homeowner to stumble into, which is why I've designed a qualified-electrician warning gate.</p>
+      </div>
+      <div class="panel">
+        <p><strong>What I'd do differently:</strong> I accepted the brief's success criteria rather than defining my own. I have no post-launch data on whether the guided setup actually reduced support calls, which was the entire point of that work. I'd now insist on the measure before starting.</p>
+      </div>
+      <p class="link-line" style="margin-top:18px"><a href="https://irinacsapo.co.uk/case-studies/veva-case-study">Case study here &rarr; irinacsapo.co.uk/case-studies/veva-case-study</a></p>
+    </article>
+
+    <article class="point">
+      <h3>Genuinely creative, real range rather than variations on one idea</h3>
+      <p class="lede">At Fertifa I designed onboarding where none existed. I produced three genuinely different directions rather than three versions of the same one:</p>
+      <ul class="dot-list">
+        <li>
+          <span class="bullet"></span>
+          <p>A comprehensive, employer-configured flow that surfaced everything relevant to that employer's package.</p>
+        </li>
+        <li>
+          <span class="bullet"></span>
+          <p>A short progressive flow that personalised as it went, asking less and inferring more.</p>
+        </li>
+        <li>
+          <span class="bullet"></span>
+          <p>A minimal version that got people into the product immediately and deferred everything else to the point of need.</p>
+        </li>
+      </ul>
+      <p class="lede">Each was a different bet about what a first-time user actually needs, with a different cost in build complexity and maintenance. Presenting them as real alternatives rather than a preferred option with two strawmen made the conversation about the bet rather than the aesthetics.</p>
+    </article>
+
+    <article class="point">
+      <h3>Energised by ambiguity, comfortable questioning the idea I was handed</h3>
+      <p class="lede">At Fertifa, a free-text box was proposed for the end of onboarding. I argued against it.</p>
+      <p class="lede">Free text is work at precisely the moment you're trying to reduce work, and it assumes an articulacy people don't have yet. Someone knows they're dealing with menopause. They don't yet know their question. Asking them to compose one is asking them to do the hardest part first.</p>
+      <p class="lede">I proposed replacing it with example questions, which solve the blank page problem and also do quiet permission work, seeing a question written down tells someone their concern counts, plus a direct route to booking in a chosen area of care. The free text moves to the point of booking an appointment, where someone has already committed and has a genuine reason to be specific. I decided to relocate the text box to where it earns its place.</p>
+    </article>
+
+    <article class="point">
+      <h3>Experience designing for habit and behaviour change</h3>
+      <p class="lede">Strands is a behavioural app for people living with trichotillomania (the urge of hair-pulling), built around daily check-ins, trigger identification and pattern recognition over time. The central design problem was showing someone their own behaviour without it reading as judgement, which is close to what you describe about scores and trends feeling encouraging rather than clinical.</p>
+      <p class="lede"><strong style="color:var(--ink)">Specific decisions:</strong> streaks framed around consistency of noticing rather than abstinence, so a difficult day doesn't reset progress. Insights written as observations rather than verdicts. Pacing that lets someone log in five seconds on a bad day and go deeper on a good one.</p>
+      <div class="panel">
+        <p><strong>On the evidence:</strong> I had access to one person with the condition, so I treated her as a collaborator rather than a sample. That gave me real depth on one person's experience, enough to shape the emotional design, the language and the pacing. It was not enough to tell me about variation between people or which features mattered most, and I was explicit with myself about that line. Next would have been comparative sessions and a concept test on whether the streak mechanic motivates or shames this particular population.</p>
+      </div>
+      <p class="link-line" style="margin-top:18px"><a href="https://irinacsapo.co.uk/case-studies/strands-case-study">Case study here &rarr; irinacsapo.co.uk/case-studies/strands-case-study</a></p>
+      <p class="lede" style="margin-top:18px">WeGlow is a fitness app where I designed entire journeys, flows and medals for rewarding commitment and creating user habit and behaviour change.</p>
+      <p class="link-line" style="margin-top:12px"><a href="https://irinacsapo.co.uk/case-studies/weglow">Case study here &rarr; irinacsapo.co.uk/case-studies/weglow</a></p>
+      <div class="panel pink" style="margin-top:18px;padding:22px 26px">
+        <p style="margin-bottom:10px">Personally, I am also a Duolingo daily active user (880 streak days) and also Brilliant (271 streak days) as of this year. I love both of these apps very much and I know a thing or two about streaks, engagement, commitment and designing for habit and behaviour change.</p>
+        <p style="font-weight:600;color:var(--pink)">Add me as a friend @irinacsapo on Duolingo, let's start a new Friend Streak together!</p>
+      </div>
+    </article>
+
+    <article class="point">
+      <h3>Thinking in user problems, flows and behaviours rather than screens</h3>
+      <p class="lede">Fertifa was fundamentally a systems problem. Pathways/services varied by employer package tier, so the same landing experience was wrong for almost everyone. The design work was defining the conditional logic, deciding what to hide, when, and on what basis, and building a personalised dashboard whose content states derived from onboarding responses and package tier. The screens were the output. The system underneath was the actual work.</p>
+    </article>
+
+    <article class="point">
+      <h3>Strong product judgement, balancing user needs, business goals, evidence and craft</h3>
+      <p class="lede">At Omaze I redesigned the subscription cancellation flow. The commercial goal was retention, but adding friction to cancellation would have damaged trust and increased chargebacks, trading a short-term number for a long-term cost. I surfaced relevant alternatives at the point of intent instead. Cancellations fell 9.5% in three months without anyone being made to feel trapped.</p>
+      <p class="lede"><strong style="color:var(--ink)">A second example of evidence changing my mind:</strong> I was asked to make an add-on step more visually prominent. The funnel data showed drop-off happening before the display point, so prominence couldn't have been the constraint. I reframed it as value framing and sequencing and tested that instead, which increased attachment rate by 27%. Honestly, the data told me where, not why. The why was a hypothesis I tested rather than a finding, and I'd now run a handful of user sessions alongside the quant to confirm it.</p>
+      <p class="link-line" style="margin-top:18px"><a href="https://irinacsapo.co.uk/case-studies/omaze-mm-case-study">Case study here &rarr; irinacsapo.co.uk/case-studies/omaze-mm-case-study</a></p>
+    </article>
+
+    <article class="point">
+      <h3>Communicating with clarity and bringing people with me</h3>
+      <p class="lede">I've spent some of my career as the only designer in the room, which means work only happens if I can explain it. I've presented design rationale to senior stakeholders to secure buy-in for platform redesigns, mentored junior designers, and this year gave a public talk at Milton Keynes Geek Night, Tender Tech: Joy, E-Waste and the Art of Delightful Making: <a href="https://mkgeeknight.co.uk/events/mkgn-56">mkgeeknight.co.uk/events/mkgn-56</a></p>
+    </article>
+
+    <article class="point">
+      <h3>Taking work from an ambiguous starting point through to shipped</h3>
+      <p class="lede">Three years as the sole designer on Paycada, a B2B fintech payments product taken from zero in a regulated environment. Brand, information architecture, interaction patterns, component library, compliance constraints, every screen. No other designer to hand off to which meant building my own feedback loops, primarily with engineering: <a href="https://irinacsapo.co.uk/case-studies/paycada-case-study">irinacsapo.co.uk/case-studies/paycada-case-study</a></p>
+      <p class="lede" style="margin-top:18px">Alongside client work I design and ship AI-powered products independently at <a href="https://irina.love/">irina.love</a>. Four are live. I own the product thinking, the interface, the prompt design and enough of the front-end build to ship and maintain them myself.</p>
+    </article>
+
+    <article class="point">
+      <h3>Low-ego, pragmatic, ownership through to the end</h3>
+      <p class="lede">Working with the lead engineer at Fertifa on the conditional entitlement logic, several of my proposals didn't quite make it through. Rather than either of us defending a first idea, we'd find the actual constraint and design around it. The result was better than what I started with, and that's usually how it goes.</p>
+      <p class="lede">I also stay in the work through implementation and QA rather than handing over a file and moving on. On Veva that meant producing the charging state animations in Rive and converting them to JSON when the developers needed specific export paths.</p>
+    </article>
+
+    <article class="point">
+      <h3>Using AI where it genuinely helps, and knowing where it doesn't</h3>
+      <p class="lede">I design and build my own AI products, so I know where these systems are capable and, more usefully, where they break in front of real users.</p>
+      <div style="display:flex;flex-direction:column;gap:14px;margin-top:18px">
+        <div class="panel blue">
+          <div class="panel-tag" style="color:var(--blue)">Where it helps</div>
+          <p>AI has moved the bottleneck in my process. Generating options was never the hard part. Specification, documentation and audit were, because they cost days and get cut first under deadline pressure. Those now cost hours. I recently reverse-engineered three years of undocumented design system work into a three-tier token architecture, brand primitives, semantic aliases and component tokens, and ran a WCAG contrast audit alongside it that surfaced two live accessibility failures with a single-token fix for each. That would have been a week. It took an evening.</p>
+        </div>
+        <div class="panel amber">
+          <div class="panel-tag" style="color:var(--ink)">Where it doesn't</div>
+          <p>Judgement about what's worth building, and anything presented as fact. During that same exercise the model confidently produced hex values for colours that had never existed in the brand system. Plausible, internally consistent, entirely invented. I caught it by checking against source rather than against the rendered output. AI fails most dangerously where it's most fluent, so I verify anything factual and treat anything generative as a draft.</p>
+        </div>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<!-- ============ 03 Selected work ============ -->
+<section class="section">
+  <div class="section-tag">
+    <span class="eyebrow">03</span>
+    <span class="eyebrow label">Selected work</span>
+  </div>
+  <h2>Selected work</h2>
+  <p style="margin-bottom:40px;font-size:16px;line-height:1.6;color:oklch(var(--ink-lch) / .7)">If you made it this far&hellip; Wow. Thank you!</p>
+
+  <div class="work-list">
+
+    <article class="work">
+      <div class="thumb" data-label="Veva screens"></div>
+      <div>
+        <h3>Veva</h3>
+        <p class="blurb">Native iOS and Android, hardware-connected EV charging, full state model.</p>
+        <p class="link-line"><a href="https://irinacsapo.co.uk/case-studies/veva-case-study">irinacsapo.co.uk/case-studies/veva-case-study</a></p>
+      </div>
+    </article>
+
+    <article class="work">
+      <div class="thumb" data-label="Strands screens"></div>
+      <div>
+        <h3>Strands</h3>
+        <p class="blurb">Behavioural health app, habit formation and trigger tracking.</p>
+        <p class="link-line"><a href="https://irinacsapo.co.uk/case-studies/strands-case-study">irinacsapo.co.uk/case-studies/strands-case-study</a></p>
+      </div>
+    </article>
+
+    <article class="work">
+      <div class="thumb" data-label="WeGlow screens"></div>
+      <div>
+        <h3>WeGlow</h3>
+        <p class="blurb">Behavioural fitness app, habit formation and commitment rewarding.</p>
+        <p class="link-line"><a href="https://irinacsapo.co.uk/case-studies/weglow">irinacsapo.co.uk/case-studies/weglow</a></p>
+      </div>
+    </article>
+
+    <article class="work">
+      <div class="thumb" data-label="Fertifa screens"></div>
+      <div>
+        <h3>Fertifa</h3>
+        <p class="blurb">Conditional onboarding and personalised dashboard states in healthtech.</p>
+        <p class="link-line muted">Case study upon request.</p>
+      </div>
+    </article>
+
+    <article class="work">
+      <div class="thumb" data-label="Paycada screens"></div>
+      <div>
+        <h3>Paycada</h3>
+        <p class="blurb">0-to-1 regulated fintech, sole designer, brand through to design system.</p>
+        <p class="link-line"><a href="https://irinacsapo.co.uk/case-studies/paycada-case-study">irinacsapo.co.uk/case-studies/paycada-case-study</a></p>
+      </div>
+    </article>
+
+    <article class="work">
+      <div class="thumb" data-label="Omaze screens"></div>
+      <div>
+        <h3>Omaze</h3>
+        <p class="blurb">Experiment-driven conversion, subscription and retention work.</p>
+        <p class="link-line"><a href="https://irinacsapo.co.uk/case-studies/omaze-mm-case-study">irinacsapo.co.uk/case-studies/omaze-mm-case-study</a></p>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<!-- ============ 04 About me ============ -->
+<section class="section">
+  <div class="section-tag">
+    <span class="eyebrow">04</span>
+    <span class="eyebrow label">About me</span>
+  </div>
+  <h2 style="max-width:22em">Shipping growth, conversion, engagement. Maker of delightful things</h2>
+  <div class="rule blue" style="margin-bottom:36px"></div>
+
+  <div class="about">
+    <div class="thumb circle" data-label="Portrait"></div>
+    <div>
+      <p class="lede">Product Designer with 15+ years shipping growth-focused web and mobile experiences across healthtech, e-commerce, and fintech. I translate complex metrics, business goals, insights and user needs into conversion flows, onboarding systems, and retention experiments that perform, and at Omaze, my designs contributed to &pound;1.5m revenue uplift and measurable improvements in CVR and churn. I work embedded with engineering, CRO, and growth teams from brief through handoff, designing testable solutions grounded in data.</p>
+      <p class="lede">Outside corporate work, I build <a href="https://irina.love/">irina.love</a>, a collection of AI-powered apps exploring technology, emotion, and delight. I'm also a mixed-media artist working with e-waste and collage. Both practices share the same impulse, to create things people love.</p>
+    </div>
+  </div>
+
+  <h3 class="sub-head">Recent recognition</h3>
+  <ul class="timeline">
+    <li>
+      <span class="when">July 2026</span>
+      <div>
+        <div class="what">ZOE Women in Tech Hackathon</div>
+        <p>Designed and prototyped an AI-powered misinformation decoder for wellness content, addressing trust and clarity in health decision-making, built end-to-end in 48 hours. <a href="https://irinacsapo.github.io/zoe-hackathon-app/">irinacsapo.github.io/zoe-hackathon-app</a></p>
+      </div>
+    </li>
+    <li>
+      <span class="when">June 2026</span>
+      <div>
+        <div class="what">Milton Keynes Geek Night, Speaker</div>
+        <p>Tender Tech: Joy, E-Waste and the Art of Delightful Making. <a href="https://mkgeeknight.co.uk/events/mkgn-56#Irina">mkgeeknight.co.uk/events/mkgn-56</a></p>
+      </div>
+    </li>
+    <li>
+      <span class="when">Feb 2026 &ndash;</span>
+      <div>
+        <div class="what">Irina.Love</div>
+        <p>A collection of small AI-powered apps designed to make people feel joy and perspective, where I experiment freely at the intersection of technology, design, and tenderness. <a href="https://irina.love/">irina.love</a></p>
+      </div>
+    </li>
+    <li>
+      <span class="when">Oct 2025</span>
+      <div>
+        <div class="what">Bucharest Collage Festival</div>
+        <p>Exhibiting Artist on the theme of &ldquo;The New 20's&rdquo;. <a href="https://collagefestival.ro/">collagefestival.ro</a></p>
+      </div>
+    </li>
+  </ul>
+
+  <div class="panel toolkit">
+    <h3 class="sub-head" style="margin-bottom:14px">Toolkit</h3>
+    <div class="toolkit-grid">
+      <div>Figma, Webflow, Framer, Adobe Suite</div>
+      <div>Claude, Claude Code, Lovable, Figma Make</div>
+      <div>Wireframing, prototyping, journeys &amp; flows</div>
+      <div>User research, testing, user stories</div>
+      <div>Logos, branding, typography, layout</div>
+      <div>Motion: After Effects, Rive, SVGator</div>
+      <div>HTML, CSS and JavaScript: read, write, edit</div>
+      <div>Information hierarchy, proportion, colour</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 05 Get in touch ============ -->
+<section class="section">
+  <div class="section-tag">
+    <span class="eyebrow">05</span>
+    <span class="eyebrow label">Get in touch</span>
+  </div>
+  <h2>Thank you for reading</h2>
+  <p style="margin-bottom:40px;font-size:17px;line-height:1.6;color:oklch(var(--ink-lch) / .8);max-width:30em">Everything below is live and clickable. I'd love to talk about the App Experience role.</p>
+
+  <div class="contact-grid">
+    <div class="panel contact-card">
+      <div class="field">Email</div>
+      <div class="value"><a href="mailto:irina.csapo@gmail.com">irina.csapo@gmail.com</a></div>
+    </div>
+    <div class="panel contact-card">
+      <div class="field">Phone</div>
+      <div class="value plain">+44 (0)7599 840486</div>
+    </div>
+    <div class="panel contact-card">
+      <div class="field">Product portfolio</div>
+      <div class="value"><a href="https://irinacsapo.co.uk/">irinacsapo.co.uk</a></div>
+    </div>
+    <div class="panel contact-card">
+      <div class="field">LinkedIn</div>
+      <div class="value"><a href="https://www.linkedin.com/in/irinacsapo/">linkedin.com/in/irinacsapo</a></div>
+    </div>
+  </div>
+
+  <h3 class="sub-head">Everything in one place</h3>
+  <ul class="link-index">
+    <li>
+      <span class="what">Personal product design &amp; AI projects</span>
+      <a href="https://irina.love/">irina.love</a>
+    </li>
+    <li>
+      <span class="what">ZOE hackathon app</span>
+      <a href="https://irinacsapo.github.io/zoe-hackathon-app/">irinacsapo.github.io/zoe-hackathon-app</a>
+    </li>
+    <li>
+      <span class="what">ZOE hackathon app case study</span>
+      <a href="https://irinacsapo.github.io/zoe-hackathon-app/case-study.html">&hellip;/zoe-hackathon-app/case-study.html</a>
+    </li>
+    <li>
+      <span class="what">Where I ship my own code</span>
+      <a href="https://github.com/IrinaCsapo">github.com/IrinaCsapo</a>
+    </li>
+    <li>
+      <span class="what">About me and my multidisciplinary practice</span>
+      <a href="https://linktr.ee/irina.csapo">linktr.ee/irina.csapo</a>
+    </li>
+  </ul>
+
+  <div class="colophon">
+    <div>
+      <div class="wordmark">Irina Csapo<span class="dot">.</span></div>
+      <div class="role">Senior Product Designer &middot; London, UK</div>
+    </div>
+    <div class="pips">
+      <span class="b"></span>
+      <span class="p"></span>
+      <span class="a"></span>
+    </div>
+  </div>
+</section>
+
+</td></tr></tbody>
+<tfoot><tr><td>
+  <div class="ftr-space">
+    <div class="running-footer">
+      <span>Irina Csapo &middot; Senior Product Designer, App Experience</span>
+      <span>irinacsapo.co.uk</span>
+    </div>
+  </div>
+</td></tr></tfoot>
+</table>
+</div>
+
+<button class="save" type="button" onclick="window.print()">Save as PDF</button>
+
+</body>
+</html>
