@@ -275,7 +275,7 @@
     object-fit: cover; pointer-events: none;
   }
   #hero-wash {
-    position: absolute; inset: 0; pointer-events: none; opacity: .6;
+    position: absolute; inset: 0; pointer-events: none; opacity: .3;
     background:
       radial-gradient(58% 42% at 12% 18%, oklch(87% 0.09 300 / .8), transparent 70%),
       radial-gradient(50% 40% at 88% 12%, oklch(90% 0.08 60 / .75), transparent 70%),
@@ -290,8 +290,8 @@
     transform: translateZ(0);
     pointer-events: none; will-change: transform;
   }
-  #prism-a { width: 58vmax; height: 58vmax; left: -20vmax; top: -24vmax; opacity: .42; animation: prismspin 44s linear infinite; }
-  #prism-b { width: 48vmax; height: 48vmax; right: -17vmax; bottom: -21vmax; opacity: .34; animation: prismspin 58s linear infinite reverse; }
+  #prism-a { width: 58vmax; height: 58vmax; left: -20vmax; top: -24vmax; opacity: .22; animation: prismspin 44s linear infinite; }
+  #prism-b { width: 48vmax; height: 48vmax; right: -17vmax; bottom: -21vmax; opacity: .18; animation: prismspin 58s linear infinite reverse; }
   @keyframes prismspin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
   #prism-sheen {
     position: absolute; inset: 0; pointer-events: none;
@@ -302,7 +302,8 @@
   #hero-sparkles { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
 
   .hero-eyebrow {
-    margin-bottom: 34px; color: var(--ink-soft); position: relative; z-index: 2;
+    margin-bottom: 34px; color: oklch(96% 0.01 85 / 0.9); position: relative; z-index: 2;
+    text-shadow: 0 1px 12px oklch(20% 0.04 280 / 0.5);
     opacity: 0;
   }
   body.booted .hero-eyebrow { animation: fadeUp .8s .1s forwards; }
@@ -354,14 +355,16 @@
   }
   .hero-sub {
     margin-top: 38px; max-width: 56ch; font-family: var(--text);
-    font-size: 18px; line-height: 1.7; color: var(--ink-soft);
+    font-size: 18px; line-height: 1.7; color: oklch(97% 0.008 85);
+    text-shadow: 0 1px 16px oklch(20% 0.04 280 / 0.6), 0 1px 4px oklch(20% 0.04 280 / 0.4);
     position: relative; z-index: 2;
     opacity: 0;
   }
   body.booted .hero-sub { animation: fadeUp .9s .8s forwards; }
   .hero-hint {
     margin-top: 58px; display: flex; align-items: center; gap: 16px;
-    color: var(--ink-soft); position: relative; z-index: 2;
+    color: oklch(96% 0.01 85 / 0.92); position: relative; z-index: 2;
+    text-shadow: 0 1px 12px oklch(20% 0.04 280 / 0.5);
     opacity: 0;
   }
   body.booted .hero-hint { animation: fadeUp .9s 1.1s forwards; }
@@ -790,7 +793,7 @@
 
   <!-- ══ HERO ══ -->
   <section id="s-hero">
-    <video id="hero-video" src="uploads/scroll/hero-bg.mp4" autoplay muted loop playsinline preload="metadata"></video>
+    <video id="hero-video" src="uploads/scroll/delight-hero-web.mp4" poster="uploads/scroll/delight-hero-poster.webp" autoplay muted loop playsinline preload="metadata"></video>
     <div id="hero-wash"></div>
     <div class="prism-blob" id="prism-a"></div>
     <div class="prism-blob" id="prism-b"></div>
