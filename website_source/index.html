@@ -154,6 +154,7 @@
   }
   #chapter.on-dark { color: oklch(93% 0.015 290); }
   #chapter.gone { opacity: 0; }
+  #chapter.on-hero { opacity: 0; }
   #chapter-label {
     font-family: var(--monoF); font-size: 11px;
     letter-spacing: 0.16em; text-transform: uppercase;
@@ -377,8 +378,9 @@
   }
   body.booted .hero-sub { animation: fadeUp .9s .8s forwards; }
   .hero-hint {
-    margin-top: 58px; display: flex; align-items: center; gap: 16px;
-    color: oklch(96% 0.01 85 / 0.92); position: relative; z-index: 2;
+    position: absolute; left: 0; right: 0; bottom: 34px; z-index: 2;
+    display: flex; align-items: center; justify-content: center; gap: 16px;
+    color: oklch(96% 0.01 85 / 0.92);
     text-shadow: 0 1px 12px oklch(20% 0.04 280 / 0.5);
     opacity: 0;
   }
@@ -725,11 +727,7 @@
     #s-hero { justify-content: flex-start; padding-top: 16vh; }
     .hero-eyebrow { margin-bottom: 22px; }
     .hero-sub { margin-top: 26px; }
-    .hero-hint {
-      margin-top: 0;
-      position: absolute; left: 0; right: 0; bottom: 30px;
-      justify-content: center;
-    }
+    .hero-hint { bottom: 30px; }
     .nav-right { gap: 16px; }
     .nav-right a.alt { display: none; }
     #chapter { display: none; }
@@ -807,7 +805,7 @@
   <button data-scene="tf-bloom">Bloom</button>
 </div>
 
-<div id="chapter">
+<div id="chapter" class="on-hero">
   <div id="chapter-label">irina.love · tools of delight</div>
   <div id="chapter-bar"><div id="chapter-fill"></div></div>
 </div>
@@ -1398,6 +1396,7 @@
         setFill(st.progress);
         var show = st.scroll() > innerHeight * 0.6;
         document.getElementById('nav').classList.toggle('over-hero', st.scroll() < innerHeight * 0.8);
+        document.getElementById('chapter').classList.toggle('on-hero', st.scroll() < innerHeight * 0.8);
         document.getElementById('skip-down').classList.toggle('show', !recapStart || st.scroll() < recapStart - innerHeight);
         document.getElementById('back-top').classList.toggle('show', show);
         document.getElementById('jump-menu').classList.toggle('show', show);
