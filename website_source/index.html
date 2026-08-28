@@ -275,7 +275,7 @@
     object-fit: cover; pointer-events: none;
   }
   #hero-wash {
-    position: absolute; inset: 0; pointer-events: none; opacity: .3;
+    position: absolute; inset: 0; pointer-events: none; opacity: .4;
     background:
       radial-gradient(58% 42% at 12% 18%, oklch(87% 0.09 300 / .8), transparent 70%),
       radial-gradient(50% 40% at 88% 12%, oklch(90% 0.08 60 / .75), transparent 70%),
@@ -290,14 +290,15 @@
     transform: translateZ(0);
     pointer-events: none; will-change: transform;
   }
-  #prism-a { width: 58vmax; height: 58vmax; left: -20vmax; top: -24vmax; opacity: .22; animation: prismspin 44s linear infinite; }
-  #prism-b { width: 48vmax; height: 48vmax; right: -17vmax; bottom: -21vmax; opacity: .18; animation: prismspin 58s linear infinite reverse; }
+  #prism-a { width: 58vmax; height: 58vmax; left: -20vmax; top: -24vmax; opacity: .3; animation: prismspin 44s linear infinite; }
+  #prism-b { width: 48vmax; height: 48vmax; right: -17vmax; bottom: -21vmax; opacity: .26; animation: prismspin 58s linear infinite reverse; }
   @keyframes prismspin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-  #prism-sheen {
+  /* colour grade over the film: hue without hiding the footage */
+  #hero-tint {
     position: absolute; inset: 0; pointer-events: none;
-    background:
-      radial-gradient(560px circle at var(--mx, 68%) var(--my, 30%), oklch(98% 0.03 300 / 0.5), transparent 68%),
-      conic-gradient(from 40deg at var(--mx, 68%) var(--my, 30%), #FFBD8C12, #F882FF1c, #8785FE14, #9AFCFF16, #99FD9C10, #FFBD8C12);
+    background: linear-gradient(115deg, #FFBD8C, #FD8585, #F882FF, #8785FE, #9AFCFF, #99FD9C);
+    mix-blend-mode: color;
+    opacity: .42;
   }
   #hero-sparkles { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
 
@@ -794,10 +795,10 @@
   <!-- ══ HERO ══ -->
   <section id="s-hero">
     <video id="hero-video" src="uploads/scroll/delight-hero-web.mp4" poster="uploads/scroll/delight-hero-poster.webp" autoplay muted loop playsinline preload="metadata"></video>
+    <div id="hero-tint"></div>
     <div id="hero-wash"></div>
     <div class="prism-blob" id="prism-a"></div>
     <div class="prism-blob" id="prism-b"></div>
-    <div id="prism-sheen"></div>
     <canvas id="hero-sparkles"></canvas>
     <p class="hero-eyebrow mono">irina.love · tools of delight</p>
     <h1 class="hero-title" id="hero-title">
@@ -1147,16 +1148,6 @@
       { yPercent: 0, duration: 1.2, ease: 'power4.out', stagger: 0.14, delay: 0.15 });
     gsap.fromTo('#strike', { '--strike': 0 }, { '--strike': 1, duration: 0.7, ease: 'power2.inOut', delay: 1.3 });
   }
-  (function () {
-    var hero = document.getElementById('s-hero');
-    hero.style.setProperty('--mx', '68%'); hero.style.setProperty('--my', '30%');
-    hero.addEventListener('pointermove', function (e) {
-      var r = hero.getBoundingClientRect();
-      hero.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100).toFixed(2) + '%');
-      hero.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100).toFixed(2) + '%');
-    });
-  })();
-
   /* hero sparkles */
   var sparklesOn = true;
   (function () {
