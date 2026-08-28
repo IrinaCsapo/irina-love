@@ -100,6 +100,17 @@
     background: oklch(15% 0.03 300 / 0.2);
     border-bottom-color: oklch(93% 0.015 290 / 0.1);
   }
+  /* over the hero film: no glass, white links */
+  nav.over-hero {
+    background: transparent;
+    -webkit-backdrop-filter: none; backdrop-filter: none;
+    border-bottom-color: transparent;
+    color: oklch(98% 0.008 85);
+    text-shadow: 0 1px 12px oklch(20% 0.04 280 / 0.55);
+  }
+  nav.over-hero .nav-right a { opacity: .85; }
+  nav.over-hero .nav-right a:hover { opacity: 1; }
+  nav.over-hero .nav-logo em { color: var(--coral-soft); }
   .nav-logo { font-family: var(--display); font-size: 20px; letter-spacing: 0.02em; color: currentColor; text-decoration: none; }
   .nav-logo em { color: var(--coral); font-style: italic; }
   nav.on-dark .nav-logo em { color: var(--coral-soft); }
@@ -759,7 +770,7 @@
 
 <div class="grain"></div>
 
-<nav id="nav">
+<nav id="nav" class="over-hero">
   <a class="nav-logo" href="index.html">irina<em>.love</em></a>
   <div id="mode-toggle" role="group" aria-label="Story length">
     <button id="mode-long" class="active">Long<span class="vw"> version</span></button>
@@ -1375,6 +1386,7 @@
       onUpdate: function (st) {
         setFill(st.progress);
         var show = st.scroll() > innerHeight * 0.6;
+        document.getElementById('nav').classList.toggle('over-hero', st.scroll() < innerHeight * 0.8);
         document.getElementById('skip-down').classList.toggle('show', !recapStart || st.scroll() < recapStart - innerHeight);
         document.getElementById('back-top').classList.toggle('show', show);
         document.getElementById('jump-menu').classList.toggle('show', show);
