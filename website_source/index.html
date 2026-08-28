@@ -1177,8 +1177,9 @@
     var pts = [];
     function size() { cv.width = cv.offsetWidth * DPR; cv.height = cv.offsetHeight * DPR; }
     size(); addEventListener('resize', size);
-    for (var i = 0; i < 24; i++) {
-      pts.push({ x: Math.random(), y: Math.random(), r: Math.random() * 1.8 + 0.7,
+    for (var i = 0; i < 68; i++) {
+      pts.push({ x: Math.random(), y: Math.random(),
+        r: (i % 9 === 0 ? Math.random() * 1.4 + 2.2 : Math.random() * 1.8 + 0.7),
         s: Math.random() * 0.00008 + 0.00003, ph: Math.random() * 6.28, col: COLS[i % COLS.length] });
     }
     function tick(ts) {
