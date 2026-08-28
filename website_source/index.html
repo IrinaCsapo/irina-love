@@ -322,7 +322,10 @@
   .hero-title {
     font-family: 'Aventi', var(--display); font-weight: 400; position: relative; z-index: 2;
     font-size: clamp(46px, 8.2vw, 116px); line-height: 1.04; letter-spacing: -0.015em;
+    color: oklch(98% 0.008 85);
+    text-shadow: 0 2px 26px oklch(20% 0.04 280 / 0.45);
   }
+  .hero-title .holo-word { text-shadow: none; }
   .hero-title .row { display: block; overflow: hidden; padding-bottom: 0.16em; margin-bottom: -0.16em; }
   .hero-title .row > span { display: inline-block; will-change: transform; }
   .hero-title .strike { position: relative; white-space: nowrap; }
