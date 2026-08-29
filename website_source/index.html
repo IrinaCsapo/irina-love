@@ -734,7 +734,7 @@
     .wrap { padding: 0 24px; }
     .tf-head { top: 10%; }
     #back-top { right: 16px; bottom: 62px; width: 42px; height: 42px; }
-    .holo-card { width: clamp(230px, 62vw, 300px); }
+    .holo-card { width: clamp(240px, 67vw, 310px); }
     #sound-toggle { right: 16px; bottom: 158px; width: 42px; height: 42px; }
     #sound-label { right: 64px; bottom: 169px; }
     #skip-down { right: 16px; bottom: 110px; width: 42px; height: 42px; }
@@ -1480,7 +1480,7 @@
       var DTH = 17.5;
       function layoutWheel() {
         var R = Math.max(innerHeight * 1.15, 640);
-        var peak = innerWidth < 900 ? 0.72 : 0.58;
+        var peak = innerWidth < 900 ? 0.66 : 0.58;
         track.style.top = (innerHeight * peak + R) + 'px';
         Array.prototype.forEach.call(track.children, function (card, i) {
           card.style.marginLeft = -(card.offsetWidth / 2) + 'px';
@@ -1494,7 +1494,8 @@
           { rotation: 68 },
           { rotation: -(68 + 5 * DTH), ease: 'none', duration: 1.55 }, 1.1)
       /* cream veil rises while the last cards are still crossing */
-      if (veil) tl.to(veil, { yPercent: 0, duration: 0.775, ease: 'power1.inOut' }, 1.875);
+      var veilAt = innerWidth < 900 ? 2.15 : 1.875;
+      if (veil) tl.to(veil, { yPercent: 0, duration: 2.65 - veilAt, ease: 'power1.inOut' }, veilAt);
       sceneTriggers[id] = tl.scrollTrigger;
     });
 
