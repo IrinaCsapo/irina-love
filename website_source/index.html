@@ -1431,7 +1431,7 @@
       if (veil) gsap.set(veil, { y: 0, yPercent: 101 });
       var tl = gsap.timeline({
         scrollTrigger: {
-          trigger: scene, start: 'top top', end: (id === 'tf-bloom' ? '+=255%' : '+=290%'),
+          trigger: scene, start: 'top top', end: (id === 'tf-bloom' ? '+=225%' : '+=290%'),
           pin: true, scrub: true, invalidateOnRefresh: true,
           onUpdate: function (st) {
             var dark = st.progress > 0.18 && st.progress < 0.96;
@@ -1494,7 +1494,7 @@
           { rotation: 68 },
           { rotation: -(68 + 5 * DTH), ease: 'none', duration: 1.55 }, 1.1)
       /* cream veil rises while the last cards are still crossing */
-      if (veil) tl.to(veil, { yPercent: 0, duration: 0.3, ease: 'power2.in' }, 2.5);
+      if (veil) tl.to(veil, { yPercent: 0, duration: 0.775, ease: 'power1.inOut' }, 1.875);
       sceneTriggers[id] = tl.scrollTrigger;
     });
 
