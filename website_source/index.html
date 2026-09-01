@@ -705,6 +705,11 @@
   /* ══ ABOUT + FOOTER (matches homepage) ══ */
   #about { padding: 104px 0 96px; }
   .about-grid { display: grid; grid-template-columns: 5fr 7fr; gap: 72px; padding-top: 56px; align-items: start; }
+  .about-photo {
+    width: min(300px, 70%); aspect-ratio: 1; border-radius: 50%;
+    object-fit: cover; margin-top: 44px; display: block;
+    box-shadow: 0 24px 54px oklch(30% 0.04 60 / 0.24);
+  }
   .about-heading { font-family: var(--display); font-size: clamp(36px, 4vw, 52px); font-weight: 400; line-height: 1.1; }
   .about-heading em { font-style: italic; color: var(--accent); }
   .about-body { font-family: var(--text); font-size: 19px; line-height: 1.75; color: var(--ink-soft); max-width: 52ch; }
@@ -1112,7 +1117,10 @@
       <span>the keeper of the cabinet</span>
     </div>
     <div class="about-grid">
-      <h2 class="about-heading reveal">Making things that feel like <em>love</em></h2>
+      <div>
+        <h2 class="about-heading reveal">Making things that feel like <em>love</em></h2>
+        <img class="about-photo reveal" src="uploads/irina-portrait.webp" alt="Portrait of Irina">
+      </div>
       <div class="reveal">
         <p class="about-body">I'm a <a href="https://irinacsapo.co.uk/" target="_blank" rel="noopener">product designer</a> and <a href="https://www.instagram.com/irina_csapo_art" target="_blank" rel="noopener">artist</a>, and an agent of delight. I build small apps that sit at the intersection of AI and emotion. My tools are personal, playful, and designed to make you feel something real.</p>
         <p class="about-body">Delight seemed too soft a word to build a life around. It wasn't.</p>
