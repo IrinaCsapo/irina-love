@@ -666,6 +666,20 @@
     color: oklch(92% 0.012 290 / 0.94); margin-bottom: 14px; max-width: 40ch;
     text-shadow: 0 1px 10px oklch(10% 0.03 300 / 0.6);
   }
+  .bts-intro {
+    font-family: var(--display); font-weight: 520;
+    font-optical-sizing: none; font-variation-settings: 'opsz' 100;
+    font-size: clamp(26px, 3.6vw, 46px); line-height: 1.2;
+    margin: 52px 0 -14px;
+  }
+  .bts-intro em { color: var(--coral); font-style: italic; }
+  .ph-title {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Aventi', var(--display); font-weight: 400;
+    font-size: clamp(34px, 4.2vw, 60px); color: oklch(97% 0.008 85);
+    letter-spacing: -0.01em;
+  }
   .photo-card.placeholder { cursor: default; }
   .photo-card.placeholder:hover { transform: none; box-shadow: 0 22px 48px oklch(30% 0.03 60 / 0.22); }
   .photo-fill {
@@ -1067,14 +1081,17 @@
       <span><span class="roman">II.</span>&ensp;Beyond the screen, no AI</span>
       <span>art · photography</span>
     </div>
+    <p class="bts-intro reveal">Coming <em>soon</em></p>
     <div class="photo-grid">
       <div class="photo-card placeholder reveal">
         <div class="photo-fill"></div>
         <div class="photo-top"><span>01/</span><span>photography</span></div>
+        <span class="ph-title">Photography</span>
       </div>
       <div class="photo-card placeholder reveal">
         <div class="photo-fill"></div>
         <div class="photo-top"><span>02/</span><span>art</span></div>
+        <span class="ph-title">Art</span>
       </div>
     </div>
   </div>
