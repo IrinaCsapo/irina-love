@@ -600,6 +600,18 @@
     object-fit: cover; transition: transform .8s cubic-bezier(.23,1,.32,1);
   }
   .recap-card:hover video { transform: scale(1.03); }
+  .recap-specimen {
+    position: absolute; top: 20px; right: 20px; z-index: 2;
+    width: clamp(96px, 22%, 150px); height: auto;
+    transform: rotate(7deg);
+    border-radius: 10px;
+    box-shadow: 0 14px 34px oklch(10% 0.03 290 / 0.55);
+    transition: transform .45s cubic-bezier(.23,1,.32,1), box-shadow .45s;
+  }
+  .recap-card:hover .recap-specimen {
+    transform: rotate(2deg) translateY(-6px) scale(1.05);
+    box-shadow: 0 22px 44px oklch(10% 0.03 290 / 0.6);
+  }
   .recap-scrim {
     position: absolute; inset: 0;
     background: linear-gradient(180deg, oklch(15% 0.03 300 / 0.05) 34%, oklch(11% 0.03 300 / 0.85) 100%);
@@ -760,6 +772,7 @@
     #jump-menu { bottom: 16px; max-width: calc(100vw - 24px); overflow-x: auto; }
     #jump-menu button { padding: 7px 9px; font-size: 9px; }
     .recap-grid { grid-template-columns: 1fr; }
+    .recap-specimen { width: 64px; top: 12px; right: 12px; }
     .photo-grid { grid-template-columns: 1fr; gap: 40px; }
     .manifesto-grid { grid-template-columns: 1fr; gap: 40px; }
     .about-grid { grid-template-columns: 1fr; gap: 32px; }
@@ -1033,6 +1046,7 @@
       <a class="recap-card reveal" href="https://www.cosmicpets.love" target="_blank" rel="noopener">
         <video src="uploads/scroll/cosmic-pets-bg.mp4" muted loop playsinline preload="metadata"></video>
         <div class="recap-scrim"></div>
+        <img class="recap-specimen" src="uploads/scroll/cosmic-pets-mina-cosmic-abstract-v1.webp" alt="Cosmic pet portrait of Mina" loading="lazy">
         <div class="recap-body">
           <p class="recap-tool mono">tool 01</p>
           <h3 class="recap-title">Cosmic Pet Portraits</h3>
@@ -1043,6 +1057,7 @@
       <a class="recap-card reveal" href="https://letters.irina.love" target="_blank" rel="noopener">
         <video src="uploads/scroll/letters-hero-web.mp4" muted loop playsinline preload="metadata"></video>
         <div class="recap-scrim"></div>
+        <img class="recap-specimen" src="uploads/scroll/letters-1.webp" alt="A letter from your future self" loading="lazy">
         <div class="recap-body">
           <p class="recap-tool mono">tool 02</p>
           <h3 class="recap-title">Letters from your Future Self</h3>
@@ -1053,6 +1068,7 @@
       <a class="recap-card reveal" href="https://soundtrack.irina.love/" target="_blank" rel="noopener">
         <video src="uploads/scroll/soundtrack-hero.mp4" muted loop playsinline preload="metadata"></video>
         <div class="recap-scrim"></div>
+        <img class="recap-specimen" src="uploads/scroll/soundtrack-1.webp" alt="A generated soundtrack card" loading="lazy">
         <div class="recap-body">
           <p class="recap-tool mono">tool 03</p>
           <h3 class="recap-title">Soundtrack of Your Life</h3>
@@ -1063,6 +1079,7 @@
       <a class="recap-card reveal" href="https://bloom.irina.love/" target="_blank" rel="noopener">
         <video src="uploads/scroll/bloom-rain-hero-web.mp4" muted loop playsinline preload="metadata"></video>
         <div class="recap-scrim"></div>
+        <img class="recap-specimen" src="uploads/scroll/bloom-v1.webp" alt="A bloom grown from a loss" loading="lazy">
         <div class="recap-body">
           <p class="recap-tool mono">tool 04</p>
           <h3 class="recap-title">Bloom after Rain</h3>
