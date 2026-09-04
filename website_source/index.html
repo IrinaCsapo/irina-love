@@ -603,10 +603,10 @@
   .recap-specimen {
     position: absolute; top: 20px; right: 20px; z-index: 2;
     width: clamp(96px, 22%, 150px); height: auto;
-    transform: rotate(7deg);
+    transform: rotate(var(--tilt, 7deg));
     border-radius: 10px;
     box-shadow: 0 14px 34px oklch(10% 0.03 290 / 0.55);
-    transition: transform .45s cubic-bezier(.23,1,.32,1), box-shadow .45s;
+    transition: transform .45s cubic-bezier(.23,1,.32,1), box-shadow .45s, opacity .38s ease;
   }
   .recap-card:hover .recap-specimen {
     transform: rotate(2deg) translateY(-6px) scale(1.05);
@@ -1355,6 +1355,42 @@
   var savedMode = 'long';
   try { savedMode = localStorage.getItem('irina-mode') || 'long'; } catch (e) {}
   if (savedMode === 'short') setMode('short', false);
+
+  /* the specimens deal out fresh samples while the recap is on screen */
+  (function () {
+    if (REDUCED) return;
+    var SAMPLES = [
+      ['cosmic-pets-mina-cosmic-abstract-v1', 'cosmic-pets-otto-electric-universe-v3', 'cosmic-pets-flora-celestial-palace-v5', 'cosmic-pets-bruno-secret-garden-v1', 'cosmic-pets-kiwi-ocean-deep-v4', 'cosmic-pets-hamish-midnight-gothic-v2'],
+      ['letters-1', 'letters-2', 'letters-3', 'letters-4', 'letters-5', 'letters-6'],
+      ['soundtrack-1', 'soundtrack-2', 'soundtrack-3', 'soundtrack-4', 'soundtrack-5', 'soundtrack-6'],
+      ['bloom-v1', 'bloom-v2', 'bloom-v3', 'bloom-v4', 'bloom-v5', 'bloom-v6']
+    ];
+    var recapEl = document.getElementById('recap');
+    var recapVisible = false;
+    new IntersectionObserver(function (es) {
+      recapVisible = es[0].isIntersecting;
+    }).observe(recapEl);
+    document.querySelectorAll('.recap-specimen').forEach(function (img, i) {
+      var list = SAMPLES[i];
+      if (!list) return;
+      var idx = 0;
+      setInterval(function () {
+        if (!recapVisible || document.hidden) return;
+        idx = (idx + 1) % list.length;
+        var next = 'uploads/scroll/' + list[idx] + '.webp';
+        var pre = new Image();
+        pre.onload = function () {
+          img.style.opacity = 0;
+          setTimeout(function () {
+            img.src = next;
+            img.style.setProperty('--tilt', (4 + Math.random() * 6).toFixed(1) + 'deg');
+            img.style.opacity = 1;
+          }, 380);
+        };
+        pre.src = next;
+      }, 4200 + i * 700);
+    });
+  })();
   document.querySelectorAll('a[href^="#"]').forEach(function (a) {
     a.addEventListener('click', function (e) {
       var el = document.querySelector(a.getAttribute('href'));
