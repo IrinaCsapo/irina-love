@@ -682,9 +682,13 @@
     font-family: var(--display); font-weight: 520;
     font-optical-sizing: none; font-variation-settings: 'opsz' 100;
     font-size: clamp(26px, 3.6vw, 46px); line-height: 1.2;
-    margin: 52px 0 -14px;
+    margin: 52px 0 12px;
   }
   .bts-intro em { color: var(--coral); font-style: italic; }
+  .bts-note {
+    font-family: var(--text); font-size: 17px; line-height: 1.6;
+    color: var(--ink-soft); margin: 0 0 -14px;
+  }
   .ph-title {
     position: absolute; inset: 0;
     display: flex; align-items: center; justify-content: center;
@@ -1099,6 +1103,7 @@
       <span>art · photography</span>
     </div>
     <p class="bts-intro reveal">Coming <em>soon</em></p>
+    <p class="bts-note reveal">Created without AI</p>
     <div class="photo-grid">
       <div class="photo-card placeholder reveal">
         <div class="photo-fill"></div>
