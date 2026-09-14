@@ -595,6 +595,11 @@
     transition: transform .45s cubic-bezier(.23,1,.32,1), box-shadow .45s;
   }
   .recap-card:hover { transform: translateY(-5px); box-shadow: 0 30px 60px oklch(25% 0.04 300 / 0.4); }
+  .recap-card .recap-bg {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; transition: transform .8s cubic-bezier(.23,1,.32,1);
+  }
+  .recap-card:hover .recap-bg { transform: scale(1.04); }
   .recap-card video {
     position: absolute; inset: 0; width: 100%; height: 100%;
     object-fit: cover; transition: transform .8s cubic-bezier(.23,1,.32,1);
@@ -1043,7 +1048,7 @@
   <div class="wrap">
     <div class="section-head mono reveal">
       <span><span class="roman">I.</span>&ensp;The tools</span>
-      <span>four and counting</span>
+      <span>six and counting</span>
     </div>
     <p class="recap-intro">The Tools, ordinary moments <em>transformed</em>.</p>
     <div class="recap-grid">
@@ -1091,6 +1096,27 @@
           <span class="specimen-link">Visit bloom.irina.love <span class="arrow">→</span></span>
         </div>
       </a>
+      <a class="recap-card reveal" href="https://irinacsapo.github.io/zoe-hackathon-app/case-study.html" target="_blank" rel="noopener">
+        <img class="recap-bg" src="uploads/scroll/vera-hero.webp" alt="" loading="lazy">
+        <div class="recap-scrim"></div>
+        <div class="recap-body">
+          <p class="recap-tool mono">tool 05</p>
+          <h3 class="recap-title">Vera</h3>
+          <p class="recap-blurb">The truth behind the hype. Supplement claims graded against real scientific evidence.</p>
+          <span class="specimen-link">Read the case study <span class="arrow">→</span></span>
+        </div>
+      </a>
+      <div class="recap-card reveal">
+        <img class="recap-bg" src="uploads/space/stars-bg.svg" alt="" loading="lazy">
+        <div class="recap-scrim"></div>
+        <img class="recap-specimen" src="uploads/scroll/astronaut-card.webp" alt="A floating astronaut" loading="lazy">
+        <div class="recap-body">
+          <p class="recap-tool mono">tool 06</p>
+          <h3 class="recap-title">The Long Way Home</h3>
+          <p class="recap-blurb">An astronaut game about drifting, gravity, and finding your way back.</p>
+          <span class="coming-tag">in development</span>
+        </div>
+      </div>
     </div>
   </div>
 </section>
