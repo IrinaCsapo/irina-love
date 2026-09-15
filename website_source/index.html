@@ -605,32 +605,6 @@
     object-fit: cover; transition: transform .8s cubic-bezier(.23,1,.32,1);
   }
   .recap-card:hover video { transform: scale(1.03); }
-  .specimen-fan {
-    position: absolute; top: 20px; right: 20px; z-index: 2;
-    width: clamp(96px, 22%, 150px); aspect-ratio: 3/4.1;
-    pointer-events: none;
-    transition: transform .55s cubic-bezier(.34, 1.4, .64, 1);
-  }
-  .recap-card:hover .specimen-fan { transform: translateY(-12px); }
-  .specimen-fan img {
-    position: absolute; top: 0; left: 0; width: 100%; height: auto;
-    border-radius: 10px;
-    box-shadow: 0 14px 34px oklch(10% 0.03 290 / 0.55);
-    transform-origin: 50% 170%;
-    transition: transform .55s cubic-bezier(.34, 1.4, .64, 1);
-  }
-  .specimen-fan img:nth-child(1) { z-index: 6; transform: rotate(7deg); }
-  .specimen-fan img:nth-child(2) { z-index: 5; transform: rotate(9deg); }
-  .specimen-fan img:nth-child(3) { z-index: 4; transform: rotate(5deg); }
-  .specimen-fan img:nth-child(4) { z-index: 3; transform: rotate(8deg); }
-  .specimen-fan img:nth-child(5) { z-index: 2; transform: rotate(6deg); }
-  .specimen-fan img:nth-child(6) { z-index: 1; transform: rotate(10deg); }
-  .recap-card:hover .specimen-fan img:nth-child(1) { transform: rotate(8deg); }
-  .recap-card:hover .specimen-fan img:nth-child(2) { transform: rotate(-3deg); transition-delay: .02s; }
-  .recap-card:hover .specimen-fan img:nth-child(3) { transform: rotate(-14deg); transition-delay: .05s; }
-  .recap-card:hover .specimen-fan img:nth-child(4) { transform: rotate(-25deg); transition-delay: .08s; }
-  .recap-card:hover .specimen-fan img:nth-child(5) { transform: rotate(-36deg); transition-delay: .11s; }
-  .recap-card:hover .specimen-fan img:nth-child(6) { transform: rotate(-47deg); transition-delay: .14s; }
   .recap-specimen {
     position: absolute; top: 20px; right: 20px; z-index: 2;
     width: clamp(96px, 22%, 150px); height: auto;
@@ -813,7 +787,6 @@
     #jump-menu button { padding: 7px 9px; font-size: 9px; }
     .recap-grid { grid-template-columns: 1fr; }
     .recap-specimen { width: 64px; top: 12px; right: 12px; }
-    .specimen-fan { width: 64px; top: 12px; right: 12px; }
     .photo-grid { grid-template-columns: 1fr; gap: 40px; }
     .manifesto-grid { grid-template-columns: 1fr; gap: 40px; }
     .about-grid { grid-template-columns: 1fr; gap: 32px; }
@@ -1087,14 +1060,6 @@
       <a class="recap-card reveal" href="https://www.cosmicpets.love" target="_blank" rel="noopener">
         <video src="uploads/scroll/cosmic-pets-bg.mp4" muted loop playsinline preload="metadata"></video>
         <div class="recap-scrim"></div>
-        <div class="specimen-fan" role="img" aria-label="Cosmic pet portraits">
-          <img src="uploads/scroll/cosmic-pets-mina-cosmic-abstract-v1.webp" alt="" loading="lazy">
-          <img src="uploads/scroll/cosmic-pets-otto-electric-universe-v3.webp" alt="" loading="lazy">
-          <img src="uploads/scroll/cosmic-pets-flora-celestial-palace-v5.webp" alt="" loading="lazy">
-          <img src="uploads/scroll/cosmic-pets-bruno-secret-garden-v1.webp" alt="" loading="lazy">
-          <img src="uploads/scroll/cosmic-pets-kiwi-ocean-deep-v4.webp" alt="" loading="lazy">
-          <img src="uploads/scroll/cosmic-pets-hamish-midnight-gothic-v2.webp" alt="" loading="lazy">
-        </div>
         <div class="recap-body">
           <p class="recap-tool mono">tool 01</p>
           <h3 class="recap-title">Cosmic Pet Portraits</h3>
@@ -1105,14 +1070,6 @@
       <a class="recap-card reveal" href="https://letters.irina.love" target="_blank" rel="noopener">
         <video src="uploads/scroll/letters-hero-web.mp4" muted loop playsinline preload="metadata"></video>
         <div class="recap-scrim"></div>
-        <div class="specimen-fan" role="img" aria-label="Letters from your future self">
-          <img src="uploads/scroll/letters-1.webp" alt="" loading="lazy">
-          <img src="uploads/scroll/letters-2.webp" alt="" loading="lazy">
-          <img src="uploads/scroll/letters-3.webp" alt="" loading="lazy">
-          <img src="uploads/scroll/letters-4.webp" alt="" loading="lazy">
-          <img src="uploads/scroll/letters-5.webp" alt="" loading="lazy">
-          <img src="uploads/scroll/letters-6.webp" alt="" loading="lazy">
-        </div>
         <div class="recap-body">
           <p class="recap-tool mono">tool 02</p>
           <h3 class="recap-title">Letters from your Future Self</h3>
@@ -1123,14 +1080,6 @@
       <a class="recap-card reveal" href="https://soundtrack.irina.love/" target="_blank" rel="noopener">
         <video src="uploads/scroll/soundtrack-hero.mp4" muted loop playsinline preload="metadata"></video>
         <div class="recap-scrim"></div>
-        <div class="specimen-fan" role="img" aria-label="Generated soundtrack cards">
-          <img src="uploads/scroll/soundtrack-1.webp" alt="" loading="lazy">
-          <img src="uploads/scroll/soundtrack-2.webp" alt="" loading="lazy">
-          <img src="uploads/scroll/soundtrack-3.webp" alt="" loading="lazy">
-          <img src="uploads/scroll/soundtrack-4.webp" alt="" loading="lazy">
-          <img src="uploads/scroll/soundtrack-5.webp" alt="" loading="lazy">
-          <img src="uploads/scroll/soundtrack-6.webp" alt="" loading="lazy">
-        </div>
         <div class="recap-body">
           <p class="recap-tool mono">tool 03</p>
           <h3 class="recap-title">Soundtrack of Your Life</h3>
@@ -1141,14 +1090,6 @@
       <a class="recap-card reveal" href="https://bloom.irina.love/" target="_blank" rel="noopener">
         <video src="uploads/scroll/bloom-rain-hero-web.mp4" muted loop playsinline preload="metadata"></video>
         <div class="recap-scrim"></div>
-        <div class="specimen-fan" role="img" aria-label="Blooms grown from losses">
-          <img src="uploads/scroll/bloom-v1.webp" alt="" loading="lazy">
-          <img src="uploads/scroll/bloom-v2.webp" alt="" loading="lazy">
-          <img src="uploads/scroll/bloom-v3.webp" alt="" loading="lazy">
-          <img src="uploads/scroll/bloom-v4.webp" alt="" loading="lazy">
-          <img src="uploads/scroll/bloom-v5.webp" alt="" loading="lazy">
-          <img src="uploads/scroll/bloom-v6.webp" alt="" loading="lazy">
-        </div>
         <div class="recap-body">
           <p class="recap-tool mono">tool 04</p>
           <h3 class="recap-title">Bloom after Rain</h3>
