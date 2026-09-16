@@ -488,6 +488,32 @@
   }
   .site-cta:hover { background: oklch(22% 0.05 300 / 0.7); border-color: oklch(97% 0.008 85 / 0.6); }
   .site-cta .arrow { color: var(--coral-soft); }
+  .site-hit { position: absolute; inset: 0; cursor: pointer; }
+  .site-controls {
+    position: absolute; left: 50%; transform: translateX(-50%); bottom: 86px; z-index: 6;
+    display: flex; gap: 8px; align-items: center;
+  }
+  .site-try {
+    font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: oklch(97% 0.008 85); cursor: pointer; border: 1px solid oklch(97% 0.008 85 / 0.3);
+    padding: 11px 20px; border-radius: 999px;
+    background: oklch(15% 0.03 300 / 0.55);
+    -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+    transition: background .25s, border-color .25s;
+  }
+  .site-try:hover { background: oklch(22% 0.05 300 / 0.7); border-color: oklch(97% 0.008 85 / 0.6); }
+  .site-open {
+    display: flex; align-items: center; justify-content: center;
+    min-width: 39px; height: 39px; border-radius: 999px;
+    font-size: 13px; color: oklch(97% 0.008 85); text-decoration: none;
+    background: oklch(15% 0.03 300 / 0.55); border: 1px solid oklch(97% 0.008 85 / 0.3);
+    -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  }
+  .site-open:hover { border-color: oklch(97% 0.008 85 / 0.6); }
+  .site-open .so-label { display: none; }
+  .tf.site-live .site-full iframe { pointer-events: auto; }
+  .tf.site-live .site-hit { display: none; }
+  .tf.site-live .car-track { pointer-events: none; }
 
   .car-track {
     position: absolute; left: 50%; top: 0; width: 0; height: 0;
@@ -834,6 +860,10 @@
     .tf-carousel { position: relative; inset: auto; overflow-x: auto; padding: 30px 0; }
     .site-full iframe { display: none; }
     .site-cta { bottom: 78px; }
+    .site-controls { bottom: 78px; }
+    .site-try { display: none; }
+    .site-open { font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; padding: 11px 18px; height: auto; }
+    .site-open .so-label { display: inline; }
     .car-track { position: static; width: max-content; height: auto; display: flex; gap: 24px; padding: 20px 24px; }
     .car-track .holo-card { position: relative; }
     .tf-veil { display: none; }
@@ -969,9 +999,13 @@
       <div class="site-full">
         <img src="uploads/scroll/site-letters.webp" alt="The Letters from your Future Self website">
         <iframe data-src="https://letters.irina.love" title="The Letters from your Future Self website, live" loading="lazy" tabindex="-1" aria-hidden="true"></iframe>
+        <div class="site-hit" title="Click to use the site"></div>
       </div>
       <div class="shade-top"></div>
-      <a class="site-cta mono" href="https://letters.irina.love" target="_blank" rel="noopener">Visit letters.irina.love <span class="arrow">→</span></a>
+      <div class="site-controls">
+        <button class="site-try mono" type="button">Try it right here ✦</button>
+        <a class="site-open mono" href="https://letters.irina.love" target="_blank" rel="noopener" aria-label="Open letters.irina.love in a new tab"><span class="so-label">Visit letters.irina.love </span>↗</a>
+      </div>
     </div>
     <div class="tf-carousel">
       <div class="car-track">
@@ -1010,9 +1044,13 @@
       <div class="site-full">
         <img src="uploads/scroll/site-soundtrack.webp" alt="The Soundtrack of Your Life website">
         <iframe data-src="https://soundtrack.irina.love" title="The Soundtrack of Your Life website, live" loading="lazy" tabindex="-1" aria-hidden="true"></iframe>
+        <div class="site-hit" title="Click to use the site"></div>
       </div>
       <div class="shade-top"></div>
-      <a class="site-cta mono" href="https://soundtrack.irina.love" target="_blank" rel="noopener">Visit soundtrack.irina.love <span class="arrow">→</span></a>
+      <div class="site-controls">
+        <button class="site-try mono" type="button">Try it right here ✦</button>
+        <a class="site-open mono" href="https://soundtrack.irina.love" target="_blank" rel="noopener" aria-label="Open soundtrack.irina.love in a new tab"><span class="so-label">Visit soundtrack.irina.love </span>↗</a>
+      </div>
     </div>
     <audio id="soundtrack-music" src="uploads/scroll/forest-can-wait.mp3" loop preload="metadata"></audio>
     <div class="tf-carousel">
@@ -1515,6 +1553,23 @@
       var isSoundtrack = id === 'tf-soundtrack';
       var headFades = !isPets; /* letters/soundtrack/bloom headlines fade back out */
 
+      var siteFrame = scene.querySelector('.site-full iframe');
+      function setSiteLive(on) {
+        scene.classList.toggle('site-live', on);
+        var b = scene.querySelector('.site-try');
+        if (b) b.textContent = on ? '✕ Back to the story' : 'Try it right here ✦';
+      }
+      if (siteFrame) {
+        var hit = scene.querySelector('.site-hit');
+        var tryBtn = scene.querySelector('.site-try');
+        if (hit) hit.addEventListener('click', function () { setSiteLive(true); });
+        if (tryBtn) tryBtn.addEventListener('click', function () {
+          setSiteLive(!scene.classList.contains('site-live'));
+        });
+        addEventListener('keydown', function (e) {
+          if (e.key === 'Escape') setSiteLive(false);
+        });
+      }
       var veil = scene.querySelector('.tf-veil');
       if (veil) gsap.set(veil, { y: 0, yPercent: 101 });
       var tl = gsap.timeline({
@@ -1532,6 +1587,7 @@
           },
           onToggle: function (st) {
             scene.classList.toggle('live', st.isActive);
+            if (!st.isActive) setSiteLive(false);
             if (st.isActive) {
               var fr = scene.querySelector('.site-full iframe');
               if (fr && !fr.src && innerWidth > 900) {
