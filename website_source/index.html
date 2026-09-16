@@ -490,7 +490,7 @@
   .site-cta .arrow { color: var(--coral-soft); }
   .site-hit { position: absolute; inset: 0; cursor: pointer; }
   .site-controls {
-    position: absolute; left: 50%; transform: translateX(-50%); bottom: 86px; z-index: 6;
+    position: absolute; left: 50%; transform: translateX(-50%); bottom: 86px; z-index: 8;
     display: flex; gap: 8px; align-items: center;
   }
   .site-try {
@@ -514,6 +514,16 @@
   .tf.site-live .site-full iframe { pointer-events: auto; }
   .tf.site-live .site-hit { display: none; }
   .tf.site-live .car-track { pointer-events: none; }
+  .tf.no-wheel .tf-carousel { display: none; }
+  /* while you are inside the site, the frame glows; back in the story it is gone */
+  .tf.site-live::after {
+    content: ''; position: absolute; inset: 0; z-index: 7; pointer-events: none;
+    box-shadow:
+      inset 0 0 0 3px oklch(82% 0.12 310 / 0.9),
+      inset 0 0 70px oklch(72% 0.16 310 / 0.35);
+    animation: siteGlow 2.4s ease-in-out infinite;
+  }
+  @keyframes siteGlow { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
 
   .car-track {
     position: absolute; left: 50%; top: 0; width: 0; height: 0;
@@ -1538,6 +1548,7 @@
   var chapterFill = document.getElementById('chapter-fill');
   var navEl = document.getElementById('nav');
 
+  var SITE_SCENE_WHEELS = false;
   function buildScenes() {
     if (REDUCED) {
       document.querySelectorAll('.tf video').forEach(function (v) { v.setAttribute('controls', ''); });
@@ -1548,6 +1559,10 @@
       var scene = document.getElementById(id);
       var video = scene.querySelector('video');
       var track = scene.querySelector('.car-track');
+      var hasSite = !!scene.querySelector('.site-full');
+      /* the card wheel is parked in the site scenes for now; flip to true to bring it back */
+      var wheelOn = !hasSite || SITE_SCENE_WHEELS;
+      if (!wheelOn) scene.classList.add('no-wheel');
       var head = scene.querySelector('.tf-head');
       var isPets = id === 'tf-pets';
       var isSoundtrack = id === 'tf-soundtrack';
@@ -1574,7 +1589,10 @@
       if (veil) gsap.set(veil, { y: 0, yPercent: 101 });
       var tl = gsap.timeline({
         scrollTrigger: {
-          trigger: scene, start: 'top top', end: (id === 'tf-bloom' ? '+=225%' : '+=290%'),
+          trigger: scene, start: 'top top',
+          end: (hasSite && !SITE_SCENE_WHEELS)
+            ? (id === 'tf-bloom' ? '+=130%' : '+=150%')
+            : (id === 'tf-bloom' ? '+=225%' : '+=290%'),
           pin: true, scrub: true, invalidateOnRefresh: true,
           onUpdate: function (st) {
             var dark = st.progress > 0.18 && st.progress < 0.96;
@@ -1639,14 +1657,20 @@
           card.style.transform = 'rotate(' + (i * DTH) + 'deg) translateY(' + (-R) + 'px)';
         });
       }
-      layoutWheel();
-      addEventListener('resize', layoutWheel);
-      tl.fromTo(track,
-          { rotation: 68 },
-          { rotation: -(68 + 5 * DTH), ease: 'none', duration: 1.55 }, 1.1)
-      /* cream veil rises while the last cards are still crossing */
-      var veilAt = innerWidth < 900 ? 2.15 : 1.875;
-      if (veil) tl.to(veil, { yPercent: 0, duration: 2.65 - veilAt, ease: 'power1.inOut' }, veilAt);
+      if (wheelOn) {
+        layoutWheel();
+        addEventListener('resize', layoutWheel);
+        tl.fromTo(track,
+            { rotation: 68 },
+            { rotation: -(68 + 5 * DTH), ease: 'none', duration: 1.55 }, 1.1)
+        /* cream veil rises while the last cards are still crossing */
+        var veilAt = innerWidth < 900 ? 2.15 : 1.875;
+        if (veil) tl.to(veil, { yPercent: 0, duration: 2.65 - veilAt, ease: 'power1.inOut' }, veilAt);
+      } else {
+        /* no wheel: linger on the site, then hand off */
+        if (veil) tl.to(veil, { yPercent: 0, duration: 0.5, ease: 'power1.inOut' }, 1.1);
+        else tl.to({}, { duration: 0.95 }, 0.65);
+      }
       sceneTriggers[id] = tl.scrollTrigger;
     });
 
