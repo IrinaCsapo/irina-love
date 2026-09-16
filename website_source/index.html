@@ -463,40 +463,31 @@
     position: absolute; z-index: 4; inset: 0;
     overflow: visible; pointer-events: none;
   }
-  /* a window into the real site */
-  .site-window {
-    position: absolute; left: 50%; transform: translateX(-50%);
-    top: 35.5%; width: min(780px, 58vw); z-index: 2;
-    border-radius: 14px; overflow: hidden;
-    background: oklch(20% 0.03 290);
-    border: 1px solid oklch(90% 0.01 290 / 0.16);
-    box-shadow: 0 40px 90px oklch(5% 0.02 290 / 0.55);
-  }
-  .sw-bar {
-    display: flex; align-items: center; gap: 7px; padding: 11px 14px;
-    background: oklch(15% 0.02 290 / 0.92);
-  }
-  .sw-dot { width: 10px; height: 10px; border-radius: 50%; }
-  .sw-dot.d1 { background: oklch(65% 0.19 25); }
-  .sw-dot.d2 { background: oklch(80% 0.15 85); }
-  .sw-dot.d3 { background: oklch(72% 0.17 150); }
-  .sw-url {
-    margin-left: 10px; font-family: var(--monoF); font-size: 10px;
-    letter-spacing: 0.12em; color: oklch(85% 0.01 290 / 0.72);
-  }
-  .sw-body { position: relative; aspect-ratio: 16/10; }
-  .sw-body img {
+  /* the scene is the live site */
+  .site-full { position: absolute; inset: 0; }
+  .site-full img, .site-full iframe {
     position: absolute; inset: 0; width: 100%; height: 100%;
-    object-fit: cover; display: block;
+    object-fit: cover; border: 0; display: block;
   }
-  .sw-body iframe {
-    position: absolute; top: 0; left: 0; border: 0;
-    width: 152%; height: 152%;
-    transform: scale(0.6579); transform-origin: 0 0;
-    opacity: 0; transition: opacity .6s ease;
+  .site-full iframe { opacity: 0; transition: opacity .6s ease; pointer-events: none; }
+  .site-full iframe.on { opacity: 1; }
+  .shade-top {
+    position: absolute; left: 0; right: 0; top: 0; height: 140px;
+    background: linear-gradient(180deg, oklch(14% 0.035 300 / 0.55), transparent);
     pointer-events: none;
   }
-  .sw-body iframe.on { opacity: 1; }
+  .site-cta {
+    position: absolute; left: 50%; transform: translateX(-50%); bottom: 86px; z-index: 6;
+    font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: oklch(97% 0.008 85); text-decoration: none;
+    padding: 11px 20px; border-radius: 999px;
+    background: oklch(15% 0.03 300 / 0.55);
+    border: 1px solid oklch(97% 0.008 85 / 0.3);
+    -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+    transition: background .25s, border-color .25s;
+  }
+  .site-cta:hover { background: oklch(22% 0.05 300 / 0.7); border-color: oklch(97% 0.008 85 / 0.6); }
+  .site-cta .arrow { color: var(--coral-soft); }
 
   .car-track {
     position: absolute; left: 50%; top: 0; width: 0; height: 0;
@@ -841,7 +832,8 @@
     .tf-reveal { position: relative; height: 70vh; clip-path: none; }
     .tf-head { position: relative; left: auto; top: auto; transform: none; opacity: 1; margin: -54vh auto 0; padding-bottom: 24vh; }
     .tf-carousel { position: relative; inset: auto; overflow-x: auto; padding: 30px 0; }
-    .site-window { width: 86vw; top: 33%; }
+    .site-full iframe { display: none; }
+    .site-cta { bottom: 78px; }
     .car-track { position: static; width: max-content; height: auto; display: flex; gap: 24px; padding: 20px 24px; }
     .car-track .holo-card { position: relative; }
     .tf-veil { display: none; }
@@ -974,20 +966,12 @@
       <div class="tf-sub">friday afternoon, four pm, heavy</div>
     </div>
     <div class="tf-reveal">
-      <video src="uploads/scroll/letters-hero-web.mp4" muted loop playsinline preload="metadata"></video>
-      <div class="tf-shade"></div>
-      <div class="site-window">
-        <div class="sw-bar"><span class="sw-dot d1"></span><span class="sw-dot d2"></span><span class="sw-dot d3"></span><span class="sw-url">letters.irina.love</span></div>
-        <div class="sw-body">
-          <img src="uploads/scroll/site-letters.webp" alt="The Letters from your Future Self website">
+      <div class="site-full">
+        <img src="uploads/scroll/site-letters.webp" alt="The Letters from your Future Self website">
         <iframe data-src="https://letters.irina.love" title="The Letters from your Future Self website, live" loading="lazy" tabindex="-1" aria-hidden="true"></iframe>
-        </div>
       </div>
-    </div>
-    <div class="tf-head">
-      <h3>A letter… from your <em>future self</em></h3>
-      <p class="tf-headsub">Write today. Receive an introspective reply from yourself, <strong>ten years from now</strong>, reflecting on your current worries with love and tender perspective.</p>
-      <a class="tf-cta" href="https://letters.irina.love" target="_blank" rel="noopener">Visit letters.irina.love →</a>
+      <div class="shade-top"></div>
+      <a class="site-cta mono" href="https://letters.irina.love" target="_blank" rel="noopener">Visit letters.irina.love <span class="arrow">→</span></a>
     </div>
     <div class="tf-carousel">
       <div class="car-track">
@@ -1023,22 +1007,14 @@
       <div class="tf-sub">an era, a heartbreak, on a sunday evening</div>
     </div>
     <div class="tf-reveal">
-      <video src="uploads/scroll/soundtrack-hero.mp4" muted playsinline preload="metadata"></video>
-      <div class="site-window">
-        <div class="sw-bar"><span class="sw-dot d1"></span><span class="sw-dot d2"></span><span class="sw-dot d3"></span><span class="sw-url">soundtrack.irina.love</span></div>
-        <div class="sw-body">
-          <img src="uploads/scroll/site-soundtrack.webp" alt="The Soundtrack of Your Life website">
+      <div class="site-full">
+        <img src="uploads/scroll/site-soundtrack.webp" alt="The Soundtrack of Your Life website">
         <iframe data-src="https://soundtrack.irina.love" title="The Soundtrack of Your Life website, live" loading="lazy" tabindex="-1" aria-hidden="true"></iframe>
-        </div>
       </div>
-      <div class="tf-shade"></div>
+      <div class="shade-top"></div>
+      <a class="site-cta mono" href="https://soundtrack.irina.love" target="_blank" rel="noopener">Visit soundtrack.irina.love <span class="arrow">→</span></a>
     </div>
     <audio id="soundtrack-music" src="uploads/scroll/forest-can-wait.mp3" loop preload="metadata"></audio>
-    <div class="tf-head">
-      <h3>A moment turned into a <em>soundtrack</em></h3>
-      <p class="tf-headsub">Life's moments turned into personal musical memories.</p>
-      <a class="tf-cta" href="https://soundtrack.irina.love/" target="_blank" rel="noopener">Visit soundtrack.irina.love →</a>
-    </div>
     <div class="tf-carousel">
       <div class="car-track">
         <div class="holo-card"><img src="uploads/scroll/soundtrack-1.webp" alt="Soundtrack of Your Life, example card"></div>
@@ -1075,21 +1051,13 @@
       <div class="tf-sub">turned into resilience</div>
     </div>
     <div class="tf-reveal">
-      <video src="uploads/scroll/bloom-rain-hero-web.mp4" muted loop playsinline preload="metadata"></video>
-      <div class="site-window">
-        <div class="sw-bar"><span class="sw-dot d1"></span><span class="sw-dot d2"></span><span class="sw-dot d3"></span><span class="sw-url">bloom.irina.love</span></div>
-        <div class="sw-body">
-          <img src="uploads/scroll/site-bloom.webp" alt="The Bloom after Rain website">
-        </div>
+      <div class="site-full">
+        <img src="uploads/scroll/site-bloom.webp" alt="The Bloom after Rain website">
       </div>
-      <div class="tf-shade"></div>
+      <div class="shade-top"></div>
+      <a class="site-cta mono" href="https://bloom.irina.love" target="_blank" rel="noopener">Visit bloom.irina.love <span class="arrow">→</span></a>
     </div>
     <audio id="bloom-music" src="uploads/scroll/bloom-forest.mp3" loop preload="metadata"></audio>
-    <div class="tf-head">
-      <h3>Bloom <em>after rain</em></h3>
-      <p class="tf-headsub">Something tender is growing, in your garden of resilience.</p>
-      <a class="tf-cta" href="https://bloom.irina.love/" target="_blank" rel="noopener">Visit bloom.irina.love →</a>
-    </div>
     <div class="tf-carousel">
       <div class="car-track">
         <div class="holo-card aurora-card"><img src="uploads/scroll/bloom-v1.webp" alt="Bloom after Rain, flower card"></div>
@@ -1564,15 +1532,16 @@
           },
           onToggle: function (st) {
             scene.classList.toggle('live', st.isActive);
-            if (!video) return;
             if (st.isActive) {
-              var fr = scene.querySelector('.sw-body iframe');
+              var fr = scene.querySelector('.site-full iframe');
               if (fr && !fr.src && innerWidth > 900) {
                 fr.addEventListener('load', function () { fr.classList.add('on'); }, { once: true });
                 fr.src = fr.dataset.src;
               }
-              if (isSoundtrack) startPingpong(video);
-              else video.play().catch(function () {});
+              if (video) {
+                if (isSoundtrack) startPingpong(video);
+                else video.play().catch(function () {});
+              }
               if (sceneAudio(id)) {
                 activeAudioScene = id;
                 if (soundOn && audioUnlocked) fadeInAudio(id);
@@ -1582,9 +1551,11 @@
                 if (activeAudioScene === id) activeAudioScene = null;
                 fadeOutAudio(id);
               }
-              if (isSoundtrack) stopPingpong();
-              if (id !== 'tf-pets') video.pause();
-              else setTimeout(function () { if (!scene.classList.contains('live')) video.pause(); }, 1000);
+              if (video) {
+                if (isSoundtrack) stopPingpong();
+                if (id !== 'tf-pets') video.pause();
+                else setTimeout(function () { if (!scene.classList.contains('live')) video.pause(); }, 1000);
+              }
             }
           }
         }
@@ -1595,11 +1566,10 @@
           { opacity: 0, scale: 0.94, y: -70, duration: 0.4 }, 0.05)
         .fromTo(scene.querySelector('.tf-reveal'),
           { clipPath: 'circle(0% at 50% 55%)' },
-          { clipPath: 'circle(75% at 50% 50%)', duration: 0.6, ease: 'power1.inOut' }, 0.05)
-        /* headline rises */
-        .fromTo(head, { opacity: 0, y: 46 }, { opacity: 1, y: 0, duration: 0.45 }, 0.7);
-      if (headFades) {
-        tl.to(head, { opacity: 0, y: -36, duration: 0.5 }, 2.15);
+          { clipPath: 'circle(75% at 50% 50%)', duration: 0.6, ease: 'power1.inOut' }, 0.05);
+      if (head) {
+        tl.fromTo(head, { opacity: 0, y: 46 }, { opacity: 1, y: 0, duration: 0.45 }, 0.7);
+        if (headFades) tl.to(head, { opacity: 0, y: -36, duration: 0.5 }, 2.15);
       }
       /* the wheel: cards rise bottom-right, arc overhead, set bottom-left */
       var DTH = 17.5;
