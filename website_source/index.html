@@ -502,15 +502,18 @@
     transition: background .25s, border-color .25s;
   }
   .site-try:hover { background: oklch(22% 0.05 300 / 0.7); border-color: oklch(97% 0.008 85 / 0.6); }
-  .site-open {
-    display: flex; align-items: center; justify-content: center;
-    min-width: 39px; height: 39px; border-radius: 999px;
-    font-size: 13px; color: oklch(97% 0.008 85); text-decoration: none;
+  .site-open-full {
+    font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: oklch(97% 0.008 85); text-decoration: none;
+    padding: 11px 20px; border-radius: 999px;
     background: oklch(15% 0.03 300 / 0.55); border: 1px solid oklch(97% 0.008 85 / 0.3);
     -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+    transition: background .25s, border-color .25s;
   }
-  .site-open:hover { border-color: oklch(97% 0.008 85 / 0.6); }
-  .site-open .so-label { display: none; }
+  .site-open-full:hover { background: oklch(22% 0.05 300 / 0.7); border-color: oklch(97% 0.008 85 / 0.6); }
+  .site-try { display: none; }
+  .tf.site-live .site-try { display: block; }
+  .tf.site-live .site-open-full { display: none; }
   .tf.site-live .site-full iframe { pointer-events: auto; }
   .tf.site-live .site-hit { display: none; }
   .tf.site-live .car-track { pointer-events: none; }
@@ -871,9 +874,7 @@
     .site-full iframe { display: none; }
     .site-cta { bottom: 78px; }
     .site-controls { bottom: 78px; }
-    .site-try { display: none; }
-    .site-open { font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; padding: 11px 18px; height: auto; }
-    .site-open .so-label { display: inline; }
+    .site-open-full { font-size: 10px; padding: 11px 18px; }
     .car-track { position: static; width: max-content; height: auto; display: flex; gap: 24px; padding: 20px 24px; }
     .car-track .holo-card { position: relative; }
     .tf-veil { display: none; }
@@ -1013,8 +1014,8 @@
       </div>
       <div class="shade-top"></div>
       <div class="site-controls">
-        <button class="site-try mono" type="button">Try it right here ✦</button>
-        <a class="site-open mono" href="https://letters.irina.love" target="_blank" rel="noopener" aria-label="Open letters.irina.love in a new tab"><span class="so-label">Visit letters.irina.love </span>↗</a>
+        <a class="site-open-full mono" href="https://letters.irina.love" target="_blank" rel="noopener">Open in another tab ↗</a>
+        <button class="site-try mono" type="button">✕ Back to the story</button>
       </div>
     </div>
     <div class="tf-carousel">
@@ -1058,8 +1059,8 @@
       </div>
       <div class="shade-top"></div>
       <div class="site-controls">
-        <button class="site-try mono" type="button">Try it right here ✦</button>
-        <a class="site-open mono" href="https://soundtrack.irina.love" target="_blank" rel="noopener" aria-label="Open soundtrack.irina.love in a new tab"><span class="so-label">Visit soundtrack.irina.love </span>↗</a>
+        <a class="site-open-full mono" href="https://soundtrack.irina.love" target="_blank" rel="noopener">Open in another tab ↗</a>
+        <button class="site-try mono" type="button">✕ Back to the story</button>
       </div>
     </div>
     <audio id="soundtrack-music" src="uploads/scroll/forest-can-wait.mp3" loop preload="metadata"></audio>
@@ -1103,7 +1104,7 @@
         <img src="uploads/scroll/site-bloom.webp" alt="The Bloom after Rain website">
       </div>
       <div class="shade-top"></div>
-      <a class="site-cta mono" href="https://bloom.irina.love" target="_blank" rel="noopener">Visit bloom.irina.love <span class="arrow">→</span></a>
+      <a class="site-cta mono" href="https://bloom.irina.love" target="_blank" rel="noopener">Open in another tab ↗</a>
     </div>
     <audio id="bloom-music" src="uploads/scroll/bloom-forest.mp3" loop preload="metadata"></audio>
     <div class="tf-carousel">
@@ -1571,16 +1572,12 @@
       var siteFrame = scene.querySelector('.site-full iframe');
       function setSiteLive(on) {
         scene.classList.toggle('site-live', on);
-        var b = scene.querySelector('.site-try');
-        if (b) b.textContent = on ? '✕ Back to the story' : 'Try it right here ✦';
       }
       if (siteFrame) {
         var hit = scene.querySelector('.site-hit');
         var tryBtn = scene.querySelector('.site-try');
         if (hit) hit.addEventListener('click', function () { setSiteLive(true); });
-        if (tryBtn) tryBtn.addEventListener('click', function () {
-          setSiteLive(!scene.classList.contains('site-live'));
-        });
+        if (tryBtn) tryBtn.addEventListener('click', function () { setSiteLive(false); });
         addEventListener('keydown', function (e) {
           if (e.key === 'Escape') setSiteLive(false);
         });
