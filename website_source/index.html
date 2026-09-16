@@ -463,6 +463,41 @@
     position: absolute; z-index: 4; inset: 0;
     overflow: visible; pointer-events: none;
   }
+  /* a window into the real site */
+  .site-window {
+    position: absolute; left: 50%; transform: translateX(-50%);
+    top: 35.5%; width: min(780px, 58vw); z-index: 2;
+    border-radius: 14px; overflow: hidden;
+    background: oklch(20% 0.03 290);
+    border: 1px solid oklch(90% 0.01 290 / 0.16);
+    box-shadow: 0 40px 90px oklch(5% 0.02 290 / 0.55);
+  }
+  .sw-bar {
+    display: flex; align-items: center; gap: 7px; padding: 11px 14px;
+    background: oklch(15% 0.02 290 / 0.92);
+  }
+  .sw-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .sw-dot.d1 { background: oklch(65% 0.19 25); }
+  .sw-dot.d2 { background: oklch(80% 0.15 85); }
+  .sw-dot.d3 { background: oklch(72% 0.17 150); }
+  .sw-url {
+    margin-left: 10px; font-family: var(--monoF); font-size: 10px;
+    letter-spacing: 0.12em; color: oklch(85% 0.01 290 / 0.72);
+  }
+  .sw-body { position: relative; aspect-ratio: 16/10; }
+  .sw-body img {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; display: block;
+  }
+  .sw-body iframe {
+    position: absolute; top: 0; left: 0; border: 0;
+    width: 152%; height: 152%;
+    transform: scale(0.6579); transform-origin: 0 0;
+    opacity: 0; transition: opacity .6s ease;
+    pointer-events: none;
+  }
+  .sw-body iframe.on { opacity: 1; }
+
   .car-track {
     position: absolute; left: 50%; top: 0; width: 0; height: 0;
     will-change: transform; pointer-events: auto;
@@ -806,6 +841,7 @@
     .tf-reveal { position: relative; height: 70vh; clip-path: none; }
     .tf-head { position: relative; left: auto; top: auto; transform: none; opacity: 1; margin: -54vh auto 0; padding-bottom: 24vh; }
     .tf-carousel { position: relative; inset: auto; overflow-x: auto; padding: 30px 0; }
+    .site-window { width: 86vw; top: 33%; }
     .car-track { position: static; width: max-content; height: auto; display: flex; gap: 24px; padding: 20px 24px; }
     .car-track .holo-card { position: relative; }
     .tf-veil { display: none; }
@@ -940,6 +976,13 @@
     <div class="tf-reveal">
       <video src="uploads/scroll/letters-hero-web.mp4" muted loop playsinline preload="metadata"></video>
       <div class="tf-shade"></div>
+      <div class="site-window">
+        <div class="sw-bar"><span class="sw-dot d1"></span><span class="sw-dot d2"></span><span class="sw-dot d3"></span><span class="sw-url">letters.irina.love</span></div>
+        <div class="sw-body">
+          <img src="uploads/scroll/site-letters.webp" alt="The Letters from your Future Self website">
+        <iframe data-src="https://letters.irina.love" title="The Letters from your Future Self website, live" loading="lazy" tabindex="-1" aria-hidden="true"></iframe>
+        </div>
+      </div>
     </div>
     <div class="tf-head">
       <h3>A letter… from your <em>future self</em></h3>
@@ -981,6 +1024,13 @@
     </div>
     <div class="tf-reveal">
       <video src="uploads/scroll/soundtrack-hero.mp4" muted playsinline preload="metadata"></video>
+      <div class="site-window">
+        <div class="sw-bar"><span class="sw-dot d1"></span><span class="sw-dot d2"></span><span class="sw-dot d3"></span><span class="sw-url">soundtrack.irina.love</span></div>
+        <div class="sw-body">
+          <img src="uploads/scroll/site-soundtrack.webp" alt="The Soundtrack of Your Life website">
+        <iframe data-src="https://soundtrack.irina.love" title="The Soundtrack of Your Life website, live" loading="lazy" tabindex="-1" aria-hidden="true"></iframe>
+        </div>
+      </div>
       <div class="tf-shade"></div>
     </div>
     <audio id="soundtrack-music" src="uploads/scroll/forest-can-wait.mp3" loop preload="metadata"></audio>
@@ -1026,6 +1076,12 @@
     </div>
     <div class="tf-reveal">
       <video src="uploads/scroll/bloom-rain-hero-web.mp4" muted loop playsinline preload="metadata"></video>
+      <div class="site-window">
+        <div class="sw-bar"><span class="sw-dot d1"></span><span class="sw-dot d2"></span><span class="sw-dot d3"></span><span class="sw-url">bloom.irina.love</span></div>
+        <div class="sw-body">
+          <img src="uploads/scroll/site-bloom.webp" alt="The Bloom after Rain website">
+        </div>
+      </div>
       <div class="tf-shade"></div>
     </div>
     <audio id="bloom-music" src="uploads/scroll/bloom-forest.mp3" loop preload="metadata"></audio>
@@ -1510,6 +1566,11 @@
             scene.classList.toggle('live', st.isActive);
             if (!video) return;
             if (st.isActive) {
+              var fr = scene.querySelector('.sw-body iframe');
+              if (fr && !fr.src && innerWidth > 900) {
+                fr.addEventListener('load', function () { fr.classList.add('on'); }, { once: true });
+                fr.src = fr.dataset.src;
+              }
               if (isSoundtrack) startPingpong(video);
               else video.play().catch(function () {});
               if (sceneAudio(id)) {
