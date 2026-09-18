@@ -469,8 +469,8 @@
     position: absolute; inset: 0; width: 100%; height: 100%;
     object-fit: cover; border: 0; display: block;
   }
-  .site-full iframe { opacity: 0; transition: opacity .6s ease; pointer-events: none; }
-  .site-full iframe.on { opacity: 1; }
+  .site-full iframe { opacity: 0; transition: opacity .6s ease; }
+  .tf-reveal.iris-done .site-full iframe.on { opacity: 1; }
   .shade-top {
     position: absolute; left: 0; right: 0; top: 0; height: 140px;
     background: linear-gradient(180deg, oklch(14% 0.035 300 / 0.55), transparent);
@@ -511,22 +511,8 @@
     transition: background .25s, border-color .25s;
   }
   .site-open-full:hover { background: oklch(22% 0.05 300 / 0.7); border-color: oklch(97% 0.008 85 / 0.6); }
-  .site-try { display: none; }
-  .tf.site-live .site-try { display: block; }
-  .tf.site-live .site-open-full { display: none; }
-  .tf.site-live .site-full iframe { pointer-events: auto; }
-  .tf.site-live .site-hit { display: none; }
-  .tf.site-live .car-track { pointer-events: none; }
+
   .tf.no-wheel .tf-carousel { display: none; }
-  /* while you are inside the site, the frame glows; back in the story it is gone */
-  .tf.site-live::after {
-    content: ''; position: absolute; inset: 0; z-index: 7; pointer-events: none;
-    box-shadow:
-      inset 0 0 0 3px oklch(82% 0.12 310 / 0.9),
-      inset 0 0 70px oklch(72% 0.16 310 / 0.35);
-    animation: siteGlow 2.4s ease-in-out infinite;
-  }
-  @keyframes siteGlow { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
 
   .car-track {
     position: absolute; left: 50%; top: 0; width: 0; height: 0;
@@ -1010,12 +996,10 @@
       <div class="site-full">
         <img src="uploads/scroll/site-letters.webp" alt="The Letters from your Future Self website">
         <iframe data-src="https://letters.irina.love" title="The Letters from your Future Self website, live" loading="lazy" tabindex="-1" aria-hidden="true"></iframe>
-        <div class="site-hit" title="Click to use the site"></div>
       </div>
       <div class="shade-top"></div>
       <div class="site-controls">
         <a class="site-open-full mono" href="https://letters.irina.love" target="_blank" rel="noopener">Open in another tab ↗</a>
-        <button class="site-try mono" type="button">✕ Back to the story</button>
       </div>
     </div>
     <div class="tf-carousel">
@@ -1055,12 +1039,10 @@
       <div class="site-full">
         <img src="uploads/scroll/site-soundtrack.webp" alt="The Soundtrack of Your Life website">
         <iframe data-src="https://soundtrack.irina.love" title="The Soundtrack of Your Life website, live" loading="lazy" tabindex="-1" aria-hidden="true"></iframe>
-        <div class="site-hit" title="Click to use the site"></div>
       </div>
       <div class="shade-top"></div>
       <div class="site-controls">
         <a class="site-open-full mono" href="https://soundtrack.irina.love" target="_blank" rel="noopener">Open in another tab ↗</a>
-        <button class="site-try mono" type="button">✕ Back to the story</button>
       </div>
     </div>
     <audio id="soundtrack-music" src="uploads/scroll/forest-can-wait.mp3" loop preload="metadata"></audio>
@@ -1103,12 +1085,10 @@
       <div class="site-full">
         <img src="uploads/scroll/site-bloom.webp" alt="The Bloom after Rain website">
         <iframe data-src="https://bloom.irina.love" title="The Bloom after Rain website, live" loading="lazy" tabindex="-1" aria-hidden="true"></iframe>
-        <div class="site-hit" title="Click to use the site"></div>
       </div>
       <div class="shade-top"></div>
       <div class="site-controls">
         <a class="site-open-full mono" href="https://bloom.irina.love" target="_blank" rel="noopener">Open in another tab ↗</a>
-        <button class="site-try mono" type="button">✕ Back to the story</button>
       </div>
     </div>
     <audio id="bloom-music" src="uploads/scroll/bloom-forest.mp3" loop preload="metadata"></audio>
@@ -1570,23 +1550,11 @@
       var wheelOn = !hasSite || SITE_SCENE_WHEELS;
       if (!wheelOn) scene.classList.add('no-wheel');
       var head = scene.querySelector('.tf-head');
+      var revealEl = scene.querySelector('.tf-reveal');
       var isPets = id === 'tf-pets';
       var isSoundtrack = id === 'tf-soundtrack';
       var headFades = !isPets; /* letters/soundtrack/bloom headlines fade back out */
 
-      var siteFrame = scene.querySelector('.site-full iframe');
-      function setSiteLive(on) {
-        scene.classList.toggle('site-live', on);
-      }
-      if (siteFrame) {
-        var hit = scene.querySelector('.site-hit');
-        var tryBtn = scene.querySelector('.site-try');
-        if (hit) hit.addEventListener('click', function () { setSiteLive(true); });
-        if (tryBtn) tryBtn.addEventListener('click', function () { setSiteLive(false); });
-        addEventListener('keydown', function (e) {
-          if (e.key === 'Escape') setSiteLive(false);
-        });
-      }
       var veil = scene.querySelector('.tf-veil');
       if (veil) gsap.set(veil, { y: 0, yPercent: 101 });
       var tl = gsap.timeline({
@@ -1597,6 +1565,7 @@
             : (id === 'tf-bloom' ? '+=225%' : '+=290%'),
           pin: true, scrub: true, invalidateOnRefresh: true,
           onUpdate: function (st) {
+            if (hasSite) revealEl.classList.toggle('iris-done', st.progress > 0.26);
             var dark = st.progress > 0.18 && st.progress < 0.96;
             navEl.classList.toggle('on-dark', dark && st.isActive);
             chapterEl.classList.toggle('on-dark', dark && st.isActive);
@@ -1607,7 +1576,6 @@
           },
           onToggle: function (st) {
             scene.classList.toggle('live', st.isActive);
-            if (!st.isActive) setSiteLive(false);
             if (st.isActive) {
               var fr = scene.querySelector('.site-full iframe');
               if (fr && !fr.src && innerWidth > 900) {
