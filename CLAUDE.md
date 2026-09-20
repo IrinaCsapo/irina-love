@@ -17,8 +17,8 @@ Static HTML/CSS/JS site hosted at irina.love via GitHub Pages. Source files live
 
 ## Video assets
 
-- A `-web` suffix in a video filename means Irina has already re-formatted/compressed it for the web. Only deploy `-web` versions.
-- ALERT Irina before using any video that lacks the `-web` suffix or is larger than 10MB, so she can re-export it first.
+- Any video under 10MB is fine to deploy, with or without a `-web` suffix (the suffix just means Irina already re-formatted it for the web).
+- ALERT Irina before deploying any video that is 10MB or larger, so she can re-export it first.
 
 ## Sound
 
