@@ -469,7 +469,7 @@
     position: absolute; inset: 0; width: 100%; height: 100%;
     object-fit: cover; border: 0; display: block;
   }
-  .site-full iframe { opacity: 0; transition: opacity .8s ease; }
+  .site-full iframe { opacity: 0; transition: opacity 1.6s ease; }
   .tf-reveal.iris-done .site-full iframe.on { opacity: 1; }
   .shade-top {
     position: absolute; left: 0; right: 0; top: 0; height: 140px;
@@ -985,6 +985,7 @@
     <div class="tf-reveal">
       <div class="site-full">
         <img src="uploads/scroll/site-letters.webp" alt="The Letters from your Future Self website">
+        <video class="site-hero" src="uploads/scroll/letters-hero-web.mp4" muted loop playsinline preload="metadata" aria-hidden="true"></video>
         <iframe data-src="https://letters.irina.love" title="The Letters from your Future Self website, live" loading="lazy" tabindex="-1" aria-hidden="true"></iframe>
       </div>
       <div class="shade-top"></div>
@@ -1028,6 +1029,7 @@
     <div class="tf-reveal">
       <div class="site-full">
         <img src="uploads/scroll/site-soundtrack.webp" alt="The Soundtrack of Your Life website">
+        <video class="site-hero" src="uploads/scroll/soundtrack-hero.mp4" muted playsinline preload="metadata" aria-hidden="true"></video>
         <iframe data-src="https://soundtrack.irina.love" title="The Soundtrack of Your Life website, live" loading="lazy" tabindex="-1" aria-hidden="true"></iframe>
       </div>
       <div class="shade-top"></div>
@@ -1074,6 +1076,7 @@
     <div class="tf-reveal">
       <div class="site-full">
         <img src="uploads/scroll/site-bloom.webp" alt="The Bloom after Rain website">
+        <video class="site-hero" src="uploads/scroll/bloom-rain-hero-web.mp4" muted loop playsinline preload="metadata" aria-hidden="true"></video>
         <iframe data-src="https://bloom.irina.love" title="The Bloom after Rain website, live" loading="lazy" tabindex="-1" aria-hidden="true"></iframe>
       </div>
       <div class="shade-top"></div>
@@ -1525,6 +1528,11 @@
   var navEl = document.getElementById('nav');
 
   var SITE_SCENE_WHEELS = false;
+  /* timeline time at which the iris is fully open; the live embed waits for it */
+  var IRIS_END = 0.65;
+  /* grace period after an embed loads, so its own hero video is running
+     before it dissolves in over ours */
+  var EMBED_WARMUP = 2500;
   function buildScenes() {
     if (REDUCED) {
       document.querySelectorAll('.tf video').forEach(function (v) { v.setAttribute('controls', ''); });
@@ -1555,7 +1563,7 @@
             : (id === 'tf-bloom' ? '+=225%' : '+=290%'),
           pin: true, scrub: true, invalidateOnRefresh: true,
           onUpdate: function (st) {
-            if (hasSite) revealEl.classList.toggle('iris-done', st.progress > 0.26);
+            if (hasSite) revealEl.classList.toggle('iris-done', st.progress * tl.duration() >= IRIS_END);
             var dark = st.progress > 0.18 && st.progress < 0.96;
             navEl.classList.toggle('on-dark', dark && st.isActive);
             chapterEl.classList.toggle('on-dark', dark && st.isActive);
@@ -1569,7 +1577,7 @@
             if (st.isActive) {
               var fr = scene.querySelector('.site-full iframe');
               if (fr && !fr.src && innerWidth > 900) {
-                fr.addEventListener('load', function () { fr.classList.add('on'); }, { once: true });
+                fr.addEventListener('load', function () { setTimeout(function () { fr.classList.add('on'); }, EMBED_WARMUP); }, { once: true });
                 fr.src = fr.dataset.src;
               }
               if (video) {
@@ -1600,7 +1608,7 @@
           { opacity: 0, scale: 0.94, y: -70, duration: 0.4 }, 0.05)
         .fromTo(scene.querySelector('.tf-reveal'),
           { clipPath: 'circle(0% at 50% 55%)' },
-          { clipPath: 'circle(75% at 50% 50%)', duration: 0.6, ease: 'power1.inOut' }, 0.05);
+          { clipPath: 'circle(75% at 50% 50%)', duration: IRIS_END - 0.05, ease: 'power1.inOut' }, 0.05);
       if (head) {
         tl.fromTo(head, { opacity: 0, y: 46 }, { opacity: 1, y: 0, duration: 0.45 }, 0.7);
         if (headFades) tl.to(head, { opacity: 0, y: -36, duration: 0.5 }, 2.15);
@@ -1692,10 +1700,13 @@
      long before its iris opens */
   function preloadSiteEmbeds() {
     if (innerWidth <= 900) return;
+    document.querySelectorAll('.site-full video').forEach(function (v) {
+      if (v.preload !== 'auto') { v.preload = 'auto'; v.load(); }
+    });
     document.querySelectorAll('.site-full iframe').forEach(function (fr) {
       if (fr.src) return;
       fr.loading = 'eager';
-      fr.addEventListener('load', function () { fr.classList.add('on'); }, { once: true });
+      fr.addEventListener('load', function () { setTimeout(function () { fr.classList.add('on'); }, EMBED_WARMUP); }, { once: true });
       fr.src = fr.dataset.src;
     });
   }
