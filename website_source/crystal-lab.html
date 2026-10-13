@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script defer src="https://irina-umami.vercel.app/script.js" data-website-id="9c96c480-3224-4ef0-ba74-a5212d1f6d69"></script>
+<script defer src="https://irina-umami.vercel.app/recorder.js" data-website-id="9c96c480-3224-4ef0-ba74-a5212d1f6d69"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Crystal Lab · irina.love</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<meta name="description" content="A little laboratory for growing the Homeward crystals. Procedural gems in three.js, exported as transparent PNGs.">
+
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body {
+    overflow: hidden;
+    background:
+      radial-gradient(120% 90% at 70% 20%, oklch(30% 0.06 250 / 0.9), transparent 60%),
+      radial-gradient(100% 80% at 20% 90%, oklch(45% 0.07 60 / 0.5), transparent 55%),
+      linear-gradient(oklch(12% 0.02 270), oklch(18% 0.04 260));
+    color: oklch(96% 0.01 270);
+    font-family: 'Courier New', monospace;
+  }
+  #c { position: fixed; inset: 0; display: block; }
+
+  #panel {
+    position: fixed; top: 20px; left: 20px; z-index: 10;
+    width: 250px; padding: 18px 18px 14px;
+    background: oklch(14% 0.02 270 / 0.72);
+    border: 1px solid oklch(100% 0 0 / 0.14);
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    font-size: 11px; letter-spacing: 0.05em;
+  }
+  #panel h1 { font-size: 14px; letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 12px; }
+  #panel label { display: block; margin: 9px 0 3px; opacity: 0.7; text-transform: uppercase; font-size: 9px; letter-spacing: 0.16em; }
+  #panel input[type=range] { width: 100%; accent-color: oklch(75% 0.12 300); }
+  #panel select, #panel input[type=color], #panel button {
+    width: 100%; padding: 6px; font-family: inherit; font-size: 11px;
+    background: oklch(20% 0.02 270); color: inherit;
+    border: 1px solid oklch(100% 0 0 / 0.2); border-radius: 5px; cursor: pointer;
+  }
+  #panel input[type=color] { height: 32px; padding: 2px; }
+  #panel .row { display: flex; gap: 8px; margin-top: 10px; }
+  #panel .row button:hover { border-color: oklch(100% 0 0 / 0.5); }
+  #panel .val { float: right; opacity: 0.5; }
+  #hint { position: fixed; right: 24px; bottom: 22px; z-index: 10; font-size: 10px;
+          letter-spacing: 0.14em; text-transform: uppercase; opacity: 0.5; text-align: right; line-height: 2; }
+  .tag { position: fixed; left: 28px; bottom: 24px; z-index: 10;
+         font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+         color: oklch(100% 0 0); opacity: 0.55; text-decoration: none; }
+  .tag:hover { opacity: 1; }
+</style>
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+  }
+}
+</script>
+</head>
+<body>
+
+<canvas id="c"></canvas>
+
+<div id="panel">
+  <h1>Crystal Lab</h1>
+  <label>preset</label>
+  <select id="preset"></select>
+  <label>seed <span class="val" id="vSeed"></span></label>
+  <input type="range" id="seed" min="1" max="999" step="1" value="7">
+  <label>sides <span class="val" id="vSides"></span></label>
+  <input type="range" id="sides" min="5" max="9" step="1" value="6">
+  <label>stretch <span class="val" id="vStretch"></span></label>
+  <input type="range" id="stretch" min="0.7" max="1.8" step="0.05" value="1.25">
+  <label>jitter <span class="val" id="vJitter"></span></label>
+  <input type="range" id="jitter" min="0" max="0.22" step="0.01" value="0.07">
+  <label>colour</label>
+  <input type="color" id="color" value="#7fb4ff">
+  <label>roughness <span class="val" id="vRough"></span></label>
+  <input type="range" id="rough" min="0" max="0.3" step="0.01" value="0.04">
+  <label>refraction (ior) <span class="val" id="vIor"></span></label>
+  <input type="range" id="ior" min="1.2" max="2.4" step="0.05" value="2.0">
+  <label>fire (dispersion) <span class="val" id="vDisp"></span></label>
+  <input type="range" id="disp" min="0" max="0.6" step="0.02" value="0.18">
+  <div class="row">
+    <button id="dice">new seed</button>
+    <button id="spin">spin: on</button>
+  </div>
+  <div class="row">
+    <button id="png1">png 1024</button>
+    <button id="png2">png 2048</button>
+  </div>
+</div>
+
+<div id="hint">drag to orbit · scroll to zoom<br>exports are transparent</div>
+<a class="tag" href="index.html">irina.love · crystal lab</a>
+
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+import { ConvexGeometry } from 'three/addons/geometries/ConvexGeometry.js';
+
+/* the fifteen homeward crystals as starting points */
+var PRESETS = [
+  ['Wonder',        '#7fb4ff', 101, 6, 1.35],
+  ['Love',          '#ff9db0', 202, 7, 1.10],
+  ['Wisdom',        '#7fe0a8', 303, 6, 1.25],
+  ['Courage',       '#b48cff', 404, 8, 1.20],
+  ['Home',          '#ff8c7a', 505, 6, 1.45],
+  ['Trust',         '#ff7fd0', 606, 7, 1.30],
+  ['Patience',      '#ffc27f', 707, 6, 1.05],
+  ['Forgiveness',   '#a8ffd0', 808, 8, 1.15],
+  ['Vulnerability', '#d0a8ff', 909, 5, 1.40],
+  ['Grace',         '#fff0b8', 111, 7, 1.50],
+  ['Sleep',         '#9fb8ff', 222, 6, 0.95],
+  ['Laughter',      '#ffe08c', 333, 7, 0.90],
+  ['Coffee',        '#d8a878', 444, 6, 1.00],
+  ['Rain',          '#9fd8ff', 555, 8, 1.10],
+  ['Sunday',        '#ffb8e0', 666, 6, 0.95]
+];
+
+function mulberry32(a) {
+  return function () {
+    a |= 0; a = a + 0x6D2B79F5 | 0;
+    var t = Math.imul(a ^ a >>> 15, 1 | a);
+    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+    return ((t ^ t >>> 14) >>> 0) / 4294967296;
+  };
+}
+
+var canvas = document.getElementById('c');
+var renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true, preserveDrawingBuffer: true });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.setSize(innerWidth, innerHeight);
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.15;
+
+var scene = new THREE.Scene();
+scene.background = null; /* page gradient shows through, exports stay transparent */
+
+var camera = new THREE.PerspectiveCamera(40, innerWidth / innerHeight, 0.1, 50);
+camera.position.set(0.8, 0.2, 6.4);
+
+var controls = new OrbitControls(camera, canvas);
+controls.enableDamping = true;
+controls.autoRotate = !matchMedia('(prefers-reduced-motion: reduce)').matches;
+controls.autoRotateSpeed = 1.6;
+
+var pmrem = new THREE.PMREMGenerator(renderer);
+scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+
+/* a gradient world behind the gem: transmission needs something to refract */
+var bgTex = (function () {
+  var c = document.createElement('canvas'); c.width = 4; c.height = 256;
+  var g = c.getContext('2d');
+  var gr = g.createLinearGradient(0, 0, 0, 256);
+  gr.addColorStop(0, '#0a1026'); gr.addColorStop(0.55, '#16234a'); gr.addColorStop(1, '#53402f');
+  g.fillStyle = gr; g.fillRect(0, 0, 4, 256);
+  var t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; return t;
+})();
+var bgSphere = new THREE.Mesh(
+  new THREE.SphereGeometry(18, 32, 32),
+  new THREE.MeshBasicMaterial({ map: bgTex, side: THREE.BackSide })
+);
+scene.add(bgSphere);
+
+var key = new THREE.DirectionalLight(0xffffff, 1.4); key.position.set(3, 5, 2); scene.add(key);
+var rimA = new THREE.PointLight(0x88aaff, 24); rimA.position.set(-3, -2, -3); scene.add(rimA);
+var rimB = new THREE.PointLight(0xffb088, 14); rimB.position.set(2, -3, 2); scene.add(rimB);
+
+var mat = new THREE.MeshPhysicalMaterial({
+  color: 0xffffff,
+  metalness: 0,
+  roughness: 0.04,
+  transmission: 1,
+  thickness: 2.2,
+  ior: 2.0,
+  dispersion: 0.18,
+  attenuationColor: new THREE.Color('#7fb4ff'),
+  attenuationDistance: 1.5,
+  clearcoat: 1,
+  clearcoatRoughness: 0.06,
+  specularIntensity: 1,
+  envMapIntensity: 1.4,
+  flatShading: true
+});
+
+var mesh = null;
+var P = { seed: 7, sides: 6, stretch: 1.25, jitter: 0.07 };
+
+function grow() {
+  var R = mulberry32(P.seed * 1000 + 17);
+  var pts = [];
+  var j = P.jitter, s = P.stretch;
+  function jit(v) { return v + (R() * 2 - 1) * j; }
+  pts.push(new THREE.Vector3(jit(0) * 0.4, 1.55 * s + R() * 0.1, jit(0) * 0.4));
+  pts.push(new THREE.Vector3(jit(0) * 0.4, -1.45 * s - R() * 0.1, jit(0) * 0.4));
+  var rings = [[0.6 * s, 0.42], [0.1, 0.62], [-0.38 * s, 0.44]];
+  rings.forEach(function (ring) {
+    var twist = R() * 0.6;
+    for (var i = 0; i < P.sides; i++) {
+      var a = (i / P.sides) * Math.PI * 2 + twist;
+      var r = ring[1] * (1 + (R() * 2 - 1) * j);
+      pts.push(new THREE.Vector3(Math.cos(a) * r, ring[0] + (R() * 2 - 1) * j * 0.8, Math.sin(a) * r));
+    }
+  });
+  var geo = new ConvexGeometry(pts);
+  if (mesh) { mesh.geometry.dispose(); mesh.geometry = geo; }
+  else { mesh = new THREE.Mesh(geo, mat); scene.add(mesh); }
+}
+
+/* ---- ui ---- */
+function $(id) { return document.getElementById(id); }
+var presetSel = $('preset');
+PRESETS.forEach(function (p, i) {
+  var o = document.createElement('option');
+  o.value = i; o.textContent = p[0];
+  presetSel.appendChild(o);
+});
+var exportName = 'crystal';
+
+function readUI() {
+  P.seed = +$('seed').value; P.sides = +$('sides').value;
+  P.stretch = +$('stretch').value; P.jitter = +$('jitter').value;
+  mat.roughness = +$('rough').value;
+  mat.ior = +$('ior').value;
+  mat.dispersion = +$('disp').value;
+  mat.attenuationColor.set($('color').value);
+  $('vSeed').textContent = P.seed; $('vSides').textContent = P.sides;
+  $('vStretch').textContent = P.stretch.toFixed(2); $('vJitter').textContent = P.jitter.toFixed(2);
+  $('vRough').textContent = mat.roughness.toFixed(2); $('vIor').textContent = mat.ior.toFixed(2);
+  $('vDisp').textContent = mat.dispersion.toFixed(2);
+  grow();
+}
+['seed', 'sides', 'stretch', 'jitter', 'rough', 'ior', 'disp', 'color'].forEach(function (id) {
+  $(id).addEventListener('input', readUI);
+});
+presetSel.addEventListener('change', function () {
+  var p = PRESETS[+presetSel.value];
+  exportName = p[0].toLowerCase();
+  $('color').value = p[1]; $('seed').value = p[2]; $('sides').value = p[3]; $('stretch').value = p[4];
+  readUI();
+});
+$('dice').addEventListener('click', function () {
+  $('seed').value = 1 + Math.floor(Math.random() * 998); readUI();
+});
+$('spin').addEventListener('click', function () {
+  controls.autoRotate = !controls.autoRotate;
+  $('spin').textContent = 'spin: ' + (controls.autoRotate ? 'on' : 'off');
+});
+
+var maskMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
+function exportPNG(size) {
+  /* pass one: the full beauty render, refracted background included */
+  var oldPR = renderer.getPixelRatio(), oldAspect = camera.aspect;
+  renderer.setPixelRatio(1); renderer.setSize(size, size, false);
+  camera.aspect = 1; camera.updateProjectionMatrix();
+  renderer.render(scene, camera);
+  var beauty = document.createElement('canvas'); beauty.width = size; beauty.height = size;
+  var bctx = beauty.getContext('2d'); bctx.drawImage(canvas, 0, 0);
+
+  /* pass two: silhouette mask, so only the crystal's pixels survive */
+  bgSphere.visible = false;
+  var oldMat = mesh.material; mesh.material = maskMat;
+  renderer.render(scene, camera);
+  var maskC = document.createElement('canvas'); maskC.width = size; maskC.height = size;
+  var mctx = maskC.getContext('2d'); mctx.drawImage(canvas, 0, 0);
+  mesh.material = oldMat; bgSphere.visible = true;
+
+  var bd = bctx.getImageData(0, 0, size, size);
+  var md = mctx.getImageData(0, 0, size, size);
+  for (var i = 3; i < bd.data.length; i += 4) bd.data[i] = md.data[i];
+  bctx.putImageData(bd, 0, 0);
+
+  var a = document.createElement('a');
+  a.href = beauty.toDataURL('image/png');
+  a.download = exportName + '-' + P.seed + '-' + size + '.png';
+  a.click();
+  renderer.setPixelRatio(oldPR); renderer.setSize(innerWidth, innerHeight);
+  camera.aspect = oldAspect; camera.updateProjectionMatrix();
+}
+$('png1').addEventListener('click', function () { exportPNG(1024); });
+$('png2').addEventListener('click', function () { exportPNG(2048); });
+
+addEventListener('resize', function () {
+  camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth, innerHeight);
+});
+
+readUI();
+(function loop() {
+  controls.update();
+  renderer.render(scene, camera);
+  requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>
